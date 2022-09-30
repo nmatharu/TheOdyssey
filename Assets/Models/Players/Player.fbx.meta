@@ -21,6 +21,12 @@ ModelImporter:
   - first:
       74: 4781951162920444690
     second: Armature|ArmatureAction
+  - first:
+      74: 4037145963216595016
+    second: Armature|4_SwingA_Legless
+  - first:
+      74: 475064264920581988
+    second: Armature|4_SwingB_Legless
   externalObjects: {}
   materials:
     materialImportMode: 0
@@ -196,11 +202,40 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|ArmatureAction
-      takeName: Armature|ArmatureAction
+      name: Armature|4_SwingA_Legless
+      takeName: Armature|4_SwingA_Legless
       internalID: 0
       firstFrame: 0
-      lastFrame: 1
+      lastFrame: 5
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|4_SwingB_Legless
+      takeName: Armature|4_SwingB_Legless
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 4
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
