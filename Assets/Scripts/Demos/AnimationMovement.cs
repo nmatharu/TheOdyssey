@@ -8,13 +8,19 @@ public class AnimationMovement : MonoBehaviour
     [ SerializeField ] float speed = 5f;
 
     [ SerializeField ] Animator animator;
+
+    [ SerializeField ] ParticleSystem swordPfx;
+    
     Rigidbody _body;
     Animator _animator;
     static Vector3 cameraUp;
     bool locked = false;
+    bool rolling = false;
     float attackJabSpeedMultiplier = 1;
     Vector3 movementDir;
 
+    int swingI = 0;
+    
     void Start()
     {
         _body = GetComponent<Rigidbody>();
@@ -26,21 +32,34 @@ public class AnimationMovement : MonoBehaviour
 
     void Update()
     {
-        if( Input.GetKeyDown( KeyCode.Z ) || Input.GetButtonDown( "Fire3" ) )
+        if( !locked && ( Input.GetKeyDown( KeyCode.Z ) || Input.GetButtonDown( "Fire3" ) ) )
         {
-            animator.CrossFade( "Armature|4_SwingA_Legless", 0.02f );
-            LockFor( 8 );
+            var animStr = swingI == 0 ? "Armature|5_SwingA" : "Armature|5_SwingB";
+            swingI = ( swingI + 1 ) % 2;
+            
+            // animator.CrossFade( animStr, 0.02f );
+            animator.Play( animStr );
+            
+            LockFor( 12 );
+        }
+        if( !locked && ( Input.GetKeyDown( KeyCode.X ) || Input.GetButtonDown( "Jump" ) ) )
+        {
+            // animator.CrossFade( "Armature|5_SwingB", 0.02f );
+            // LockFor( 15 );
         }
 
-        if( Input.GetKeyDown( KeyCode.X ) || Input.GetButtonDown( "Jump" ) )
-        {
-            animator.CrossFade( "Armature|4_SwingB_Legless", 0.02f );
-            LockFor( 8 );
-        }
+        // if( Input.GetKeyDown( KeyCode.X ) || Input.GetButtonDown( "Jump" ) )
+        // {
+        //     animator.CrossFade( "Armature|4_SwingB_Legless", 0.02f );
+        //     LockFor( 8 );
+        // }
 
-        if( Input.GetKeyDown( KeyCode.C ) || Input.GetButtonDown( "Fire2" ) )
+        if( !rolling && ( Input.GetKeyDown( KeyCode.C ) || Input.GetButtonDown( "Fire2" ) ) )
         {
-            Debug.Log( "ROLL" );
+            animator.Play( "Armature|6_Roll" );
+            rolling = true;
+            this.Invoke( () => rolling = false, 0.3f );
+            // Debug.Log( "ROLL" );
         }
 
         WhichTileAmIOn();
@@ -55,7 +74,8 @@ public class AnimationMovement : MonoBehaviour
         var tile = WorldGenDemo.Tiles[ x, y ];
         // var tile = WorldGenDemo.TileIndices[ x, y ];
         // tile.GetComponentInChildren<Renderer>().material.color = Color.white;
-        Debug.Log( $"On {x}, {y}, Tile: {tile}" );
+        
+        // Debug.Log( $"On {x}, {y}, Tile: {tile}" );
     }
 
     void FixedUpdate()
@@ -66,11 +86,18 @@ public class AnimationMovement : MonoBehaviour
         var dir = new Vector2( x, y ).normalized;
         dir = disableInput ? Vector2.zero : dir;
 
-        _animator.SetBool( "IsRunning", dir != Vector2.zero );
+        if( rolling )
+        {
+            _body.velocity = movementDir * ( 2f * speed );
+            return;
+        }
+
         // movementDir = locked ? movementDir : CameraCompensation( dir );
         movementDir = locked ? movementDir : CameraCompensation( dir );
 
-        _body.velocity = movementDir * ( speed * attackJabSpeedMultiplier );
+        _body.velocity = movementDir * ( ( locked ? 0 : 1 ) * speed * attackJabSpeedMultiplier );
+        _animator.SetBool( "IsRunning", movementDir != Vector3.zero );
+        
         transform.LookAt( transform.position + movementDir );
     }
 
@@ -89,6 +116,7 @@ public class AnimationMovement : MonoBehaviour
     IEnumerator LockForCoroutine( float frames60 )
     {
         locked = true;
+        swordPfx.Play();
         for( var i = 0; i < frames60; i++ )
         {
             attackJabSpeedMultiplier = 1 + 0.5f * ( frames60 - i ) / frames60;
@@ -96,6 +124,7 @@ public class AnimationMovement : MonoBehaviour
         }
 
         attackJabSpeedMultiplier = 1;
+        swordPfx.Stop();
         locked = false;
     }
 }
