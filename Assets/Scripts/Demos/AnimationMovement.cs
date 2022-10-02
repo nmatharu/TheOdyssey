@@ -34,8 +34,13 @@ public class AnimationMovement : MonoBehaviour
     {
         if( !locked && ( Input.GetKeyDown( KeyCode.Z ) || Input.GetButtonDown( "Fire3" ) ) )
         {
-            var animStr = swingI == 0 ? "Armature|5_SwingA" : "Armature|5_SwingB";
-            swingI = ( swingI + 1 ) % 2;
+            var animStr = swingI switch
+            {
+                0 => "Armature|5_SwingA",
+                1 => "Armature|5_SwingB",
+                _ => "Armature|5_SwingC"
+            };
+            swingI = ( swingI + 1 ) % 3;
             
             // animator.CrossFade( animStr, 0.02f );
             animator.Play( animStr );
