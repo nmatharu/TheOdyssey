@@ -6,6 +6,10 @@ public class AnimationMovement : MonoBehaviour
 {
     [ SerializeField ] bool disableInput = false;
     [ SerializeField ] float speed = 5f;
+    [ SerializeField ] float rollSpeedMultiplier = 2f;
+
+    [ SerializeField ] KeyCode lKey;
+    [ SerializeField ] KeyCode rKey;
 
     [ SerializeField ] Animator animator;
 
@@ -32,6 +36,8 @@ public class AnimationMovement : MonoBehaviour
 
     void Update()
     {
+        if( swordPfx == null )  return;
+        
         if( !locked && ( Input.GetKeyDown( KeyCode.Z ) || Input.GetButtonDown( "Fire3" ) ) )
         {
             var animStr = swingI switch
@@ -49,6 +55,8 @@ public class AnimationMovement : MonoBehaviour
         }
         if( !locked && ( Input.GetKeyDown( KeyCode.X ) || Input.GetButtonDown( "Jump" ) ) )
         {
+            animator.Play( "Armature|7_Heavy_A_Default" );
+            StartCoroutine( HeavyAttack() );
             // animator.CrossFade( "Armature|5_SwingB", 0.02f );
             // LockFor( 15 );
         }
@@ -85,6 +93,15 @@ public class AnimationMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if( disableInput )
+        {
+            var xDir = Input.GetKey( lKey ) ? -1 : Input.GetKey( rKey ) ? 1 : 0;
+            _body.velocity = CameraCompensation( new Vector2( xDir, 0 ) ) * 8f;
+            transform.LookAt( transform.position + _body.velocity );
+            _animator.SetBool( "IsRunning", _body.velocity != Vector3.zero );
+            return;
+        }
+
         var x = Input.GetAxis( "Horizontal" );
         var y = Input.GetAxis( "Vertical" );
 
@@ -93,7 +110,7 @@ public class AnimationMovement : MonoBehaviour
 
         if( rolling )
         {
-            _body.velocity = movementDir * ( 2f * speed );
+            _body.velocity = movementDir * ( rollSpeedMultiplier * speed );
             return;
         }
 
@@ -106,6 +123,17 @@ public class AnimationMovement : MonoBehaviour
         transform.LookAt( transform.position + movementDir );
     }
 
+    void LateUpdate()
+    {
+        // const float timeStep = 0.002f;
+        //
+        // if( swordPfx == null )  return;
+        // for( var timeElapsed = 0f; timeElapsed < Time.deltaTime; timeElapsed += timeStep )
+        // {
+        //     swordPfx.Simulate( timeStep );
+        // }
+    }
+    
     Vector3 CameraCompensation( Vector2 dir )
     {
         if( dir == Vector2.zero ) return Vector3.zero;
@@ -124,11 +152,65 @@ public class AnimationMovement : MonoBehaviour
         swordPfx.Play();
         for( var i = 0; i < frames60; i++ )
         {
+            if( i == 2 )
+            {
+                Collider[] colliders = Physics.OverlapSphere( transform.position, 2f );
+                foreach( var c in colliders )
+                {
+                    if( c.GetComponent<EnemyDemo>() != null )
+                    {
+                        c.GetComponent<EnemyDemo>().TakeHit();
+                    }
+                }
+            }
+
+            if( i == (int) ( frames60 - 3 ) )
+            {
+                swordPfx.Stop();
+            }
+
             attackJabSpeedMultiplier = 1 + 0.5f * ( frames60 - i ) / frames60;
             yield return new WaitForFixedUpdate();
         }
 
         attackJabSpeedMultiplier = 1;
+        
+        locked = false;
+    }
+
+    IEnumerator HeavyAttack()
+    {
+        var w = new WaitForSeconds( 1f / 24f );
+        locked = true;
+        
+        var sh = swordPfx.shape;
+        var em = swordPfx.emission;
+        var oldScale = sh.scale;
+        var oldPos = sh.position;
+        var oldRateOverTime = em.rateOverTime;
+        sh.scale = new Vector3( 0, 0, 8 );
+        sh.position = new Vector3( 0, -0.5f, 8 );
+        em.rateOverTime = new ParticleSystem.MinMaxCurve( 150 );
+        
+        for( var i = 0; i < 15; i++ )
+        {
+            switch( i )
+            {
+                case 5:
+                    swordPfx.Play();
+                    break;
+                case 8:
+                    swordPfx.Stop();
+                    break;
+            }
+
+            yield return w;
+        }
+
+        sh.scale = oldScale;
+        sh.position = oldPos;
+        em.rateOverTime = oldRateOverTime;
+        
         swordPfx.Stop();
         locked = false;
     }

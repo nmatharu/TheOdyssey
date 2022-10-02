@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyDemo : MonoBehaviour
 {
     [ SerializeField ] Transform playersParent;
     [ SerializeField ] float speed = 3f;
+    [ SerializeField ] Image hpBar;
     
     Rigidbody _body;
     Transform _targetT;
@@ -22,14 +23,17 @@ public class EnemyDemo : MonoBehaviour
     void FixedUpdate()
     {
         var pos = transform.position;
-        _body.velocity = ( _targetT.position - pos ).normalized * speed;
+        
+        if( _targetT != null)
+            _body.velocity = ( _targetT.position - pos ).normalized * speed;
+        
         transform.LookAt( pos + _body.velocity );
     }
 
     void Update()
     {
-        var pos = transform.position;
-        transform.position = new Vector3( pos.x, 0.5f + 0.5f * Mathf.Sin( Time.time * 2f ), pos.z );
+        // var pos = transform.position;
+        // transform.position = new Vector3( pos.x, 0.5f + 0.5f * Mathf.Sin( Time.time * 2f ), pos.z );
     }
 
     void FindNewTarget()
@@ -56,4 +60,13 @@ public class EnemyDemo : MonoBehaviour
         return dX * dX + dZ * dZ;
     }
 
+    public void TakeHit()
+    {
+        hpBar.rectTransform.sizeDelta =
+            new Vector2( hpBar.rectTransform.rect.width - 0.3f, hpBar.rectTransform.rect.height );
+        if( hpBar.rectTransform.rect.width <= 0 )
+        {
+            Destroy( gameObject );
+        }
+    }
 }

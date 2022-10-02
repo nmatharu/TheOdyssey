@@ -74,4 +74,5 @@ crashlytics-build.properties
 # Added by Nav
 .idea/*
 .ExternalAssets/*
+.Builds/*
 mono_crash*

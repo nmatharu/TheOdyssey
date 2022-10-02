@@ -15,12 +15,16 @@ public class WorldGenDemo : MonoBehaviour
     public static DemoTile[ , ] Tiles;
     float perlinSeed;
 
-    void Start() => StartCoroutine( GenerateWorld() );
+    void Start()
+    {
+        // Application.targetFrameRate = 60;
+        StartCoroutine( GenerateWorld() );
+    }
 
     IEnumerator GenerateWorld()
     {
         perlinSeed = Random.value;
-        Debug.Log( perlinSeed );
+        // Debug.Log( perlinSeed );
         TileIndices = new GameObject[ worldSizeX, worldSizeY ];
         Tiles = new DemoTile[ worldSizeX, worldSizeY ];
         for( var x = worldGenStartX; x < worldSizeX + worldGenStartX; x++ )
