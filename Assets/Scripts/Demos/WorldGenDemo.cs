@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class WorldGenDemo : MonoBehaviour
 {
@@ -15,10 +17,26 @@ public class WorldGenDemo : MonoBehaviour
     public static DemoTile[ , ] Tiles;
     float perlinSeed;
 
+    bool fpsLimitOn = false;
+    
     void Start()
     {
         // Application.targetFrameRate = 60;
         StartCoroutine( GenerateWorld() );
+    }
+
+    void Update()
+    {
+        if( Input.GetKeyDown( KeyCode.P ) )
+        {
+            ScreenCapture.CaptureScreenshot( "screenshot" + DateTime.Now.Millisecond + ".png" );
+        }
+
+        if( Input.GetKeyDown( KeyCode.Semicolon ) )
+        {
+            fpsLimitOn = !fpsLimitOn;
+            Application.targetFrameRate = fpsLimitOn ? 60 : -1;
+        }
     }
 
     IEnumerator GenerateWorld()
@@ -33,7 +51,7 @@ public class WorldGenDemo : MonoBehaviour
             {
                 var i = GetTileIndexAt( x, y );
                 DemoTile.TileTop tileTop = DemoTile.TileTop.None;
-                if( i is 0 or 1 && Random.value < 0.03f)
+                if( i is 0 or 1 && Random.value < 0.01f)
                 {
                     Instantiate( obstacles[ 0 ], new Vector3( x * 2, 0, y * 2 ), 
                         Quaternion.identity, tilesParent );

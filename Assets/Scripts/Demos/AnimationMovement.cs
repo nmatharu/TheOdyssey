@@ -32,6 +32,8 @@ public class AnimationMovement : MonoBehaviour
 
         var fwd = Camera.main.transform.forward;
         cameraUp = new Vector3( fwd.x, 0, fwd.z );
+        // Debug.Log( cameraUp.ToString("F4") );
+        // Debug.Log( Camera.main.transform.right.ToString( "F4" ) );
     }
 
     void Update()
@@ -75,6 +77,8 @@ public class AnimationMovement : MonoBehaviour
             // Debug.Log( "ROLL" );
         }
 
+        // Debug.Log( "PLAYER: " + transform.position );
+        // Debug.Log( Camera.main.WorldToScreenPoint( transform.position ) );
         WhichTileAmIOn();
     }
 
@@ -84,7 +88,7 @@ public class AnimationMovement : MonoBehaviour
         var x = (int) ( pos.x + 1 ) / 2;
         var y = (int) ( pos.z + 1 ) / 2;
 
-        var tile = WorldGenDemo.Tiles[ x, y ];
+        // var tile = WorldGenDemo.Tiles[ x, y ];
         // var tile = WorldGenDemo.TileIndices[ x, y ];
         // tile.GetComponentInChildren<Renderer>().material.color = Color.white;
         
@@ -116,6 +120,8 @@ public class AnimationMovement : MonoBehaviour
 
         // movementDir = locked ? movementDir : CameraCompensation( dir );
         movementDir = locked ? movementDir : CameraCompensation( dir );
+
+        // Debug.Log( movementDir.ToString("F4") );
 
         _body.velocity = movementDir * ( ( locked ? 0 : 1 ) * speed * attackJabSpeedMultiplier );
         _animator.SetBool( "IsRunning", movementDir != Vector3.zero );
