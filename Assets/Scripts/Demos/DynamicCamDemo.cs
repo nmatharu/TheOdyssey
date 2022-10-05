@@ -117,6 +117,9 @@ public class DynamicCamDemo : MonoBehaviour
 
     void TriCam()
     {
+        // TODO Want smoothing but not jittering? Try basing smoothing off of the difference of the median lerp to its target val
+        // aka median lerp is at 0.1, target of 0.08, use that -0.02 offset for other camera positions and follow the median's difference
+        
         var acDist = _playerMaxX - _playerMinX;
         var abDist = _sortedPlayerXPoses[ 1 ] - _playerMinX;
         var bcDist = _playerMaxX - _sortedPlayerXPoses[ 1 ];
@@ -151,7 +154,8 @@ public class DynamicCamDemo : MonoBehaviour
                 _sortedPlayerXPoses[ 1 ] - _sortedPlayerXPoses[ 0 ], 0, adjThreshold, theHopeOffset, 0 );
 
             hopeOffset *=
-                NavHelpers.ClampedMap01( _playerMaxX - ( _sortedPlayerXPoses[ 1 ] + _playerMinX ) / 2f, acThreshold, adjThreshold * 1.25f );
+                NavHelpers.ClampedMap01( _playerMaxX - ( _sortedPlayerXPoses[ 1 ] + _playerMinX ) / 2f, 
+                    acThreshold + adjThreshold, adjThreshold * 1.5f );
             
             cameras[ 0 ].rect = new Rect( 0, 0, 2 * w, 1f );
             cameras[ 1 ].rect = new Rect( 2 * w, 0, w, 1f );
@@ -171,7 +175,8 @@ public class DynamicCamDemo : MonoBehaviour
                 _sortedPlayerXPoses[ 2 ] - _sortedPlayerXPoses[ 1 ], 0, adjThreshold, theHopeOffset, 0 );
 
             hopeOffset *=
-                NavHelpers.ClampedMap01( ( _playerMaxX + _sortedPlayerXPoses[ 1 ] ) / 2f - _playerMinX, acThreshold, adjThreshold * 1.25f );
+                NavHelpers.ClampedMap01( ( _playerMaxX + _sortedPlayerXPoses[ 1 ] ) / 2f - _playerMinX, 
+                    acThreshold + adjThreshold, adjThreshold * 1.5f );
 
             cameras[ 0 ].rect = new Rect( 0, 0, w, 1f );
             cameras[ 1 ].rect = new Rect( w, 0, 2 * w, 1f );
@@ -223,13 +228,20 @@ public class DynamicCamDemo : MonoBehaviour
 
     float CameraCompensation( Vector3 pos )
     {
-        var rot = Mathf.Atan2( cameraUp.z, cameraUp.x );
-        Vector3 right = new Vector3( cameraUp.z, 0, -cameraUp.x );
+        // var rot = Mathf.Atan2( cameraUp.z, cameraUp.x );
+        var right = new Vector3( cameraUp.z, 0, -cameraUp.x );
         return Vector3.Project( pos, right ).x * projectionFactor;
     }
 
     void LerpCurrentValues()
     {
+        // _lerpXs[ MidpointIndex ] = Mathf.Lerp( _lerpXs[ MidpointIndex ], _targetXs[ MidpointIndex ], Time.deltaTime * 10f );
+        // for( var i = 0; i < _lerpXs.Length; i++ )
+        // {
+        //     if( i == MidpointIndex ) continue;
+        //     _lerpXs[ i ] = _targetXs[ i ] + ( _targetXs[ MidpointIndex ] - _lerpXs[ MidpointIndex ] );
+        // }
+        
         for( var i = 0; i < _lerpXs.Length; i++ )
             _lerpXs[ i ] = Mathf.Lerp( _lerpXs[ i ], _targetXs[ i ], Time.deltaTime * _cameraFollowSpeed );
     }
