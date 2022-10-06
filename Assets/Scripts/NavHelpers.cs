@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public static class NavHelpers
 {
@@ -21,8 +22,18 @@ public static class NavHelpers
             var e = arr[ i ];
             outStr += e + ( i < arr.Length - 1 ? ", " : "" );
         }
-
         Debug.Log( outStr + " ]" );
+    }
+
+    public static void LogCommaSeparated( params object[] o )
+    {
+        var outStr = "";
+        for( var i = 0; i < o.Length; i++ )
+        {
+            var e = o[ i ];
+            outStr += e + ( i < o.Length - 1 ? ", " : "" );
+        }
+        Debug.Log( outStr );
     }
 
     public static float Map( float value, float inputMin, float inputMax, float outputMin, float outputMax ) =>

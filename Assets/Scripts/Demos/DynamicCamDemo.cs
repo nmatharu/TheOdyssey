@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -75,7 +76,8 @@ public class DynamicCamDemo : MonoBehaviour
                 break;
             case 3:
                 // SingleCam();
-                TriCam();
+                // TriCam();
+                TriCam2();
                 break;
         }
 
@@ -199,6 +201,136 @@ public class DynamicCamDemo : MonoBehaviour
                 new Vector2( _playerMaxX - _sortedPlayerXPoses[ 1 ] - adjThreshold, 1080f );
             splitScreenLines[ 2 ].rectTransform.sizeDelta =
                 new Vector2( _sortedPlayerXPoses[ 1 ] - _playerMinX - adjThreshold, 1080f );
+        }
+    }
+
+    void TriCam2()
+    {
+        /*  TODO
+         *  The issue we're running into is that the average cam position in the
+         *  one cam state and the average cam position in the asymmetric two cam
+         *  state is at odds with each other:
+         *
+         *  One cam: average = middle = ( a + c ) / 2
+         *  Asymmetric cam: average = ( L(a,b) + R(c) ) / 2 = ( ( a + b ) / 2 + c ) / 2
+         *
+         *  So, there MUST be some sort of transition between the two--
+         *  Currently, TriCam() has this transition occuring once the single cam
+         *  has split into the asymmetric view, but this causing the wobbling
+         *  that is quite apparent when focusing on 1/3rd of the screen
+         *
+         *  The alternative, which we will try to achieve in TriCam2(), is to always
+         *  have any views with more than one cam always adhere to centering its target,
+         *  and instead have the transition to the asymmetric cams to occur in the single
+         *  cam, where the back and forth shifting may be less noticeable
+         *
+         *  We want to offset the single cam based on calculations involving the player
+         *  who is closest to splitting off from the main group and the other 2
+         *  "grouped" players-- good luck lol
+         */
+
+        var a = _playerMinX;
+        var b = _sortedPlayerXPoses[ 1 ];
+        var c = _playerMaxX;
+        
+        
+        var ac = c - a;
+        var ab = b - a;
+        var bc = c - b;
+        var acThreshold = cameraSplitDistance * 4f / 3f;
+        var adjThreshold = cameraSplitDistance * 2f / 3f; // TODO extract these to constants
+        var w = 1f / maxNumPlayers;
+
+        var abMid = ( a + b ) / 2f;
+        var bcMid = ( b + c ) / 2f;
+        
+        splitScreenLines[ 0 ].rectTransform.sizeDelta = Vector2.zero;
+        splitScreenLines[ 2 ].rectTransform.sizeDelta = Vector2.zero;
+
+        // if( acDist < acThreshold && abDist < adjThreshold && bcDist < adjThreshold )
+        // if( acDist < acThreshold )
+        if( c - abMid < cameraSplitDistance && bcMid - a < cameraSplitDistance )
+        {
+            EnableCameras( 0 );
+            cameras[ 0 ].rect = new Rect( 0, 0, 1f, 1f );
+
+            float bias = 0;
+            float centersDist = 0;
+            if( ab < bc )   // right bias
+            {
+                centersDist = c - abMid;
+                bias = NavHelpers.Map( ab, 0, 
+                    adjThreshold, -1 / 6f * cameraSplitDistance, 0 );
+            }
+            else // left bias
+            {
+                centersDist = bcMid - a;
+                bias = NavHelpers.Map( bc, 0, 
+                    adjThreshold, 1 / 6f * cameraSplitDistance, 0 );
+            }
+
+            // var abMidC = c - abMid;
+            // var abcMid = bcMid - a;
+            // var biasAmt = NavHelpers.Map( Mathf.Max( abMidC, abcMid ), 
+                // 0, cameraSplitDistance, 0, 1f );
+            // bias *= biasAmt;
+            
+            // Debug.Log( biasAmt );
+
+            // bias *= NavHelpers.ClampedMap01( Mathf.Abs( ab - bc ), 0, adjThreshold );
+
+            bias = 0;
+            
+            // NavHelpers.LogCommaSeparated( a, b, c, ab, bc, bias, centersDist );
+            
+            SetCameraPosition( cameras[ 0 ], _lerpXs[ MidpointIndex ] + bias, 0.5f );
+
+            foreach( var l in splitScreenLines )
+                l.rectTransform.sizeDelta = Vector2.zero;
+
+            return;
+        }
+
+        EnableCameras( 0, 1 );
+
+        // One player is far off to the left
+        if( ab < adjThreshold && bc > adjThreshold )
+        {
+            cameras[ 0 ].rect = new Rect( 0, 0, 2 * w, 1f );
+            cameras[ 1 ].rect = new Rect( 2 * w, 0, w, 1f );
+            SetCameraPosition( cameras[ 0 ], _lerpXs[ TwoThirdsLeftIndex ], 1 / 3f );
+            SetCameraPosition( cameras[ 1 ], _lerpXs[ 2 ], 5 / 6f );
+
+            splitScreenLines[ 0 ].rectTransform.sizeDelta = new Vector2(
+                c - ( b + a ) / 2f - adjThreshold  + 1, 1080f );
+            return;
+        }
+
+
+        // One player is far off to the right
+        if( ab > adjThreshold && bc < adjThreshold )
+        {
+            cameras[ 0 ].rect = new Rect( 0, 0, w, 1f );
+            cameras[ 1 ].rect = new Rect( w, 0, 2 * w, 1f );
+            SetCameraPosition( cameras[ 0 ], _lerpXs[ 0 ], 1 / 6f );
+            SetCameraPosition( cameras[ 1 ], _lerpXs[ TwoThirdsRightIndex ], 2 / 3f );
+
+            splitScreenLines[ 2 ].rectTransform.sizeDelta = new Vector2(
+                ( c + b ) / 2f - a - adjThreshold + 1, 1080f );
+            return;
+        }
+
+
+        // All 3 players are far from each other
+        EnableCameras( 0, 1, 2 );
+        for( var i = 0; i < maxNumPlayers; i++ )
+        {
+            cameras[ i ].rect = new Rect( w * i, 0f, w, 1f );
+            SetCameraPosition( cameras[ i ], _lerpXs[ i ], w / 2f + w * i );
+            splitScreenLines[ 0 ].rectTransform.sizeDelta =
+                new Vector2( c - b - adjThreshold, 1080f );
+            splitScreenLines[ 2 ].rectTransform.sizeDelta =
+                new Vector2( b - a - adjThreshold, 1080f );
         }
     }
 
