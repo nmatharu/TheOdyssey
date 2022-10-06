@@ -19,6 +19,11 @@ public class DynamicCamDemo : MonoBehaviour
 
     [ SerializeField ] float theHopeOffset = 0f;
 
+    [ SerializeField ] float singleCam3pSmoothingMinLerp = 10f;
+    [ SerializeField ] float singleCam3pSmoothingMaxLerp = 1000f;
+
+    [ SerializeField ] CanvasScaler scaler;
+
     float _initY;
 
     float[] _sortedPlayerXPoses;
@@ -33,7 +38,11 @@ public class DynamicCamDemo : MonoBehaviour
     const int TwoThirdsRightIndex = 5;
     float[] _lerpXs, _targetXs;
 
+    float _singleCam3pLerp, _singleCam3pTarget, _singleCam3pSmoothing;
+    
     Vector3 cameraUp;
+
+    float splitScreenLineHeight;
 
     // TODO-- camera follow speed increases with number of splits
 
@@ -48,10 +57,11 @@ public class DynamicCamDemo : MonoBehaviour
         CopyTargetToLerp();
 
         _cameraFollowSpeed = cameraFollowSpeeds[ 0 ];
+        splitScreenLineHeight = scaler.referenceResolution.y;
 
         var fwd = Camera.main.transform.forward;
         _initY = cameras[ 0 ].transform.position.y;
-        Debug.Log( _initY );
+        // Debug.Log( _initY );
         cameraUp = new Vector3( fwd.x, 0, fwd.z );
     }
 
@@ -75,7 +85,6 @@ public class DynamicCamDemo : MonoBehaviour
                 DualCam();
                 break;
             case 3:
-                // SingleCam();
                 // TriCam();
                 TriCam2();
                 break;
@@ -95,6 +104,8 @@ public class DynamicCamDemo : MonoBehaviour
 
         foreach( var l in splitScreenLines )
             l.rectTransform.sizeDelta = Vector2.zero;
+        
+        // TODO add smoothing to single cam
     }
 
     void DualCam()
@@ -113,8 +124,10 @@ public class DynamicCamDemo : MonoBehaviour
             SetCameraPosition( cameras[ i ], _lerpXs[ i ], w / 2f + w * i );
         }
 
+        // TODO add smoothing to dual cam
+        
         splitScreenLines[ 1 ].rectTransform.sizeDelta =
-            new Vector2( _playerMaxX - _playerMinX - cameraSplitDistance, 1080f );
+            new Vector2( _playerMaxX - _playerMinX - cameraSplitDistance, splitScreenLineHeight );
     }
 
     void TriCam()
@@ -152,11 +165,11 @@ public class DynamicCamDemo : MonoBehaviour
         // One player is far off to the left
         if( abDist < adjThreshold && bcDist > adjThreshold )
         {
-            var hopeOffset = NavHelpers.Map(
+            var hopeOffset = GGJ.Map(
                 _sortedPlayerXPoses[ 1 ] - _sortedPlayerXPoses[ 0 ], 0, adjThreshold, theHopeOffset, 0 );
 
             hopeOffset *=
-                NavHelpers.ClampedMap01( _playerMaxX - ( _sortedPlayerXPoses[ 1 ] + _playerMinX ) / 2f, 
+                GGJ.ClampedMap01( _playerMaxX - ( _sortedPlayerXPoses[ 1 ] + _playerMinX ) / 2f, 
                     acThreshold + adjThreshold, adjThreshold * 1.5f );
             
             cameras[ 0 ].rect = new Rect( 0, 0, 2 * w, 1f );
@@ -165,7 +178,7 @@ public class DynamicCamDemo : MonoBehaviour
             SetCameraPosition( cameras[ 1 ], _lerpXs[ 2 ] + hopeOffset, 5 / 6f );
 
             splitScreenLines[ 0 ].rectTransform.sizeDelta = new Vector2(
-                _playerMaxX - ( _sortedPlayerXPoses[ 1 ] + _playerMinX ) / 2f - adjThreshold  + 1, 1080f );
+                _playerMaxX - ( _sortedPlayerXPoses[ 1 ] + _playerMinX ) / 2f - adjThreshold  + 1, splitScreenLineHeight );
             return;
         }
 
@@ -173,11 +186,11 @@ public class DynamicCamDemo : MonoBehaviour
         // One player is far off to the right
         if( abDist > adjThreshold && bcDist < adjThreshold )
         {
-            var hopeOffset = NavHelpers.Map(
+            var hopeOffset = GGJ.Map(
                 _sortedPlayerXPoses[ 2 ] - _sortedPlayerXPoses[ 1 ], 0, adjThreshold, theHopeOffset, 0 );
 
             hopeOffset *=
-                NavHelpers.ClampedMap01( ( _playerMaxX + _sortedPlayerXPoses[ 1 ] ) / 2f - _playerMinX, 
+                GGJ.ClampedMap01( ( _playerMaxX + _sortedPlayerXPoses[ 1 ] ) / 2f - _playerMinX, 
                     acThreshold + adjThreshold, adjThreshold * 1.5f );
 
             cameras[ 0 ].rect = new Rect( 0, 0, w, 1f );
@@ -186,7 +199,7 @@ public class DynamicCamDemo : MonoBehaviour
             SetCameraPosition( cameras[ 1 ], _lerpXs[ TwoThirdsRightIndex ], 2 / 3f );
 
             splitScreenLines[ 2 ].rectTransform.sizeDelta = new Vector2(
-                ( _playerMaxX + _sortedPlayerXPoses[ 1 ] ) / 2f - _playerMinX - adjThreshold + 1, 1080f );
+                ( _playerMaxX + _sortedPlayerXPoses[ 1 ] ) / 2f - _playerMinX - adjThreshold + 1, splitScreenLineHeight );
             return;
         }
 
@@ -198,37 +211,14 @@ public class DynamicCamDemo : MonoBehaviour
             cameras[ i ].rect = new Rect( w * i, 0f, w, 1f );
             SetCameraPosition( cameras[ i ], _lerpXs[ i ], w / 2f + w * i );
             splitScreenLines[ 0 ].rectTransform.sizeDelta =
-                new Vector2( _playerMaxX - _sortedPlayerXPoses[ 1 ] - adjThreshold, 1080f );
+                new Vector2( _playerMaxX - _sortedPlayerXPoses[ 1 ] - adjThreshold, splitScreenLineHeight );
             splitScreenLines[ 2 ].rectTransform.sizeDelta =
-                new Vector2( _sortedPlayerXPoses[ 1 ] - _playerMinX - adjThreshold, 1080f );
+                new Vector2( _sortedPlayerXPoses[ 1 ] - _playerMinX - adjThreshold, splitScreenLineHeight );
         }
     }
 
     void TriCam2()
     {
-        /*  TODO
-         *  The issue we're running into is that the average cam position in the
-         *  one cam state and the average cam position in the asymmetric two cam
-         *  state is at odds with each other:
-         *
-         *  One cam: average = middle = ( a + c ) / 2
-         *  Asymmetric cam: average = ( L(a,b) + R(c) ) / 2 = ( ( a + b ) / 2 + c ) / 2
-         *
-         *  So, there MUST be some sort of transition between the two--
-         *  Currently, TriCam() has this transition occuring once the single cam
-         *  has split into the asymmetric view, but this causing the wobbling
-         *  that is quite apparent when focusing on 1/3rd of the screen
-         *
-         *  The alternative, which we will try to achieve in TriCam2(), is to always
-         *  have any views with more than one cam always adhere to centering its target,
-         *  and instead have the transition to the asymmetric cams to occur in the single
-         *  cam, where the back and forth shifting may be less noticeable
-         *
-         *  We want to offset the single cam based on calculations involving the player
-         *  who is closest to splitting off from the main group and the other 2
-         *  "grouped" players-- good luck lol
-         */
-
         var a = _playerMinX;
         var b = _sortedPlayerXPoses[ 1 ];
         var c = _playerMaxX;
@@ -239,6 +229,8 @@ public class DynamicCamDemo : MonoBehaviour
         var bc = c - b;
         var acThreshold = cameraSplitDistance * 4f / 3f;
         var adjThreshold = cameraSplitDistance * 2f / 3f; // TODO extract these to constants
+        var twelfth = cameraSplitDistance / 6f; // 12th of screen -> 6th of cam split distance (half of screen)
+            
         var w = 1f / maxNumPlayers;
 
         var abMid = ( a + b ) / 2f;
@@ -253,37 +245,26 @@ public class DynamicCamDemo : MonoBehaviour
         {
             EnableCameras( 0 );
             cameras[ 0 ].rect = new Rect( 0, 0, 1f, 1f );
-
-            float bias = 0;
-            float centersDist = 0;
-            if( ab < bc )   // right bias
-            {
-                centersDist = c - abMid;
-                bias = NavHelpers.Map( ab, 0, 
-                    adjThreshold, -1 / 6f * cameraSplitDistance, 0 );
-            }
-            else // left bias
-            {
-                centersDist = bcMid - a;
-                bias = NavHelpers.Map( bc, 0, 
-                    adjThreshold, 1 / 6f * cameraSplitDistance, 0 );
-            }
-
-            // var abMidC = c - abMid;
-            // var abcMid = bcMid - a;
-            // var biasAmt = NavHelpers.Map( Mathf.Max( abMidC, abcMid ), 
-                // 0, cameraSplitDistance, 0, 1f );
-            // bias *= biasAmt;
             
-            // Debug.Log( biasAmt );
+            var bias = 0f;
+            if( bc < ab )
+                bias = GGJ.Map( bc, 0, adjThreshold, twelfth, 0 );
+            else
+                bias = GGJ.Map( ab, 0, adjThreshold, -twelfth, 0 );
 
-            // bias *= NavHelpers.ClampedMap01( Mathf.Abs( ab - bc ), 0, adjThreshold );
+            var groupDistScaling = GGJ.ClampedMap01( ac, adjThreshold, cameraSplitDistance );
+            var pairingScaling = GGJ.ClampedMap01( Mathf.Abs( ab - bc ), 0, twelfth );
+            
+            // NavHelpers.LogCommaSeparated( groupDistScaling, pairingScaling );
 
-            bias = 0;
+            _singleCam3pTarget = ( a + c ) / 2f + bias * Mathf.Max( groupDistScaling * pairingScaling );
+            _singleCam3pSmoothing = GGJ.ClampedMap( ac, adjThreshold, cameraSplitDistance, 
+                singleCam3pSmoothingMinLerp, singleCam3pSmoothingMaxLerp );
+            _singleCam3pLerp = Mathf.Lerp( _singleCam3pLerp, _singleCam3pTarget, _singleCam3pSmoothing * Time.deltaTime );
+
+            // Debug.Log( _singleCam3pSmoothing );
             
-            // NavHelpers.LogCommaSeparated( a, b, c, ab, bc, bias, centersDist );
-            
-            SetCameraPosition( cameras[ 0 ], _lerpXs[ MidpointIndex ] + bias, 0.5f );
+            SetCameraPosition( cameras[ 0 ], _singleCam3pLerp, 0.5f );
 
             foreach( var l in splitScreenLines )
                 l.rectTransform.sizeDelta = Vector2.zero;
@@ -302,7 +283,7 @@ public class DynamicCamDemo : MonoBehaviour
             SetCameraPosition( cameras[ 1 ], _lerpXs[ 2 ], 5 / 6f );
 
             splitScreenLines[ 0 ].rectTransform.sizeDelta = new Vector2(
-                c - ( b + a ) / 2f - adjThreshold  + 1, 1080f );
+                c - abMid - cameraSplitDistance + 0.5f, splitScreenLineHeight );
             return;
         }
 
@@ -316,7 +297,7 @@ public class DynamicCamDemo : MonoBehaviour
             SetCameraPosition( cameras[ 1 ], _lerpXs[ TwoThirdsRightIndex ], 2 / 3f );
 
             splitScreenLines[ 2 ].rectTransform.sizeDelta = new Vector2(
-                ( c + b ) / 2f - a - adjThreshold + 1, 1080f );
+                bcMid - a - cameraSplitDistance + 0.5f, splitScreenLineHeight );
             return;
         }
 
@@ -328,9 +309,9 @@ public class DynamicCamDemo : MonoBehaviour
             cameras[ i ].rect = new Rect( w * i, 0f, w, 1f );
             SetCameraPosition( cameras[ i ], _lerpXs[ i ], w / 2f + w * i );
             splitScreenLines[ 0 ].rectTransform.sizeDelta =
-                new Vector2( c - b - adjThreshold, 1080f );
+                new Vector2( c - b - adjThreshold + 0.5f, splitScreenLineHeight );
             splitScreenLines[ 2 ].rectTransform.sizeDelta =
-                new Vector2( b - a - adjThreshold, 1080f );
+                new Vector2( b - a - adjThreshold + 0.5f, splitScreenLineHeight );
         }
     }
 

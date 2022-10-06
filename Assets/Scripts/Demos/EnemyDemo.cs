@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +7,7 @@ public class EnemyDemo : MonoBehaviour
     [ SerializeField ] Transform playersParent;
     [ SerializeField ] float speed = 3f;
     [ SerializeField ] Image hpBar;
-    
+
     Rigidbody _body;
     Transform _targetT;
 
@@ -23,10 +20,10 @@ public class EnemyDemo : MonoBehaviour
     void FixedUpdate()
     {
         var pos = transform.position;
-        
-        if( _targetT != null)
+
+        if( _targetT != null )
             _body.velocity = ( _targetT.position - pos ).normalized * speed;
-        
+
         transform.LookAt( pos + _body.velocity );
     }
 
@@ -39,7 +36,7 @@ public class EnemyDemo : MonoBehaviour
     void FindNewTarget()
     {
         var pos = transform.position;
-        
+
         // Set closest player to targetPos
         var transforms = playersParent.Cast<Transform>()
             .Where( p => p.gameObject.activeInHierarchy ).ToArray();

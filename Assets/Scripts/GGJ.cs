@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-public static class NavHelpers
+public static class GGJ
 {
     public static void Invoke( this MonoBehaviour mb, Action f, float delay ) =>
         mb.StartCoroutine( InvokeRoutine( f, delay ) );
