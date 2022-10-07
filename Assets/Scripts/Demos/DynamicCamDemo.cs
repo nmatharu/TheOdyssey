@@ -66,7 +66,7 @@ public class DynamicCamDemo : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         SortPlayerXPoses();
         CalcTargetValues();

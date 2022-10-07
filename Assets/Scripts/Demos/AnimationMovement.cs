@@ -24,6 +24,9 @@ public class AnimationMovement : MonoBehaviour
     Vector3 movementDir;
 
     int swingI = 0;
+
+    InGameStatistics _statistics;
+    Vector3 _lastPos;
     
     void Start()
     {
@@ -34,6 +37,9 @@ public class AnimationMovement : MonoBehaviour
         cameraUp = new Vector3( fwd.x, 0, fwd.z );
         // Debug.Log( cameraUp.ToString("F4") );
         // Debug.Log( Camera.main.transform.right.ToString( "F4" ) );
+
+        _statistics = new InGameStatistics();
+        _lastPos = transform.position;
     }
 
     void Update()
@@ -127,6 +133,10 @@ public class AnimationMovement : MonoBehaviour
         _animator.SetBool( "IsRunning", movementDir != Vector3.zero );
         
         transform.LookAt( transform.position + movementDir );
+
+        _statistics.Move( Vector3.Distance( _lastPos, transform.position ) );
+        _statistics.AliveForFixedTimeStep();
+        _lastPos = transform.position;
     }
 
     void LateUpdate()
