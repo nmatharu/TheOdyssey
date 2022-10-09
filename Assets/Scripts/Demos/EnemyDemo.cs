@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,24 +9,41 @@ public class EnemyDemo : MonoBehaviour
     [ SerializeField ] float speed = 3f;
     [ SerializeField ] Image hpBar;
 
+    Queue<Vector2> _path;
+    Vector3 _currentTargetTile;
+
     Rigidbody _body;
     Transform _targetT;
 
     void Start()
     {
         _body = GetComponent<Rigidbody>();
-        InvokeRepeating( nameof( FindNewTarget ), 0, 0.25f );
+        // InvokeRepeating( nameof( FindNewTarget ), 0, 0.25f );
+
+        _path = new Queue<Vector2>();
+        _path.Enqueue( Vector2.one );
+        _path.Enqueue( new Vector2( 2, 4 ) );
+        _currentTargetTile = CoordsToWorldPosition( _path.Dequeue() );
     }
 
     void FixedUpdate()
     {
         var pos = transform.position;
+        // if( _targetT != null )
+        // _body.velocity = ( _targetT.position - pos ).normalized * speed;
 
-        if( _targetT != null )
-            _body.velocity = ( _targetT.position - pos ).normalized * speed;
+        if( Vector3.Distance( pos, _currentTargetTile ) < speed * 0.01f )
+        {
+            _currentTargetTile = CoordsToWorldPosition( _path.Dequeue() );
+        }
 
+        _body.velocity = ( _currentTargetTile - pos ).normalized * speed;
+        
         transform.LookAt( pos + _body.velocity );
     }
+
+    static Vector3 CoordsToWorldPosition( Vector2 coords ) => 
+        new Vector3( 2 * coords.x, 0, 2 * coords.y );
 
     void Update()
     {
