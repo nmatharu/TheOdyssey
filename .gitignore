@@ -1,5 +1,3 @@
-# Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
-#
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
@@ -75,3 +73,4 @@ crashlytics-build.properties
 .Builds/*
 mono_crash*
 screenshot*
+.DS_Store*

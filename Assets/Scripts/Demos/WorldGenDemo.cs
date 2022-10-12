@@ -24,13 +24,18 @@ public class WorldGenDemo : MonoBehaviour
         // Application.targetFrameRate = 60;
         StartCoroutine( GenerateWorld() );
     }
+    
+    public static void PathFind( Vector2 startXY, Vector2 targetXY )
+    {
+        Debug.Log( $"Pathing from {startXY} to {targetXY}" );
+    }
 
     void Update()
     {
-        if( Input.GetKeyDown( KeyCode.P ) )
-        {
-            ScreenCapture.CaptureScreenshot( "screenshot" + DateTime.Now.Millisecond + ".png" );
-        }
+        // if( Input.GetKeyDown( KeyCode.P ) )
+        // {
+        //     ScreenCapture.CaptureScreenshot( "screenshot" + DateTime.Now.Millisecond + ".png" );
+        // }
 
         if( Input.GetKeyDown( KeyCode.Semicolon ) )
         {

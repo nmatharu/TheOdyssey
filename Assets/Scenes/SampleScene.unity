@@ -1510,7 +1510,7 @@ MonoBehaviour:
   - {fileID: 963194227}
   - {fileID: 156705988}
   - {fileID: 1106879351}
-  maxNumPlayers: 3
+  maxNumPlayers: 1
   cameraFollowSpeeds:
   - 1000
   - 1000
@@ -1691,7 +1691,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 09688684fab0b114d944f9923d627f97, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2918007061440450739, guid: 09688684fab0b114d944f9923d627f97, type: 3}
       propertyPath: m_IsActive
@@ -2131,7 +2131,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 09688684fab0b114d944f9923d627f97, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2918007061440450739, guid: 09688684fab0b114d944f9923d627f97, type: 3}
       propertyPath: m_IsActive

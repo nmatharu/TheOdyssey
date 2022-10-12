@@ -85,19 +85,18 @@ public class AnimationMovement : MonoBehaviour
 
         // Debug.Log( "PLAYER: " + transform.position );
         // Debug.Log( Camera.main.WorldToScreenPoint( transform.position ) );
-        WhichTileAmIOn();
+        WhichTileAmIOn( transform.position ); 
     }
 
-    void WhichTileAmIOn()
+    public static Vector2 WhichTileAmIOn( Vector3 pos )
     {
-        var pos = transform.position;
         var x = (int) ( pos.x + 1 ) / 2;
         var y = (int) ( pos.z + 1 ) / 2;
-
+        return new Vector2( x, y );
         // var tile = WorldGenDemo.Tiles[ x, y ];
         // var tile = WorldGenDemo.TileIndices[ x, y ];
         // tile.GetComponentInChildren<Renderer>().material.color = Color.white;
-        
+
         // Debug.Log( $"On {x}, {y}, Tile: {tile}" );
     }
 

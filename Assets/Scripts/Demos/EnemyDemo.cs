@@ -32,7 +32,7 @@ public class EnemyDemo : MonoBehaviour
         // if( _targetT != null )
         // _body.velocity = ( _targetT.position - pos ).normalized * speed;
 
-        if( Vector3.Distance( pos, _currentTargetTile ) < speed * 0.01f )
+        if( Vector3.Distance( pos, _currentTargetTile ) < speed * 0.01f && _path.Count > 0 )
         {
             _currentTargetTile = CoordsToWorldPosition( _path.Dequeue() );
         }
@@ -47,8 +47,11 @@ public class EnemyDemo : MonoBehaviour
 
     void Update()
     {
-        // var pos = transform.position;
-        // transform.position = new Vector3( pos.x, 0.5f + 0.5f * Mathf.Sin( Time.time * 2f ), pos.z );
+        if( Input.GetKeyDown( KeyCode.P ) )
+        {
+            FindNewTarget();
+            PathFindToTarget();
+        }
     }
 
     void FindNewTarget()
@@ -66,6 +69,13 @@ public class EnemyDemo : MonoBehaviour
         }
 
         _targetT = closestT;
+    }
+
+    void PathFindToTarget()
+    {
+        Vector2 startXY = AnimationMovement.WhichTileAmIOn( transform.position );
+        Vector2 targetXY = AnimationMovement.WhichTileAmIOn( _targetT.position ); 
+        WorldGenDemo.PathFind( startXY, targetXY );
     }
 
     float DistXZSquared( Vector3 p1, Vector3 p2 )
