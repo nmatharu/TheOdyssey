@@ -9,7 +9,7 @@ public class EnemyDemo : MonoBehaviour
     [ SerializeField ] float speed = 3f;
     [ SerializeField ] Image hpBar;
 
-    Queue<Vector2> _path;
+    Queue<Vector2Int> _path;
     Vector3 _currentTargetTile;
 
     Rigidbody _body;
@@ -18,11 +18,11 @@ public class EnemyDemo : MonoBehaviour
     void Start()
     {
         _body = GetComponent<Rigidbody>();
-        // InvokeRepeating( nameof( FindNewTarget ), 0, 0.25f );
+        InvokeRepeating( nameof( RunPathfinding ), 0, 1f );
 
-        _path = new Queue<Vector2>();
-        _path.Enqueue( Vector2.one );
-        _path.Enqueue( new Vector2( 2, 4 ) );
+        _path = new Queue<Vector2Int>();
+        _path.Enqueue( Vector2Int.one );
+        _path.Enqueue( new Vector2Int( 2, 4 ) );
         _currentTargetTile = CoordsToWorldPosition( _path.Dequeue() );
     }
 
@@ -32,14 +32,27 @@ public class EnemyDemo : MonoBehaviour
         // if( _targetT != null )
         // _body.velocity = ( _targetT.position - pos ).normalized * speed;
 
-        if( Vector3.Distance( pos, _currentTargetTile ) < speed * 0.01f && _path.Count > 0 )
+        // if( Vector3.Distance( pos, _currentTargetTile ) < speed * 0.01f && _path.Count > 0 )
+        // {
+        //     _currentTargetTile = CoordsToWorldPosition( _path.Dequeue() );
+        // }
+
+        if( AnimationMovement.WhichTileAmIOn( pos ) == AnimationMovement.WhichTileAmIOn( _currentTargetTile ) && _path.Count > 0 )
         {
             _currentTargetTile = CoordsToWorldPosition( _path.Dequeue() );
         }
 
-        _body.velocity = ( _currentTargetTile - pos ).normalized * speed;
+        // _body.velocity = ( _currentTargetTile - pos ).normalized * speed;
+
+        var lookAt = Quaternion.LookRotation( _currentTargetTile - transform.position );
+        transform.rotation = Quaternion.Slerp( transform.rotation, lookAt, Time.deltaTime );
+        // transform.LookAt( _currentTargetTile );
+        _body.velocity = transform.forward * speed;
+
+        Debug.Log( "I am on " + transform.position + ", target on " + _currentTargetTile );
         
-        transform.LookAt( pos + _body.velocity );
+        // transform.LookAt( _currentTargetTile );
+        // _body.velocity = Vector3.left * speed;
     }
 
     static Vector3 CoordsToWorldPosition( Vector2 coords ) => 
@@ -49,8 +62,7 @@ public class EnemyDemo : MonoBehaviour
     {
         if( Input.GetKeyDown( KeyCode.P ) )
         {
-            FindNewTarget();
-            PathFindToTarget();
+            RunPathfinding();
         }
     }
 
@@ -71,11 +83,38 @@ public class EnemyDemo : MonoBehaviour
         _targetT = closestT;
     }
 
+    void RunPathfinding()
+    {
+        FindNewTarget();
+        PathFindToTarget();
+    }
+
     void PathFindToTarget()
     {
-        Vector2 startXY = AnimationMovement.WhichTileAmIOn( transform.position );
-        Vector2 targetXY = AnimationMovement.WhichTileAmIOn( _targetT.position ); 
-        WorldGenDemo.PathFind( startXY, targetXY );
+        var startXY = AnimationMovement.WhichTileAmIOn( transform.position );
+        var targetXY = AnimationMovement.WhichTileAmIOn( _targetT.position );
+
+        List<AStarNode> pathSegment = new List<AStarNode>();
+        AStarNode node = WorldGenDemo.PathFind( startXY, targetXY );
+        // pathSegment.Add( node );
+        
+        while( node.Parent != null )
+        {
+            node = node.Parent;
+            pathSegment.Add( node );
+        }
+
+        GGJ.LogQueue( _path );
+        
+        pathSegment.Reverse();
+        _path.Clear();
+        foreach( var n in pathSegment )
+        {
+            _path.Enqueue( new Vector2Int( n.X, n.Y ) );
+        }
+        _currentTargetTile = CoordsToWorldPosition( _path.Dequeue() );
+        
+        GGJ.LogQueue( _path );
     }
 
     float DistXZSquared( Vector3 p1, Vector3 p2 )

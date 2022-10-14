@@ -88,11 +88,11 @@ public class AnimationMovement : MonoBehaviour
         WhichTileAmIOn( transform.position ); 
     }
 
-    public static Vector2 WhichTileAmIOn( Vector3 pos )
+    public static Vector2Int WhichTileAmIOn( Vector3 pos )
     {
         var x = (int) ( pos.x + 1 ) / 2;
         var y = (int) ( pos.z + 1 ) / 2;
-        return new Vector2( x, y );
+        return new Vector2Int( x, y );
         // var tile = WorldGenDemo.Tiles[ x, y ];
         // var tile = WorldGenDemo.TileIndices[ x, y ];
         // tile.GetComponentInChildren<Renderer>().material.color = Color.white;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public static class GGJ
 {
@@ -22,7 +22,18 @@ public static class GGJ
             var e = arr[ i ];
             outStr += e + ( i < arr.Length - 1 ? ", " : "" );
         }
+
         Debug.Log( outStr + " ]" );
+    }
+
+    public static void LogQueue<T>( Queue<T> q )
+    {
+        var outStr = "[ ";
+        foreach( var item in q )
+        {
+            outStr += item + " ";
+        }
+        Debug.Log( outStr + "]" );
     }
 
     public static void LogCommaSeparated( params object[] o )
@@ -33,6 +44,7 @@ public static class GGJ
             var e = o[ i ];
             outStr += e + ( i < o.Length - 1 ? ", " : "" );
         }
+
         Debug.Log( outStr );
     }
 
@@ -44,4 +56,13 @@ public static class GGJ
 
     public static float ClampedMap01( float value, float inputMin, float inputMax ) =>
         Mathf.Clamp01( Map( value, inputMin, inputMax, 0, 1 ) );
+
+    // https://forum.unity.com/threads/suggest-add-vector3int-manhattandistance-vector3int-a-vector3int-b.444672/
+    public static int ManhattanDistance( this Vector2Int a, Vector2Int b )
+    {
+        checked
+        {
+            return Mathf.Abs( a.x - b.x ) + Mathf.Abs( a.y - b.y );
+        }
+    }
 }

@@ -23,6 +23,6 @@
 
     public override string ToString() => $"Tile: {_x}, {_y}, {TileType}, {_tileTop}";
 
-    bool IsTraversable() => TileType != Water && _tileTop == TileTop.None;
+    public bool IsTraversable() => TileType != Water && _tileTop == TileTop.None;
     bool IsBuildableOver() => TileType == Water;
 }
