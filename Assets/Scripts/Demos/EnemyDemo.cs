@@ -104,7 +104,7 @@ public class EnemyDemo : MonoBehaviour
             pathSegment.Add( node );
         }
 
-        GGJ.LogQueue( _path );
+        JBB.LogQueue( _path );
         
         pathSegment.Reverse();
         _path.Clear();
@@ -114,7 +114,7 @@ public class EnemyDemo : MonoBehaviour
         }
         _currentTargetTile = CoordsToWorldPosition( _path.Dequeue() );
         
-        GGJ.LogQueue( _path );
+        JBB.LogQueue( _path );
     }
 
     float DistXZSquared( Vector3 p1, Vector3 p2 )

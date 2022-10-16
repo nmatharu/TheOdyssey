@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class GGJ
+public static class JBB
 {
     public static void Invoke( this MonoBehaviour mb, Action f, float delay ) =>
         mb.StartCoroutine( InvokeRoutine( f, delay ) );

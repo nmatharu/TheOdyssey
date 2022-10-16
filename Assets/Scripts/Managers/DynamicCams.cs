@@ -1,13 +1,13 @@
-using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DynamicCamDemo : MonoBehaviour
+public class DynamicCams : MonoBehaviour
 {
     [ SerializeField ] Transform playersParent;
     [ SerializeField ] Camera[] cameras;
-    [ SerializeField ] int maxNumPlayers = 1;
+    
+    int _numPlayers = 1;
     [ SerializeField ] float[] cameraFollowSpeeds;
     [ SerializeField ] float cameraOffset;
     [ SerializeField ] float projectionFactor = 1.3f;
@@ -16,8 +16,6 @@ public class DynamicCamDemo : MonoBehaviour
     [ SerializeField ] float cameraSplitDistance = 10f;
 
     [ SerializeField ] Image[] splitScreenLines;
-
-    [ SerializeField ] float theHopeOffset = 0f;
 
     [ SerializeField ] float singleCam3pSmoothingMinLerp = 10f;
     [ SerializeField ] float singleCam3pSmoothingMaxLerp = 1000f;
@@ -44,9 +42,6 @@ public class DynamicCamDemo : MonoBehaviour
 
     float splitScreenLineHeight;
 
-    // TODO-- camera follow speed increases with number of splits
-
-    // Start is called before the first frame update
     void Start()
     {
         SortPlayerXPoses();
@@ -59,24 +54,23 @@ public class DynamicCamDemo : MonoBehaviour
         _cameraFollowSpeed = cameraFollowSpeeds[ 0 ];
         splitScreenLineHeight = scaler.referenceResolution.y;
 
-        var fwd = Camera.main.transform.forward;
+        var fwd = cameras[ 0 ].transform.forward;
         _initY = cameras[ 0 ].transform.position.y;
         // Debug.Log( _initY );
         cameraUp = new Vector3( fwd.x, 0, fwd.z );
     }
 
-    // Update is called once per frame
-    void LateUpdate()
+    void Update()
     {
         SortPlayerXPoses();
         CalcTargetValues();
         LerpCurrentValues();
+    }
 
-        // Is having separate methods for each of these a great idea? Not really, but the logic for each of various
-        // number of cameras is different, and combining them all into a single, flexible method escapes me at this 
-        // time and it seems better to focus my limited development time on implementing all the core features --
-        // I will perhaps revisit this if I have time near the end of the project
-        switch( maxNumPlayers )
+    // Update is called once per frame
+    void LateUpdate()
+    {
+        switch( _numPlayers )
         {
             case 1:
                 SingleCam();
@@ -85,14 +79,9 @@ public class DynamicCamDemo : MonoBehaviour
                 DualCam();
                 break;
             case 3:
-                // TriCam();
-                TriCam2();
+                TriCam();
                 break;
         }
-
-        // NavHelpers.LogArray( _targetXs );
-        // CalculatePlayerMedianX();
-        // LerpCameraToTarget();
     }
 
     void SingleCam()
@@ -117,112 +106,28 @@ public class DynamicCamDemo : MonoBehaviour
         }
 
         EnableCameras( 0, 1 );
-        for( var i = 0; i < maxNumPlayers; i++ )
+        for( var i = 0; i < _numPlayers; i++ )
         {
-            var w = 1f / maxNumPlayers;
+            var w = 1f / _numPlayers;
             cameras[ i ].rect = new Rect( w * i, 0f, w, 1f );
             SetCameraPosition( cameras[ i ], _lerpXs[ i ], w / 2f + w * i );
         }
 
         // TODO add smoothing to dual cam
-        
+
+        splitScreenLines[ 0 ].rectTransform.sizeDelta = Vector2.zero;
+        splitScreenLines[ 2 ].rectTransform.sizeDelta = Vector2.zero;
         splitScreenLines[ 1 ].rectTransform.sizeDelta =
             new Vector2( _playerMaxX - _playerMinX - cameraSplitDistance, splitScreenLineHeight );
     }
 
     void TriCam()
     {
-        // TODO Want smoothing but not jittering? Try basing smoothing off of the difference of the median lerp to its target val
-        // aka median lerp is at 0.1, target of 0.08, use that -0.02 offset for other camera positions and follow the median's difference
+        splitScreenLines[ 1 ].rectTransform.sizeDelta = Vector2.zero;
         
-        var acDist = _playerMaxX - _playerMinX;
-        var abDist = _sortedPlayerXPoses[ 1 ] - _playerMinX;
-        var bcDist = _playerMaxX - _sortedPlayerXPoses[ 1 ];
-        var acThreshold = cameraSplitDistance * 4f / 3f;
-        var adjThreshold = cameraSplitDistance * 2f / 3f; // TODO extract these to constants
-        var w = 1f / maxNumPlayers;
-
-        splitScreenLines[ 0 ].rectTransform.sizeDelta = Vector2.zero;
-        splitScreenLines[ 2 ].rectTransform.sizeDelta = Vector2.zero;
-
-        Debug.Log( abDist + ", " + adjThreshold + ", " + cameraSplitDistance );
-
-        if( acDist < acThreshold && abDist < adjThreshold && bcDist < adjThreshold )
-        {
-            EnableCameras( 0 );
-            cameras[ 0 ].rect = new Rect( 0, 0, 1f, 1f );
-
-            SetCameraPosition( cameras[ 0 ], _lerpXs[ MidpointIndex ], 0.5f );
-
-            foreach( var l in splitScreenLines )
-                l.rectTransform.sizeDelta = Vector2.zero;
-
-            return;
-        }
-
-        EnableCameras( 0, 1 );
-
-        // One player is far off to the left
-        if( abDist < adjThreshold && bcDist > adjThreshold )
-        {
-            var hopeOffset = JBB.Map(
-                _sortedPlayerXPoses[ 1 ] - _sortedPlayerXPoses[ 0 ], 0, adjThreshold, theHopeOffset, 0 );
-
-            hopeOffset *=
-                JBB.ClampedMap01( _playerMaxX - ( _sortedPlayerXPoses[ 1 ] + _playerMinX ) / 2f, 
-                    acThreshold + adjThreshold, adjThreshold * 1.5f );
-            
-            cameras[ 0 ].rect = new Rect( 0, 0, 2 * w, 1f );
-            cameras[ 1 ].rect = new Rect( 2 * w, 0, w, 1f );
-            SetCameraPosition( cameras[ 0 ], _lerpXs[ TwoThirdsLeftIndex ], 1 / 3f );
-            SetCameraPosition( cameras[ 1 ], _lerpXs[ 2 ] + hopeOffset, 5 / 6f );
-
-            splitScreenLines[ 0 ].rectTransform.sizeDelta = new Vector2(
-                _playerMaxX - ( _sortedPlayerXPoses[ 1 ] + _playerMinX ) / 2f - adjThreshold  + 1, splitScreenLineHeight );
-            return;
-        }
-
-
-        // One player is far off to the right
-        if( abDist > adjThreshold && bcDist < adjThreshold )
-        {
-            var hopeOffset = JBB.Map(
-                _sortedPlayerXPoses[ 2 ] - _sortedPlayerXPoses[ 1 ], 0, adjThreshold, theHopeOffset, 0 );
-
-            hopeOffset *=
-                JBB.ClampedMap01( ( _playerMaxX + _sortedPlayerXPoses[ 1 ] ) / 2f - _playerMinX, 
-                    acThreshold + adjThreshold, adjThreshold * 1.5f );
-
-            cameras[ 0 ].rect = new Rect( 0, 0, w, 1f );
-            cameras[ 1 ].rect = new Rect( w, 0, 2 * w, 1f );
-            SetCameraPosition( cameras[ 0 ], _lerpXs[ 0 ] - hopeOffset, 1 / 6f );
-            SetCameraPosition( cameras[ 1 ], _lerpXs[ TwoThirdsRightIndex ], 2 / 3f );
-
-            splitScreenLines[ 2 ].rectTransform.sizeDelta = new Vector2(
-                ( _playerMaxX + _sortedPlayerXPoses[ 1 ] ) / 2f - _playerMinX - adjThreshold + 1, splitScreenLineHeight );
-            return;
-        }
-
-
-        // All 3 players are far from each other
-        EnableCameras( 0, 1, 2 );
-        for( var i = 0; i < maxNumPlayers; i++ )
-        {
-            cameras[ i ].rect = new Rect( w * i, 0f, w, 1f );
-            SetCameraPosition( cameras[ i ], _lerpXs[ i ], w / 2f + w * i );
-            splitScreenLines[ 0 ].rectTransform.sizeDelta =
-                new Vector2( _playerMaxX - _sortedPlayerXPoses[ 1 ] - adjThreshold, splitScreenLineHeight );
-            splitScreenLines[ 2 ].rectTransform.sizeDelta =
-                new Vector2( _sortedPlayerXPoses[ 1 ] - _playerMinX - adjThreshold, splitScreenLineHeight );
-        }
-    }
-
-    void TriCam2()
-    {
         var a = _playerMinX;
         var b = _sortedPlayerXPoses[ 1 ];
         var c = _playerMaxX;
-        
         
         var ac = c - a;
         var ab = b - a;
@@ -231,7 +136,7 @@ public class DynamicCamDemo : MonoBehaviour
         var adjThreshold = cameraSplitDistance * 2f / 3f; // TODO extract these to constants
         var twelfth = cameraSplitDistance / 6f; // 12th of screen -> 6th of cam split distance (half of screen)
             
-        var w = 1f / maxNumPlayers;
+        var w = 1f / _numPlayers;
 
         var abMid = ( a + b ) / 2f;
         var bcMid = ( b + c ) / 2f;
@@ -304,7 +209,7 @@ public class DynamicCamDemo : MonoBehaviour
 
         // All 3 players are far from each other
         EnableCameras( 0, 1, 2 );
-        for( var i = 0; i < maxNumPlayers; i++ )
+        for( var i = 0; i < _numPlayers; i++ )
         {
             cameras[ i ].rect = new Rect( w * i, 0f, w, 1f );
             SetCameraPosition( cameras[ i ], _lerpXs[ i ], w / 2f + w * i );
@@ -335,8 +240,8 @@ public class DynamicCamDemo : MonoBehaviour
         var adjustedXPoses = ( from Transform p in playersParent
             where p.gameObject.activeInHierarchy
             select CameraCompensation( p.position ) ).ToList();
+        _numPlayers = adjustedXPoses.Count;
         _sortedPlayerXPoses = adjustedXPoses.OrderBy( p => p ).ToArray();
-        // NavHelpers.LogArray( _sortedPlayerXPoses );
     }
 
     float CameraCompensation( Vector3 pos )
@@ -348,13 +253,6 @@ public class DynamicCamDemo : MonoBehaviour
 
     void LerpCurrentValues()
     {
-        // _lerpXs[ MidpointIndex ] = Mathf.Lerp( _lerpXs[ MidpointIndex ], _targetXs[ MidpointIndex ], Time.deltaTime * 10f );
-        // for( var i = 0; i < _lerpXs.Length; i++ )
-        // {
-        //     if( i == MidpointIndex ) continue;
-        //     _lerpXs[ i ] = _targetXs[ i ] + ( _targetXs[ MidpointIndex ] - _lerpXs[ MidpointIndex ] );
-        // }
-        
         for( var i = 0; i < _lerpXs.Length; i++ )
             _lerpXs[ i ] = Mathf.Lerp( _lerpXs[ i ], _targetXs[ i ], Time.deltaTime * _cameraFollowSpeed );
     }
@@ -369,7 +267,7 @@ public class DynamicCamDemo : MonoBehaviour
 
         _targetXs[ 3 ] = ( _playerMinX + _playerMaxX ) / 2f;
 
-        if( maxNumPlayers < 3 ) return;
+        if( _numPlayers < 3 ) return;
         _targetXs[ 4 ] = ( _sortedPlayerXPoses[ 0 ] + _sortedPlayerXPoses[ 1 ] ) / 2f;
         _targetXs[ 5 ] = ( _sortedPlayerXPoses[ 1 ] + _sortedPlayerXPoses[ 2 ] ) / 2f;
     }
