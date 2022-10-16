@@ -6,8 +6,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [ SerializeField ] Transform players;
+    [ SerializeField ] GameObject[] playersArr;
     [ SerializeField ] Transform projectiles;
-    
+
     public static GameManager Instance { get; private set; }
     void Awake()
     {
@@ -25,6 +26,13 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         
+    }
+
+    // This implementation is for testing purposes
+    public GameObject SpawnPlayer( int playerId )
+    {
+        playersArr[ playerId ].SetActive( true );
+        return playersArr[ playerId ];
     }
 
     public Transform Projectiles() => projectiles;

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -14,20 +13,22 @@ public class AnimationMovement : MonoBehaviour
     [ SerializeField ] Animator animator;
 
     [ SerializeField ] ParticleSystem swordPfx;
-    
+
     Rigidbody _body;
     Animator _animator;
     static Vector3 cameraUp;
     bool locked = false;
     bool rolling = false;
     float attackJabSpeedMultiplier = 1;
+
+    Vector2 inputMoveDir;
     Vector3 movementDir;
 
     int swingI = 0;
 
     InGameStatistics _statistics;
     Vector3 _lastPos;
-    
+
     void Start()
     {
         _body = GetComponent<Rigidbody>();
@@ -44,48 +45,49 @@ public class AnimationMovement : MonoBehaviour
 
     void Update()
     {
-        if( swordPfx == null )  return;
+        if( swordPfx == null ) return;
+        WhichTileAmIOn( transform.position );
+    }
+
+    public void LightAttack()
+    {
+        if( rolling || locked ) return;
+
+        var animStr = swingI switch
+        {
+            0 => "Armature|5_SwingA",
+            1 => "Armature|5_SwingB",
+            _ => "Armature|5_SwingC"
+        };
+        swingI = ( swingI + 1 ) % 3;
+
+        // animator.CrossFade( animStr, 0.02f );
+        animator.Play( animStr );
+
+        LockFor( 12 );
+    }
+
+    public void HeavyAttack()
+    {
+        if( rolling || locked ) return;
         
-        if( !locked && ( Input.GetKeyDown( KeyCode.Z ) || Input.GetButtonDown( "Fire3" ) ) )
-        {
-            var animStr = swingI switch
-            {
-                0 => "Armature|5_SwingA",
-                1 => "Armature|5_SwingB",
-                _ => "Armature|5_SwingC"
-            };
-            swingI = ( swingI + 1 ) % 3;
-            
-            // animator.CrossFade( animStr, 0.02f );
-            animator.Play( animStr );
-            
-            LockFor( 12 );
-        }
-        if( !locked && ( Input.GetKeyDown( KeyCode.X ) || Input.GetButtonDown( "Jump" ) ) )
-        {
-            animator.Play( "Armature|7_Heavy_A_Default" );
-            StartCoroutine( HeavyAttack() );
-            // animator.CrossFade( "Armature|5_SwingB", 0.02f );
-            // LockFor( 15 );
-        }
+        animator.Play( "Armature|7_Heavy_A_Default" );
+        StartCoroutine( HeavyAttackRoutine() );
+    }
 
-        // if( Input.GetKeyDown( KeyCode.X ) || Input.GetButtonDown( "Jump" ) )
-        // {
-        //     animator.CrossFade( "Armature|4_SwingB_Legless", 0.02f );
-        //     LockFor( 8 );
-        // }
+    public void Roll()
+    {
+        if( rolling || locked ) return;
+        
+        animator.Play( "Armature|6_Roll" );
+        rolling = true;
+        this.Invoke( () => rolling = false, 0.3f );
+        // Debug.Log( "ROLL" );
+    }
 
-        if( !rolling && ( Input.GetKeyDown( KeyCode.C ) || Input.GetButtonDown( "Fire2" ) ) )
-        {
-            animator.Play( "Armature|6_Roll" );
-            rolling = true;
-            this.Invoke( () => rolling = false, 0.3f );
-            // Debug.Log( "ROLL" );
-        }
-
-        // Debug.Log( "PLAYER: " + transform.position );
-        // Debug.Log( Camera.main.WorldToScreenPoint( transform.position ) );
-        WhichTileAmIOn( transform.position ); 
+    public void Move( Vector2 dir )
+    {
+        inputMoveDir = dir;
     }
 
     public static Vector2Int WhichTileAmIOn( Vector3 pos )
@@ -111,8 +113,8 @@ public class AnimationMovement : MonoBehaviour
             return;
         }
 
-        var x = Input.GetAxis( "Horizontal" );
-        var y = Input.GetAxis( "Vertical" );
+        var x = inputMoveDir.x;
+        var y = inputMoveDir.y;
 
         var dir = new Vector2( x, y ).normalized;
         dir = disableInput ? Vector2.zero : dir;
@@ -130,7 +132,7 @@ public class AnimationMovement : MonoBehaviour
 
         _body.velocity = movementDir * ( ( locked ? 0 : 1 ) * speed * attackJabSpeedMultiplier );
         _animator.SetBool( "IsRunning", movementDir != Vector3.zero );
-        
+
         transform.LookAt( transform.position + movementDir );
 
         _statistics.Move( Vector3.Distance( _lastPos, transform.position ) );
@@ -148,7 +150,7 @@ public class AnimationMovement : MonoBehaviour
         //     swordPfx.Simulate( timeStep );
         // }
     }
-    
+
     Vector3 CameraCompensation( Vector2 dir )
     {
         if( dir == Vector2.zero ) return Vector3.zero;
@@ -189,15 +191,15 @@ public class AnimationMovement : MonoBehaviour
         }
 
         attackJabSpeedMultiplier = 1;
-        
+
         locked = false;
     }
 
-    IEnumerator HeavyAttack()
+    IEnumerator HeavyAttackRoutine()
     {
         var w = new WaitForSeconds( 1f / 24f );
         locked = true;
-        
+
         var sh = swordPfx.shape;
         var em = swordPfx.emission;
         var oldScale = sh.scale;
@@ -223,6 +225,7 @@ public class AnimationMovement : MonoBehaviour
                             c.GetComponent<Enemy>().TakeDamage( 7 );
                         }
                     }
+
                     break;
                 case 8:
                     swordPfx.Stop();
@@ -235,7 +238,7 @@ public class AnimationMovement : MonoBehaviour
         sh.scale = oldScale;
         sh.position = oldPos;
         em.rateOverTime = oldRateOverTime;
-        
+
         swordPfx.Stop();
         locked = false;
     }

@@ -9,11 +9,16 @@ public class Player : MonoBehaviour
     int _level;
     float _hp;
     Material _material;
+
+    Vector2 _moveDir;
+
+    AnimationMovement _animationMovement;
     
     void Start()
     {
         _hp = maxHp;
         _material = GetComponentInChildren<Renderer>().material;
+        _animationMovement = GetComponent<AnimationMovement>();
     }
 
     void Update()
@@ -23,6 +28,16 @@ public class Player : MonoBehaviour
             TakeDamage( 5 );
         }
     }
+
+    public void InputMovement( Vector2 v )
+    {
+        _moveDir = v;
+        _animationMovement.Move( v );
+    }
+    
+    public void LightAttack() => _animationMovement.LightAttack();
+    public void HeavyAttack() => _animationMovement.HeavyAttack();
+    public void Roll() => _animationMovement.Roll();
 
     public void TakeDamage( float dmg )
     {
@@ -44,8 +59,10 @@ public class Player : MonoBehaviour
         _material.color = Color.white;
     }
 
-    void Die() => Destroy( gameObject );
+    void Die() => gameObject.SetActive( false );
 
     public float MaxHp() => maxHp;
     public float HpPct() => _hp / maxHp;
+
+    
 }

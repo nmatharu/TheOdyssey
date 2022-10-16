@@ -1,10 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    [ SerializeField ] int maxNumPlayers = 3;
+
+    // 
+    PlayerControls[] bindings;
+
     public static InputManager Instance { get; private set; }
+
     void Awake()
     {
         if( Instance != null && Instance != this )
@@ -16,5 +21,21 @@ public class InputManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad( this );
         }
+    }
+
+    void Start() => bindings = new PlayerControls[ maxNumPlayers ];
+
+    public int RequestBinding( PlayerControls controls )
+    {
+        for( var i = 0; i < maxNumPlayers; i++ )
+        {
+            // If there is a free binding
+            if( bindings[ i ] == null )
+            {
+                bindings[ i ] = controls;
+                return i;
+            }
+        }
+        return -1;
     }
 }
