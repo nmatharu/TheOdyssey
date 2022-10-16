@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [ SerializeField ] Transform players;
+    [ SerializeField ] Transform projectiles;
     
     public static GameManager Instance { get; private set; }
     void Awake()
@@ -19,13 +20,13 @@ public class GameManager : MonoBehaviour
             Instance = this;
             // DontDestroyOnLoad( this );
         }
-
-
-
     }
 
     void Start()
     {
         
     }
+
+    public Transform Projectiles() => projectiles;
+    public Transform Players() => players;
 }

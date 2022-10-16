@@ -12,10 +12,18 @@ public class WorldGenerator : MonoBehaviour
     [ SerializeField ] int worldSizeX = 600;
     [ SerializeField ] int worldSizeY = 12;
 
+    [ SerializeField ] int offMapThresholdX = 30;
+    [ SerializeField ] int offMapThresholdY = 15;
+
     float _perlinSeed;
-    
+
     public static WorldGenerator Instance { get; private set; }
     bool _generating;
+
+    public static Vector2Int WorldPosToCoords( Vector3 pos ) =>
+        new Vector2Int( (int) ( pos.x + 1 ) / 2, (int) ( pos.z + 1 ) / 2 );
+
+    public static Vector3 CoordsToWorldPos( Vector2Int coords ) => new( 2 * coords.x, 0, 2 * coords.y );
 
     void Awake()
     {
@@ -39,6 +47,13 @@ public class WorldGenerator : MonoBehaviour
         yield return new WaitForSeconds( 2f );
         _generating = false;
         yield break;
+    }
+
+    public bool OffMap( Vector3 pos )
+    {
+        var v2 = WorldPosToCoords( pos );
+        return v2.x < -offMapThresholdX || v2.x > worldSizeX + offMapThresholdX ||
+               v2.y < -offMapThresholdY || v2.y > worldSizeY + offMapThresholdY;
     }
 
     public bool IsGenerating() => _generating;

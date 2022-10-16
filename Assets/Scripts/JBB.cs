@@ -65,4 +65,11 @@ public static class JBB
             return Mathf.Abs( a.x - b.x ) + Mathf.Abs( a.y - b.y );
         }
     }
+    
+    public static float DistXZSquared( Vector3 p1, Vector3 p2 )
+    {
+        var dX = p2.x - p1.x;
+        var dZ = p2.z - p1.z;
+        return dX * dX + dZ * dZ;
+    }
 }

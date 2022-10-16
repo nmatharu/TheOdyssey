@@ -172,9 +172,9 @@ public class AnimationMovement : MonoBehaviour
                 Collider[] colliders = Physics.OverlapSphere( transform.position, 2f );
                 foreach( var c in colliders )
                 {
-                    if( c.GetComponent<EnemyDemo>() != null )
+                    if( c.GetComponent<Enemy>() != null )
                     {
-                        c.GetComponent<EnemyDemo>().TakeHit();
+                        c.GetComponent<Enemy>().TakeDamage( 4 );
                     }
                 }
             }
@@ -206,13 +206,23 @@ public class AnimationMovement : MonoBehaviour
         sh.scale = new Vector3( 0, 0, 8 );
         sh.position = new Vector3( 0, -0.5f, 8 );
         em.rateOverTime = new ParticleSystem.MinMaxCurve( 150 );
-        
+
         for( var i = 0; i < 15; i++ )
         {
             switch( i )
             {
                 case 5:
                     swordPfx.Play();
+                    break;
+                case 7:
+                    Collider[] colliders = Physics.OverlapSphere( transform.position, 3f );
+                    foreach( var c in colliders )
+                    {
+                        if( c.GetComponent<Enemy>() != null )
+                        {
+                            c.GetComponent<Enemy>().TakeDamage( 7 );
+                        }
+                    }
                     break;
                 case 8:
                     swordPfx.Stop();

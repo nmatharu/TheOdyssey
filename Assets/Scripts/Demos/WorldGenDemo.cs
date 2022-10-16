@@ -29,7 +29,8 @@ public class WorldGenDemo : MonoBehaviour
     public static AStarNode PathFind( Vector2Int startXY, Vector2Int targetXY )
     {
         Debug.Log( $"Pathing from {startXY} to {targetXY}" );
-
+        var iters = 0;
+        
         var open = new List<AStarNode>(); // set of nodes to be evaluated
         var closed = new HashSet<AStarNode>(); // set of nodes already evaluated
         var start = new AStarNode( startXY.x, startXY.y );
@@ -42,8 +43,12 @@ public class WorldGenDemo : MonoBehaviour
             closed.Add( curr );
 
             if( NodeIsTarget( curr, targetXY ) )
+            {
+                Debug.Log( $"Returning after {iters} iterations" );
                 return curr;
+            }
 
+            // Debug.Log( $"{startXY} to {targetXY} : {iters} BEFORE FOREACH" );
             foreach( var neighbour in GetNeighbours( curr ) )
             {
                 var neighbourTile = Tiles[ neighbour.X, neighbour.Y ];
@@ -62,6 +67,15 @@ public class WorldGenDemo : MonoBehaviour
                     
                 }
             }
+
+            if( iters > 100 )
+            {
+                Debug.Log( $"Returning after {iters} iterations" );
+                return curr;
+            }
+
+            // Debug.Log( $"{startXY} to {targetXY} : {iters} END OF LOOP" );
+            iters++;
         }
 
         return null;

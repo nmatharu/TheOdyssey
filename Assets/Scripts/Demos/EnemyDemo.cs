@@ -49,7 +49,7 @@ public class EnemyDemo : MonoBehaviour
         // transform.LookAt( _currentTargetTile );
         _body.velocity = transform.forward * speed;
 
-        Debug.Log( "I am on " + transform.position + ", target on " + _currentTargetTile );
+        // Debug.Log( "I am on " + transform.position + ", target on " + _currentTargetTile );
         
         // transform.LookAt( _currentTargetTile );
         // _body.velocity = Vector3.left * speed;
