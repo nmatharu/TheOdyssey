@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
             // DontDestroyOnLoad( this );
         }
         
-        InvokeRepeating( nameof( SpawnSkull ), 2f, 8f );
+        InvokeRepeating( nameof( SpawnSkull ), 2f, 12f );
     }
 
     void Start()
