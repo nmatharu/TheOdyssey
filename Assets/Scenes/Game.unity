@@ -903,7 +903,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2148079099040143359, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5814673285304824606, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
       propertyPath: m_RootOrder
@@ -982,7 +982,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2148079099040143359, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5814673285304824606, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
       propertyPath: m_RootOrder
@@ -1056,7 +1056,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2148079099040143359, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5814673285304824606, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
       propertyPath: m_RootOrder
@@ -2149,6 +2149,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skull (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2148079099040143359, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4159721235228118989, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
       propertyPath: fireballFireRate
       value: 2.5
@@ -2225,7 +2229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2148079099040143359, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5814673285304824606, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
       propertyPath: m_RootOrder
@@ -2567,11 +2571,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   players: {fileID: 56212838}
+  enemies: {fileID: 1382625898}
   playersArr:
   - {fileID: 233915675}
   - {fileID: 2070725456}
   - {fileID: 883946077}
   projectiles: {fileID: 789896980}
+  skullEnemy: {fileID: 2148079099040143359, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
 --- !u!4 &1900502002
 Transform:
   m_ObjectHideFlags: 0

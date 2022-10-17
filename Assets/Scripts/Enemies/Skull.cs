@@ -51,6 +51,9 @@ public class Skull : MonoBehaviour
         // Set closest player to targetPos
         var transforms = GameManager.Instance.Players().Cast<Transform>()
             .Where( p => p.gameObject.activeInHierarchy ).ToArray();
+        
+        if( transforms.Length == 0 )    return;
+
         var closestT = transforms[ 0 ];
         foreach( var t in transforms )
         {
@@ -75,6 +78,7 @@ public class Skull : MonoBehaviour
         var pathSegment = new List<AStarNode>();
         var node = WorldGenDemo.PathFind( startXY, targetXY );
 
+        if( node == null )  return;
         while( node.Parent != null )
         {
             node = node.Parent;

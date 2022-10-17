@@ -63,6 +63,6 @@ public class Player : MonoBehaviour
 
     public float MaxHp() => maxHp;
     public float HpPct() => _hp / maxHp;
+    public bool Rolling() => _animationMovement.Rolling();
 
-    
 }

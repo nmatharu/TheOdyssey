@@ -262,6 +262,8 @@ public class DynamicCams : MonoBehaviour
         for( var i = 0; i < _sortedPlayerXPoses.Length; i++ )
             _targetXs[ i ] = _sortedPlayerXPoses[ i ];
 
+        if( _sortedPlayerXPoses.Length == 0 )   return;
+        
         _playerMinX = _sortedPlayerXPoses.Min();
         _playerMaxX = _sortedPlayerXPoses.Max();
 

@@ -242,4 +242,6 @@ public class AnimationMovement : MonoBehaviour
         swordPfx.Stop();
         locked = false;
     }
+
+    public bool Rolling() => rolling;
 }

@@ -28,7 +28,7 @@ public class WorldGenDemo : MonoBehaviour
     // https://www.youtube.com/watch?v=mZfyt03LDH4&list=PLFt_AvWsXl0cq5Umv3pMC9SPnKjfp9eGW&index=4
     public static AStarNode PathFind( Vector2Int startXY, Vector2Int targetXY )
     {
-        Debug.Log( $"Pathing from {startXY} to {targetXY}" );
+        // Debug.Log( $"Pathing from {startXY} to {targetXY}" );
         var iters = 0;
         
         var open = new List<AStarNode>(); // set of nodes to be evaluated
@@ -44,7 +44,7 @@ public class WorldGenDemo : MonoBehaviour
 
             if( NodeIsTarget( curr, targetXY ) )
             {
-                Debug.Log( $"Returning after {iters} iterations" );
+                // Debug.Log( $"Returning after {iters} iterations" );
                 return curr;
             }
 
