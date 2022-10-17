@@ -36,7 +36,7 @@ public class Skull : MonoBehaviour
         }
 
         var lookAt = Quaternion.LookRotation( _currentTargetTile - transform.position );
-        _movementDirection = Quaternion.Slerp( _movementDirection, lookAt, Time.deltaTime );
+        _movementDirection = Quaternion.Slerp( _movementDirection, lookAt, 0.01f );
 
         _body.velocity = _movementDirection * Vector3.forward * speed;
 
@@ -93,12 +93,23 @@ public class Skull : MonoBehaviour
         foreach( var n in pathSegment )
             _path.Enqueue( new Vector2Int( n.X, n.Y ) );
 
+        // FlashPathDebug();
+        
         if( _path.Count > 0 )
             _currentTargetTile = WorldGenerator.CoordsToWorldPos( _path.Dequeue() );
 
-        _currentTargetTile = WorldGenerator.CoordsToWorldPos( targetXY );
-
         // JBB.LogQueue( _path );
+    }
+
+    void FlashPathDebug()
+    {
+        foreach( var n in _path )
+        {
+            var mat = WorldGenDemo.TileIndices[ n.x, n.y ].GetComponentInChildren<Renderer>().material;
+            var oldColor = mat.color;
+            mat.color = Color.white;
+            this.Invoke( () => mat.color = oldColor, 0.5f );
+        }
     }
 
     void FireFireball()

@@ -68,7 +68,7 @@ public class WorldGenDemo : MonoBehaviour
                 }
             }
 
-            if( iters > 100 )
+            if( iters > 99 )
             {
                 Debug.Log( $"Returning after {iters} iterations" );
                 return curr;
