@@ -19,7 +19,9 @@ public class InputManager : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad( this );
+            
+            // TODO This should be here, just disabled for demo purposes
+            // DontDestroyOnLoad( this );
         }
     }
 

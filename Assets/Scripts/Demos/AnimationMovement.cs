@@ -29,6 +29,8 @@ public class AnimationMovement : MonoBehaviour
     InGameStatistics _statistics;
     Vector3 _lastPos;
 
+    bool _rollOnCooldown = false;
+
     void Start()
     {
         _body = GetComponent<Rigidbody>();
@@ -77,11 +79,13 @@ public class AnimationMovement : MonoBehaviour
 
     public void Roll()
     {
-        if( rolling || locked ) return;
+        if( rolling || locked || _rollOnCooldown ) return;
         
         animator.Play( "Armature|6_Roll" );
         rolling = true;
         this.Invoke( () => rolling = false, 0.3f );
+        _rollOnCooldown = true;
+        this.Invoke( () => _rollOnCooldown = false, 0.75f );
         // Debug.Log( "ROLL" );
     }
 
