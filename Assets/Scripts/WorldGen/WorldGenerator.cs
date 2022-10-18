@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WorldGenerator : MonoBehaviour
@@ -15,7 +13,11 @@ public class WorldGenerator : MonoBehaviour
     [ SerializeField ] int offMapThresholdX = 30;
     [ SerializeField ] int offMapThresholdY = 15;
 
+    Tile[ , ] _tileMap;
+    Node[ , ] _nodeMap;
+
     float _perlinSeed;
+    Level _currentLevel;
 
     public static WorldGenerator Instance { get; private set; }
     bool _generating;
@@ -37,16 +39,28 @@ public class WorldGenerator : MonoBehaviour
         }
     }
 
-    void Start() => StartCoroutine( Generate() );
+    void Start()
+    {
+        _currentLevel = new LevelGrasslands();
+        StartCoroutine( Generate() );
+    }
 
     IEnumerator Generate()
     {
         _generating = true;
-
-
+        
+        // InitMaps( _currentLevel.WorldSize() );
+        InitMaps( new Vector2Int( 600, 12 ) );
+        // _currentLevel.Generate( _tileMap );
+        
         yield return new WaitForSeconds( 2f );
         _generating = false;
-        yield break;
+    }
+
+    void InitMaps( Vector2Int size )
+    {
+        _tileMap = new Tile[ size.x, size.y ];
+        _nodeMap = new Node[ size.x, size.y ];
     }
 
     public bool OffMap( Vector3 pos )
