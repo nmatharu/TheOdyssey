@@ -516,10 +516,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5071565702856179879, guid: 84002c3ff0a5e9741a76eb698423eff0, type: 3}
+      propertyPath: notchesParent
+      value: 
+      objectReference: {fileID: 7794730186611631290}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84002c3ff0a5e9741a76eb698423eff0, type: 3}
 --- !u!224 &5287500267147216472 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1528026341080715652, guid: 84002c3ff0a5e9741a76eb698423eff0, type: 3}
+  m_PrefabInstance: {fileID: 6653042218654865372}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &7794730186611631290 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3492589238641865574, guid: 84002c3ff0a5e9741a76eb698423eff0, type: 3}
   m_PrefabInstance: {fileID: 6653042218654865372}
   m_PrefabAsset: {fileID: 0}

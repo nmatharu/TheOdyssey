@@ -230,7 +230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8729593036261750422, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
@@ -679,7 +679,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8729593036261750422, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
@@ -890,6 +890,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 56212838}
     m_Modifications:
+    - target: {fileID: 1943678445050425817, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
+      propertyPath: maxHp
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 8245649128297245740, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -3042,7 +3046,7 @@ MonoBehaviour:
   - {fileID: 883946077}
   projectiles: {fileID: 789896980}
   skullEnemy: {fileID: 2148079099040143359, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
-  spawnEnemies: 0
+  spawnEnemies: 1
 --- !u!4 &1900502002
 Transform:
   m_ObjectHideFlags: 0
