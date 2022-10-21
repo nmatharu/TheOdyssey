@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dark Grass
+  m_Name: TestPlaneBack 1
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -23,8 +23,8 @@ Material:
     m_TexEnvs:
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: 5d91e346b4b0f2c4486c24f4f0c20c65, type: 3}
-        m_Scale: {x: 0.5, y: 0.5}
-        m_Offset: {x: -0.35, y: 0.48}
+        m_Scale: {x: 125, y: 5}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -47,8 +47,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 5d91e346b4b0f2c4486c24f4f0c20c65, type: 3}
-        m_Scale: {x: 0.5, y: 0.5}
-        m_Offset: {x: -0.35, y: 0.48}
+        m_Scale: {x: 125, y: 5}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -80,7 +80,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
-    - _Blend: 1
+    - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -108,12 +108,12 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.13379069, g: 0.735849, b: 0, a: 1}
-    - _Color: {r: 0.13379069, g: 0.735849, b: 0, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _BaseColor: {r: 0.19683196, g: 0.49056602, b: 0, a: 1}
+    - _Color: {r: 0.19683196, g: 0.49056602, b: 0, a: 1}
+    - _EmissionColor: {r: 0.015686275, g: 0.03137255, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &188922898906291337
+--- !u!114 &1352810330156591370
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

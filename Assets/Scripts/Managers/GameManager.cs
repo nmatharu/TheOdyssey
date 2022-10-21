@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     // TEMP
     [ SerializeField ] GameObject skullEnemy;
+    [ SerializeField ] bool spawnEnemies = false;
     
     public static GameManager Instance { get; private set; }
     void Awake()
@@ -28,7 +25,7 @@ public class GameManager : MonoBehaviour
             // DontDestroyOnLoad( this );
         }
         
-        InvokeRepeating( nameof( SpawnSkull ), 2f, 12f );
+        InvokeRepeating( nameof( SpawnSkull ), 2f, 8f );
     }
 
     void Start()
@@ -38,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     void SpawnSkull()
     {
+        if(!spawnEnemies)   return;
         var maxX = playersArr.Max( p => p.transform.position.x );
         for( var i = 0; i < NumPlayers(); i++ )
         {
