@@ -6,6 +6,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [ SerializeField ] float maxHp = 30;
+    
     int _level;
     float _hp;
     Material _material;
@@ -13,12 +14,15 @@ public class Player : MonoBehaviour
     Vector2 _moveDir;
 
     AnimationMovement _animationMovement;
+    InteractPrompt _interactPrompt;
     
     void Start()
     {
         _hp = maxHp;
         _material = GetComponentInChildren<Renderer>().material;
         _animationMovement = GetComponent<AnimationMovement>();
+        _interactPrompt = GetComponentInChildren<InteractPrompt>();
+        Debug.Log( _interactPrompt == null );
     }
 
     void Update()
@@ -26,6 +30,11 @@ public class Player : MonoBehaviour
         if( Input.GetKeyDown( KeyCode.D ) )
         {
             TakeDamage( 5 );
+        }
+
+        if( Input.GetKeyDown( KeyCode.H ) )
+        {
+            _interactPrompt.SetInteractable( true, "PICK UP" );
         }
     }
 
