@@ -15,6 +15,11 @@ public class Player : MonoBehaviour
 
     AnimationMovement _animationMovement;
     InteractPrompt _interactPrompt;
+    PlayerMoves _playerMoves;
+
+    PlayerMoves.SpecialAttackType _specialAttack;
+
+    bool _inputDisabled = false;
     
     void Start()
     {
@@ -22,6 +27,8 @@ public class Player : MonoBehaviour
         _material = GetComponentInChildren<Renderer>().material;
         _animationMovement = GetComponent<AnimationMovement>();
         _interactPrompt = GetComponentInChildren<InteractPrompt>();
+        _playerMoves = GetComponent<PlayerMoves>();
+        _specialAttack = PlayerMoves.SpecialAttackType.Slash;
         Debug.Log( _interactPrompt == null );
     }
 
@@ -44,9 +51,23 @@ public class Player : MonoBehaviour
         _animationMovement.Move( v );
     }
     
-    public void LightAttack() => _animationMovement.LightAttack();
-    public void HeavyAttack() => _animationMovement.HeavyAttack();
-    public void Roll() => _animationMovement.Roll();
+    public void LightAttack()
+    {
+        _playerMoves.LightAttack();
+        _animationMovement.LightAttack();
+    }
+
+    public void SpecialAttack()
+    {
+        _playerMoves.SpecialAttack( _specialAttack );
+        _animationMovement.HeavyAttack();
+    }
+
+    public void Roll()
+    {
+        _playerMoves.Roll();
+        _animationMovement.Roll();
+    }
 
     public void TakeDamage( float dmg )
     {
@@ -73,5 +94,6 @@ public class Player : MonoBehaviour
     public float MaxHp() => maxHp;
     public float HpPct() => _hp / maxHp;
     public bool Rolling() => _animationMovement.Rolling();
+    public bool InputDisabled() => _inputDisabled;
 
 }
