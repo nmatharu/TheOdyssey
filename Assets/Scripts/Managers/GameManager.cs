@@ -14,6 +14,11 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] GameObject skullEnemy;
     [ SerializeField ] bool spawnEnemies = false;
 
+    [ SerializeField ] Transform damageNumbersParent;
+    [ SerializeField ] GameObject damageNumberPrefab;
+    [ SerializeField ] int damageNumberPoolSize = 100;
+    DamageNumber[] _damageNumberPool;
+
     public static GameManager Instance { get; private set; }
 
     void Awake()
@@ -29,6 +34,13 @@ public class GameManager : MonoBehaviour
         }
 
         InvokeRepeating( nameof( SpawnSkull ), 2f, 8f );
+
+        _damageNumberPool = new DamageNumber[ damageNumberPoolSize ];
+        for( var i = 0; i < damageNumberPoolSize; i++ )
+        {
+            _damageNumberPool[ i ] = Instantiate( damageNumberPrefab, damageNumbersParent ).GetComponent<DamageNumber>();
+            _damageNumberPool[ i ].gameObject.SetActive( false );
+        }
     }
 
     void Start()
@@ -59,6 +71,16 @@ public class GameManager : MonoBehaviour
     }
 
     public int NumPlayers() => playersArr.Count( p => !p.activeInHierarchy );
+
+    public void SpawnDamageNumber( Vector3 pos, int dmg, bool friendly )
+    {
+        foreach( var dn in _damageNumberPool )
+        {
+            if( dn.gameObject.activeInHierarchy )   continue;
+            dn.Play( pos, dmg, friendly );
+            return;
+        }
+    }
 
     public Transform Projectiles() => projectiles;
     public Transform Players() => players;

@@ -82,6 +82,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 20
+  spawnCost: 10
 --- !u!114 &4159721235228118989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,7 +98,7 @@ MonoBehaviour:
   speed: 3
   fireballPrefab: {fileID: 5059226689855004248, guid: 9ab3a8a70e5f3524dab909d0c35628b8, type: 3}
   mouthPos: {fileID: 3264562629823970017}
-  fireballFireRate: 2.5
+  fireballFireRate: 4
 --- !u!1 &5894882993014685724
 GameObject:
   m_ObjectHideFlags: 0

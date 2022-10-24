@@ -20,7 +20,7 @@ public class Skull : MonoBehaviour
     {
         _body = GetComponent<Rigidbody>();
         InvokeRepeating( nameof( RunPathfinding ), 0, 1f );
-        InvokeRepeating( nameof( FireFireball ), 1 + 2 * Random.value, fireballFireRate );
+        InvokeRepeating( nameof( FireFireball ), 1 + fireballFireRate * Random.value, fireballFireRate );
 
         _movementDirection = Quaternion.identity;
         _path = new Queue<Vector2Int>();

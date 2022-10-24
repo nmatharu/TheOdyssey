@@ -123,9 +123,12 @@ public class Player : MonoBehaviour
     public void TakeDamage( float dmg )
     {
         StartCoroutine( FlashMaterial() );
-        _statistics.TakeDamage( dmg );
+
+        var d = Mathf.RoundToInt( dmg );
+        GameManager.Instance.SpawnDamageNumber( transform.position, d, false );
+        _statistics.TakeDamage( d );
         
-        _hp -= dmg;
+        _hp -= d;
         if( _hp <= 0 )
             Die();
     }
@@ -153,11 +156,11 @@ public class Player : MonoBehaviour
     {
         _statistics.Die();
         dead = true;
-        gameObject.SetActive( false );
+        // gameObject.SetActive( false );
     }
 
     public float MaxHp() => maxHp;
     public float HpPct() => _hp / maxHp;
-    public Animator Ator() => _animator;
+    public Animator Mator() => _animator;
     public InGameStatistics Statistics() => _statistics;
 }

@@ -6,13 +6,23 @@ public class PlayerMoves : MonoBehaviour
 {
     public enum SpecialAttackType
     {
-        Slash
+        Slash,
+        Dash,       // Dashing forward, execute rectangle slash
+        Double,     // Fast double slash, kites backwards
+        Throw,      // Throw and retrieve sword
+        Vortex,     // Sword vortex
+        Stack,      // Big stacking overhead slash
+        Fragment    // Throw blade fragment
     }
 
     [ SerializeField ] int lightAttackFramesLock = 12;
     [ SerializeField ] int lightAttackActiveFrame = 2;
+    [ SerializeField ] float lightAttackSlashRadius = 2f;
+    [ SerializeField ] Vector3 lightStabRectBounds = new( 2f, 1f, 2f ); 
+    
     [ SerializeField ] int slashAttackFramesLock = 30;
     [ SerializeField ] int slashAttackActiveFrame = 16;
+    [ SerializeField ] float slashAttackRadius = 3f;
 
     // The amount of time to wait since the last swing before 
     // we reset the swing sequence to the first slash again
@@ -43,14 +53,26 @@ public class PlayerMoves : MonoBehaviour
 
     public void LightAttack()
     {
-        if( _player.rolling || _player.locked ) return;
+        if( _player.dead || _player.rolling || _player.locked ) return;
 
+        if( _lightSwingIndex != 2 ) // Left/Right Slashes
+        {
+            DamageOnActiveFrame( 
+                Physics.OverlapSphere( transform.position + transform.forward / 2f, 
+                    lightAttackSlashRadius ), lightAttackDmg, lightAttackActiveFrame );
+        }
+        else // Straight stab
+        {
+            DamageOnActiveFrame( 
+                Physics.OverlapBox( transform.position + transform.forward, 
+                    lightStabRectBounds ), lightAttackDmg3, lightAttackActiveFrame );
+        }
+        
         var swing = _aSwings[ _lightSwingIndex ];
-        _lightSwingIndex = ( _lightSwingIndex + 1 ) % 3;
+        _lightSwingIndex = ( _lightSwingIndex + 1 ) % _aSwings.Length;
 
-        _player.Ator().Play( swing );
+        _player.Mator().Play( swing );
         LockFor( lightAttackFramesLock );
-        DamageOnActiveFrame( Physics.OverlapSphere( transform.position, 2f ), lightAttackDmg, lightAttackActiveFrame );
 
         CancelInvoke( nameof( ResetLightAttackSequence ) );
         Invoke( nameof( ResetLightAttackSequence ), firstSwingDelay );
@@ -60,6 +82,8 @@ public class PlayerMoves : MonoBehaviour
 
     public void SpecialAttack( SpecialAttackType type )
     {
+        if( _player.dead )  return;
+        
         switch( type )
         {
             case SpecialAttackType.Slash:
@@ -74,16 +98,16 @@ public class PlayerMoves : MonoBehaviour
     {
         if( _player.rolling || _player.locked ) return;
 
-        _player.Ator().Play( ASlash );
+        _player.Mator().Play( ASlash );
         LockFor( slashAttackFramesLock );
         DamageOnActiveFrame( Physics.OverlapSphere( transform.position, 3f ), slashAttackDmg, slashAttackActiveFrame );
     }
 
     public void Roll()
     {
-        if( _player.rolling || _player.locked || _player.rollOnCd ) return;
+        if( _player.dead || _player.rolling || _player.locked || _player.rollOnCd ) return;
 
-        _player.Ator().Play( ARoll );
+        _player.Mator().Play( ARoll );
 
         _player.rolling = true;
         _player.rollOnCd = true;
@@ -104,11 +128,21 @@ public class PlayerMoves : MonoBehaviour
         {
             foreach( var c in colliders )
             {
-                if( c.GetComponent<Enemy>() != null )
+                if( _player.dead )  return;
+
+                if( c == null ) continue;
+                var e = c.GetComponent<Enemy>();
+                if( e != null )
                 {
-                    c.GetComponent<Enemy>().TakeDamage( _player, damage );
+                    e.TakeDamage( _player, damage );
                 }
             }
         }, frames60 / 60f );
+    }
+
+    void OnDrawGizmos()
+    {
+        // Gizmos.DrawWireCube( transform.position + transform.forward, lightStabRectBounds * 2f );
+        // Gizmos.DrawWireSphere( transform.position + transform.forward / 2f, 2 );
     }
 }

@@ -7655,6 +7655,8 @@ MonoBehaviour:
   maxHp: 30
   rollSpeedMultiplier: 1.5
   speed: 8
+  rollDuration: 0.3
+  rollCooldown: 1
   swordPfx: {fileID: 2603393559357194246}
   inputDisabled: 0
   dead: 0
@@ -7662,7 +7664,7 @@ MonoBehaviour:
   locked: 0
   stunned: 0
   weaponless: 0
-  rollOnCooldown: 0
+  rollOnCd: 0
 --- !u!114 &6841069964949934039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7675,6 +7677,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a3ea6c1ee5eff4dbe2b33745ad78f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightAttackFramesLock: 12
+  lightAttackActiveFrame: 2
+  lightAttackSlashRadius: 2
+  lightStabRectBounds: {x: 2, y: 1, z: 2}
+  slashAttackFramesLock: 30
+  slashAttackActiveFrame: 16
+  slashAttackRadius: 3
+  firstSwingDelay: 0.75
+  lightAttackDmg: 3
+  lightAttackDmg3: 5
+  slashAttackDmg: 8
 --- !u!1 &8905673122864534027
 GameObject:
   m_ObjectHideFlags: 0

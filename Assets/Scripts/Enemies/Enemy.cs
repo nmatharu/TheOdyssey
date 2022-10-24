@@ -22,8 +22,10 @@ public class Enemy : MonoBehaviour
     public void TakeDamage( Player p, float dmg )
     {
         StartCoroutine( FlashMaterial() );
-        
-        _hp -= dmg;
+
+        var d = Mathf.RoundToInt( dmg );
+        _hp -= d;
+        GameManager.Instance.SpawnDamageNumber( transform.position, d, true );
         p.Statistics().DealDamage( dmg );
         
         if( _hp <= 0 )
