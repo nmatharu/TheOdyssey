@@ -22,27 +22,27 @@ public class PlayerControls : MonoBehaviour
 
     public void Move( InputAction.CallbackContext context )
     {
-        if( _player.InputDisabled() ) return;
+        if( _player.inputDisabled ) return;
         _player.InputMovement( context.ReadValue<Vector2>() );
     }
 
     public void Attack1( InputAction.CallbackContext context )
     {
-        if( _player.InputDisabled() ) return;
+        if( _player.inputDisabled ) return;
         if( context.action.triggered )
             _player.LightAttack();
     }
 
     public void Attack2( InputAction.CallbackContext context )
     {
-        if( _player.InputDisabled() ) return;
+        if( _player.inputDisabled ) return;
         if( context.action.triggered )
             _player.SpecialAttack();
     }
 
     public void Roll( InputAction.CallbackContext context )
     {
-        if( _player.InputDisabled() ) return;
+        if( _player.inputDisabled ) return;
         if( context.action.triggered )
             _player.Roll();
     }

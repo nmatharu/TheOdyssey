@@ -1,5 +1,7 @@
+using System;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,8 +13,9 @@ public class GameManager : MonoBehaviour
     // TEMP
     [ SerializeField ] GameObject skullEnemy;
     [ SerializeField ] bool spawnEnemies = false;
-    
+
     public static GameManager Instance { get; private set; }
+
     void Awake()
     {
         if( Instance != null && Instance != this )
@@ -24,25 +27,28 @@ public class GameManager : MonoBehaviour
             Instance = this;
             // DontDestroyOnLoad( this );
         }
-        
+
         InvokeRepeating( nameof( SpawnSkull ), 2f, 8f );
     }
 
     void Start()
     {
-        
     }
 
     void SpawnSkull()
     {
-        if(!spawnEnemies)   return;
+        if( !spawnEnemies ) return;
         var maxX = playersArr.Max( p => p.transform.position.x );
         for( var i = 0; i < NumPlayers(); i++ )
         {
-            Instantiate( skullEnemy, new Vector3( maxX + 30f, 0, Random.Range( 2, 20 ) ), 
+            Instantiate( skullEnemy, new Vector3( maxX + 30f, 0, Random.Range( 2, 20 ) ),
                 Quaternion.identity, enemies );
         }
-        
+    }
+
+    public void AwardGold( int spawnCost )
+    {
+        // Award gold to all players based on the spawn cost of the killed enemy
     }
 
     // This implementation is for testing purposes
@@ -52,7 +58,7 @@ public class GameManager : MonoBehaviour
         return playersArr[ playerId ];
     }
 
-    public int NumPlayers() => playersArr.Count( p => p.activeInHierarchy );
+    public int NumPlayers() => playersArr.Count( p => !p.activeInHierarchy );
 
     public Transform Projectiles() => projectiles;
     public Transform Players() => players;

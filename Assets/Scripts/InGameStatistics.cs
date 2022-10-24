@@ -10,7 +10,7 @@ public class InGameStatistics
     float _mostDamageDealt;
     float _damageTaken;
     int _highestLevel;
-    int _goldCollected;
+    float _goldCollected;
 
     public void AliveForFixedTimeStep() => _timeAliveTimeSteps++;
 
@@ -29,5 +29,5 @@ public class InGameStatistics
         if( level > _highestLevel )
             _highestLevel = level;
     }
-    public void CollectGold( int gold ) => _goldCollected += gold;
+    public void CollectGold( float gold ) => _goldCollected += gold;
 }

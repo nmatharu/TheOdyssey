@@ -6,6 +6,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [ SerializeField ] float maxHp = 20;
+    [ SerializeField ] int spawnCost = 10;
+    
     int _level;
     float _hp;
     Material _material;
@@ -17,13 +19,19 @@ public class Enemy : MonoBehaviour
     }
 
     public void SetLevel( int lvl ) => _level = lvl;
-    public void TakeDamage( float dmg )
+    public void TakeDamage( Player p, float dmg )
     {
         StartCoroutine( FlashMaterial() );
         
         _hp -= dmg;
+        p.Statistics().DealDamage( dmg );
+        
         if( _hp <= 0 )
+        {
+            p.Statistics().KillEnemy();
+            GameManager.Instance.AwardGold( spawnCost );
             Die();
+        }
     }
 
     IEnumerator FlashMaterial()

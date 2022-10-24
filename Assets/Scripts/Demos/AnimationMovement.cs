@@ -16,6 +16,8 @@ public class AnimationMovement : MonoBehaviour
 
     Rigidbody _body;
     Animator _animator;
+    Player _player;
+    
     static Vector3 cameraUp;
     bool locked = false;
     bool rolling = false;
@@ -35,6 +37,7 @@ public class AnimationMovement : MonoBehaviour
     {
         _body = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
+        _player = GetComponent<Player>();
 
         var fwd = Camera.main.transform.forward;
         cameraUp = new Vector3( fwd.x, 0, fwd.z );
@@ -180,7 +183,7 @@ public class AnimationMovement : MonoBehaviour
                 {
                     if( c.GetComponent<Enemy>() != null )
                     {
-                        c.GetComponent<Enemy>().TakeDamage( 4 );
+                        c.GetComponent<Enemy>().TakeDamage( _player, 4 );
                     }
                 }
             }
@@ -226,7 +229,7 @@ public class AnimationMovement : MonoBehaviour
                     {
                         if( c.GetComponent<Enemy>() != null )
                         {
-                            c.GetComponent<Enemy>().TakeDamage( 7 );
+                            c.GetComponent<Enemy>().TakeDamage( _player, 7 );
                         }
                     }
 
