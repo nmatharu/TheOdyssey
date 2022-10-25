@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 5387379324230839301}
   - component: {fileID: 7174401585336810467}
   - component: {fileID: 5071565702856179879}
+  - component: {fileID: 9222422866617839388}
   m_Layer: 5
   m_Name: StatusBar
   m_TagString: Untagged
@@ -139,7 +140,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!114 &5387379324230839301
 MonoBehaviour:
@@ -192,6 +193,20 @@ MonoBehaviour:
   minNotchWidth: 0.04
   maxNotchWidthThreshold: 50
   minNotchWidthThreshold: 200
+--- !u!114 &9222422866617839388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386623593373832697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e732dc51b9868b141a521665d981c0e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  desiredUIComparison: 8
+  uiElementsToApplyTo: []
 --- !u!1 &2833013248104089638
 GameObject:
   m_ObjectHideFlags: 0
