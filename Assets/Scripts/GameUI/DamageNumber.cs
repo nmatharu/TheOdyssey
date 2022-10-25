@@ -22,14 +22,12 @@ public class DamageNumber : MonoBehaviour
 
     IEnumerator FloatAndFade()
     {
-        Debug.Log( "Executing..." );
-
         var elapsed = 0f;
         var wait = new WaitForEndOfFrame();
         while( elapsed < floatDuration )
         {
             transform.position += Vector3.up * ( Time.deltaTime * floatSpeed );
-            text.color = new Color( 0.5f, 0.5f, 0.5f, 1 - elapsed / floatDuration );
+            text.color = new Color( 1f, 1f, 1f, 1 - elapsed / floatDuration );
             elapsed += Time.deltaTime;
             yield return wait;
         }
