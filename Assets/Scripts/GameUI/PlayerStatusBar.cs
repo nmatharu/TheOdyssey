@@ -9,7 +9,8 @@ public class PlayerStatusBar : MonoBehaviour
     [ SerializeField ] TextMeshProUGUI level;
     [ SerializeField ] Image hpBar;
     [ SerializeField ] Image hpFollowBar;
-
+    [ SerializeField ] Image rollCdBar;
+    
     [ SerializeField ] Transform notchesParent;
     [ SerializeField ] GameObject notch;
     [ SerializeField ] int notchDivision = 10;
@@ -66,5 +67,22 @@ public class PlayerStatusBar : MonoBehaviour
             image.rectTransform.anchoredPosition = 
                 new Vector3( hp / _maxHp * _maxHpBarWidth, 0, 0 );
         }
+    }
+
+    public void SetRollCdBar( float rollCd ) => StartCoroutine( RollCdBarAnimate( rollCd ) );
+
+    IEnumerator RollCdBarAnimate( float rollCd )
+    {
+        var height = rollCdBar.rectTransform.sizeDelta.y;
+        var remaining = rollCd;
+        var wait = new WaitForEndOfFrame();
+        while( remaining > 0 )
+        {
+            rollCdBar.rectTransform.sizeDelta = new Vector2( remaining * 2f, height );
+            remaining -= Time.deltaTime;
+            yield return wait;
+        }
+
+        rollCdBar.rectTransform.sizeDelta = new Vector2( 0, height );
     }
 }

@@ -29,7 +29,7 @@ public class Skull : MonoBehaviour
     void FixedUpdate()
     {
         var pos = transform.position;
-        if( AnimationMovement.WhichTileAmIOn( pos ) == AnimationMovement.WhichTileAmIOn( _currentTargetTile ) &&
+        if( WorldGenerator.WorldPosToCoords( pos ) == WorldGenerator.WorldPosToCoords( _currentTargetTile ) &&
             _path.Count > 0 )
         {
             _currentTargetTile = WorldGenerator.CoordsToWorldPos( _path.Dequeue() );
@@ -72,8 +72,8 @@ public class Skull : MonoBehaviour
 
     void PathFindToTarget()
     {
-        var startXY = AnimationMovement.WhichTileAmIOn( transform.position );
-        var targetXY = AnimationMovement.WhichTileAmIOn( _targetT.position );
+        var startXY = WorldGenerator.WorldPosToCoords( transform.position );
+        var targetXY = WorldGenerator.WorldPosToCoords( _targetT.position );
 
         var pathSegment = new List<AStarNode>();
         var node = WorldGenDemo.PathFind( startXY, targetXY );

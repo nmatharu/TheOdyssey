@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44839567, g: 0.49843925, b: 0.57578135, a: 1}
+  m_IndirectSpecularColor: {r: 0.44824904, g: 0.49827605, b: 0.57558316, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -921,22 +921,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 56212838}
     m_Modifications:
-    - target: {fileID: 1943678445050425817, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
-      propertyPath: maxHp
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 6841069964949934039, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
-      propertyPath: lightStabRectBounds.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6841069964949934039, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
-      propertyPath: lightStabRectBounds.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6841069964949934039, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
-      propertyPath: lightStabRectBounds.z
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 8245649128297245740, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -981,16 +965,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8495151521538178678, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8729593036261750422, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8495151521538178678, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
 --- !u!1 &789896979
 GameObject:
@@ -1706,7 +1685,6 @@ GameObject:
   - component: {fileID: 1117885865}
   - component: {fileID: 1117885864}
   - component: {fileID: 1117885863}
-  - component: {fileID: 1117885868}
   - component: {fileID: 1117885867}
   m_Layer: 5
   m_Name: ScreenSpaceUI
@@ -1790,7 +1768,7 @@ RectTransform:
   m_Children:
   - {fileID: 1419242075}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1798,18 +1776,6 @@ RectTransform:
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1117885867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117885862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5af15c13781fb8545a4f09e79a9b96f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1117885868
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3023,7 +2989,7 @@ Transform:
   m_Children:
   - {fileID: 428142856}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1718756871
 GameObject:
@@ -3059,7 +3025,7 @@ Transform:
   - {fileID: 1016368625}
   - {fileID: 945615542}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1718756874
 MonoBehaviour:
@@ -3122,7 +3088,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1900502000
 GameObject:

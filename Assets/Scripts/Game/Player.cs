@@ -86,7 +86,7 @@ public class Player : MonoBehaviour
         if( dead )  return;
         if( rolling )
         {
-            _body.velocity = _moveDir * ( rollSpeedMultiplier * speed );
+            _body.velocity = transform.forward * ( rollSpeedMultiplier * speed );
             return;
         }
 
@@ -136,9 +136,9 @@ public class Player : MonoBehaviour
     IEnumerator FlashMaterial()
     {
         var delay = new WaitForFixedUpdate();
-        for( var i = 0f; i < 1; i += 0.1f )
+        for( var i = 0f; i < 1; i += 0.05f )
         {
-            _material.color = new Color( i, i, i );
+            _material.color = new Color( 1f, i, i );
             yield return delay;
         }
         _material.color = Color.white;

@@ -33,6 +33,7 @@ public class PlayerMoves : MonoBehaviour
     [ SerializeField ] int slashAttackDmg = 8;
 
     Player _player;
+    PlayerStatusBar _statusBar;
 
     // 0 - slash, 1 - slash, 2 - stab
     int _lightSwingIndex = 0;
@@ -48,6 +49,7 @@ public class PlayerMoves : MonoBehaviour
     void Start()
     {
         _player = GetComponent<Player>();
+        _statusBar = GetComponentInChildren<PlayerStatusBar>();
         _aSwings = new[] { ASwingA, ASwingB, ASwingC };
     }
 
@@ -114,6 +116,7 @@ public class PlayerMoves : MonoBehaviour
 
         this.Invoke( () => _player.rolling = false, _player.rollDuration );
         this.Invoke( () => _player.rollOnCd = false, _player.rollCooldown );
+        _statusBar.SetRollCdBar( _player.rollCooldown );
     }
 
     void LockFor( float frames60 )
