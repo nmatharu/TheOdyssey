@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,6 +19,8 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] GameObject damageNumberPrefab;
     [ SerializeField ] int damageNumberPoolSize = 100;
     DamageNumber[] _damageNumberPool;
+
+    [ SerializeField ] TextMeshProUGUI fpsDisplay;
 
     public static GameManager Instance { get; private set; }
 
@@ -45,6 +48,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        InvokeRepeating( nameof( UpdateFpsDisplay ), 0f, 0.1f );
     }
 
     void SpawnSkull()
@@ -81,6 +85,8 @@ public class GameManager : MonoBehaviour
             return;
         }
     }
+
+    void UpdateFpsDisplay() => fpsDisplay.text = (int) ( 1f / Time.unscaledDeltaTime ) + " FPS";
 
     public Transform Projectiles() => projectiles;
     public Transform Players() => players;

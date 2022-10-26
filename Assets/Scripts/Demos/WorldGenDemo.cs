@@ -157,14 +157,16 @@ public class WorldGenDemo : MonoBehaviour
             {
                 var i = GetTileIndexAt( x, y );
                 DemoTile.TileTop tileTop = DemoTile.TileTop.None;
-                if( i is 0 or 1 && Random.value < 0.01f )
-                {
-                    Instantiate( obstacles[ 0 ], new Vector3( x * 2, 0, y * 2 ),
-                        Quaternion.identity, tilesParent );
-                    tileTop = DemoTile.TileTop.Rock;
-                }
+                
+                // if( i is 0 or 1 && Random.value < 0.01f )
+                // {
+                //     Instantiate( obstacles[ 0 ], new Vector3( x * 2, 0, y * 2 ),
+                //         Quaternion.identity, tilesParent );
+                //     tileTop = DemoTile.TileTop.Rock;
+                // }
 
                 Tiles[ x, y ] = new DemoTile( x, y, i, tileTop );
+                
                 TileIndices[ x, y ] = Instantiate( tiles[ i ], new Vector3( x * 2, 0, y * 2 ),
                     Quaternion.identity, tilesParent );
             }
@@ -181,7 +183,7 @@ public class WorldGenDemo : MonoBehaviour
             case < 0.2f:
                 return 3;
             case < 0.25f:
-                return 2;
+                return 1;
             case < 0.6f:
                 return 1;
             default:
