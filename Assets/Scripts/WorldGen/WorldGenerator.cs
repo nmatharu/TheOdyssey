@@ -119,6 +119,7 @@ public class WorldGenerator : MonoBehaviour
                 {
                     Instantiate( genObjects[ Random.Range( 0, 4 ) ], 
                         CoordsToWorldPos( x, y ), JBB.RandomYRot(), blocksParent );
+                    _tileMap[ x, y ].HasSurfaceObject = true;
                 }
             }
         }

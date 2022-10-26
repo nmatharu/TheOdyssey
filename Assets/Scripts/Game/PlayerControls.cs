@@ -26,6 +26,13 @@ public class PlayerControls : MonoBehaviour
         _player.InputMovement( context.ReadValue<Vector2>() );
     }
 
+    public void Interact( InputAction.CallbackContext context )
+    {
+        if( _player.inputDisabled ) return;
+        if( context.action.triggered )
+            _player.Interact();
+    }
+
     public void Attack1( InputAction.CallbackContext context )
     {
         if( _player.inputDisabled ) return;

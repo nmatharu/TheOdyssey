@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -28,6 +29,9 @@ public class Player : MonoBehaviour
 
     PlayerMoves.SpecialAttackType _specialAttack;
 
+    HashSet<Interactable> _interactables;
+    Interactable _closestInteractable;
+    
     InGameStatistics _statistics;
     
     // For sequences like the intro run-in and outro run-out where we don't want the player to control
@@ -62,6 +66,7 @@ public class Player : MonoBehaviour
         _body = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
 
+        _interactables = new HashSet<Interactable>();
         _statistics = new InGameStatistics();
         
         if( Camera.main == null ) return;
@@ -80,6 +85,9 @@ public class Player : MonoBehaviour
         {
             _interactPrompt.SetInteractable( true, "PICK UP" );
         }
+
+        FindClosestInteractable();
+        UpdateInteractablePrompt();
     }
 
     void FixedUpdate()
@@ -152,7 +160,53 @@ public class Player : MonoBehaviour
         var v3Dir = Quaternion.Euler( 0, rotDegrees, 0 ) * _cameraUp;
         return v3Dir.normalized;
     }
+
+    public void AddInteractable( Interactable interactable ) => _interactables.Add( interactable );
+    public void RemoveInteractable( Interactable interactable ) => _interactables.Remove( interactable );
     
+    void FindClosestInteractable()
+    {
+        var pos = transform.position;
+        
+        Interactable closest = null;
+        var closestDSqr = Mathf.Infinity;
+        foreach( var interactable in _interactables )
+        {
+            if( closest == null )
+            {
+                closest = interactable;
+                closestDSqr = JBB.DistXZSquared( pos, interactable.transform.position );
+                continue;
+            }
+            
+            var dSqr = JBB.DistXZSquared( pos, interactable.transform.position );
+            if( dSqr < closestDSqr )
+            {
+                closest = interactable;
+                closestDSqr = dSqr;
+            }
+        }
+
+        _closestInteractable = closest;
+    }
+
+    void UpdateInteractablePrompt()
+    {
+        if( _closestInteractable == null )
+        {
+            _interactPrompt.Hide();
+            return;
+        }
+        
+        _interactPrompt.SetInteractable( false, _closestInteractable.InteractPrompt() );
+    }
+    
+    public void Interact()
+    {
+        if( _closestInteractable != null )
+            _closestInteractable.Interact();
+    }
+
     void Die()
     {
         _statistics.Die();

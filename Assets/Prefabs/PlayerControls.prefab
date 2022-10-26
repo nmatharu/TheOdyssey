@@ -87,7 +87,19 @@ MonoBehaviour:
     m_ActionId: ab0152f0-0cfe-4147-8c10-959ca7b96717
     m_ActionName: InGame/Movement[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow,/XInputControllerWindows/leftStick,/XInputControllerWindows/dpad]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3841852434005081493}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: Interact
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 565f59ca-ac5d-4a57-a1e0-00ac672cc41f
     m_ActionName: InGame/Interact[/Keyboard/e,/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
