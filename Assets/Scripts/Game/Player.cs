@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     // For sequences like the intro run-in and outro run-out where we don't want the player to control
     public bool inputDisabled = false;
 
+    public bool showOnCamera = true;    
     public bool dead = false;
 
     public bool rolling = false;    

@@ -2,9 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public static class JBB
 {
+    // https://stackoverflow.com/a/833477
+    public static bool In<T>( this T source, params T[] list )
+    {
+        if( null == source ) throw new ArgumentNullException( nameof( source ) );
+        return ( (IList) list ).Contains( source );
+    }
+
     public static void Invoke( this MonoBehaviour mb, Action f, float delay ) =>
         mb.StartCoroutine( InvokeRoutine( f, delay ) );
 
@@ -33,6 +41,7 @@ public static class JBB
         {
             outStr += item + " ";
         }
+
         Debug.Log( outStr + "]" );
     }
 
@@ -65,7 +74,10 @@ public static class JBB
             return Mathf.Abs( a.x - b.x ) + Mathf.Abs( a.y - b.y );
         }
     }
-    
+
+    public static Quaternion Random90Rot() => Quaternion.Euler( new Vector3( 0, 90 * Random.Range( 0, 4 ), 0 ) );
+    public static Quaternion RandomYRot() => Quaternion.Euler( new Vector3( 0, Random.value * 360f, 0 ) );
+
     public static float DistXZSquared( Vector3 p1, Vector3 p2 )
     {
         var dX = p2.x - p1.x;

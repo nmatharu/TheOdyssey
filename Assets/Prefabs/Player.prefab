@@ -9023,6 +9023,7 @@ MonoBehaviour:
   rollCooldown: 1.3
   swordPfx: {fileID: 2603393559357194246}
   inputDisabled: 0
+  showOnCamera: 1
   dead: 0
   rolling: 0
   locked: 0

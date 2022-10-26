@@ -102,7 +102,8 @@ public class PlayerMoves : MonoBehaviour
 
         _player.Mator().Play( ASlash );
         LockFor( slashAttackFramesLock );
-        DamageOnActiveFrame( Physics.OverlapSphere( transform.position, 3f ), slashAttackDmg, slashAttackActiveFrame );
+        DamageOnActiveFrame( Physics.OverlapSphere( transform.position, 
+            slashAttackRadius ), slashAttackDmg, slashAttackActiveFrame );
     }
 
     public void Roll()
