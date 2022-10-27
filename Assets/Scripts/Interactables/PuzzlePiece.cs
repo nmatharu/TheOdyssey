@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PuzzlePiece : Interactable
 {
-
-    public override void Interact() => Debug.Log( "Interact!" );
+    [ SerializeField ] GameObject puzzleLight;
+    public override void Interact()
+    {
+        puzzleLight.SetActive( !puzzleLight.activeInHierarchy );
+        Debug.Log( "Interact!" );
+    }
 }

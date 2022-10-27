@@ -480,7 +480,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SPLASH SCREEN
+  m_text: LOADING
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e6beedf509cece04ba2fa61f617beec1, type: 2}
   m_sharedMaterial: {fileID: -724985028701271889, guid: e6beedf509cece04ba2fa61f617beec1, type: 2}
