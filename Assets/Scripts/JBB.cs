@@ -84,4 +84,15 @@ public static class JBB
         var dZ = p2.z - p1.z;
         return dX * dX + dZ * dZ;
     }
+
+    public static void Shuffle<T>( this IList<T> list )
+    {
+        var n = list.Count;
+        while( n > 1 )
+        {
+            n--;
+            var k = Random.Range( 0, n + 1 );
+            ( list[ k ], list[ n ] ) = ( list[ n ], list[ k ] );
+        }
+    }
 }

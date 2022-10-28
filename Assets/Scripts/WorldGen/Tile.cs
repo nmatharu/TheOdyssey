@@ -10,7 +10,7 @@ public class Tile
 
     // Index of this gameObject in WorldGenIndex.cs
     public int GenIndex;
-    
+
     // Grid space
     public int X;
     public int Y;
@@ -21,4 +21,18 @@ public class Tile
     // Blocks like water, have colliders for players that they cannot walk through but
     // flying enemies will be able to traverse-- affects A* pathfinding of those enemies
     public bool EmptyCollider = false;
+
+    public Tile()
+    {
+    }
+
+    public Tile( GameObject o, int x, int y, int i, Vector3 pos, bool emptyCollider )
+    {
+        Ground = o;
+        X = x;
+        Y = y;
+        GenIndex = i;
+        Position = pos;
+        EmptyCollider = emptyCollider;
+    }
 }

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WorldGenerator : MonoBehaviour
@@ -68,25 +69,50 @@ public class WorldGenerator : MonoBehaviour
     {
         _perlinSeed = Random.value;
 
-        // Generate base blocks
         for( var x = 0; x < worldSizeX; x++ )
         {
             for( var y = 0; y < worldSizeY; y++ )
             {
-                var i = GrasslandsNoiseMap( x, y );
-                var o = Instantiate( genBlocks[ i ],
-                    CoordsToWorldPos( x, y ), JBB.Random90Rot(), blocksParent );
-                _tileMap[ x, y ] = new Tile
-                {
-                    Ground = o,
-                    X = x,
-                    Y = y,
-                    GenIndex = i,
-                    Position = CoordsToWorldPos( x, y ),
-                    EmptyCollider = i == 0
-                };
+                var o = Instantiate( genBlocks[ WorldGenIndex.BlockGrassDark ], CoordsToWorldPos( x, y ), 
+                    JBB.Random90Rot(), blocksParent );
+                _tileMap[ x, y ] = new Tile( o, x, y, WorldGenIndex.BlockGrassDark, CoordsToWorldPos( x, y ), false );
             }
         }
+
+        for( var x = 0; x < worldSizeX; x++ )
+        {
+            for( var y = 0; y < worldSizeY; y++ )
+            {
+                if( GrasslandsNoiseMap( x, y ) == WorldGenIndex.BlockEmpty )
+                {
+                    Destroy( _tileMap[ x, y ].Ground );
+                    _tileMap[ x, y ].Ground = Instantiate( genBlocks[ WorldGenIndex.BlockEmpty ], 
+                        CoordsToWorldPos( x, y ), Quaternion.identity, blocksParent );
+                    _tileMap[ x, y ].GenIndex = WorldGenIndex.BlockEmpty;
+                    _tileMap[ x, y ].EmptyCollider = true;
+                }
+            }
+        }
+        
+        // // Generate base blocks
+        // for( var x = 0; x < worldSizeX; x++ )
+        // {
+        //     for( var y = 0; y < worldSizeY; y++ )
+        //     {
+        //         var i = GrasslandsNoiseMap( x, y );
+        //         var o = Instantiate( genBlocks[ i ],
+        //             CoordsToWorldPos( x, y ), JBB.Random90Rot(), blocksParent );
+        //         _tileMap[ x, y ] = new Tile
+        //         {
+        //             Ground = o,
+        //             X = x,
+        //             Y = y,
+        //             GenIndex = i,
+        //             Position = CoordsToWorldPos( x, y ),
+        //             EmptyCollider = i == 0
+        //         };
+        //     }
+        // }
         
         // Duplicate top row
         for( var x = 0; x < worldSizeX; x++ )
@@ -94,14 +120,8 @@ public class WorldGenerator : MonoBehaviour
             var toCopy = _tileMap[ x, worldSizeY - 1 ];
             var o = Instantiate( genBlocks[ toCopy.GenIndex ], 
                 CoordsToWorldPos( x, worldSizeY ), JBB.Random90Rot(), blocksParent );
-            _tileMap[ x, worldSizeY ] = new Tile
-            {
-                Ground = o,
-                X = x,
-                Y = worldSizeY,
-                GenIndex = toCopy.GenIndex,
-                Position = toCopy.Position
-            };
+            _tileMap[ x, worldSizeY ] = new Tile( o, x, worldSizeY, toCopy.GenIndex, CoordsToWorldPos( x, worldSizeY ),
+                toCopy.EmptyCollider );
         }
 
         // generate npc stuff
@@ -109,21 +129,49 @@ public class WorldGenerator : MonoBehaviour
         // generate trees n stuff in the gaps
         
         // find way to put consistent gaps between objects
-        for( var x = 0; x < worldSizeX; x++ )
+        // for( var x = 0; x < worldSizeX; x++ )
+        // {
+        //     for( var y = 1; y < worldSizeY; y++ )
+        //     {
+        //         if( x < 20 && y > 4 && y < worldSizeY - 4 ) continue;
+        //         
+        //         if( !_tileMap[ x, y ].EmptyCollider && Random.value < 0.025f )
+        //         {
+        //             Instantiate( genObjects[ Random.Range( 0, 4 ) ], 
+        //                 CoordsToWorldPos( x, y ), JBB.RandomYRot(), blocksParent );
+        //             _tileMap[ x, y ].HasSurfaceObject = true;
+        //         }
+        //     }
+        // }
+        
+        foreach( var x in new[] { 20, 100, 300 } )
         {
-            for( var y = 1; y < worldSizeY; y++ )
+            var size = 6;
+            var pieces = new List<GameObject>();
+            var startingPos = worldSizeY / 2 - size / 2;
+            
+            for( var y = 0; y < worldSizeY; y++ )
             {
-                if( x < 20 && y > 4 && y < worldSizeY - 4 ) continue;
-                
-                if( !_tileMap[ x, y ].EmptyCollider && Random.value < 0.025f )
+                _tileMap[ x, y ].HasSurfaceObject = true;
+
+                if( y >= startingPos && y < startingPos + size )
                 {
-                    Instantiate( genObjects[ Random.Range( 0, 4 ) ], 
-                        CoordsToWorldPos( x, y ), JBB.RandomYRot(), blocksParent );
-                    _tileMap[ x, y ].HasSurfaceObject = true;
+                    var o = Instantiate( genObjects[ WorldGenIndex.LinkPuzzle ], 
+                        CoordsToWorldPos( x, y ), Quaternion.identity, objsParent );
+                    pieces.Add( o );
+                }
+                else
+                {
+                    Instantiate( genObjects[ WorldGenIndex.LinkPuzzleFence ], 
+                        CoordsToWorldPos( x, y ), Quaternion.identity, objsParent );
                 }
             }
+
+            var puzzle = new LinkPuzzle( pieces, true );
+            
+            break;
         }
-        
+
         // puts chests, campfires, etc near objects
         
         // GoofyFun();
@@ -131,24 +179,27 @@ public class WorldGenerator : MonoBehaviour
 
     void GoofyFun()
     {
-        for( var d = 0; d < 32; d++ )
+        for( var d = 0; d < 40; d++ )
         {
             for( var x = d; x >= 0; x-- )
             {
                 var y = d - x;
-                if( y > worldSizeY + 1 )
-                    break;
+                if( y > worldSizeY )
+                    continue;
 
                 var x1 = x;
-                this.Invoke( () => StartCoroutine( Xd( _tileMap[ x1, y ].Ground.transform ) ), d * 0.05f );
+                _tileMap[ x1, worldSizeY - y ].Ground.SetActive( false );
+                Debug.Log( $"invoking {x} {y}" );
+                this.Invoke( () => StartCoroutine( Xd( _tileMap[ x1, worldSizeY - y ].Ground.transform ) ), x * 0.12f + y * 0.05f );
             }
         }
 
         IEnumerator Xd( Transform t )
         {
+            t.gameObject.SetActive( true );
             var ogPos = t.position;
             var wait = new WaitForFixedUpdate();
-            t.position = new Vector3( ogPos.x, ogPos.y - 10, ogPos.z );
+            t.position = new Vector3( ogPos.x, ogPos.y - 100, ogPos.z );
 
             for( var i = 0; i < 60; i++ )
             {

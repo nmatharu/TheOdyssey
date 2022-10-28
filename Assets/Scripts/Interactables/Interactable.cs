@@ -23,6 +23,8 @@ public abstract class Interactable : MonoBehaviour
     }
 
     public abstract void Interact();
+    public abstract bool InteractionLocked( Player player );
     public string InteractPrompt() => interactPrompt;
     public string CannotInteractPrompt() => cannotInteractPrompt;
+    public string Prompt( bool l ) => l ? cannotInteractPrompt : interactPrompt;
 }

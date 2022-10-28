@@ -9,6 +9,8 @@
     public const int ObjTreeSmall = 1;
     public const int ObjTreeMed = 2;
     public const int ObjTreeLarge = 3;
+    public const int LinkPuzzle = 4;
+    public const int LinkPuzzleFence = 5;
     
     public const int MiscOcean = 0;
 }

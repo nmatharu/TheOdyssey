@@ -6,7 +6,7 @@ public class DynamicCams : MonoBehaviour
 {
     [ SerializeField ] Transform playersParent;
     [ SerializeField ] Camera[] cameras;
-    
+
     int _numPlayers = 1;
     [ SerializeField ] float[] cameraFollowSpeeds;
     [ SerializeField ] float cameraOffset;
@@ -21,6 +21,8 @@ public class DynamicCams : MonoBehaviour
     [ SerializeField ] float singleCam3pSmoothingMaxLerp = 1000f;
 
     [ SerializeField ] CanvasScaler scaler;
+
+    [ SerializeField ] float camXClampMin = 21f;
 
     float _initY;
 
@@ -37,7 +39,7 @@ public class DynamicCams : MonoBehaviour
     float[] _lerpXs, _targetXs;
 
     float _singleCam3pLerp, _singleCam3pTarget, _singleCam3pSmoothing;
-    
+
     Vector3 cameraUp;
 
     float splitScreenLineHeight;
@@ -93,7 +95,7 @@ public class DynamicCams : MonoBehaviour
 
         foreach( var l in splitScreenLines )
             l.rectTransform.sizeDelta = Vector2.zero;
-        
+
         // TODO add smoothing to single cam
     }
 
@@ -118,29 +120,30 @@ public class DynamicCams : MonoBehaviour
         splitScreenLines[ 0 ].rectTransform.sizeDelta = Vector2.zero;
         splitScreenLines[ 2 ].rectTransform.sizeDelta = Vector2.zero;
         splitScreenLines[ 1 ].rectTransform.sizeDelta =
-            new Vector2( _playerMaxX - _playerMinX - cameraSplitDistance, splitScreenLineHeight );
+            new Vector2( SplitScreenBarWidth( _playerMaxX - _playerMinX - cameraSplitDistance ),
+                splitScreenLineHeight );
     }
 
     void TriCam()
     {
         splitScreenLines[ 1 ].rectTransform.sizeDelta = Vector2.zero;
-        
+
         var a = _playerMinX;
         var b = _sortedPlayerXPoses[ 1 ];
         var c = _playerMaxX;
-        
+
         var ac = c - a;
         var ab = b - a;
         var bc = c - b;
         var acThreshold = cameraSplitDistance * 4f / 3f;
         var adjThreshold = cameraSplitDistance * 2f / 3f; // TODO extract these to constants
         var twelfth = cameraSplitDistance / 6f; // 12th of screen -> 6th of cam split distance (half of screen)
-            
+
         var w = 1f / _numPlayers;
 
         var abMid = ( a + b ) / 2f;
         var bcMid = ( b + c ) / 2f;
-        
+
         splitScreenLines[ 0 ].rectTransform.sizeDelta = Vector2.zero;
         splitScreenLines[ 2 ].rectTransform.sizeDelta = Vector2.zero;
 
@@ -150,7 +153,7 @@ public class DynamicCams : MonoBehaviour
         {
             EnableCameras( 0 );
             cameras[ 0 ].rect = new Rect( 0, 0, 1f, 1f );
-            
+
             var bias = 0f;
             if( bc < ab )
                 bias = JBB.Map( bc, 0, adjThreshold, twelfth, 0 );
@@ -159,16 +162,17 @@ public class DynamicCams : MonoBehaviour
 
             var groupDistScaling = JBB.ClampedMap01( ac, adjThreshold, cameraSplitDistance );
             var pairingScaling = JBB.ClampedMap01( Mathf.Abs( ab - bc ), 0, twelfth );
-            
+
             // NavHelpers.LogCommaSeparated( groupDistScaling, pairingScaling );
 
             _singleCam3pTarget = ( a + c ) / 2f + bias * Mathf.Max( groupDistScaling * pairingScaling );
-            _singleCam3pSmoothing = JBB.ClampedMap( ac, adjThreshold, cameraSplitDistance, 
+            _singleCam3pSmoothing = JBB.ClampedMap( ac, adjThreshold, cameraSplitDistance,
                 singleCam3pSmoothingMinLerp, singleCam3pSmoothingMaxLerp );
-            _singleCam3pLerp = Mathf.Lerp( _singleCam3pLerp, _singleCam3pTarget, _singleCam3pSmoothing * Time.deltaTime );
+            _singleCam3pLerp =
+                Mathf.Lerp( _singleCam3pLerp, _singleCam3pTarget, _singleCam3pSmoothing * Time.deltaTime );
 
             // Debug.Log( _singleCam3pSmoothing );
-            
+
             SetCameraPosition( cameras[ 0 ], _singleCam3pLerp, 0.5f );
 
             foreach( var l in splitScreenLines )
@@ -188,7 +192,7 @@ public class DynamicCams : MonoBehaviour
             SetCameraPosition( cameras[ 1 ], _lerpXs[ 2 ], 5 / 6f );
 
             splitScreenLines[ 0 ].rectTransform.sizeDelta = new Vector2(
-                c - abMid - cameraSplitDistance + 0.5f, splitScreenLineHeight );
+                SplitScreenBarWidth( c - abMid - cameraSplitDistance ), splitScreenLineHeight );
             return;
         }
 
@@ -202,7 +206,7 @@ public class DynamicCams : MonoBehaviour
             SetCameraPosition( cameras[ 1 ], _lerpXs[ TwoThirdsRightIndex ], 2 / 3f );
 
             splitScreenLines[ 2 ].rectTransform.sizeDelta = new Vector2(
-                bcMid - a - cameraSplitDistance + 0.5f, splitScreenLineHeight );
+                SplitScreenBarWidth( bcMid - a - cameraSplitDistance ), splitScreenLineHeight );
             return;
         }
 
@@ -214,9 +218,9 @@ public class DynamicCams : MonoBehaviour
             cameras[ i ].rect = new Rect( w * i, 0f, w, 1f );
             SetCameraPosition( cameras[ i ], _lerpXs[ i ], w / 2f + w * i );
             splitScreenLines[ 0 ].rectTransform.sizeDelta =
-                new Vector2( c - b - adjThreshold + 0.5f, splitScreenLineHeight );
+                new Vector2( SplitScreenBarWidth( c - b - adjThreshold ), splitScreenLineHeight );
             splitScreenLines[ 2 ].rectTransform.sizeDelta =
-                new Vector2( b - a - adjThreshold + 0.5f, splitScreenLineHeight );
+                new Vector2( SplitScreenBarWidth( b - a - adjThreshold ), splitScreenLineHeight );
         }
     }
 
@@ -248,7 +252,7 @@ public class DynamicCams : MonoBehaviour
     {
         // var rot = Mathf.Atan2( cameraUp.z, cameraUp.x );
         var right = new Vector3( cameraUp.z, 0, -cameraUp.x );
-        return Vector3.Project( pos, right ).x * projectionFactor;
+        return Mathf.Max( camXClampMin, Vector3.Project( pos, right ).x * projectionFactor );
     }
 
     void LerpCurrentValues()
@@ -262,8 +266,8 @@ public class DynamicCams : MonoBehaviour
         for( var i = 0; i < _sortedPlayerXPoses.Length; i++ )
             _targetXs[ i ] = _sortedPlayerXPoses[ i ];
 
-        if( _sortedPlayerXPoses.Length == 0 )   return;
-        
+        if( _sortedPlayerXPoses.Length == 0 ) return;
+
         _playerMinX = _sortedPlayerXPoses.Min();
         _playerMaxX = _sortedPlayerXPoses.Max();
 
@@ -279,4 +283,7 @@ public class DynamicCams : MonoBehaviour
         for( var i = 0; i < _lerpXs.Length; i++ )
             _lerpXs[ i ] = _targetXs[ i ];
     }
+
+    float SplitScreenBarWidth( float dist ) => 
+        1f + JBB.ClampedMap( Mathf.Sqrt( dist ), 0, 20, 0, 49 );
 }

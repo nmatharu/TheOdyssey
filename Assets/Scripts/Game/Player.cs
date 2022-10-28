@@ -170,7 +170,7 @@ public class Player : MonoBehaviour
         
         Interactable closest = null;
         var closestDSqr = Mathf.Infinity;
-        foreach( var interactable in _interactables )
+        foreach( var interactable in _interactables.Where( interactable => interactable != null ) )
         {
             if( closest == null )
             {
@@ -197,13 +197,14 @@ public class Player : MonoBehaviour
             _interactPrompt.Hide();
             return;
         }
-        
-        _interactPrompt.SetInteractable( false, _closestInteractable.InteractPrompt() );
+
+        var interactionLocked = _closestInteractable.InteractionLocked( this );
+        _interactPrompt.SetInteractable( interactionLocked, _closestInteractable.Prompt( interactionLocked ) );
     }
     
     public void Interact()
     {
-        if( _closestInteractable != null )
+        if( _closestInteractable != null && !_closestInteractable.InteractionLocked( this ) )
             _closestInteractable.Interact();
     }
 
