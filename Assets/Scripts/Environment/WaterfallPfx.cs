@@ -13,11 +13,6 @@ public class WaterfallPfx : MonoBehaviour
     [ SerializeField ] int acrossPfxBaseRate = 30;
     [ SerializeField ] int waterPfxBaseRate = 80;
     
-    void Start()
-    {
-        SetWidth( 3 );
-    }
-
     public void SetWidth( int blocks )
     {
         var upSh = upPfx.shape;

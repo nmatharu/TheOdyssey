@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44824904, g: 0.49827605, b: 0.57558316, a: 1}
+  m_IndirectSpecularColor: {r: 0.44839567, g: 0.49843925, b: 0.57578135, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -40684,6 +40684,7 @@ Transform:
   - {fileID: 1688587969}
   - {fileID: 162222534}
   - {fileID: 1992222492}
+  - {fileID: 1580468305}
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -48330,6 +48331,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 32f406fb4ed95e448aed91aa4338426c, type: 3}
   m_PrefabInstance: {fileID: 1456280524}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1580468304
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1580468305}
+  m_Layer: 0
+  m_Name: Misc
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1580468305
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580468304}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1213198307}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1582903600
 GameObject:
   m_ObjectHideFlags: 0
@@ -59400,7 +59432,7 @@ MonoBehaviour:
   - {fileID: 883946077}
   projectiles: {fileID: 789896980}
   skullEnemy: {fileID: 2148079099040143359, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
-  spawnEnemies: 0
+  spawnEnemies: 1
   damageNumbersParent: {fileID: 428142856}
   damageNumberPrefab: {fileID: 5292145103668947739, guid: aa51d87e685f245d28d399fddba5fad8, type: 3}
   damageNumberPoolSize: 100
@@ -63149,6 +63181,7 @@ MonoBehaviour:
   objsParent: {fileID: 1688587969}
   edgesParent: {fileID: 162222534}
   wallsParent: {fileID: 1992222492}
+  miscParent: {fileID: 1580468305}
   worldSizeX: 400
   worldSizeY: 12
   offMapThresholdX: 30
@@ -63156,6 +63189,7 @@ MonoBehaviour:
   genBlocks:
   - {fileID: 8760186154017859944, guid: 87a612f24d9aa2d4492b5213e5d95da8, type: 3}
   - {fileID: 8760186154017859944, guid: 33e30de058a7895489381f617c9dc09a, type: 3}
+  - {fileID: 5452998857308583114, guid: 8342ee32eb7124b828e7cd26e3fdfa29, type: 3}
   genObjects:
   - {fileID: 919132149155446097, guid: d96510eb478bbd14da56b7e8ac7b9065, type: 3}
   - {fileID: 919132149155446097, guid: 32f406fb4ed95e448aed91aa4338426c, type: 3}
@@ -63163,7 +63197,8 @@ MonoBehaviour:
   - {fileID: 919132149155446097, guid: 8252e98a932187649b7798ef5c73d7b5, type: 3}
   - {fileID: 1275217329680966198, guid: 1680a78dc5736467d98d1c18207dc04a, type: 3}
   - {fileID: 1275217329680966198, guid: 275904d5f85a42242a1e67d84d5698ec, type: 3}
-  genMisc: []
+  genMisc:
+  - {fileID: 6122615216319422520, guid: 41028b6a2fdf048469a99fde4cf66624, type: 3}
 --- !u!4 &2113210664
 Transform:
   m_ObjectHideFlags: 0
