@@ -19,9 +19,12 @@ public class WorldGenerator : MonoBehaviour
     [ SerializeField ] GameObject[] genBlocks; // blocks to generate, e.g. grass, sand
     [ SerializeField ] GameObject[] genObjects; // objects to generate on top of blocks, e.g. trees, chests
     [ SerializeField ] GameObject[] genMisc; // misc objects in environment, e.g. waterfall particle systems
+    [ SerializeField ] GameObject[] genNpcs; // npcs to interact with, shops, quests, etc.
 
     Tile[ , ] _tileMap;
     Node[ , ] _nodeMap;
+
+    BossZone _bossZone;
 
     float _perlinSeed;
     Level _currentLevel;
@@ -71,16 +74,23 @@ public class WorldGenerator : MonoBehaviour
     {
         _perlinSeed = Random.value;
 
-        for( var x = 0; x < worldSizeX; x++ )
-        {
-            for( var y = 0; y < worldSizeY; y++ )
-            {
-                var o = Instantiate( Gen( WorldGenIndex.Blocks.Grass ), 
-                    CoordsToWorldPos( x, y ), JBB.Random90Rot(), blocksParent );
-                _tileMap[ x, y ] = new Tile( o, x, y, (int) WorldGenIndex.Blocks.Grass, CoordsToWorldPos( x, y ), false );
-            }
-        }
+        Instantiate( Gen( WorldGenIndex.Misc.Water ), Vector3.zero, Quaternion.identity, miscParent );
+        Instantiate( Gen( WorldGenIndex.Misc.Cliffs ), Vector3.zero, Quaternion.identity, edgesParent );
+        GenerateGrassBase();
+        
+        var puzzlePlacements = new Vector2Int[] { new( 125, 4 ), new( 250, 5 ), new( worldSizeX - 21, 6 ) };
+        foreach( var p in puzzlePlacements ) 
+            GenerateLinkPuzzle( p.x, p.y );
 
+        for( var x = 105; x < worldSizeX - 21; x += 60 )
+            GenerateNpc( x );
+
+        GenerateWaterfall( 0, 8 );
+        for( var x = 80; x < worldSizeX - 21; x += 60 )
+            GenerateWaterfall( x, Random.Range( 2, 7 ) );
+
+        
+        
         // for( var x = 0; x < worldSizeX; x++ )
         // {
         //     for( var y = 0; y < worldSizeY; y++ )
@@ -96,47 +106,75 @@ public class WorldGenerator : MonoBehaviour
         //     }
         // }
         
-        // // Generate base blocks
-        // for( var x = 0; x < worldSizeX; x++ )
-        // {
-        //     for( var y = 0; y < worldSizeY; y++ )
-        //     {
-        //         var i = GrasslandsNoiseMap( x, y );
-        //         var o = Instantiate( genBlocks[ i ],
-        //             CoordsToWorldPos( x, y ), JBB.Random90Rot(), blocksParent );
-        //         _tileMap[ x, y ] = new Tile
-        //         {
-        //             Ground = o,
-        //             X = x,
-        //             Y = y,
-        //             GenIndex = i,
-        //             Position = CoordsToWorldPos( x, y ),
-        //             EmptyCollider = i == 0
-        //         };
-        //     }
-        // }
-        
-        // Duplicate top row
-        for( var x = 0; x < worldSizeX; x++ )
-        {
-            var toCopy = _tileMap[ x, worldSizeY - 1 ];
-            var o = Instantiate( genBlocks[ toCopy.GenIndex ], 
-                CoordsToWorldPos( x, worldSizeY ), JBB.Random90Rot(), blocksParent );
-            _tileMap[ x, worldSizeY ] = new Tile( o, x, worldSizeY, toCopy.GenIndex, CoordsToWorldPos( x, worldSizeY ),
-                toCopy.EmptyCollider );
-        }
 
         // generate npc stuff
         // generate rivers, waterfalls etc.
         // generate trees n stuff in the gaps
         
-        // waterfall at
-        var waterfallX = 14;
-        var waterfallWidth = Random.Range( 1, 5 );
-        var logY = worldSizeY / 2 + Random.Range( -3, 3 );
-        for( var x = waterfallX; x < waterfallX + waterfallWidth; x++ )
+
+        GenerateEnvironmentalObjects();
+
+        _bossZone = Instantiate( Gen( WorldGenIndex.Misc.BossZone ), 
+            CoordsToWorldPos( worldSizeX - 20, 0 ), Quaternion.identity ).GetComponent<BossZone>();
+        _bossZone.SetStartEnd( 3, 8 );
+        // this.Invoke( () => _bossZone.CloseLeft(), 5f );
+        // this.Invoke( () => _bossZone.OpenRight(), 10f );
+
+        // puts chests, campfires, etc near objects
+
+        DuplicateTopRow();
+        
+        // GoofyFun();
+    }
+
+    void GenerateGrassBase()
+    {
+        for( var x = 0; x < worldSizeX; x++ )
         {
-            for( var y = 0; y < worldSizeY + 1; y++ )
+            for( var y = 0; y < worldSizeY; y++ )
+            {
+                var o = Instantiate( Gen( WorldGenIndex.Blocks.Grass ), 
+                    CoordsToWorldPos( x, y ), JBB.Random90Rot(), blocksParent );
+                _tileMap[ x, y ] = new Tile( o, x, y, (int) WorldGenIndex.Blocks.Grass, CoordsToWorldPos( x, y ), false );
+            }
+        }
+    }
+
+    void GenerateLinkPuzzle( int x, int size )
+    {
+        var pieces = new List<GameObject>();
+        var startingPos = worldSizeY / 2 - size / 2;
+            
+        for( var y = 0; y < worldSizeY; y++ )
+        {
+            _tileMap[ x, y ].HasSurfaceObject = true;
+
+            if( y >= startingPos && y < startingPos + size )
+            {
+                var o = Instantiate( Gen( WorldGenIndex.Objs.LinkPuzzle ), 
+                    CoordsToWorldPos( x, y ), Quaternion.identity, objsParent );
+                pieces.Add( o );
+            }
+            else
+            {
+                Instantiate( Gen( WorldGenIndex.Objs.LinkPuzzleFence ), 
+                    CoordsToWorldPos( x, y ), Quaternion.identity, objsParent );
+            }
+
+            _tileMap[ x - 1, y ].OffLimits = true;
+            _tileMap[ x, y ].OffLimits = true;
+            _tileMap[ x + 1, y ].OffLimits = true;
+        }
+
+        var puzzle = new LinkPuzzle( pieces, true );
+    }
+
+    void GenerateWaterfall( int xStart, int width )
+    {
+        var logY = worldSizeY / 2 + Random.Range( -3, 3 );
+        for( var x = xStart; x < xStart + width; x++ )
+        {
+            for( var y = 0; y < worldSizeY; y++ )
             {
                 Destroy( _tileMap[ x, y ].Ground );
                 _tileMap[ x, y ].Ground = Instantiate( Gen( WorldGenIndex.Blocks.Empty ), 
@@ -150,21 +188,41 @@ public class WorldGenerator : MonoBehaviour
                 CoordsToWorldPos( x, logY ), Quaternion.identity, blocksParent );
             _tileMap[ x, logY ].GenIndex = (int) WorldGenIndex.Blocks.Log;
             _tileMap[ x, logY ].EmptyCollider = false;
+
+            _tileMap[ x <= 0 ? 0 : x - 1, logY ].OffLimits = true;
+            _tileMap[ x, logY ].OffLimits = true;
+            _tileMap[ x + 1, logY ].OffLimits = true;
         }
         var w = Instantiate( Gen( WorldGenIndex.Misc.WaterfallPfx ),
-            new Vector3( 2 * ( waterfallX + waterfallWidth / 2f ) - 1, 0, worldSizeY * 2 ),
+            new Vector3( 2 * ( xStart + width / 2f ) - 1, 0, worldSizeY * 2 ),
             Quaternion.identity, miscParent);
-        w.GetComponent<WaterfallPfx>().SetWidth( waterfallWidth );
-        
-        
-        // find way to put consistent gaps between objects
+        w.GetComponent<WaterfallPfx>().SetWidth( width );
+    }
+
+    void GenerateNpc( int xStart )
+    {
+        Instantiate( Gen( WorldGenIndex.NPCs.NPCTest ), 
+            CoordsToWorldPos( xStart + 2, worldSizeY - 2 ), Quaternion.identity, objsParent );
+        for( var x = xStart; x < xStart + 5; x++ )
+        {
+            for( var y = worldSizeY - 1; y >= worldSizeY - 6; y-- )
+            {
+                if( y >= worldSizeY - 3 )
+                    _tileMap[ x, y ].HasSurfaceObject = true;
+                _tileMap[ x, y ].OffLimits = true;
+            }
+        }
+    }
+
+    void GenerateEnvironmentalObjects()
+    {
         for( var x = 0; x < worldSizeX; x++ )
         {
             for( var y = 1; y < worldSizeY; y++ )
             {
                 if( x < 20 && y > 4 && y < worldSizeY - 4 ) continue;
                 
-                if( !_tileMap[ x, y ].EmptyCollider && !_tileMap[ x, y ].HasSurfaceObject && Random.value < 0.025f )
+                if( !_tileMap[ x, y ].EmptyCollider && !_tileMap[ x, y ].HasSurfaceObject && !_tileMap[ x, y ].OffLimits && Random.value < 0.025f )
                 {
                     Instantiate( genObjects[ Random.Range( 0, 4 ) ], 
                         CoordsToWorldPos( x, y ), JBB.RandomYRot(), blocksParent );
@@ -172,38 +230,18 @@ public class WorldGenerator : MonoBehaviour
                 }
             }
         }
+    }
 
-        foreach( var x in new[] { 20, 100, 300 } )
+    void DuplicateTopRow()
+    {
+        for( var x = 0; x < worldSizeX; x++ )
         {
-            var size = 4;
-            var pieces = new List<GameObject>();
-            var startingPos = worldSizeY / 2 - size / 2;
-            
-            for( var y = 0; y < worldSizeY; y++ )
-            {
-                _tileMap[ x, y ].HasSurfaceObject = true;
-
-                if( y >= startingPos && y < startingPos + size )
-                {
-                    var o = Instantiate( Gen( WorldGenIndex.Objs.LinkPuzzle ), 
-                        CoordsToWorldPos( x, y ), Quaternion.identity, objsParent );
-                    pieces.Add( o );
-                }
-                else
-                {
-                    Instantiate( Gen( WorldGenIndex.Objs.LinkPuzzleFence ), 
-                        CoordsToWorldPos( x, y ), Quaternion.identity, objsParent );
-                }
-            }
-
-            var puzzle = new LinkPuzzle( pieces, true );
-            
-            break;
+            var toCopy = _tileMap[ x, worldSizeY - 1 ];
+            var o = Instantiate( genBlocks[ toCopy.GenIndex ], 
+                CoordsToWorldPos( x, worldSizeY ), JBB.Random90Rot(), blocksParent );
+            _tileMap[ x, worldSizeY ] = new Tile( o, x, worldSizeY, toCopy.GenIndex, CoordsToWorldPos( x, worldSizeY ),
+                toCopy.EmptyCollider );
         }
-
-        // puts chests, campfires, etc near objects
-        
-        // GoofyFun();
     }
 
     void GoofyFun()
@@ -269,4 +307,5 @@ public class WorldGenerator : MonoBehaviour
     GameObject Gen( WorldGenIndex.Blocks block ) => genBlocks[ (int) block ];
     GameObject Gen( WorldGenIndex.Objs obj ) => genObjects[ (int) obj ];
     GameObject Gen( WorldGenIndex.Misc misc ) => genMisc[ (int) misc ];
+    GameObject Gen( WorldGenIndex.NPCs npc ) => genNpcs[ (int) npc ];
 }

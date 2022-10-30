@@ -74,16 +74,6 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if( Input.GetKeyDown( KeyCode.D ) )
-        {
-            TakeDamage( 5 );
-        }
-
-        if( Input.GetKeyDown( KeyCode.H ) )
-        {
-            _interactPrompt.SetInteractable( true, "PICK UP" );
-        }
-
         FindClosestInteractable();
         UpdateInteractablePrompt();
     }
@@ -202,6 +192,8 @@ public class Player : MonoBehaviour
     
     public void Interact()
     {
+        if( dead || locked || rolling ) return;
+        
         if( _closestInteractable != null && !_closestInteractable.InteractionLocked( this ) )
             _closestInteractable.Interact();
     }

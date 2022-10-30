@@ -67,7 +67,6 @@ public class LinkPuzzle
     // Can't be solved in one move
     bool ComplexEnough( bool isAltar )
     {
-        Debug.Log( "Complex enough?" );
         if( Solved() ) return false;
 
         for( var i = 0; i < _size; i++ )
@@ -93,7 +92,7 @@ public class LinkPuzzle
             for( var i = _size - 1; i >= 0; i-- )
                 FlipMap( i );
 
-            if( !altarComplexEnough ) Debug.Log( "Altar not complex enough" );
+            // if( !altarComplexEnough ) Debug.Log( "Altar not complex enough" );
             return altarComplexEnough;
         }
 

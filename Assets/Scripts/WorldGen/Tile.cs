@@ -22,6 +22,10 @@ public class Tile
     // flying enemies will be able to traverse-- affects A* pathfinding of those enemies
     public bool EmptyCollider = false;
 
+    // Only used internally for world generations-- for example, logs have adjacent spaces 
+    // off limits else players would not be able to move onto or off of them
+    public bool OffLimits = false;
+
     public Tile()
     {
     }

@@ -29,16 +29,18 @@ public class Skull : MonoBehaviour
     void FixedUpdate()
     {
         var pos = transform.position;
-        if( WorldGenerator.WorldPosToCoords( pos ) == WorldGenerator.WorldPosToCoords( _currentTargetTile ) &&
-            _path.Count > 0 )
+
+        var defaultTarget = _currentTargetTile == Vector3.zero;
+        var onTarget = WorldGenerator.WorldPosToCoords( pos ) == WorldGenerator.WorldPosToCoords( _currentTargetTile );
+        if( _path.Count > 0 && ( defaultTarget || onTarget ) )
         {
             _currentTargetTile = WorldGenerator.CoordsToWorldPos( _path.Dequeue() );
         }
 
         var lookAt = Quaternion.LookRotation( _currentTargetTile - transform.position );
-        _movementDirection = Quaternion.Slerp( _movementDirection, lookAt, 0.01f );
+        _movementDirection = Quaternion.Slerp( _movementDirection, lookAt, 0.04f );
 
-        _body.velocity = _movementDirection * Vector3.forward * speed;
+        _body.velocity = _currentTargetTile == Vector3.zero ? Vector3.zero : _movementDirection * Vector3.forward * speed;
 
         if( _targetT != null )
             transform.LookAt( _targetT );
@@ -72,33 +74,35 @@ public class Skull : MonoBehaviour
 
     void PathFindToTarget()
     {
+        if( _targetT.position == Vector3.zero ) return;
+        
         var startXY = WorldGenerator.WorldPosToCoords( transform.position );
         var targetXY = WorldGenerator.WorldPosToCoords( _targetT.position );
 
-        var pathSegment = new List<AStarNode>();
-        var node = WorldGenDemo.PathFind( startXY, targetXY );
-
-        if( node == null )  return;
-        while( node.Parent != null )
-        {
-            node = node.Parent;
-            pathSegment.Add( node );
-        }
-
-        // JBB.LogQueue( _path );
-
-        pathSegment.Reverse();
-        _path.Clear();
-
-        foreach( var n in pathSegment )
-            _path.Enqueue( new Vector2Int( n.X, n.Y ) );
-
-        // FlashPathDebug();
+        // var pathSegment = new List<AStarNode>();
+        // var node = WorldGenDemo.PathFind( startXY, targetXY );
+        //
+        // if( node == null )  return;
+        // while( node.Parent != null )
+        // {
+        //     node = node.Parent;
+        //     pathSegment.Add( node );
+        // }
+        //
+        // pathSegment.Reverse();
+        // _path.Clear();
+        //
+        // foreach( var n in pathSegment )
+        //     _path.Enqueue( new Vector2Int( n.X, n.Y ) );
+        //
+        // // FlashPathDebug();
+        //
+        // if( _path.Count > 0 )
+        //     _currentTargetTile = WorldGenerator.CoordsToWorldPos( _path.Dequeue() );
         
-        if( _path.Count > 0 )
-            _currentTargetTile = WorldGenerator.CoordsToWorldPos( _path.Dequeue() );
-
-        // JBB.LogQueue( _path );
+        _path.Clear();
+        _path.Enqueue( targetXY );
+        _currentTargetTile = WorldGenerator.CoordsToWorldPos( _path.Dequeue() );
     }
 
     void FlashPathDebug()

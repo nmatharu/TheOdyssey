@@ -104,7 +104,7 @@
                 {
                     "name": "",
                     "id": "cdda0e26-061a-4b40-8846-0c55f65e11b7",
-                    "path": "<Keyboard>/q",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -126,7 +126,7 @@
                 {
                     "name": "",
                     "id": "0bce75d6-c35b-4536-b550-f9a059c9ee59",
-                    "path": "<Keyboard>/w",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -280,7 +280,7 @@
                 {
                     "name": "up",
                     "id": "d06338bf-16ea-46e0-8335-5c728113a7c4",
-                    "path": "<Keyboard>/upArrow",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -291,7 +291,7 @@
                 {
                     "name": "down",
                     "id": "a5ca77a8-2c14-4c1d-8c38-79bf49c85253",
-                    "path": "<Keyboard>/downArrow",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -302,7 +302,7 @@
                 {
                     "name": "left",
                     "id": "b35b60c7-6d83-4595-9f4f-f0e6716b998d",
-                    "path": "<Keyboard>/leftArrow",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -313,7 +313,7 @@
                 {
                     "name": "right",
                     "id": "11263408-2d1f-47e3-8af5-cc56a81493d1",
-                    "path": "<Keyboard>/rightArrow",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -354,6 +354,11 @@
                 {
                     "devicePath": "<Keyboard>",
                     "isOptional": true,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
                     "isOR": false
                 }
             ]

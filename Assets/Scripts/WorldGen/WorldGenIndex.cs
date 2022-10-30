@@ -21,6 +21,14 @@
 
     public enum Misc
     {
-        WaterfallPfx
+        WaterfallPfx,
+        BossZone,
+        Water,
+        Cliffs
+    }
+
+    public enum NPCs
+    {
+        NPCTest
     }
 }

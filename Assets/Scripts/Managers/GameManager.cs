@@ -23,7 +23,8 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] TextMeshProUGUI fpsDisplay;
 
     public static GameManager Instance { get; private set; }
-
+    private bool _fpsLimitOn;
+    
     void Awake()
     {
         if( Instance != null && Instance != this )
@@ -51,6 +52,15 @@ public class GameManager : MonoBehaviour
         InvokeRepeating( nameof( UpdateFpsDisplay ), 0f, 0.1f );
     }
 
+    void Update()
+    {
+        if( Input.GetKeyDown( KeyCode.Semicolon ) )
+        {
+            _fpsLimitOn = !_fpsLimitOn;
+            Application.targetFrameRate = _fpsLimitOn ? 60 : -1;
+        }
+    }
+
     void SpawnSkull()
     {
         if( !spawnEnemies ) return;
@@ -74,7 +84,7 @@ public class GameManager : MonoBehaviour
         return playersArr[ playerId ];
     }
 
-    public int NumPlayers() => playersArr.Count( p => !p.activeInHierarchy );
+    public int NumPlayers() => playersArr.Count( p => p.activeInHierarchy );
 
     public void SpawnDamageNumber( Vector3 pos, int dmg, bool friendly )
     {
