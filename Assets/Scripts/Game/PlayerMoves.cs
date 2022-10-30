@@ -34,6 +34,7 @@ public class PlayerMoves : MonoBehaviour
 
     Player _player;
     PlayerStatusBar _statusBar;
+    SwordPfx _swordPfx;
 
     // 0 - slash, 1 - slash, 2 - stab
     int _lightSwingIndex = 0;
@@ -50,6 +51,7 @@ public class PlayerMoves : MonoBehaviour
     {
         _player = GetComponent<Player>();
         _statusBar = GetComponentInChildren<PlayerStatusBar>();
+        _swordPfx = GetComponent<SwordPfx>();
         _aSwings = new[] { ASwingA, ASwingB, ASwingC };
     }
 
@@ -74,6 +76,7 @@ public class PlayerMoves : MonoBehaviour
         _lightSwingIndex = ( _lightSwingIndex + 1 ) % _aSwings.Length;
 
         _player.Mator().Play( swing );
+        _swordPfx.Light();
         LockFor( lightAttackFramesLock );
 
         CancelInvoke( nameof( ResetLightAttackSequence ) );
@@ -101,6 +104,7 @@ public class PlayerMoves : MonoBehaviour
         if( _player.rolling || _player.locked ) return;
 
         _player.Mator().Play( ASlash );
+        _swordPfx.Slash();
         LockFor( slashAttackFramesLock );
         DamageOnActiveFrame( Physics.OverlapSphere( transform.position, 
             slashAttackRadius ), slashAttackDmg, slashAttackActiveFrame );
@@ -147,6 +151,6 @@ public class PlayerMoves : MonoBehaviour
     void OnDrawGizmos()
     {
         // Gizmos.DrawWireCube( transform.position + transform.forward, lightStabRectBounds * 2f );
-        // Gizmos.DrawWireSphere( transform.position + transform.forward / 2f, 2 );
+        // Gizmos.DrawWireSphere( transform.position + transform.forward / 2f, slashAttackRadius );
     }
 }

@@ -14,8 +14,6 @@ public class Player : MonoBehaviour
     public float rollDuration = 0.3f;
     public float rollCooldown = 1f;
 
-    [ SerializeField ] ParticleSystem swordPfx;
-    
     Rigidbody _body;
     Animator _animator;
     
