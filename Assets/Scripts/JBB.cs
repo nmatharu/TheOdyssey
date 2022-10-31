@@ -95,4 +95,7 @@ public static class JBB
             ( list[ k ], list[ n ] ) = ( list[ n ], list[ k ] );
         }
     }
+
+    public static bool WithinArrayBounds<T>( this T[ , ] arr2d, int x, int y ) => 
+        x >= 0 && x < arr2d.GetLength( 0 ) && y >= 0 && y < arr2d.GetLength( 1 );
 }

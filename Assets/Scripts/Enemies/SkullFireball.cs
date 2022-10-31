@@ -18,7 +18,7 @@ public class SkullFireball : MonoBehaviour
     {
         var p = other.GetComponent<Player>();
         if( p == null || p.rolling ) return;
-        p.TakeDamage( dmg );
+        p.IncomingDamage( dmg );
         Destroy( gameObject );
     }
 }

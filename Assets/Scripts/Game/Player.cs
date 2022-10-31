@@ -117,7 +117,13 @@ public class Player : MonoBehaviour
 
     public void Roll() => _playerMoves.Roll();
 
-    public void TakeDamage( float dmg )
+    public void IncomingDamage( float dmg )
+    {
+        if( rolling )   return;
+        TakeDamage( dmg );
+    }
+
+    void TakeDamage( float dmg )
     {
         StartCoroutine( FlashMaterial() );
 

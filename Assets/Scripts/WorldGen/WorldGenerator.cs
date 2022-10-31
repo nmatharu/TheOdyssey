@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WorldGenerator : MonoBehaviour
@@ -84,13 +85,14 @@ public class WorldGenerator : MonoBehaviour
 
         for( var x = 105; x < worldSizeX - 21; x += 60 )
             GenerateNpc( x );
-
+        
         GenerateWaterfall( 0, 8 );
         for( var x = 80; x < worldSizeX - 21; x += 60 )
             GenerateWaterfall( x, Random.Range( 2, 7 ) );
 
         
-        
+        GenerateLinkAltars();
+
         // for( var x = 0; x < worldSizeX; x++ )
         // {
         //     for( var y = 0; y < worldSizeY; y++ )
@@ -113,6 +115,7 @@ public class WorldGenerator : MonoBehaviour
         
 
         GenerateEnvironmentalObjects();
+        
 
         _bossZone = Instantiate( Gen( WorldGenIndex.Misc.BossZone ), 
             CoordsToWorldPos( worldSizeX - 20, 0 ), Quaternion.identity ).GetComponent<BossZone>();
@@ -167,6 +170,66 @@ public class WorldGenerator : MonoBehaviour
         }
 
         var puzzle = new LinkPuzzle( pieces, true );
+    }
+
+    void GenerateLinkAltars()
+    {
+        var n = 5;
+        var altars = new GameObject[ n ];
+        var points = new List<Vector2Int>();
+
+        int iters = 0;
+        while( points.Count < n )
+        {
+            var randomPoint = new Vector2Int( Random.Range( 70, worldSizeX - 21 ), Random.Range( 1, worldSizeY - 1 ) );
+            if( ValidPoint( randomPoint.x, randomPoint.y ) )
+                points.Add( randomPoint );
+
+            iters++;
+            if( iters > 1000 )
+            {
+                Debug.Log( "hmmm" );
+                break;
+            }
+        }
+
+        bool ValidPoint( int middleX, int middleY )
+        {
+            for( var x = middleX - 2; x <= middleX + 2; x++ )
+            {
+                for( var y = middleY - 1; y <= middleY + 1; y++ )
+                {
+                    if( !_tileMap.WithinArrayBounds( x, y ) || y >= worldSizeY )
+                    {
+                        Debug.Log( "returning false bc array : " + x + " " + y );
+                        return false;
+                    }
+
+                    // Debug.Log(
+                        // $"{x} {y} has a surface obj? {_tileMap[ x, y ].HasSurfaceObject} is off limits? {_tileMap[ x, y ].OffLimits}" );
+                    if( _tileMap[ x, y ].HasSurfaceObject || _tileMap[ x, y ].OffLimits )
+                    {
+                        Debug.Log( "returning false bc offlimits or object" );
+                        return false;
+                    }
+                }
+            }
+
+            Debug.Log( "returning true" );
+            return true;
+        }
+        
+        points.Sort( ( p1, p2 ) => p1.x - p2.x );
+
+        var pieces = new List<GameObject>();
+        foreach( var p in points )
+        {
+            var o = Instantiate( Gen( WorldGenIndex.Objs.LinkAltar ), 
+                CoordsToWorldPos( p.x, p.y ), Quaternion.identity, objsParent );
+            pieces.Add( o );
+        }
+
+        var linkPuzzle = new LinkPuzzle( pieces, true );
     }
 
     void GenerateWaterfall( int xStart, int width )
