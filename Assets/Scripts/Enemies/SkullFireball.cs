@@ -17,6 +17,14 @@ public class SkullFireball : MonoBehaviour
     void OnTriggerEnter( Collider other )
     {
         var p = other.GetComponent<Player>();
+        var e = other.GetComponent<Enemy>();
+
+        if( p == null && e == null )
+        {
+            Destroy( gameObject );
+            return;
+        }
+
         if( p == null || p.rolling ) return;
         p.IncomingDamage( dmg );
         Destroy( gameObject );

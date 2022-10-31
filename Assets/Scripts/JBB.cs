@@ -96,6 +96,8 @@ public static class JBB
         }
     }
 
-    public static bool WithinArrayBounds<T>( this T[ , ] arr2d, int x, int y ) => 
+    public static bool WithinArrayBounds<T>( this T[ , ] arr2d, int x, int y ) =>
         x >= 0 && x < arr2d.GetLength( 0 ) && y >= 0 && y < arr2d.GetLength( 1 );
+
+    public static T RandomEntry<T>( this T[] arr ) => arr[ Random.Range( 0, arr.Length ) ];
 }

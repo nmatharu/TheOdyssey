@@ -7,15 +7,20 @@ public class Enemy : MonoBehaviour
 {
     [ SerializeField ] float maxHp = 20;
     [ SerializeField ] int spawnCost = 10;
+    [ SerializeField ] Renderer[] renderers;
+    [ SerializeField ] float hitFlashIntensity = 1f;
     
+    Color[] _originalMatColors;
+
     int _level;
     float _hp;
-    Material _material;
 
     void Start()
     {
         _hp = maxHp;
-        _material = GetComponentInChildren<Renderer>().material;
+        _originalMatColors = new Color[ renderers.Length ];
+        for( var i = 0; i < renderers.Length; i++ )
+            _originalMatColors[ i ] = renderers[ i ].material.color;
     }
 
     public void SetLevel( int lvl ) => _level = lvl;
@@ -39,12 +44,15 @@ public class Enemy : MonoBehaviour
     IEnumerator FlashMaterial()
     {
         var delay = new WaitForFixedUpdate();
-        for( var i = 0f; i < 1; i += 0.1f )
+        for( var i = 1f + hitFlashIntensity; i >= 1; i -= hitFlashIntensity / 3f )
         {
-            _material.color = new Color( i, i, i );
+            foreach( var r in renderers )
+                r.material.color = new Color( i, i, i );
             yield return delay;
         }
-        _material.color = Color.white;
+
+        for( var i = 0; i < renderers.Length; i++ )
+            renderers[ i ].material.color = _originalMatColors[ i ];
     }
 
     void Die() => Destroy( gameObject );

@@ -12,7 +12,8 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] Transform projectiles;
 
     // TEMP
-    [ SerializeField ] GameObject skullEnemy;
+    [ SerializeField ] GameObject[] testEnemies;
+    
     [ SerializeField ] bool spawnEnemies = false;
 
     [ SerializeField ] Transform damageNumbersParent;
@@ -37,7 +38,7 @@ public class GameManager : MonoBehaviour
             // DontDestroyOnLoad( this );
         }
 
-        InvokeRepeating( nameof( SpawnSkull ), 2f, 8f );
+        InvokeRepeating( nameof( SpawnSkull ), 2f, 10f );
 
         _damageNumberPool = new DamageNumber[ damageNumberPoolSize ];
         for( var i = 0; i < damageNumberPoolSize; i++ )
@@ -67,7 +68,7 @@ public class GameManager : MonoBehaviour
         var maxX = playersArr.Max( p => p.transform.position.x );
         for( var i = 0; i < NumPlayers(); i++ )
         {
-            Instantiate( skullEnemy, new Vector3( maxX + 30f, 0, Random.Range( 2, 20 ) ),
+            Instantiate( testEnemies.RandomEntry(), new Vector3( maxX + 30f, 0, Random.Range( 2, 20 ) ),
                 Quaternion.identity, enemies );
         }
     }
