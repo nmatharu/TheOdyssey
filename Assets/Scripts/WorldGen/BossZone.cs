@@ -36,7 +36,7 @@ public class BossZone : MonoBehaviour
         var wait = new WaitForFixedUpdate();
         for( var frame = 0; frame < closeTransitionFrames; frame++ )
         {
-            for( var i = _leftSpikeStart; i <= _leftSpikeEnd; i++ )
+            for( var i = _leftSpikeStart; i < _leftSpikeEnd; i++ )
             {
                 SetYPos( leftSpikes[ i ], JBB.Map( frame, 
                     0, closeTransitionFrames - 1, downPosY, upPosY ) );

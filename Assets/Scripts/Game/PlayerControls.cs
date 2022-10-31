@@ -22,35 +22,57 @@ public class PlayerControls : MonoBehaviour
 
     public void Move( InputAction.CallbackContext context )
     {
-        if( _player.inputDisabled ) return;
+        if( Paused() || _player == null || _player.inputDisabled ) return;
         _player.InputMovement( context.ReadValue<Vector2>() );
     }
 
     public void Interact( InputAction.CallbackContext context )
     {
-        if( _player.inputDisabled ) return;
+        if( Paused() || _player == null || _player.inputDisabled ) return;
         if( context.action.triggered )
             _player.Interact();
     }
 
     public void Attack1( InputAction.CallbackContext context )
     {
-        if( _player.inputDisabled ) return;
+        if( Paused() || _player == null || _player.inputDisabled ) return;
         if( context.action.triggered )
             _player.LightAttack();
     }
 
     public void Attack2( InputAction.CallbackContext context )
     {
-        if( _player.inputDisabled ) return;
+        if( Paused() || _player == null || _player.inputDisabled ) return;
         if( context.action.triggered )
             _player.SpecialAttack();
     }
 
     public void Roll( InputAction.CallbackContext context )
     {
-        if( _player.inputDisabled ) return;
+        if( Paused() || _player == null || _player.inputDisabled ) return;
         if( context.action.triggered )
             _player.Roll();
     }
+
+    public void Inventory( InputAction.CallbackContext context )
+    {
+        if( Paused() || _player == null || _player.inputDisabled ) return;
+        if( context.action.triggered )
+            _player.CycleInventory();
+    }
+
+    public void GamePause( InputAction.CallbackContext context )
+    {
+        if( _player == null || _player.inputDisabled ) return;
+        if( context.action.triggered )
+            GameManager.Instance.PauseGame( _playerId );
+    }
+
+    public void LModifier( InputAction.CallbackContext context )
+    {
+        if( Paused() || _player == null || _player.inputDisabled ) return;
+        _player.SetLModifier( context.ReadValue<float>() > 0.9f );
+    }
+    
+    bool Paused() => GameManager.Instance.Paused();
 }

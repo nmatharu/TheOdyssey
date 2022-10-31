@@ -151,15 +151,51 @@ MonoBehaviour:
     m_ActionId: b522d0c9-694d-4ae8-9655-d4c7eab4c833
     m_ActionName: InGame/Roll[/Keyboard/space,/XInputControllerWindows/buttonEast]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3841852434005081493}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: LModifier
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 28f6ed3d-1501-4063-a709-ba278c3e6e50
     m_ActionName: InGame/LModifier[/Keyboard/leftShift,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/leftShoulder]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3841852434005081493}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: Inventory
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 3cfcc5b3-15f3-4e88-9f81-7a70dd1c5880
     m_ActionName: InGame/RIventory[/Keyboard/tab,/XInputControllerWindows/rightTrigger,/XInputControllerWindows/rightShoulder]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3841852434005081493}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: GamePause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 1d6a4623-291c-44b0-8bc5-f44caabc2ad7
     m_ActionName: InGame/Start[/Keyboard/escape,/XInputControllerWindows/start,/XInputControllerWindows/select]
   m_NeverAutoSwitchControlSchemes: 1

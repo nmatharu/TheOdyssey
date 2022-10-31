@@ -119,7 +119,7 @@ public class WorldGenerator : MonoBehaviour
 
         _bossZone = Instantiate( Gen( WorldGenIndex.Misc.BossZone ), 
             CoordsToWorldPos( worldSizeX - 20, 0 ), Quaternion.identity ).GetComponent<BossZone>();
-        _bossZone.SetStartEnd( 3, 8 );
+        _bossZone.SetStartEnd( 3, 3 + 6 );
         // this.Invoke( () => _bossZone.CloseLeft(), 5f );
         // this.Invoke( () => _bossZone.OpenRight(), 10f );
 

@@ -22,9 +22,13 @@ public class GameManager : MonoBehaviour
     DamageNumber[] _damageNumberPool;
 
     [ SerializeField ] TextMeshProUGUI fpsDisplay;
+    [ SerializeField ] GameObject pauseScreen;
 
     public static GameManager Instance { get; private set; }
     private bool _fpsLimitOn;
+
+    bool _paused;
+    int _pausedBy;
     
     void Awake()
     {
@@ -101,4 +105,24 @@ public class GameManager : MonoBehaviour
 
     public Transform Projectiles() => projectiles;
     public Transform Players() => players;
+
+    public void PauseGame( int playerId )
+    {
+        switch( _paused )
+        {
+            case true when playerId == _pausedBy:
+                Time.timeScale = 1;
+                _paused = false;
+                pauseScreen.SetActive( false );
+                break;
+            case false:
+                Time.timeScale = 0;
+                _paused = true;
+                pauseScreen.SetActive( true );
+                _pausedBy = playerId;
+                break;
+        }
+    }
+
+    public bool Paused() => _paused;
 }

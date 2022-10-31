@@ -52,9 +52,9 @@
                 },
                 {
                     "name": "LModifier",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "28f6ed3d-1501-4063-a709-ba278c3e6e50",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true

@@ -117,6 +117,10 @@ public class Player : MonoBehaviour
 
     public void Roll() => _playerMoves.Roll();
 
+    public void CycleInventory() => Debug.Log( "Inventory Cycle" );
+
+    public void SetLModifier( bool b ) => _material.color = b ? Color.blue : Color.white;
+
     public void IncomingDamage( float dmg )
     {
         if( rolling )   return;
