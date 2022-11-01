@@ -1,15 +1,29 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GizmoDrawTest : MonoBehaviour
 {
-    [ SerializeField ] Vector3 position;
     [ SerializeField ] Vector3 bounds;
+    [ SerializeField ] float centerDist;
+
+    void OverlapBox()
+    {
+        var colliders = Physics.OverlapBox( transform.position + transform.forward * centerDist,
+            bounds / 2, transform.rotation );
+    }
+
     void OnDrawGizmos()
     {
+        var prevMatrix = Gizmos.matrix;
         Gizmos.matrix = transform.localToWorldMatrix;
-        Gizmos.DrawWireCube( transform.InverseTransformPoint( transform.position ) + position, bounds );
+
+        var boxPosition = transform.position + transform.forward * centerDist;
+
+        // convert from world position to local position 
+        boxPosition = transform.InverseTransformPoint( boxPosition );
+
+        Gizmos.DrawWireCube( boxPosition, bounds );
+
+        // restore previous Gizmos settings
+        Gizmos.matrix = prevMatrix;
     }
 }

@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: 2509129439917440980}
   - component: {fileID: 428212638778311382}
   - component: {fileID: 164597702451491979}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Nightmare
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class Skull : MonoBehaviour
     [ SerializeField ] float speed = 3f;
     [ SerializeField ] GameObject fireballPrefab;
     [ SerializeField ] Transform mouthPos;
+    [ SerializeField ] ParticleSystem mouthFire;
     [ SerializeField ] float fireballFireRate = 2.5f;
 
     Quaternion _movementDirection;
@@ -20,7 +22,7 @@ public class Skull : MonoBehaviour
     {
         _body = GetComponent<Rigidbody>();
         InvokeRepeating( nameof( RunPathfinding ), 0, 1f );
-        InvokeRepeating( nameof( FireFireball ), 1 + fireballFireRate * Random.value, fireballFireRate );
+        InvokeRepeating( nameof( FireFireball ), Random.Range( 1f, 2f ), fireballFireRate );
 
         _movementDirection = Quaternion.identity;
         _path = new Queue<Vector2Int>();
@@ -119,9 +121,16 @@ public class Skull : MonoBehaviour
     void FireFireball()
     {
         if( _targetT == null ) return;
-        var t = transform;
-        var o = Instantiate( fireballPrefab, mouthPos.position, t.rotation, GameManager.Instance.Projectiles() );
-        var fireball = o.GetComponent<SkullFireball>();
-        fireball.TargetDirection( _targetT.position );
+
+        const float indicatorFrames = 75f;
+        mouthFire.Play();
+        this.Invoke( () =>
+        {
+            var t = transform;
+            var o = Instantiate( fireballPrefab, mouthPos.position, t.rotation, GameManager.Instance.Projectiles() );
+            var fireball = o.GetComponent<SkullFireball>();
+            fireball.TargetDirection( _targetT.position );
+        }, indicatorFrames / 50f );
+        
     }
 }

@@ -14,10 +14,10 @@ TagManager:
   - 
   - 
   - WaterCollider
-  - 
-  - 
-  - 
-  - 
+  - PlayerRb
+  - PlayerRbDashing
+  - EnemyRbLand
+  - EnemyRbFlying
   - 
   - 
   - 

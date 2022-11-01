@@ -35,6 +35,7 @@ public class PlayerMoves : MonoBehaviour
     Player _player;
     PlayerStatusBar _statusBar;
     SwordPfx _swordPfx;
+    Collider _collider;
 
     // 0 - slash, 1 - slash, 2 - stab
     int _lightSwingIndex = 0;
@@ -47,12 +48,19 @@ public class PlayerMoves : MonoBehaviour
     static readonly int ASlash = Animator.StringToHash( "Armature|7_Heavy_A_Default" );
     static readonly int ARoll = Animator.StringToHash( "Armature|6_Roll" );
 
+    int _physicsLayerPlayer;
+    int _physicsLayerPlayerDashing;
+
     void Start()
     {
         _player = GetComponent<Player>();
         _statusBar = GetComponentInChildren<PlayerStatusBar>();
         _swordPfx = GetComponent<SwordPfx>();
+        _collider = GetComponent<Collider>();
         _aSwings = new[] { ASwingA, ASwingB, ASwingC };
+        
+        _physicsLayerPlayer = LayerMask.NameToLayer( "PlayerRb" );
+        _physicsLayerPlayerDashing = LayerMask.NameToLayer( "PlayerRbDashing" );
     }
 
     public void LightAttack()
@@ -119,7 +127,15 @@ public class PlayerMoves : MonoBehaviour
         _player.rolling = true;
         _player.rollOnCd = true;
 
-        this.Invoke( () => _player.rolling = false, _player.rollDuration );
+        gameObject.layer = _physicsLayerPlayerDashing;
+
+        this.Invoke( () =>
+        {
+            gameObject.layer = _physicsLayerPlayer;
+            _player.rolling = false;
+            
+        }, _player.rollDuration );
+        
         this.Invoke( () => _player.rollOnCd = false, _player.rollCooldown );
         _statusBar.SetRollCdBar( _player.rollCooldown );
     }
@@ -146,11 +162,5 @@ public class PlayerMoves : MonoBehaviour
                 }
             }
         }, frames60 / 60f );
-    }
-
-    void OnDrawGizmos()
-    {
-        // Gizmos.DrawWireCube( transform.position + transform.forward, lightStabRectBounds * 2f );
-        // Gizmos.DrawWireSphere( transform.position + transform.forward / 2f, slashAttackRadius );
     }
 }

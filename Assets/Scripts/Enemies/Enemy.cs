@@ -6,7 +6,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [ SerializeField ] float maxHp = 20;
-    [ SerializeField ] int spawnCost = 10;
+    [ SerializeField ] public int spawnCost = 10;
     [ SerializeField ] Renderer[] renderers;
     [ SerializeField ] float hitFlashIntensity = 1f;
     

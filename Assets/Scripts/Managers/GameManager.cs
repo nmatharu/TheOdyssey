@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
         }
 
         InvokeRepeating( nameof( SpawnSkull ), 2f, 10f );
+        InvokeRepeating( nameof( CheckForNextWave ), 1f, 0.25f );
 
         _damageNumberPool = new DamageNumber[ damageNumberPoolSize ];
         for( var i = 0; i < damageNumberPoolSize; i++ )
@@ -70,11 +71,32 @@ public class GameManager : MonoBehaviour
     {
         if( !spawnEnemies ) return;
         var maxX = playersArr.Max( p => p.transform.position.x );
-        for( var i = 0; i < NumPlayers(); i++ )
+        for( var i = 0; i < NumPlayers() + 2; i++ )
         {
-            Instantiate( testEnemies.RandomEntry(), new Vector3( maxX + 30f, 0, Random.Range( 2, 20 ) ),
-                Quaternion.identity, enemies );
+            this.Invoke( () => EnemySpawner.Instance.Spawn( testEnemies.RandomEntry(),
+                new Vector3( Random.Range( maxX - 20f, maxX + 20f ), 0, Random.Range( 2, 20 ) ) ), i * 0.5f );
         }
+    }
+
+    void CheckForNextWave()
+    {
+        var maxX = playersArr.Max( p => p.transform.position.x );
+        if( maxX > EnemySpawner.Instance.NextXTrigger() )
+        {
+            var waveSize = EnemySpawner.Instance.NextWaveSize();
+            var spawnPoints = ValidSpawnPointsAround( maxX, waveSize );
+            EnemySpawner.Instance.LetItRip( spawnPoints );
+        }
+    }
+
+    Vector3[] ValidSpawnPointsAround( float centerX, int num )
+    {
+        var spawnPoints = new Vector3[ num ];
+        for( var i = 0; i < spawnPoints.Length; i++ )
+        {
+            spawnPoints[ i ] = new Vector3( centerX + Random.Range( -10f, 10f ), 0, Random.Range( 2, 20 ) );
+        }
+        return spawnPoints;
     }
 
     public void AwardGold( int spawnCost )

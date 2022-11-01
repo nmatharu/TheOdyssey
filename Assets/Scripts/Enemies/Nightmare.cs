@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Nightmare : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class Nightmare : MonoBehaviour
     Transform _targetT;
 
     Animator _animator;
-    bool _slashOnCooldown = false;
+    bool _slashOnCooldown = true;
 
     static readonly int AChase = Animator.StringToHash( "Armature|1_Chase" );
     static readonly int ADash = Animator.StringToHash( "Armature|2_Dash" );
@@ -52,7 +53,8 @@ public class Nightmare : MonoBehaviour
         _state = NightmareState.Chasing;
 
         InvokeRepeating( nameof( RunPathfinding ), 0, 1f );
-
+        this.Invoke( () => _slashOnCooldown = false, Random.Range( 1f, 2f ) );
+        
         _movementDirection = Quaternion.identity;
         _path = new Queue<Vector2Int>();
     }

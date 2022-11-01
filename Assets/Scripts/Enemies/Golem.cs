@@ -31,7 +31,7 @@ public class Golem : MonoBehaviour
     Animator _animator;
 
     bool _smashing = false;
-    bool _smashOnCooldown = false;
+    bool _smashOnCooldown = true;
 
     static readonly int AWalk = Animator.StringToHash( "Walk" );
     static readonly int ASmash = Animator.StringToHash( "Smash" );
@@ -49,6 +49,8 @@ public class Golem : MonoBehaviour
 
         InvokeRepeating( nameof( RunPathfinding ), 0, 1f );
 
+        this.Invoke( () => _smashOnCooldown = false, Random.Range( 1f, 2f ) );
+        
         _movementDirection = Quaternion.identity;
         _path = new Queue<Vector2Int>();
     }
