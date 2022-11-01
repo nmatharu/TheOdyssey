@@ -91,7 +91,7 @@ public class WorldGenerator : MonoBehaviour
             GenerateWaterfall( x, Random.Range( 2, 7 ) );
 
         
-        GenerateLinkAltars();
+        // GenerateLinkAltars();
 
         // for( var x = 0; x < worldSizeX; x++ )
         // {
