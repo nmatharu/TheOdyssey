@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     [ SerializeField ] public int spawnCost = 10;
     [ SerializeField ] Renderer[] renderers;
     [ SerializeField ] float hitFlashIntensity = 1f;
+    [ SerializeField ] ParticleSystem deathPfx;
     
     Color[] _originalMatColors;
 
@@ -61,7 +62,11 @@ public class Enemy : MonoBehaviour
             renderers[ i ].material.color = _originalMatColors[ i ];
     }
 
-    void Die() => Destroy( gameObject );
+    void Die()
+    {
+        Instantiate( deathPfx, transform.position, transform.rotation, GameManager.Instance.effectsParent ).Play();
+        Destroy( gameObject );
+    }
 
     // void Die()
     // {

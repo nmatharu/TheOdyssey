@@ -52,6 +52,7 @@ MonoBehaviour:
   cannotInteractPrompt: WAIT
   puzzleLight: {fileID: 5215777816256221763}
   togglePfx: {fileID: 2541625622196860559}
+  clearPfx: {fileID: 278012975171698441, guid: 5b199ac589b1d43548f310f1865dee6d, type: 3}
   altar: 0
   lockTime: 0.33
 --- !u!65 &4772650810018271630
@@ -177,7 +178,7 @@ GameObject:
   - component: {fileID: 2541625622196860559}
   - component: {fileID: 8535937762983035279}
   m_Layer: 0
-  m_Name: Particle System
+  m_Name: Activate Pfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

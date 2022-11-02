@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     [ SerializeField ] Transform players;
     [ SerializeField ] Transform enemies;
+    [ SerializeField ] public Transform effectsParent;
     [ SerializeField ] Player[] playersArr;
     [ SerializeField ] Transform projectiles;
 

@@ -145,4 +145,6 @@ public class LinkPuzzle
             p.Lock();
         }
     }
+
+    public int Size() => _size;
 }

@@ -270,6 +270,7 @@ MonoBehaviour:
   - {fileID: 5148483145836803054}
   - {fileID: 4072288033767327788}
   hitFlashIntensity: 1.5
+  deathPfx: {fileID: 7099122110959006634, guid: 2f75be5325e6c40cd8993edf3bfff45e, type: 3}
 --- !u!114 &164597702451491979
 MonoBehaviour:
   m_ObjectHideFlags: 0
