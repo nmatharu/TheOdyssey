@@ -263,8 +263,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b0d29ef027971146902f8e3924521fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 50
-  spawnCost: 10
+  maxHp: 30
+  spawnCost: 30
   renderers:
   - {fileID: 5604224646061494782}
   - {fileID: 5148483145836803054}
@@ -295,7 +295,7 @@ MonoBehaviour:
   pfxEndFrame: 10
   activeDamageFrame: 18
   slashDamageRadius: 3.5
-  damage: 9
+  damage: 5
 --- !u!1 &2395626710980604869
 GameObject:
   m_ObjectHideFlags: 0

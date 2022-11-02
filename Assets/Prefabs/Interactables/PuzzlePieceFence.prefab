@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8147982834451810538}
   - component: {fileID: 4772650810018271630}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: PuzzlePieceFence
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -8,7 +8,7 @@ public class Tile
     // World space
     public Vector3 Position;
 
-    // Index of this gameObject in WorldGenIndex.cs
+    // Index of this gameObject in WorldGenIndex.cs (blocks)
     public int GenIndex;
 
     // Grid space
@@ -39,4 +39,6 @@ public class Tile
         Position = pos;
         EmptyCollider = emptyCollider;
     }
+
+    public bool Is( WorldGenIndex.Blocks blockType ) => GenIndex == (int) blockType;
 }

@@ -26,11 +26,12 @@ public class Nightmare : MonoBehaviour
     Queue<Vector2Int> _path;
     Vector3 _currentTargetTile;
     Vector3 _dashDir;
-
+    Transform _targetPlayer;
+    
     Rigidbody _body;
-    Transform _targetT;
-
     Animator _animator;
+    Enemy _enemy;
+
     bool _slashOnCooldown = true;
 
     static readonly int AChase = Animator.StringToHash( "Armature|1_Chase" );
@@ -50,6 +51,8 @@ public class Nightmare : MonoBehaviour
     {
         _body = GetComponent<Rigidbody>();
         _animator = GetComponentInChildren<Animator>();
+        _enemy = GetComponent<Enemy>();
+        
         _state = NightmareState.Chasing;
 
         InvokeRepeating( nameof( RunPathfinding ), 0, 1f );
@@ -97,11 +100,11 @@ public class Nightmare : MonoBehaviour
             ? Vector3.zero
             : _movementDirection * Vector3.forward * speed;
 
-        if( _targetT != null )
-            transform.LookAt( _targetT );
+        if( _targetPlayer != null )
+            transform.LookAt( _targetPlayer );
 
         if( !defaultTarget && !_slashOnCooldown &&
-            JBB.DistXZSquared( pos, _targetT.position ) < dashThreshold * dashThreshold )
+            JBB.DistXZSquared( pos, _targetPlayer.position ) < dashThreshold * dashThreshold )
         {
             _state = NightmareState.Dashing;
             _dashDir = ( _currentTargetTile - transform.position ).normalized;
@@ -144,7 +147,7 @@ public class Nightmare : MonoBehaviour
             var p = c.GetComponent<Player>();
             if( p != null )
             {
-                p.IncomingDamage( damage );
+                p.IncomingDamage( damage, _enemy.Level() );
             }
         }
     }
@@ -158,19 +161,15 @@ public class Nightmare : MonoBehaviour
         var pos = transform.position;
 
         // Set closest player to targetPos
-        var transforms = GameManager.Instance.Players().Cast<Transform>()
-            .Where( p => p.gameObject.activeInHierarchy ).ToArray();
+        var players = GameManager.Instance.Players();
+        if( players.Empty() )   return;
+        var closestPlayer = players[ 0 ].transform;
+        
+        foreach( var p in players )
+            if( JBB.DistXZSquared( pos, p.transform.position ) < JBB.DistXZSquared( pos, closestPlayer.position ) )
+                closestPlayer = p.transform;
 
-        if( transforms.Length == 0 ) return;
-
-        var closestT = transforms[ 0 ];
-        foreach( var t in transforms )
-        {
-            if( JBB.DistXZSquared( pos, t.position ) < JBB.DistXZSquared( pos, closestT.position ) )
-                closestT = t;
-        }
-
-        _targetT = closestT;
+        _targetPlayer = closestPlayer;
     }
 
     void RunPathfinding()
@@ -181,10 +180,10 @@ public class Nightmare : MonoBehaviour
 
     void PathFindToTarget()
     {
-        if( _targetT.position == Vector3.zero ) return;
+        if( _targetPlayer.position == Vector3.zero ) return;
 
         var startXY = WorldGenerator.WorldPosToCoords( transform.position );
-        var targetXY = WorldGenerator.WorldPosToCoords( _targetT.position );
+        var targetXY = WorldGenerator.WorldPosToCoords( _targetPlayer.position );
 
         // var pathSegment = new List<AStarNode>();
         // var node = WorldGenDemo.PathFind( startXY, targetXY );

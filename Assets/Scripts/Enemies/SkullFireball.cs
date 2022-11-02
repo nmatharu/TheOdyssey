@@ -9,24 +9,34 @@ public class SkullFireball : MonoBehaviour
     [ SerializeField ] float dmg = 4f;
     
     Rigidbody _body;
+    int _level;
+    int _barrierLayer;
 
-    void Start() => _body = GetComponent<Rigidbody>();
-    public void TargetDirection( Vector3 target ) => transform.LookAt( target );
+    void Start()
+    {
+        _body = GetComponent<Rigidbody>();
+        _barrierLayer = LayerMask.NameToLayer( "EnvironmentBarrier" );
+    }
+
+    public void Init( int level, Vector3 target )
+    {
+        _level = level;
+        transform.LookAt( target );
+    }
     void FixedUpdate() => _body.velocity = transform.forward * speed;
 
     void OnTriggerEnter( Collider other )
     {
-        var p = other.GetComponent<Player>();
-        var e = other.GetComponent<Enemy>();
-
-        if( p == null && e == null )
+        if( other.gameObject.layer == _barrierLayer )
         {
-            Destroy( gameObject );
+            Destroy( gameObject, 1f / speed );
             return;
         }
 
+        var p = other.GetComponent<Player>();
+
         if( p == null || p.rolling ) return;
-        p.IncomingDamage( dmg );
+        p.IncomingDamage( dmg, _level );
         Destroy( gameObject );
     }
 }

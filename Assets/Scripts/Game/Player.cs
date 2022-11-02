@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
     [ SerializeField ] float maxHp = 30;
     [ SerializeField ] float rollSpeedMultiplier = 1.5f;
     [ SerializeField ] float speed = 8f;
+    
+    [ SerializeField ] Transform meshParent;
+    [ SerializeField ] ParticleSystem deathFx;
 
     public float rollDuration = 0.3f;
     public float rollCooldown = 1f;
@@ -20,10 +23,11 @@ public class Player : MonoBehaviour
     int _level;
     float _hp;
     Material _material;
-    
-    AnimationMovement _animationMovement;
+
+    Renderer[] _renderers;
     InteractPrompt _interactPrompt;
     PlayerMoves _playerMoves;
+    PlayerStatusBar _statusBar;
 
     PlayerMoves.SpecialAttackType _specialAttack;
 
@@ -55,9 +59,11 @@ public class Player : MonoBehaviour
     {
         _hp = maxHp;
         _material = GetComponentInChildren<Renderer>().material;
-        _animationMovement = GetComponent<AnimationMovement>();
+
+        _renderers = meshParent.GetComponentsInChildren<Renderer>();
         _interactPrompt = GetComponentInChildren<InteractPrompt>();
         _playerMoves = GetComponent<PlayerMoves>();
+        _statusBar = GetComponentInChildren<PlayerStatusBar>();
         _specialAttack = PlayerMoves.SpecialAttackType.Slash;
         _lastPos = transform.position;
 
@@ -70,6 +76,9 @@ public class Player : MonoBehaviour
         if( Camera.main == null ) return;
         var fwd = Camera.main.transform.forward;
         _cameraUp = new Vector3( fwd.x, 0, fwd.z );
+
+        var x =
+        GetComponentsInChildren<Renderer>();
     }
 
     void Update()
@@ -103,17 +112,9 @@ public class Player : MonoBehaviour
 
     public void InputMovement( Vector2 v ) => _moveInput = v;
 
-    public void LightAttack()
-    {
-        _playerMoves.LightAttack();
-        // _animationMovement.LightAttack();
-    }
+    public void LightAttack() => _playerMoves.LightAttack();
 
-    public void SpecialAttack()
-    {
-        _playerMoves.SpecialAttack( _specialAttack );
-        // _animationMovement.HeavyAttack();
-    }
+    public void SpecialAttack() => _playerMoves.SpecialAttack( _specialAttack );
 
     public void Roll() => _playerMoves.Roll();
 
@@ -121,10 +122,10 @@ public class Player : MonoBehaviour
 
     public void SetLModifier( bool b ) => _material.color = b ? Color.blue : Color.white;
 
-    public void IncomingDamage( float dmg )
+    public void IncomingDamage( float unscaledDmg, int enemyLevel )
     {
         if( rolling )   return;
-        TakeDamage( dmg );
+        TakeDamage( unscaledDmg * GameManager.Instance.EnemyDamageMultiplier( enemyLevel ) );
     }
 
     void TakeDamage( float dmg )
@@ -210,9 +211,37 @@ public class Player : MonoBehaviour
 
     void Die()
     {
-        _statistics.Die();
         dead = true;
+        
+        _statistics.Die();
+        Hide();
+        deathFx.Play();
+        
+        this.Invoke( () =>
+        {
+            if( dead )
+                showOnCamera = false;
+        }, 3f );
         // gameObject.SetActive( false );
+    }
+
+    public void Respawn()
+    {
+        if( !dead ) return;
+        dead = false;
+        showOnCamera = true;
+        Hide( false );
+
+        _hp = maxHp * GameManager.Instance.respawnHealthPct;
+    }
+
+    void Hide( bool hide = true )
+    {
+        _statusBar.gameObject.SetActive( !hide );
+        _body.isKinematic = hide;
+        _body.detectCollisions = !hide;
+        foreach( var r in _renderers )
+            r.enabled = !hide;
     }
 
     public float MaxHp() => maxHp;

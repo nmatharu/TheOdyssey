@@ -14,13 +14,16 @@ public class Skull : MonoBehaviour
     Quaternion _movementDirection;
     Queue<Vector2Int> _path;
     Vector3 _currentTargetTile;
+    Transform _targetPlayer;
 
     Rigidbody _body;
-    Transform _targetT;
-
+    Enemy _enemy;
+    
     void Start()
     {
         _body = GetComponent<Rigidbody>();
+        _enemy = GetComponent<Enemy>();
+        
         InvokeRepeating( nameof( RunPathfinding ), 0, 1f );
         InvokeRepeating( nameof( FireFireball ), Random.Range( 1f, 2f ), fireballFireRate );
 
@@ -44,8 +47,8 @@ public class Skull : MonoBehaviour
 
         _body.velocity = _currentTargetTile == Vector3.zero ? Vector3.zero : _movementDirection * Vector3.forward * speed;
 
-        if( _targetT != null )
-            transform.LookAt( _targetT );
+        if( _targetPlayer != null )
+            transform.LookAt( _targetPlayer );
     }
 
     void FindNewTarget()
@@ -53,19 +56,15 @@ public class Skull : MonoBehaviour
         var pos = transform.position;
 
         // Set closest player to targetPos
-        var transforms = GameManager.Instance.Players().Cast<Transform>()
-            .Where( p => p.gameObject.activeInHierarchy ).ToArray();
+        var players = GameManager.Instance.Players();
+        if( players.Empty() )   return;
+        var closestPlayer = players[ 0 ].transform;
         
-        if( transforms.Length == 0 )    return;
+        foreach( var p in players )
+            if( JBB.DistXZSquared( pos, p.transform.position ) < JBB.DistXZSquared( pos, closestPlayer.position ) )
+                closestPlayer = p.transform;
 
-        var closestT = transforms[ 0 ];
-        foreach( var t in transforms )
-        {
-            if( JBB.DistXZSquared( pos, t.position ) < JBB.DistXZSquared( pos, closestT.position ) )
-                closestT = t;
-        }
-
-        _targetT = closestT;
+        _targetPlayer = closestPlayer;
     }
 
     void RunPathfinding()
@@ -76,10 +75,10 @@ public class Skull : MonoBehaviour
 
     void PathFindToTarget()
     {
-        if( _targetT.position == Vector3.zero ) return;
+        if( _targetPlayer.position == Vector3.zero ) return;
         
         var startXY = WorldGenerator.WorldPosToCoords( transform.position );
-        var targetXY = WorldGenerator.WorldPosToCoords( _targetT.position );
+        var targetXY = WorldGenerator.WorldPosToCoords( _targetPlayer.position );
 
         // var pathSegment = new List<AStarNode>();
         // var node = WorldGenDemo.PathFind( startXY, targetXY );
@@ -120,7 +119,7 @@ public class Skull : MonoBehaviour
 
     void FireFireball()
     {
-        if( _targetT == null ) return;
+        if( _targetPlayer == null ) return;
 
         const float indicatorFrames = 75f;
         mouthFire.Play();
@@ -129,7 +128,7 @@ public class Skull : MonoBehaviour
             var t = transform;
             var o = Instantiate( fireballPrefab, mouthPos.position, t.rotation, GameManager.Instance.Projectiles() );
             var fireball = o.GetComponent<SkullFireball>();
-            fireball.TargetDirection( _targetT.position );
+            fireball.Init( _enemy.Level(), _targetPlayer.position );
         }, indicatorFrames / 50f );
         
     }

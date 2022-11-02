@@ -23,7 +23,13 @@ public class Enemy : MonoBehaviour
             _originalMatColors[ i ] = renderers[ i ].material.color;
     }
 
-    public void SetLevel( int lvl ) => _level = lvl;
+    public void Init( int lvl )
+    {
+        _level = lvl;
+        maxHp *= GameManager.Instance.EnemyHealthMultiplier( _level );
+        // TODO Set Status Bar Level
+    }
+
     public void TakeDamage( Player p, float dmg )
     {
         StartCoroutine( FlashMaterial() );
@@ -56,6 +62,16 @@ public class Enemy : MonoBehaviour
     }
 
     void Die() => Destroy( gameObject );
+
+    // void Die()
+    // {
+    //     deathPfx.Play();
+    //     deathPfx.transform.parent = gameObject.transform.parent;
+    //     deathPfx.transform.position = gameObject.transform.position;
+    //     deathPfx.transform.rotation = gameObject.transform.rotation;
+    //     Destroy( gameObject );
+    //     this.Invoke( () => Destroy( gameObject ), 2f );
+    // }
 
     public int Level() => _level;
     public float MaxHp() => maxHp;

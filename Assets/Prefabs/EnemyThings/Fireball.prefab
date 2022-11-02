@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 8
-  dmg: 4
+  dmg: 3
 --- !u!54 &7795100490814317570
 Rigidbody:
   m_ObjectHideFlags: 0

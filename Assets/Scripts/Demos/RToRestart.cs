@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +7,10 @@ public class RToRestart : MonoBehaviour
     {
         if( Input.GetKeyDown( KeyCode.R ) )
         {
-            SceneManager.LoadScene( SceneManager.GetActiveScene().name );
+            if( Input.GetKey( KeyCode.LeftShift ) )
+                SceneManager.LoadScene( SceneManager.GetActiveScene().name );
+            else
+                GameManager.Instance.RespawnAll();
         }
     }
 }

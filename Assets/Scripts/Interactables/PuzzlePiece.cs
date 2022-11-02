@@ -46,7 +46,7 @@ public class PuzzlePiece : Interactable
     public void Solve()
     {
         _solved = true;
-        this.Invoke( () => Destroy( gameObject ), 0.5f );
+        Destroy( gameObject, 0.5f );
     }
 
     public void Lock()

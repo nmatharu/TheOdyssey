@@ -1,10 +1,10 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DynamicCams : MonoBehaviour
 {
-    [ SerializeField ] Transform playersParent;
     [ SerializeField ] Camera[] cameras;
 
     int _numPlayers = 1;
@@ -241,16 +241,14 @@ public class DynamicCams : MonoBehaviour
 
     void SortPlayerXPoses()
     {
-        var adjustedXPoses = ( from Transform p in playersParent
-            where p.gameObject.activeInHierarchy
-            select CameraCompensation( p.position ) ).ToList();
+        var adjustedXPoses = ( from p in GameManager.Instance.CameraPlayers() 
+            select CameraCompensation( p.transform.position ) ).ToList();
         _numPlayers = adjustedXPoses.Count;
         _sortedPlayerXPoses = adjustedXPoses.OrderBy( p => p ).ToArray();
     }
 
     float CameraCompensation( Vector3 pos )
     {
-        // var rot = Mathf.Atan2( cameraUp.z, cameraUp.x );
         var right = new Vector3( cameraUp.z, 0, -cameraUp.x );
         return Mathf.Max( camXClampMin, Vector3.Project( pos, right ).x * projectionFactor );
     }

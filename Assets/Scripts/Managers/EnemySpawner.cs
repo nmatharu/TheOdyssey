@@ -10,8 +10,16 @@ public class EnemySpawner : MonoBehaviour
     [ SerializeField ] Transform spawnersParent;
 
     [ SerializeField ] Enemy[] enemies;
+    [ SerializeField ] EnemyWave[] waves;
 
-    Queue<EnemyWave> _waveStack;
+    Queue<EnemyWave> _waveQueue;
+    
+    enum EnemyType
+    {
+        Skull,
+        Nightmare,
+        Golem
+    }
     
     public static EnemySpawner Instance { get; private set; }
 
@@ -22,27 +30,26 @@ public class EnemySpawner : MonoBehaviour
         else
             Instance = this;
 
-        _waveStack = new Queue<EnemyWave>();
+        _waveQueue = new Queue<EnemyWave>();
+
+        foreach( var w in waves )
+            _waveQueue.Enqueue( w );
         
-        _waveStack.Enqueue( new EnemyWave( 40, new[] { enemies[ 0 ].gameObject, enemies[ 0 ].gameObject } ) );
-
-        _waveStack.Enqueue( new EnemyWave( 60, new[] { enemies[ 1 ].gameObject, enemies[ 2 ].gameObject, 
-            enemies[ 2 ].gameObject, enemies[ 0 ].gameObject } ) );
-
-        _waveStack.Enqueue( new EnemyWave( 80, new[] { enemies[ 1 ].gameObject, enemies[ 2 ].gameObject, 
-            enemies[ 2 ].gameObject, enemies[ 0 ].gameObject, enemies[ 1 ].gameObject, enemies[ 2 ].gameObject, 
-            enemies[ 2 ].gameObject, enemies[ 0 ].gameObject, enemies[ 1 ].gameObject } ) );
-    }
-
-    public void Spawn( GameObject o, Vector3 pos )
-    {
-        var p = Instantiate( spawnPillar, pos, Quaternion.identity, spawnersParent ).GetComponent<SpawnPillar>();
-        p.Set( o, 2f );
+        // _waveStack.Enqueue( new EnemyWave( 20, new[] { Enemy( EnemyType.Skull ) } ) );
+        //
+        // _waveStack.Enqueue( new EnemyWave( 40, new[] { enemies[ 0 ].gameObject, enemies[ 0 ].gameObject } ) );
+        //
+        // _waveStack.Enqueue( new EnemyWave( 60, new[] { enemies[ 1 ].gameObject, enemies[ 2 ].gameObject, 
+        //     enemies[ 2 ].gameObject, enemies[ 0 ].gameObject } ) );
+        //
+        // _waveStack.Enqueue( new EnemyWave( 80, new[] { enemies[ 1 ].gameObject, enemies[ 2 ].gameObject, 
+        //     enemies[ 2 ].gameObject, enemies[ 0 ].gameObject, enemies[ 1 ].gameObject, enemies[ 2 ].gameObject, 
+        //     enemies[ 2 ].gameObject, enemies[ 0 ].gameObject, enemies[ 1 ].gameObject } ) );
     }
 
     public void LetItRip( Vector3[] spawnPoints )
     {
-        var wave = _waveStack.Dequeue().ToSpawn;
+        var wave = _waveQueue.Dequeue().toSpawn;
         for( var i = 0; i < wave.Count; i++ )
         {
             var i1 = i;
@@ -56,18 +63,21 @@ public class EnemySpawner : MonoBehaviour
     
     public Transform EnemiesParent() => enemiesParent;
 
-    public int NextXTrigger() => _waveStack.Count > 0 ? _waveStack.Peek().XTrigger : int.MaxValue;
-    public int NextWaveSize() => _waveStack.Peek().ToSpawn.Count;
+    public int NextXTrigger() => _waveQueue.Count > 0 ? _waveQueue.Peek().xTrigger : int.MaxValue;
+    public int NextWaveSize() => _waveQueue.Peek().toSpawn.Count;
 
+    [ Serializable ]
     class EnemyWave
     {
-        public readonly int XTrigger;
-        public readonly List<GameObject> ToSpawn;
+        [ SerializeField ] public int xTrigger;
+        [ SerializeField ] public List<GameObject> toSpawn;
 
         public EnemyWave( int xTrigger, IEnumerable<GameObject> toSpawn )
         {
-            XTrigger = xTrigger;
-            ToSpawn = toSpawn.ToList();
+            this.xTrigger = xTrigger;
+            this.toSpawn = toSpawn.ToList();
         }
     }
+
+    GameObject Enemy( EnemyType type ) => enemies[ (int) type ].gameObject;
 }

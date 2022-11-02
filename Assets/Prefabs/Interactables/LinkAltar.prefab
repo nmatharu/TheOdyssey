@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 5926474350651038083}
   - component: {fileID: 5282060197148196777}
   - component: {fileID: 4496427062133177256}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: LinkAltar
   m_TagString: Untagged
   m_Icon: {fileID: 0}

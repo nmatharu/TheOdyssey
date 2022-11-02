@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -8,13 +9,8 @@ public class GameManager : MonoBehaviour
 {
     [ SerializeField ] Transform players;
     [ SerializeField ] Transform enemies;
-    [ SerializeField ] GameObject[] playersArr;
+    [ SerializeField ] Player[] playersArr;
     [ SerializeField ] Transform projectiles;
-
-    // TEMP
-    [ SerializeField ] GameObject[] testEnemies;
-    
-    [ SerializeField ] bool spawnEnemies = false;
 
     [ SerializeField ] Transform damageNumbersParent;
     [ SerializeField ] GameObject damageNumberPrefab;
@@ -24,11 +20,14 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] TextMeshProUGUI fpsDisplay;
     [ SerializeField ] GameObject pauseScreen;
 
+    [ SerializeField ] public float respawnHealthPct = 0.25f;
+
     public static GameManager Instance { get; private set; }
     private bool _fpsLimitOn;
 
     bool _paused;
     int _pausedBy;
+    int _enemyLevel = 1;
     
     void Awake()
     {
@@ -42,7 +41,6 @@ public class GameManager : MonoBehaviour
             // DontDestroyOnLoad( this );
         }
 
-        InvokeRepeating( nameof( SpawnSkull ), 2f, 10f );
         InvokeRepeating( nameof( CheckForNextWave ), 1f, 0.25f );
 
         _damageNumberPool = new DamageNumber[ damageNumberPoolSize ];
@@ -67,37 +65,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void SpawnSkull()
-    {
-        if( !spawnEnemies ) return;
-        var maxX = playersArr.Max( p => p.transform.position.x );
-        for( var i = 0; i < NumPlayers() + 2; i++ )
-        {
-            this.Invoke( () => EnemySpawner.Instance.Spawn( testEnemies.RandomEntry(),
-                new Vector3( Random.Range( maxX - 20f, maxX + 20f ), 0, Random.Range( 2, 20 ) ) ), i * 0.5f );
-        }
-    }
-
     void CheckForNextWave()
     {
         var maxX = playersArr.Max( p => p.transform.position.x );
-        if( maxX > EnemySpawner.Instance.NextXTrigger() )
+        if( maxX > WorldGenerator.CoordXToWorldX( EnemySpawner.Instance.NextXTrigger() ) )
         {
             var waveSize = EnemySpawner.Instance.NextWaveSize();
-            var spawnPoints = ValidSpawnPointsAround( maxX, waveSize );
+            var spawnPoints = WorldGenerator.Instance.ValidSpawnPointsAround( maxX, waveSize );
             EnemySpawner.Instance.LetItRip( spawnPoints );
         }
     }
 
-    Vector3[] ValidSpawnPointsAround( float centerX, int num )
-    {
-        var spawnPoints = new Vector3[ num ];
-        for( var i = 0; i < spawnPoints.Length; i++ )
-        {
-            spawnPoints[ i ] = new Vector3( centerX + Random.Range( -10f, 10f ), 0, Random.Range( 2, 20 ) );
-        }
-        return spawnPoints;
-    }
 
     public void AwardGold( int spawnCost )
     {
@@ -107,11 +85,9 @@ public class GameManager : MonoBehaviour
     // This implementation is for testing purposes
     public GameObject SpawnPlayer( int playerId )
     {
-        playersArr[ playerId ].SetActive( true );
-        return playersArr[ playerId ];
+        playersArr[ playerId ].gameObject.SetActive( true );
+        return playersArr[ playerId ].gameObject;
     }
-
-    public int NumPlayers() => playersArr.Count( p => p.activeInHierarchy );
 
     public void SpawnDamageNumber( Vector3 pos, int dmg, bool friendly )
     {
@@ -126,7 +102,13 @@ public class GameManager : MonoBehaviour
     void UpdateFpsDisplay() => fpsDisplay.text = (int) ( 1f / Time.unscaledDeltaTime ) + " FPS";
 
     public Transform Projectiles() => projectiles;
-    public Transform Players() => players;
+    public Player[] Players() => ( from Player p in playersArr where !p.dead && p.gameObject.activeInHierarchy select p ).ToArray();
+    public Player[] CameraPlayers() => ( from Player p in playersArr where p.showOnCamera && p.gameObject.activeInHierarchy select p ).ToArray();
+    int NumPlayersInParty() => playersArr.Count( p => p.gameObject.activeInHierarchy );
+
+    // TODO take into account Level and Num players
+    public float EnemyHealthMultiplier( int enemyLevel ) => 1f + ( NumPlayersInParty() - 1 ) * 0.5f;
+    public float EnemyDamageMultiplier( int enemyLevel ) => 1f + ( NumPlayersInParty() - 1 ) * 0.5f;
 
     public void PauseGame( int playerId )
     {
@@ -147,4 +129,12 @@ public class GameManager : MonoBehaviour
     }
 
     public bool Paused() => _paused;
+
+    public void RespawnAll()
+    {
+        foreach( var p in playersArr )
+            p.Respawn();
+    }
+
+    public int EnemyLevel() => _enemyLevel;
 }

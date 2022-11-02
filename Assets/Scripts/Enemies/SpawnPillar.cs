@@ -25,7 +25,8 @@ public class SpawnPillar : MonoBehaviour
     void Spawn()
     {
         pfx.Stop();
-        Instantiate( _toSpawn, transform.position, Quaternion.identity, EnemySpawner.Instance.EnemiesParent() );
-        this.Invoke( () => Destroy( gameObject ), 2f );
+        var o = Instantiate( _toSpawn, transform.position, Quaternion.identity, EnemySpawner.Instance.EnemiesParent() );
+        o.GetComponent<Enemy>().Init( GameManager.Instance.EnemyLevel() );
+        Destroy( gameObject, 2f );
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -37,6 +38,7 @@ public class WorldGenerator : MonoBehaviour
         new Vector2Int( (int) ( pos.x + 1 ) / 2, (int) ( pos.z + 1 ) / 2 );
 
     public static Vector3 CoordsToWorldPos( Vector2Int coords ) => new( 2 * coords.x, 0, 2 * coords.y );
+    public static float CoordXToWorldX( float coordX ) => 2 * coordX;
     static Vector3 CoordsToWorldPos( int x, int y ) => new( 2 * x, 0, 2 * y );
 
     void Awake()
@@ -79,7 +81,7 @@ public class WorldGenerator : MonoBehaviour
         Instantiate( Gen( WorldGenIndex.Misc.Cliffs ), Vector3.zero, Quaternion.identity, edgesParent );
         GenerateGrassBase();
         
-        var puzzlePlacements = new Vector2Int[] { new( 125, 4 ), new( 250, 5 ), new( worldSizeX - 21, 6 ) };
+        var puzzlePlacements = new Vector2Int[] { new( 74, 4 ), new( 196, 5 ), new( worldSizeX - 21, 6 ) };
         foreach( var p in puzzlePlacements ) 
             GenerateLinkPuzzle( p.x, p.y );
 
@@ -87,35 +89,16 @@ public class WorldGenerator : MonoBehaviour
             GenerateNpc( x );
         
         GenerateWaterfall( 0, 8 );
-        for( var x = 80; x < worldSizeX - 21; x += 60 )
+        for( var x = 30; x < worldSizeX - 21; x += 30 )
             GenerateWaterfall( x, Random.Range( 2, 7 ) );
-
         
         // GenerateLinkAltars();
-
-        // for( var x = 0; x < worldSizeX; x++ )
-        // {
-        //     for( var y = 0; y < worldSizeY; y++ )
-        //     {
-        //         if( GrasslandsNoiseMap( x, y ) == (int) WorldGenIndex.Blocks.Empty )
-        //         {
-        //             Destroy( _tileMap[ x, y ].Ground );
-        //             _tileMap[ x, y ].Ground = Instantiate( Gen( WorldGenIndex.Blocks.Empty ), 
-        //                 CoordsToWorldPos( x, y ), Quaternion.identity, blocksParent );
-        //             _tileMap[ x, y ].GenIndex = (int) WorldGenIndex.Blocks.Empty;
-        //             _tileMap[ x, y ].EmptyCollider = true;
-        //         }
-        //     }
-        // }
         
-
         // generate npc stuff
         // generate rivers, waterfalls etc.
         // generate trees n stuff in the gaps
         
-
         GenerateEnvironmentalObjects();
-        
 
         _bossZone = Instantiate( Gen( WorldGenIndex.Misc.BossZone ), 
             CoordsToWorldPos( worldSizeX - 20, 0 ), Quaternion.identity ).GetComponent<BossZone>();
@@ -229,7 +212,7 @@ public class WorldGenerator : MonoBehaviour
             pieces.Add( o );
         }
 
-        var linkPuzzle = new LinkPuzzle( pieces, true );
+        var _ = new LinkPuzzle( pieces, true );
     }
 
     void GenerateWaterfall( int xStart, int width )
@@ -279,7 +262,7 @@ public class WorldGenerator : MonoBehaviour
 
     void GenerateEnvironmentalObjects()
     {
-        for( var x = 0; x < worldSizeX; x++ )
+        for( var x = 0; x < worldSizeX - 21; x++ )
         {
             for( var y = 1; y < worldSizeY; y++ )
             {
@@ -352,6 +335,41 @@ public class WorldGenerator : MonoBehaviour
         var v2 = WorldPosToCoords( pos );
         return v2.x < -offMapThresholdX || v2.x > worldSizeX + offMapThresholdX ||
                v2.y < -offMapThresholdY || v2.y > worldSizeY + offMapThresholdY;
+    }
+
+    public Vector3[] ValidSpawnPointsAround( float centerX, int num )
+    {
+        var spawnPoints = new List<Vector3>();
+        const int maxIters = 200;
+        for( var i = 0; i < maxIters; i++ )
+        {
+            var range = 10 + 10 * i / maxIters;
+            var point = new Vector3( centerX + Random.Range( -range, range ), 0,
+                Random.Range( 2, ( worldSizeY - 2 ) * 2 ) );
+            
+            if( !InvalidSpawnPoint( point ) )
+                spawnPoints.Add( point );
+            
+            if( spawnPoints.Count == num )
+                break;
+        }
+
+        // If for some reason we didn't get our n points
+        while( spawnPoints.Count < num )
+        {
+            Debug.Log( "Still looking for more points..." );
+            spawnPoints.Add( new Vector3( centerX + Random.Range( -10, 10 ), 0, 
+                Random.Range( 2, ( worldSizeY - 2 ) * 2 ) ) );
+        }
+        
+        return spawnPoints.ToArray();
+    }
+
+    bool InvalidSpawnPoint( Vector3 pos )
+    {
+        var coords = WorldPosToCoords( pos );
+        var tile = _tileMap[ coords.x, coords.y ];
+        return tile.EmptyCollider || tile.Is( WorldGenIndex.Blocks.Log );
     }
 
     int GrasslandsNoiseMap( int x, int y )

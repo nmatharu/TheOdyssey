@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,11 @@ public class BossZone : MonoBehaviour
     {
         _leftSpikeStart = start;
         _leftSpikeEnd = end;
+    }
+
+    void Update()
+    {
+        // TODO Check if all players in zone
     }
 
     public void CloseLeft() => StartCoroutine( CloseLeftCoroutine() );
