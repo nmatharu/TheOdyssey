@@ -5331,7 +5331,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2025568874162602995
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5339,7 +5339,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1116319265194755996}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5357,7 +5357,7 @@ RectTransform:
   - {fileID: 5529635584033675328}
   m_Father: {fileID: 8495151521437811948}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -5690,14 +5690,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.993973, g: 1, b: 0, a: 1}
+  m_Color: {r: 0, g: 1, b: 1, a: 0.6}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bb4da22d3e7330641a0f6cd63c164b9a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0379c0cea96922043bd8e94ff59be210, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6159,7 +6159,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5529635584033675328
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11626,7 +11626,7 @@ GameObject:
   - component: {fileID: 6669450885268579365}
   - component: {fileID: 8862152274767003179}
   m_Layer: 5
-  m_Name: darkSquare (3)
+  m_Name: highlightSquare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16875,7 +16875,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.23, y: -0.5}
+  m_AnchoredPosition: {x: 0.3, y: -0.49}
   m_SizeDelta: {x: 17.7, y: 10}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &2477543674054715282
@@ -16906,7 +16906,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 102
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f32f31680a3cf694a9ef7fc0f01fed46, type: 2}
   m_sharedMaterial: {fileID: 476927336751886983, guid: f32f31680a3cf694a9ef7fc0f01fed46, type: 2}
@@ -16915,8 +16915,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278255614
-  m_fontColor: {r: 0.99765027, g: 1, b: 0, a: 1}
+    rgba: 4294967040
+  m_fontColor: {r: 0, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -16933,17 +16933,17 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 7
+  m_fontSize: 8
   m_fontSizeBase: 7.5
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 7
-  m_fontSizeMax: 7
+  m_fontSizeMin: 8
+  m_fontSizeMax: 8
   m_fontStyle: 1
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 256
   m_textAlignment: 65535
-  m_characterSpacing: 5
+  m_characterSpacing: -4
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -18170,6 +18170,8 @@ MonoBehaviour:
   hpBar: {fileID: 8495151522488762794}
   hpFollowBar: {fileID: 8088646342559735527}
   rollCdBar: {fileID: 409522683077027642}
+  statusBarTransform: {fileID: 7514955804751534561}
+  inventoryBarTransform: {fileID: 2025568874162602995}
   notchesParent: {fileID: 8284170621284046947}
   notch: {fileID: 7034340180151910462, guid: 99eb385a64c504c799222bae10811368, type: 3}
   notchDivision: 10
@@ -18177,6 +18179,13 @@ MonoBehaviour:
   minNotchWidth: 0.04
   maxNotchWidthThreshold: 50
   minNotchWidthThreshold: 200
+  currencyNumber: {fileID: 1570338690469432509}
+  inventoryText: {fileID: 9216162052238303928}
+  inventoryHighlightSquare: {fileID: 5745257687186046299}
+  inventoryDarkSquares:
+  - {fileID: 6216970597019352650}
+  - {fileID: 7304071074083563781}
+  - {fileID: 6157823353437494928}
 --- !u!114 &669585400152965924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18814,7 +18823,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 1.729, y: 0.63}
-  m_SizeDelta: {x: 1.54, y: 1.35}
+  m_SizeDelta: {x: 1.54, y: 1.36}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &7415844471618862880
 CanvasRenderer:

@@ -9,6 +9,7 @@ public class DamageNumber : MonoBehaviour
     [ SerializeField ] float floatDuration;
     [ SerializeField ] float friendlyTextSize = 8;
     [ SerializeField ] float enemyTextSize = 12;
+    [ SerializeField ] float costTextSize = 12;
 
     public void Play( Vector3 pos, int dmg, bool friendly )
     {
@@ -18,18 +19,28 @@ public class DamageNumber : MonoBehaviour
         text.text = "" + dmg;
         text.fontSize = friendly ? friendlyTextSize : enemyTextSize;
 
-        StartCoroutine( FloatAndFade( friendly ) );
+        StartCoroutine( FloatAndFade( friendly ? Color.white : Color.red ) );
     }
 
-    IEnumerator FloatAndFade( bool friendly )
+    public void SpendMoney( Vector3 pos, int cost )
+    {
+        gameObject.SetActive( true );
+
+        transform.position = pos;
+        text.text = "-" + cost;
+        text.fontSize = costTextSize;
+
+        StartCoroutine( FloatAndFade( Color.green ) );
+    }
+
+    IEnumerator FloatAndFade( Color color )
     {
         var elapsed = 0f;
         var wait = new WaitForEndOfFrame();
         while( elapsed < floatDuration )
         {
             transform.position += Vector3.up * ( Time.deltaTime * floatSpeed * ( floatDuration - elapsed ) );
-            
-            text.color = friendly ? new Color( 1f, 1f, 1f, 1 - elapsed / floatDuration ) : new Color( 1f, 0f, 0f, 1 - elapsed / floatDuration );
+            text.color = new Color( color.r, color.g, color.b, 1 - elapsed / floatDuration );
             
             elapsed += Time.deltaTime;
             yield return wait;

@@ -15,7 +15,7 @@ public class PuzzlePiece : Interactable
     bool _locked; // Cooldown on using puzzle
     bool _solved; // Puzzle completed, destruction animation
     
-    public override void Interact()
+    public override void Interact( Player player )
     {
         Toggle();
         _puzzle.FlipLight( _index );

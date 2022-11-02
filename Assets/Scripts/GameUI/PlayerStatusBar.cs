@@ -10,6 +10,10 @@ public class PlayerStatusBar : MonoBehaviour
     [ SerializeField ] Image hpBar;
     [ SerializeField ] Image hpFollowBar;
     [ SerializeField ] Image rollCdBar;
+
+    [ SerializeField ] Transform statusBarTransform;
+    [ SerializeField ] Transform inventoryBarTransform;
+    int _statusBarState;    // 0 - hp bar, 1-3 - inventory indices 0-2
     
     [ SerializeField ] Transform notchesParent;
     [ SerializeField ] GameObject notch;
@@ -18,7 +22,12 @@ public class PlayerStatusBar : MonoBehaviour
     [ SerializeField ] float minNotchWidth = 0.04f;
     [ SerializeField ] int maxNotchWidthThreshold = 50;
     [ SerializeField ] int minNotchWidthThreshold = 200;
-    
+
+    [ SerializeField ] TextMeshProUGUI currencyNumber;
+    [ SerializeField ] TextMeshProUGUI inventoryText;
+    [ SerializeField ] RectTransform inventoryHighlightSquare;
+    [ SerializeField ] RectTransform[] inventoryDarkSquares;
+
     const float HpFollowBarSpeed = 0.6f;
     // We Want the follow bar to scale with max hp, so higher healths take longer to go down
     const float HpFollowBarSpeedDivisor = 18;
@@ -84,5 +93,40 @@ public class PlayerStatusBar : MonoBehaviour
         }
 
         rollCdBar.rectTransform.sizeDelta = new Vector2( 0, height );
+    }
+
+    public void UpdateCurrency( int currency ) => currencyNumber.text = currency.ToString();
+
+    public void CycleInventory()
+    {
+        _statusBarState = ( _statusBarState + 1 ) % 4;
+
+        if( _statusBarState is 0 or 1 )
+        {
+            StartCoroutine( RotXTransition( statusBarTransform, _statusBarState == 0 ) );
+            StartCoroutine( RotXTransition( inventoryBarTransform, _statusBarState == 1 ) );
+        }
+
+        if( _statusBarState.In( 1, 2, 3 ) )
+        {
+            var itemIndex = _statusBarState - 1;
+            inventoryText.text = "ITEM " + _statusBarState;
+            inventoryHighlightSquare.position = inventoryDarkSquares[ itemIndex ].position;
+        }
+        // statusBarTransform.gameObject.SetActive( _statusBarState == 0 );
+        // inventoryBarTransform.gameObject.SetActive( _statusBarState == 1 );
+    }
+
+    IEnumerator RotXTransition( Transform t, bool rotateIn )
+    {
+        if( rotateIn )  t.gameObject.SetActive( true );
+        t.localEulerAngles = new Vector3( rotateIn ? -90 : 0, 0, 0 );
+        var wait = new WaitForEndOfFrame();
+        for( var i = 0; i < 18; i++ )
+        {
+            t.Rotate( 5, 0, 0 );
+            yield return wait;
+        }
+        t.gameObject.SetActive( rotateIn );
     }
 }

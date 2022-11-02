@@ -5,8 +5,8 @@ using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
-    [ SerializeField ] string interactPrompt;
-    [ SerializeField ] string cannotInteractPrompt;
+    [ SerializeField ] protected string interactPrompt;
+    [ SerializeField ] protected string cannotInteractPrompt;
 
     void OnTriggerEnter( Collider o )
     {
@@ -22,7 +22,7 @@ public abstract class Interactable : MonoBehaviour
             p.RemoveInteractable( this );
     }
 
-    public abstract void Interact();
+    public abstract void Interact( Player player );
     public abstract bool InteractionLocked( Player player );
     public string InteractPrompt() => interactPrompt;
     public string CannotInteractPrompt() => cannotInteractPrompt;

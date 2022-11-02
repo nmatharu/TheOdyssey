@@ -340,7 +340,7 @@ public class WorldGenerator : MonoBehaviour
     public Vector3[] ValidSpawnPointsAround( float centerX, int num )
     {
         var spawnPoints = new List<Vector3>();
-        const int maxIters = 200;
+        var maxIters = 200 + num;
         for( var i = 0; i < maxIters; i++ )
         {
             var range = 10 + 10 * i / maxIters;

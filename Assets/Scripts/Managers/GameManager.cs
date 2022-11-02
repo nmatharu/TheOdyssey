@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -28,7 +27,7 @@ public class GameManager : MonoBehaviour
     bool _paused;
     int _pausedBy;
     int _enemyLevel = 1;
-    
+
     void Awake()
     {
         if( Instance != null && Instance != this )
@@ -41,19 +40,18 @@ public class GameManager : MonoBehaviour
             // DontDestroyOnLoad( this );
         }
 
-        InvokeRepeating( nameof( CheckForNextWave ), 1f, 0.25f );
-
         _damageNumberPool = new DamageNumber[ damageNumberPoolSize ];
         for( var i = 0; i < damageNumberPoolSize; i++ )
         {
-            _damageNumberPool[ i ] = Instantiate( damageNumberPrefab, damageNumbersParent ).GetComponent<DamageNumber>();
+            _damageNumberPool[ i ] =
+                Instantiate( damageNumberPrefab, damageNumbersParent ).GetComponent<DamageNumber>();
             _damageNumberPool[ i ].gameObject.SetActive( false );
         }
     }
 
     void Start()
     {
-        InvokeRepeating( nameof( UpdateFpsDisplay ), 0f, 0.1f );
+        InvokeRepeating( nameof( CheckForNextWave ), 1f, 0.25f );
     }
 
     void Update()
@@ -63,6 +61,8 @@ public class GameManager : MonoBehaviour
             _fpsLimitOn = !_fpsLimitOn;
             Application.targetFrameRate = _fpsLimitOn ? 60 : -1;
         }
+
+        UpdateFpsDisplay();
     }
 
     void CheckForNextWave()
@@ -76,10 +76,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     public void AwardGold( int spawnCost )
     {
-        // Award gold to all players based on the spawn cost of the killed enemy
+        foreach( var p in playersArr )
+            if( p.gameObject.activeInHierarchy && !p.dead )
+                p.AwardSoul();
     }
 
     // This implementation is for testing purposes
@@ -93,8 +94,18 @@ public class GameManager : MonoBehaviour
     {
         foreach( var dn in _damageNumberPool )
         {
-            if( dn.gameObject.activeInHierarchy )   continue;
+            if( dn.gameObject.activeInHierarchy ) continue;
             dn.Play( pos, dmg, friendly );
+            return;
+        }
+    }
+
+    public void SpawnCostNumber( Vector3 pos, int cost )
+    {
+        foreach( var dn in _damageNumberPool )
+        {
+            if( dn.gameObject.activeInHierarchy ) continue;
+            dn.SpendMoney( pos, cost );
             return;
         }
     }
@@ -102,8 +113,13 @@ public class GameManager : MonoBehaviour
     void UpdateFpsDisplay() => fpsDisplay.text = (int) ( 1f / Time.unscaledDeltaTime ) + " FPS";
 
     public Transform Projectiles() => projectiles;
-    public Player[] Players() => ( from Player p in playersArr where !p.dead && p.gameObject.activeInHierarchy select p ).ToArray();
-    public Player[] CameraPlayers() => ( from Player p in playersArr where p.showOnCamera && p.gameObject.activeInHierarchy select p ).ToArray();
+
+    public Player[] Players() =>
+        ( from Player p in playersArr where !p.dead && p.gameObject.activeInHierarchy select p ).ToArray();
+
+    public Player[] CameraPlayers() =>
+        ( from Player p in playersArr where p.showOnCamera && p.gameObject.activeInHierarchy select p ).ToArray();
+
     int NumPlayersInParty() => playersArr.Count( p => p.gameObject.activeInHierarchy );
 
     // TODO take into account Level and Num players
@@ -137,4 +153,15 @@ public class GameManager : MonoBehaviour
     }
 
     public int EnemyLevel() => _enemyLevel;
+
+    public int RandomRunePrice( RuneIndex.RuneTiers tier )
+    {
+        return tier switch
+        {
+            RuneIndex.RuneTiers.Common => Random.Range( 14, 20 ),
+            RuneIndex.RuneTiers.Rare => Random.Range( 26, 34 ),
+            RuneIndex.RuneTiers.Legendary => Random.Range( 42, 52 ),
+            _ => throw new ArgumentOutOfRangeException( nameof( tier ), tier, null )
+        };
+    }
 }

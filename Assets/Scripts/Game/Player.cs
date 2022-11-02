@@ -10,40 +10,42 @@ public class Player : MonoBehaviour
     [ SerializeField ] float maxHp = 30;
     [ SerializeField ] float rollSpeedMultiplier = 1.5f;
     [ SerializeField ] float speed = 8f;
-    
+
     [ SerializeField ] Transform meshParent;
     [ SerializeField ] ParticleSystem deathFx;
 
     public float rollDuration = 0.3f;
     public float rollCooldown = 1f;
 
-    Rigidbody _body;
-    Animator _animator;
-    
-    int _level;
-    float _hp;
-    Material _material;
-
     Renderer[] _renderers;
     InteractPrompt _interactPrompt;
     PlayerMoves _playerMoves;
     PlayerStatusBar _statusBar;
 
+    Rigidbody _body;
+    Animator _animator;
+    Material _material;
+
+    int _level;
+    float _hp;
+    int _souls = 0;
+    int[] _runeMap;
+
     PlayerMoves.SpecialAttackType _specialAttack;
 
     HashSet<Interactable> _interactables;
     Interactable _closestInteractable;
-    
+
     InGameStatistics _statistics;
-    
+
     // For sequences like the intro run-in and outro run-out where we don't want the player to control
     public bool inputDisabled = false;
 
-    public bool showOnCamera = true;    
+    public bool showOnCamera = true;
     public bool dead = false;
 
-    public bool rolling = false;    
-    public bool locked = false;     // Locked in attack animation
+    public bool rolling = false;
+    public bool locked = false; // Locked in attack animation
     public bool stunned = false;
     public bool weaponless = false; // For special attacks that involve throwing the sword
     public bool rollOnCd = false;
@@ -52,7 +54,7 @@ public class Player : MonoBehaviour
     Vector2 _moveInput;
     Vector3 _moveDir;
     Vector3 _lastPos;
-    
+
     static readonly int IsRunning = Animator.StringToHash( "IsRunning" );
 
     void Start()
@@ -72,13 +74,15 @@ public class Player : MonoBehaviour
 
         _interactables = new HashSet<Interactable>();
         _statistics = new InGameStatistics();
-        
+
         if( Camera.main == null ) return;
         var fwd = Camera.main.transform.forward;
         _cameraUp = new Vector3( fwd.x, 0, fwd.z );
 
+        _runeMap = new int[ Enum.GetNames( typeof( RuneIndex.Runes ) ).Length ];
+
         var x =
-        GetComponentsInChildren<Renderer>();
+            GetComponentsInChildren<Renderer>();
     }
 
     void Update()
@@ -89,7 +93,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if( dead )  return;
+        if( dead ) return;
         if( rolling )
         {
             _body.velocity = transform.forward * ( rollSpeedMultiplier * speed );
@@ -103,7 +107,7 @@ public class Player : MonoBehaviour
 
         _animator.SetBool( IsRunning, _moveDir != Vector3.zero );
         transform.LookAt( pos + _moveDir );
-        
+
         // Statistics junk
         _statistics.Move( Vector3.Distance( _lastPos, pos ) );
         _statistics.AliveForFixedTimeStep();
@@ -118,13 +122,13 @@ public class Player : MonoBehaviour
 
     public void Roll() => _playerMoves.Roll();
 
-    public void CycleInventory() => Debug.Log( "Inventory Cycle" );
+    public void CycleInventory() => _statusBar.CycleInventory();
 
     public void SetLModifier( bool b ) => _material.color = b ? Color.blue : Color.white;
 
     public void IncomingDamage( float unscaledDmg, int enemyLevel )
     {
-        if( rolling )   return;
+        if( rolling ) return;
         TakeDamage( unscaledDmg * GameManager.Instance.EnemyDamageMultiplier( enemyLevel ) );
     }
 
@@ -135,12 +139,12 @@ public class Player : MonoBehaviour
         var d = Mathf.RoundToInt( dmg );
         GameManager.Instance.SpawnDamageNumber( transform.position, d, false );
         _statistics.TakeDamage( d );
-        
+
         _hp -= d;
         if( _hp <= 0 )
             Die();
     }
-    
+
     IEnumerator FlashMaterial()
     {
         var delay = new WaitForFixedUpdate();
@@ -149,6 +153,7 @@ public class Player : MonoBehaviour
             _material.color = new Color( 1f, i, i );
             yield return delay;
         }
+
         _material.color = Color.white;
     }
 
@@ -162,11 +167,11 @@ public class Player : MonoBehaviour
 
     public void AddInteractable( Interactable interactable ) => _interactables.Add( interactable );
     public void RemoveInteractable( Interactable interactable ) => _interactables.Remove( interactable );
-    
+
     void FindClosestInteractable()
     {
         var pos = transform.position;
-        
+
         Interactable closest = null;
         var closestDSqr = Mathf.Infinity;
         foreach( var interactable in _interactables.Where( interactable => interactable != null ) )
@@ -177,7 +182,7 @@ public class Player : MonoBehaviour
                 closestDSqr = JBB.DistXZSquared( pos, interactable.transform.position );
                 continue;
             }
-            
+
             var dSqr = JBB.DistXZSquared( pos, interactable.transform.position );
             if( dSqr < closestDSqr )
             {
@@ -200,23 +205,23 @@ public class Player : MonoBehaviour
         var interactionLocked = _closestInteractable.InteractionLocked( this );
         _interactPrompt.SetInteractable( interactionLocked, _closestInteractable.Prompt( interactionLocked ) );
     }
-    
+
     public void Interact()
     {
         if( dead || locked || rolling ) return;
-        
+
         if( _closestInteractable != null && !_closestInteractable.InteractionLocked( this ) )
-            _closestInteractable.Interact();
+            _closestInteractable.Interact( this );
     }
 
     void Die()
     {
         dead = true;
-        
+
         _statistics.Die();
         Hide();
         deathFx.Play();
-        
+
         this.Invoke( () =>
         {
             if( dead )
@@ -244,8 +249,30 @@ public class Player : MonoBehaviour
             r.enabled = !hide;
     }
 
+    public void AwardSoul()
+    {
+        _souls++;
+        _statusBar.UpdateCurrency( _souls );
+    }
+
     public float MaxHp() => maxHp;
     public float HpPct() => _hp / maxHp;
     public Animator Mator() => _animator;
     public InGameStatistics Statistics() => _statistics;
+
+    public bool CantAfford( int cost ) => _souls < cost;
+
+    public void BuyRune( RuneIndex.Runes rune, int cost )
+    {
+        _souls -= cost;
+        _statusBar.UpdateCurrency( _souls );
+        GameManager.Instance.SpawnCostNumber( transform.position, cost );
+        AcquireRune( rune );
+    }
+
+    public void AcquireRune( RuneIndex.Runes rune )
+    {
+        _runeMap[ (int) rune ]++;
+        Debug.Log( _runeMap.ToCommaSeparatedString() );
+    }
 }
