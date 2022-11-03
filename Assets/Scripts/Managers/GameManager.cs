@@ -6,9 +6,9 @@ using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
-    [ SerializeField ] Transform players;
-    [ SerializeField ] Transform enemies;
     [ SerializeField ] public Transform effectsParent;
+    [ SerializeField ] public Transform miscParent;
+    [ SerializeField ] public Transform interactablesParent;
     [ SerializeField ] Player[] playersArr;
     [ SerializeField ] Transform projectiles;
 
@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] GameObject pauseScreen;
 
     [ SerializeField ] public float respawnHealthPct = 0.25f;
+    [ SerializeField ] float baseHealthRegen = 6;
 
     public static GameManager Instance { get; private set; }
     private bool _fpsLimitOn;
@@ -111,6 +112,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void SpawnGenericFloating( Vector3 pos, string s, Color color, float textSize )
+    {
+        foreach( var dn in _damageNumberPool )
+        {
+            if( dn.gameObject.activeInHierarchy ) continue;
+            dn.Play( pos, s, color, textSize );
+            return;
+        }
+    }
+
     void UpdateFpsDisplay() => fpsDisplay.text = (int) ( 1f / Time.unscaledDeltaTime ) + " FPS";
 
     public Transform Projectiles() => projectiles;
@@ -124,8 +135,8 @@ public class GameManager : MonoBehaviour
     int NumPlayersInParty() => playersArr.Count( p => p.gameObject.activeInHierarchy );
 
     // TODO take into account Level and Num players
-    public float EnemyHealthMultiplier( int enemyLevel ) => 1f + ( NumPlayersInParty() - 1 ) * 0.5f;
-    public float EnemyDamageMultiplier( int enemyLevel ) => 1f + ( NumPlayersInParty() - 1 ) * 0.5f;
+    public float EnemyHealthMultiplier( int enemyLevel ) => ( 1f + ( NumPlayersInParty() - 1 ) * 0.5f ) * Mathf.Pow( 1.1f, enemyLevel - 1 );
+    public float EnemyDamageMultiplier( int enemyLevel ) => ( 1f + ( NumPlayersInParty() - 1 ) * 0.5f ) * Mathf.Pow( 1.1f, enemyLevel - 1 );
 
     public void PauseGame( int playerId )
     {
@@ -155,14 +166,28 @@ public class GameManager : MonoBehaviour
 
     public int EnemyLevel() => _enemyLevel;
 
-    public int RandomRunePrice( RuneIndex.RuneTiers tier )
+    public int RandomRunePrice( ItemDirector.RuneTiers tier )
     {
         return tier switch
         {
-            RuneIndex.RuneTiers.Common => Random.Range( 14, 20 ),
-            RuneIndex.RuneTiers.Rare => Random.Range( 26, 34 ),
-            RuneIndex.RuneTiers.Legendary => Random.Range( 42, 52 ),
+            ItemDirector.RuneTiers.Common => Random.Range( 14, 20 ),
+            ItemDirector.RuneTiers.Rare => Random.Range( 26, 34 ),
+            ItemDirector.RuneTiers.Legendary => Random.Range( 42, 52 ),
             _ => throw new ArgumentOutOfRangeException( nameof( tier ), tier, null )
         };
     }
+
+    public int RandomRunePrice( Rune.RuneTier tier )
+    {
+        return tier switch
+        {
+            Rune.RuneTier.Common => Random.Range( 13, 19 ),
+            Rune.RuneTier.Rare => Random.Range( 25, 33 ),
+            Rune.RuneTier.Legendary => Random.Range( 41, 51 ),
+            Rune.RuneTier.Primordial => Random.Range( 77, 99 ),
+            _ => throw new ArgumentOutOfRangeException( nameof( tier ), tier, null )
+        };
+    }
+
+    public float BaseHealthRegen() => baseHealthRegen;
 }

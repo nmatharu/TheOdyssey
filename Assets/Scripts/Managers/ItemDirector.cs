@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ShopBlocks : MonoBehaviour
+public class ItemDirector : MonoBehaviour
 {
     [ SerializeField ] GameObject[] commonRuneShops;
     [ SerializeField ] GameObject[] rareRuneShops;
     [ SerializeField ] GameObject[] legendaryRuneShops;
-    
-    public static ShopBlocks Instance { get; private set; }
+
+    public static ItemDirector Instance { get; private set; }
 
     void Awake()
     {
@@ -28,4 +26,22 @@ public class ShopBlocks : MonoBehaviour
             _ => legendaryRuneShops.RandomEntry()
         };
     }
+
+    public enum RuneTiers
+    {
+        Common,
+        Rare,
+        Legendary
+    }
+
+    public enum Runes
+    {
+        CommonMaxHp,
+        CommonA,
+        CommonB,
+        RareA,
+        LegendaryA
+    }
+
+    public int CommonMaxHpCalc( int stacks, float baseMaxHp ) => (int) ( baseMaxHp * Mathf.Pow( 1.2f, stacks ) );
 }

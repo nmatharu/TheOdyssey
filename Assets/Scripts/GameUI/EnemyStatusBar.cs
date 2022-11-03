@@ -65,4 +65,6 @@ public class EnemyStatusBar : MonoBehaviour
                 new Vector3( hp / _maxHp * _maxHpBarWidth, 0, 0 );
         }
     }
+
+    public void SetLevel( int lvl ) => enemyLevel.text = lvl.ToString();
 }

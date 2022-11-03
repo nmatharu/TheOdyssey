@@ -8,9 +8,9 @@ public class RToRestart : MonoBehaviour
         if( Input.GetKeyDown( KeyCode.R ) )
         {
             if( Input.GetKey( KeyCode.LeftShift ) )
-                SceneManager.LoadScene( SceneManager.GetActiveScene().name );
-            else
                 GameManager.Instance.RespawnAll();
+            else
+                SceneManager.LoadScene( SceneManager.GetActiveScene().name );
         }
     }
 }

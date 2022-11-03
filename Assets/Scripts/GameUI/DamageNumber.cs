@@ -11,6 +11,15 @@ public class DamageNumber : MonoBehaviour
     [ SerializeField ] float enemyTextSize = 12;
     [ SerializeField ] float costTextSize = 12;
 
+    public void Play( Vector3 pos, string s, Color color, float textSize )
+    {
+        gameObject.SetActive( true );
+        transform.position = pos;
+        text.text = s;
+        text.fontSize = textSize;
+        StartCoroutine( FloatAndFade( color ) );
+    }
+    
     public void Play( Vector3 pos, int dmg, bool friendly )
     {
         gameObject.SetActive( true );

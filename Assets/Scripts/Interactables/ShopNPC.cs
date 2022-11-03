@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class ShopNPC : MonoBehaviour
 {
-    [ SerializeField ] Transform[] shopPositions; 
+    [ SerializeField ] Transform[] shopPositions;
+    [ SerializeField ] GameObject shopRune;
     
     void Start()
     {
         foreach( var t in shopPositions )
-        {
-            Instantiate( ShopBlocks.Instance.RuneShop(), t.position, Quaternion.identity );
-        }
+            Instantiate( shopRune, t.position, Quaternion.identity, GameManager.Instance.interactablesParent );
     }
 }

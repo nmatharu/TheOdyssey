@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     [ SerializeField ] ParticleSystem deathPfx;
     
     Color[] _originalMatColors;
+    EnemyStatusBar _statusBar;
 
     int _level;
     float _hp;
@@ -28,6 +29,8 @@ public class Enemy : MonoBehaviour
     {
         _level = lvl;
         maxHp *= GameManager.Instance.EnemyHealthMultiplier( _level );
+        _statusBar = GetComponentInChildren<EnemyStatusBar>();
+        _statusBar.SetLevel( lvl );
         // TODO Set Status Bar Level
     }
 

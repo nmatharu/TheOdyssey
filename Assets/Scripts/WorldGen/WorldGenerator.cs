@@ -101,7 +101,8 @@ public class WorldGenerator : MonoBehaviour
         GenerateEnvironmentalObjects();
 
         _bossZone = Instantiate( Gen( WorldGenIndex.Misc.BossZone ), 
-            CoordsToWorldPos( worldSizeX - 20, 0 ), Quaternion.identity ).GetComponent<BossZone>();
+            CoordsToWorldPos( worldSizeX - 20, 0 ), Quaternion.identity, GameManager.Instance.miscParent )
+            .GetComponent<BossZone>();
         _bossZone.SetStartEnd( 3, 3 + 6 );
         // this.Invoke( () => _bossZone.CloseLeft(), 5f );
         // this.Invoke( () => _bossZone.OpenRight(), 10f );
@@ -262,7 +263,7 @@ public class WorldGenerator : MonoBehaviour
 
     void GenerateEnvironmentalObjects()
     {
-        for( var x = 0; x < worldSizeX - 21; x++ )
+        for( var x = 21; x < worldSizeX - 21; x++ )
         {
             for( var y = 1; y < worldSizeY; y++ )
             {

@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [ SerializeField ] float maxHp = 30;
+    [ SerializeField ] public float baseMaxHp = 30f;
     [ SerializeField ] float rollSpeedMultiplier = 1.5f;
     [ SerializeField ] float speed = 8f;
 
@@ -26,10 +26,12 @@ public class Player : MonoBehaviour
     Animator _animator;
     Material _material;
 
-    int _level;
+    int _level = 1;
+    float _maxHp;
     float _hp;
-    int _souls = 0;
+    int _souls = 200;
     int[] _runeMap;
+    Dictionary<string, int> _runes;
 
     PlayerMoves.SpecialAttackType _specialAttack;
 
@@ -55,11 +57,14 @@ public class Player : MonoBehaviour
     Vector3 _moveDir;
     Vector3 _lastPos;
 
+    float _hpRegenPerMin;
+
     static readonly int IsRunning = Animator.StringToHash( "IsRunning" );
 
     void Start()
     {
-        _hp = maxHp;
+        _maxHp = baseMaxHp;
+        _hp = _maxHp;
         _material = GetComponentInChildren<Renderer>().material;
 
         _renderers = meshParent.GetComponentsInChildren<Renderer>();
@@ -79,8 +84,14 @@ public class Player : MonoBehaviour
         var fwd = Camera.main.transform.forward;
         _cameraUp = new Vector3( fwd.x, 0, fwd.z );
 
-        _runeMap = new int[ Enum.GetNames( typeof( RuneIndex.Runes ) ).Length ];
+        _runeMap = new int[ Enum.GetNames( typeof( ItemDirector.Runes ) ).Length ];
+        _runes = new Dictionary<string, int>();
+        foreach( Rune rune in RuneIndex.Instance.AllRunes() )
+            _runes.Add( rune.Name(), 0 );
 
+        _hpRegenPerMin = GameManager.Instance.BaseHealthRegen();
+        StartCoroutine( RegenerateHealth() );
+        
         var x =
             GetComponentsInChildren<Renderer>();
     }
@@ -237,7 +248,7 @@ public class Player : MonoBehaviour
         showOnCamera = true;
         Hide( false );
 
-        _hp = maxHp * GameManager.Instance.respawnHealthPct;
+        _hp = _maxHp * GameManager.Instance.respawnHealthPct;
     }
 
     void Hide( bool hide = true )
@@ -255,24 +266,96 @@ public class Player : MonoBehaviour
         _statusBar.UpdateCurrency( _souls );
     }
 
-    public float MaxHp() => maxHp;
-    public float HpPct() => _hp / maxHp;
+    IEnumerator RegenerateHealth()
+    {
+        for( ;; )
+        {
+            if( _hp < _maxHp && gameObject.activeInHierarchy && !dead )
+            {
+                _hp = Mathf.Clamp( _hp + 1, 0, _maxHp );
+                GameManager.Instance.SpawnGenericFloating( transform.position + Vector3.up, "+", Color.green, 6 );
+            }
+            yield return new WaitForSeconds( 60f / _hpRegenPerMin );
+        }
+    }
+
+    public float MaxHp() => _maxHp;
+    public float HpPct() => _hp / _maxHp;
     public Animator Mator() => _animator;
     public InGameStatistics Statistics() => _statistics;
 
     public bool CantAfford( int cost ) => _souls < cost;
 
-    public void BuyRune( RuneIndex.Runes rune, int cost )
+    public void BuyRune( ItemDirector.RuneTiers tier, ItemDirector.Runes rune, int cost )
     {
         _souls -= cost;
         _statusBar.UpdateCurrency( _souls );
         GameManager.Instance.SpawnCostNumber( transform.position, cost );
+        AcquireRune( tier, rune );
+    }
+    
+    public void BuyRune( Rune rune, int cost )
+    {
+        _souls -= cost;
+        _statusBar.UpdateCurrency( _souls );
+        GameManager.Instance.SpawnCostNumber( transform.position, cost );
+        Debug.Log( $"Bought the {rune.Name()} rune" );
         AcquireRune( rune );
     }
 
-    public void AcquireRune( RuneIndex.Runes rune )
+    public void AcquireRune( Rune rune )
+    {
+        _runes[ rune.Name() ]++;
+        _level += rune.LevelsToAdd();
+        _statusBar.SetLevel( _level );
+
+        var count = _runes[ rune.Name() ];
+        switch( rune.Name() )
+        {
+            case "vitality":
+                UpdateMaxHealth( count );
+                break;
+        }
+    }
+
+    public void AcquireRune( ItemDirector.RuneTiers tier, ItemDirector.Runes rune )
     {
         _runeMap[ (int) rune ]++;
+
+        if( rune == ItemDirector.Runes.CommonMaxHp )
+            UpdateMaxHealth();
+
+        var levelsToAdd = tier switch
+        {
+            ItemDirector.RuneTiers.Common => 1,
+            ItemDirector.RuneTiers.Rare => 2,
+            ItemDirector.RuneTiers.Legendary => 4,
+            _ => 0
+        };
+
+        _level += levelsToAdd;
+        _statusBar.SetLevel( _level );
+
         Debug.Log( _runeMap.ToCommaSeparatedString() );
+    }
+
+    int StacksOfRune( ItemDirector.Runes rune ) => _runeMap[ (int) rune ];
+    
+    void UpdateMaxHealth()
+    {
+        var oldMaxHp = _maxHp;
+        _maxHp = ItemDirector.Instance.CommonMaxHpCalc( StacksOfRune( ItemDirector.Runes.CommonMaxHp ), baseMaxHp );
+        var diff = _maxHp - oldMaxHp;
+        _hp = Mathf.Clamp( _hp + diff, 0, _maxHp );
+        _statusBar.SetHpBarNotches( _maxHp );
+    }
+    
+    void UpdateMaxHealth( int count )
+    {
+        var oldMaxHp = _maxHp;
+        _maxHp = ItemDirector.Instance.CommonMaxHpCalc( count, baseMaxHp );
+        var diff = _maxHp - oldMaxHp;
+        _hp = Mathf.Clamp( _hp + diff, 0, _maxHp );
+        _statusBar.SetHpBarNotches( _maxHp );
     }
 }

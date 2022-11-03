@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class RuneShop : Interactable
 {
-    [ SerializeField ] RuneIndex.Runes rune;
-    [ SerializeField ] RuneIndex.RuneTiers tier;
+    [ SerializeField ] ItemDirector.Runes rune;
+    [ SerializeField ] ItemDirector.RuneTiers tier;
     [ SerializeField ] TextMeshProUGUI costText;
     int _cost;
     
@@ -18,7 +18,7 @@ public class RuneShop : Interactable
         cannotInteractPrompt = "TOO MUCH";
     }
 
-    public override void Interact( Player player ) => player.BuyRune( rune, _cost );
+    public override void Interact( Player player ) => player.BuyRune( tier, rune, _cost );
 
     public override bool InteractionLocked( Player player ) => player.CantAfford( _cost );
 }

@@ -25,12 +25,11 @@ public class WorldSpaceOverlayUI : MonoBehaviour
     private void MakeGraphicsOverlay()
     {
         if( uiElementsToApplyTo.Length == 0 )
-        {
             uiElementsToApplyTo = gameObject.GetComponentsInChildren<Graphic>();
-        }
         
         foreach( var graphic in uiElementsToApplyTo )
         {
+            if( graphic == null )   continue;
             var material = graphic.materialForRendering;
             if( material == null )
             {
@@ -49,4 +48,6 @@ public class WorldSpaceOverlayUI : MonoBehaviour
             graphic.material = materialCopy;
         }
     }
+
+    public void ReRun() => MakeGraphicsOverlay();
 }
