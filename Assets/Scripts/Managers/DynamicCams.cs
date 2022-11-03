@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -54,12 +53,17 @@ public class DynamicCams : MonoBehaviour
         CopyTargetToLerp();
 
         _cameraFollowSpeed = cameraFollowSpeeds[ 0 ];
-        splitScreenLineHeight = scaler.referenceResolution.y;
 
         var fwd = cameras[ 0 ].transform.forward;
         _initY = cameras[ 0 ].transform.position.y;
         // Debug.Log( _initY );
         cameraUp = new Vector3( fwd.x, 0, fwd.z );
+
+        var aspectRatio = cameras[ 0 ].aspect;
+
+        cameraSplitDistance *= aspectRatio / ( 16f / 9f );
+        splitViewPortOffsetY *= aspectRatio / ( 16f / 9f );
+        splitScreenLineHeight = scaler.referenceResolution.y * ( 16f / 9f ) / aspectRatio;
     }
 
     void Update()

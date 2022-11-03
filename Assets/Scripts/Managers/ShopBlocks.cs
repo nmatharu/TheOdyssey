@@ -23,7 +23,7 @@ public class ShopBlocks : MonoBehaviour
         var roll = Random.value;
         return roll switch
         {
-            < 0.8f => commonRuneShops.RandomEntry(),
+            < 0.75f => commonRuneShops.RandomEntry(),
             < 0.95f => rareRuneShops.RandomEntry(),
             _ => legendaryRuneShops.RandomEntry()
         };
