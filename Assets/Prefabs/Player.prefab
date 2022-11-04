@@ -11555,7 +11555,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7273600429703058858
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17690,7 +17690,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &570648819763928398
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18726,9 +18726,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371d9ddae5e1c184796b5bbe29cbe2fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 30
-  rollSpeedMultiplier: 1.5
+  baseMaxHp: 30
+  baseRollSpeedMultiplier: 1.5
   speed: 8
+  baseHpRegenPerMinute: 6
   meshParent: {fileID: 1698534622151946031}
   deathFx: {fileID: 979728753446256026}
   rollDuration: 0.3

@@ -47,5 +47,19 @@ public class RuneIndex : MonoBehaviour
         return RandomRuneOfTier( tier );
     }
 
+    public Rune[] RandomShopRunes( int count )
+    {
+        var randomRunes = new Rune[ count ];
+        var randomIndices = new int[ runes.Length ];
+        for( var i = 0; i < randomIndices.Length; i++ )
+            randomIndices[ i ] = i;
+        
+        randomIndices.Shuffle();
+        for( var i = 0; i < count; i++ )
+            randomRunes[ i ] = runes[ randomIndices[ i ] ];
+
+        return randomRunes;
+    }
+
     public IEnumerable AllRunes() => runes;
 }

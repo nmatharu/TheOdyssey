@@ -9,7 +9,13 @@ public class ShopNPC : MonoBehaviour
     
     void Start()
     {
-        foreach( var t in shopPositions )
-            Instantiate( shopRune, t.position, Quaternion.identity, GameManager.Instance.interactablesParent );
+        var runes = RuneIndex.Instance.RandomShopRunes( shopPositions.Length );
+        for( var i = 0; i < shopPositions.Length; i++ )
+        {
+            var t = shopPositions[ i ];
+            var o = Instantiate( shopRune, t.position, Quaternion.identity, GameManager.Instance.interactablesParent );
+            var r = o.GetComponent<ShopRune>();
+            r.SetRune( runes[ i ] );
+        }
     }
 }

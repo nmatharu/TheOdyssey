@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -18,10 +19,10 @@ public class GameManager : MonoBehaviour
     DamageNumber[] _damageNumberPool;
 
     [ SerializeField ] TextMeshProUGUI fpsDisplay;
+    [ SerializeField ] EnemyLevelGraphic enemyLevelGraphic;
     [ SerializeField ] GameObject pauseScreen;
 
     [ SerializeField ] public float respawnHealthPct = 0.25f;
-    [ SerializeField ] float baseHealthRegen = 6;
 
     public static GameManager Instance { get; private set; }
     private bool _fpsLimitOn;
@@ -30,6 +31,10 @@ public class GameManager : MonoBehaviour
     int _pausedBy;
     int _enemyLevel = 1;
 
+    [ SerializeField ] float levelIncrementTimeSeconds = 60f;
+    float _runTimeElapsed = 0f;
+    Coroutine _levelIncrementRoutine;
+    
     void Awake()
     {
         if( Instance != null && Instance != this )
@@ -54,6 +59,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         InvokeRepeating( nameof( CheckForNextWave ), 1f, 0.25f );
+        _levelIncrementRoutine = StartCoroutine( LevelIncrementor() );
     }
 
     void Update()
@@ -122,6 +128,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    IEnumerator LevelIncrementor()
+    {
+        var elapsed = 0f;
+        for( ;; )
+        {
+            if( elapsed < levelIncrementTimeSeconds )
+            {
+                elapsed += Time.deltaTime;
+            }
+            else
+            {
+                _enemyLevel++;
+                elapsed -= levelIncrementTimeSeconds;
+            }
+            
+            _runTimeElapsed += Time.deltaTime;
+
+            enemyLevelGraphic.UpdateGraphic( _enemyLevel, elapsed / levelIncrementTimeSeconds, _runTimeElapsed );
+            yield return null;
+        }
+    }
+
     void UpdateFpsDisplay() => fpsDisplay.text = (int) ( 1f / Time.unscaledDeltaTime ) + " FPS";
 
     public Transform Projectiles() => projectiles;
@@ -166,28 +194,15 @@ public class GameManager : MonoBehaviour
 
     public int EnemyLevel() => _enemyLevel;
 
-    public int RandomRunePrice( ItemDirector.RuneTiers tier )
-    {
-        return tier switch
-        {
-            ItemDirector.RuneTiers.Common => Random.Range( 14, 20 ),
-            ItemDirector.RuneTiers.Rare => Random.Range( 26, 34 ),
-            ItemDirector.RuneTiers.Legendary => Random.Range( 42, 52 ),
-            _ => throw new ArgumentOutOfRangeException( nameof( tier ), tier, null )
-        };
-    }
-
     public int RandomRunePrice( Rune.RuneTier tier )
     {
         return tier switch
         {
-            Rune.RuneTier.Common => Random.Range( 13, 19 ),
-            Rune.RuneTier.Rare => Random.Range( 25, 33 ),
-            Rune.RuneTier.Legendary => Random.Range( 41, 51 ),
+            Rune.RuneTier.Common => Random.Range( 6, 9 ),
+            Rune.RuneTier.Rare => Random.Range( 12, 18 ),
+            Rune.RuneTier.Legendary => Random.Range( 24, 36 ),
             Rune.RuneTier.Primordial => Random.Range( 77, 99 ),
             _ => throw new ArgumentOutOfRangeException( nameof( tier ), tier, null )
         };
     }
-
-    public float BaseHealthRegen() => baseHealthRegen;
 }

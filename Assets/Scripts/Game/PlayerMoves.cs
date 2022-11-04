@@ -150,6 +150,7 @@ public class PlayerMoves : MonoBehaviour
     {
         this.Invoke( () =>
         {
+            var hitAnEnemy = false;
             foreach( var c in colliders )
             {
                 if( _player.dead )  return;
@@ -158,9 +159,16 @@ public class PlayerMoves : MonoBehaviour
                 var e = c.GetComponent<Enemy>();
                 if( e != null )
                 {
-                    e.TakeDamage( _player, damage );
+                    hitAnEnemy = true;
+                    e.TakeDamage( _player, (int) ( damage * _player.DamageMultiplier() ) );
                 }
             }
+
+            if( hitAnEnemy )
+            {
+                _player.LifeSteal();
+            }
+            
         }, frames60 / 60f );
     }
 }

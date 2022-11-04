@@ -21,7 +21,7 @@ public class ShopRune : Interactable
     {
         textCanvasGroup.alpha = 0;
         
-        _rune = RuneIndex.Instance.RandomShopRune();
+        // _rune = RuneIndex.Instance.RandomShopRune();
         _cost = GameManager.Instance.RandomRunePrice( _rune.Tier() );
 
         foreach( var i in icons )
@@ -39,4 +39,6 @@ public class ShopRune : Interactable
     public override void Interact( Player player ) => player.BuyRune( _rune, _cost );
 
     public override bool InteractionLocked( Player player ) => player.CantAfford( _cost );
+
+    public void SetRune( Rune rune ) => _rune = rune;
 }

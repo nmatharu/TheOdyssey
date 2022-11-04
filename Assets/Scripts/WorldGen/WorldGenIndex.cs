@@ -24,7 +24,8 @@
         WaterfallPfx,
         BossZone,
         Water,
-        Cliffs
+        Cliffs,
+        Campfire
     }
 
     public enum NPCs

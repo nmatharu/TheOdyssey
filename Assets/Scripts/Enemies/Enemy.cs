@@ -40,15 +40,32 @@ public class Enemy : MonoBehaviour
 
         var d = Mathf.RoundToInt( dmg );
         _hp -= d;
+        var bleed = p.BleedStacks();
+        if( bleed > 0 ) StartCoroutine( Bleed( p, bleed ) );
+        
         GameManager.Instance.SpawnDamageNumber( transform.position, d, true );
         p.Statistics().DealDamage( dmg );
-        
-        if( _hp <= 0 )
+        CheckForDeath( p );
+    }
+
+    IEnumerator Bleed( Player p, int stacks )
+    {
+        var wait = new WaitForSeconds( 1f );
+        for( var i = 0; i < 3; i++ )
         {
-            p.Statistics().KillEnemy();
-            GameManager.Instance.AwardGold( spawnCost );
-            Die();
+            yield return wait;
+            _hp -= stacks;
+            GameManager.Instance.SpawnGenericFloating( transform.position, stacks.ToString(), new Color( 1, 0.3f, 0.3f ), 8f );
+            CheckForDeath( p );
         }
+    }
+
+    void CheckForDeath( Player p )
+    {
+        if( _hp > 0 ) return;
+        p.Statistics().KillEnemy();
+        GameManager.Instance.AwardGold( spawnCost );
+        Die();
     }
 
     IEnumerator FlashMaterial()

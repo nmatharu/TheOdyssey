@@ -12,13 +12,16 @@ public class RuneShop : Interactable
     
     void Start()
     {
-        _cost = GameManager.Instance.RandomRunePrice( tier );
+        // _cost = GameManager.Instance.RandomRunePrice( tier );
         costText.text = _cost.ToString();
         interactPrompt = "PURCHASE";
         cannotInteractPrompt = "TOO MUCH";
     }
 
-    public override void Interact( Player player ) => player.BuyRune( tier, rune, _cost );
+    public override void Interact( Player player )
+    {
+        // player.BuyRune( tier, rune, _cost );
+    }
 
     public override bool InteractionLocked( Player player ) => player.CantAfford( _cost );
 }

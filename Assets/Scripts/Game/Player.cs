@@ -8,9 +8,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [ SerializeField ] public float baseMaxHp = 30f;
-    [ SerializeField ] float rollSpeedMultiplier = 1.5f;
+    [ SerializeField ] float baseRollSpeedMultiplier = 1.5f;
     [ SerializeField ] float speed = 8f;
-
+    [ SerializeField ] float baseHpRegenPerMinute = 6;
+    
     [ SerializeField ] Transform meshParent;
     [ SerializeField ] ParticleSystem deathFx;
 
@@ -29,7 +30,9 @@ public class Player : MonoBehaviour
     int _level = 1;
     float _maxHp;
     float _hp;
-    int _souls = 200;
+    float _rollSpeedMultiplier;
+    float _secondsPerSoulHarvest;
+    int _souls;
     int[] _runeMap;
     Dictionary<string, int> _runes;
 
@@ -65,6 +68,9 @@ public class Player : MonoBehaviour
     {
         _maxHp = baseMaxHp;
         _hp = _maxHp;
+        _rollSpeedMultiplier = baseRollSpeedMultiplier;
+        _secondsPerSoulHarvest = Mathf.Infinity;
+        
         _material = GetComponentInChildren<Renderer>().material;
 
         _renderers = meshParent.GetComponentsInChildren<Renderer>();
@@ -89,8 +95,9 @@ public class Player : MonoBehaviour
         foreach( Rune rune in RuneIndex.Instance.AllRunes() )
             _runes.Add( rune.Name(), 0 );
 
-        _hpRegenPerMin = GameManager.Instance.BaseHealthRegen();
+        _hpRegenPerMin = baseHpRegenPerMinute;
         StartCoroutine( RegenerateHealth() );
+        StartCoroutine( CollectSouls() );
         
         var x =
             GetComponentsInChildren<Renderer>();
@@ -107,7 +114,7 @@ public class Player : MonoBehaviour
         if( dead ) return;
         if( rolling )
         {
-            _body.velocity = transform.forward * ( rollSpeedMultiplier * speed );
+            _body.velocity = transform.forward * ( _rollSpeedMultiplier * speed );
             return;
         }
 
@@ -279,6 +286,25 @@ public class Player : MonoBehaviour
         }
     }
 
+    IEnumerator CollectSouls()
+    {
+        var elapsed = 0f;
+        for( ;; )
+        {
+            if( elapsed < _secondsPerSoulHarvest )
+            {
+                elapsed += Time.deltaTime;
+            }
+            else
+            {
+                GameManager.Instance.SpawnGenericFloating( transform.position + Vector3.up, "+1", Color.cyan, 12 );
+                AwardSoul();
+                elapsed = 0f;
+            }
+            yield return null;
+        }
+    }
+
     public float MaxHp() => _maxHp;
     public float HpPct() => _hp / _maxHp;
     public Animator Mator() => _animator;
@@ -286,14 +312,6 @@ public class Player : MonoBehaviour
 
     public bool CantAfford( int cost ) => _souls < cost;
 
-    public void BuyRune( ItemDirector.RuneTiers tier, ItemDirector.Runes rune, int cost )
-    {
-        _souls -= cost;
-        _statusBar.UpdateCurrency( _souls );
-        GameManager.Instance.SpawnCostNumber( transform.position, cost );
-        AcquireRune( tier, rune );
-    }
-    
     public void BuyRune( Rune rune, int cost )
     {
         _souls -= cost;
@@ -315,28 +333,16 @@ public class Player : MonoBehaviour
             case "vitality":
                 UpdateMaxHealth( count );
                 break;
+            case "evasion":
+                UpdateRollSpeed( count );
+                break;
+            case "resolve":
+                UpdateHpRegen( count );
+                break;
+            case "collection":
+                UpdateSoulCollection( count );
+                break;
         }
-    }
-
-    public void AcquireRune( ItemDirector.RuneTiers tier, ItemDirector.Runes rune )
-    {
-        _runeMap[ (int) rune ]++;
-
-        if( rune == ItemDirector.Runes.CommonMaxHp )
-            UpdateMaxHealth();
-
-        var levelsToAdd = tier switch
-        {
-            ItemDirector.RuneTiers.Common => 1,
-            ItemDirector.RuneTiers.Rare => 2,
-            ItemDirector.RuneTiers.Legendary => 4,
-            _ => 0
-        };
-
-        _level += levelsToAdd;
-        _statusBar.SetLevel( _level );
-
-        Debug.Log( _runeMap.ToCommaSeparatedString() );
     }
 
     int StacksOfRune( ItemDirector.Runes rune ) => _runeMap[ (int) rune ];
@@ -357,5 +363,40 @@ public class Player : MonoBehaviour
         var diff = _maxHp - oldMaxHp;
         _hp = Mathf.Clamp( _hp + diff, 0, _maxHp );
         _statusBar.SetHpBarNotches( _maxHp );
+    }
+
+    void UpdateRollSpeed( int count ) => _rollSpeedMultiplier = baseRollSpeedMultiplier + 0.5f * count;
+
+    public float DamageMultiplier()
+    {
+        var multiplier = 1f;
+        multiplier *= JBB.ClampedMap( HpPct(), 1, 0, 1, 1 + 0.4f * _runes[ "fury" ] );
+        return multiplier;
+    }
+
+    public int BleedStacks() => _runes[ "hemorrhage" ];
+
+    void UpdateHpRegen( int count )
+    {
+        _hpRegenPerMin = baseHpRegenPerMinute + count * 12f;
+        // StopCoroutine( nameof( RegenerateHealth ) );
+        // StartCoroutine( RegenerateHealth() );
+    }
+
+    void UpdateSoulCollection( int count ) => _secondsPerSoulHarvest = 30f * Mathf.Pow( 0.5f, count );
+
+    public void LifeSteal()
+    {
+        var lifeSteal = _runes[ "vampirism" ];
+        _hp = Mathf.Clamp( _hp + lifeSteal, 0, _maxHp );
+        if( lifeSteal > 0 )
+            GameManager.Instance.SpawnGenericFloating( transform.position + Vector3.up, "+", Color.green, 12 );
+    }
+
+    public void CampfireHeal()
+    {
+        if( _hp < _maxHp )
+            GameManager.Instance.SpawnGenericFloating( transform.position + Vector3.up, "+", Color.green, 16 );
+        _hp = Mathf.Clamp( _hp + 1, 0, _maxHp );
     }
 }

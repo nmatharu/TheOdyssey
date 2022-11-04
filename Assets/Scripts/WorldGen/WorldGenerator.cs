@@ -268,9 +268,18 @@ public class WorldGenerator : MonoBehaviour
             for( var y = 1; y < worldSizeY; y++ )
             {
                 if( x < 20 && y > 4 && y < worldSizeY - 4 ) continue;
-                
-                if( !_tileMap[ x, y ].EmptyCollider && !_tileMap[ x, y ].HasSurfaceObject && !_tileMap[ x, y ].OffLimits && Random.value < 0.025f )
+
+                var val = Random.value;
+                if( !_tileMap[ x, y ].EmptyCollider && !_tileMap[ x, y ].HasSurfaceObject && !_tileMap[ x, y ].OffLimits && val < 0.025f )
                 {
+                    if( val < 0.001f )
+                    {
+                        Instantiate( Gen( WorldGenIndex.Misc.Campfire ), CoordsToWorldPos( x, y ), 
+                            JBB.RandomYRot(), objsParent );
+                        _tileMap[ x, y ].HasSurfaceObject = true;
+                        continue;
+                    }
+
                     Instantiate( genObjects[ Random.Range( 0, 4 ) ], 
                         CoordsToWorldPos( x, y ), JBB.RandomYRot(), blocksParent );
                     _tileMap[ x, y ].HasSurfaceObject = true;
