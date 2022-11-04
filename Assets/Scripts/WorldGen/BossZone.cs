@@ -21,6 +21,8 @@ public class BossZone : MonoBehaviour
     {
         foreach( var spike in leftSpikes )
             SetYPos( spike, downPosY );
+
+        StartCoroutine( CheckStartBoss() );
     }
 
     public void SetStartEnd( int start, int end )
@@ -36,6 +38,50 @@ public class BossZone : MonoBehaviour
 
     public void CloseLeft() => StartCoroutine( CloseLeftCoroutine() );
     public void OpenRight() => StartCoroutine( OpenRightCoroutine() );
+
+    IEnumerator CheckStartBoss()
+    {
+        var wait = new WaitForSeconds( 1f );
+        for( ;; )
+        {
+            if( GameManager.Instance.PlayersInBossZone( 760 ) )
+            {
+                StartBoss();
+                yield break;
+            }
+            yield return wait;
+        }
+    }
+
+    void StartBoss()
+    {
+        Debug.Log( "BOSS STARTED" );
+        CloseLeft();
+        
+        var es = FindObjectsOfType<Enemy>();
+        foreach( var e in es )
+        {
+            Destroy( e.gameObject );
+        }
+
+        
+        EnemySpawner.Instance.StartBoss( 780f );
+        this.Invoke( () => StartCoroutine( CheckEndBoss() ), 5f );
+    }
+
+    IEnumerator CheckEndBoss()
+    {
+        var wait = new WaitForSeconds( 1f );
+        for( ;; )
+        {
+            if( GameManager.Instance.AllEnemiesDead() )
+            {
+                OpenRight();
+                yield break;
+            }
+            yield return wait;
+        }
+    }
 
     IEnumerator CloseLeftCoroutine()
     {

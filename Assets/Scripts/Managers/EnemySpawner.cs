@@ -11,6 +11,7 @@ public class EnemySpawner : MonoBehaviour
 
     [ SerializeField ] Enemy[] enemies;
     [ SerializeField ] EnemyWave[] waves;
+    [ SerializeField ] EnemyWave bossWave;
 
     Queue<EnemyWave> _waveQueue;
     
@@ -80,4 +81,19 @@ public class EnemySpawner : MonoBehaviour
     }
 
     GameObject Enemy( EnemyType type ) => enemies[ (int) type ].gameObject;
+
+    public void StartBoss( float posX )
+    {
+        var wave = bossWave.toSpawn;
+        var spawnPoints = WorldGenerator.Instance.ValidSpawnPointsAround( posX, wave.Count );
+        for( var i = 0; i < wave.Count; i++ )
+        {
+            var i1 = i;
+            this.Invoke( () =>
+            {
+                var p = Instantiate( spawnPillar, spawnPoints[ i1 ], Quaternion.identity, spawnersParent ).GetComponent<SpawnPillar>();
+                p.Set( wave[ i1 ], 2f );
+            }, i * 0.25f );
+        }
+    }
 }

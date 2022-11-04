@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] public Transform interactablesParent;
     [ SerializeField ] Player[] playersArr;
     [ SerializeField ] Transform projectiles;
-
+    
     [ SerializeField ] Transform damageNumbersParent;
     [ SerializeField ] GameObject damageNumberPrefab;
     [ SerializeField ] int damageNumberPoolSize = 100;
@@ -83,6 +83,18 @@ public class GameManager : MonoBehaviour
             EnemySpawner.Instance.LetItRip( spawnPoints );
         }
     }
+
+    public bool PlayersInBossZone( float zoneXStart )
+    {
+        foreach( var p in playersArr )
+        {
+            if( p.gameObject.activeInHierarchy && !p.dead && p.transform.position.x < zoneXStart )
+                return false;
+        }
+        return true;
+    }
+
+    public bool AllEnemiesDead() => FindObjectsOfType<Enemy>().Length == 0;
 
     public void AwardGold( int spawnCost )
     {
