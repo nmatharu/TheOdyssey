@@ -6779,6 +6779,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1718756873}
   - component: {fileID: 1718756874}
+  - component: {fileID: 1718756875}
   m_Layer: 0
   m_Name: Cameras
   m_TagString: Untagged
@@ -6812,7 +6813,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718756871}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4349e8dc31febc4d89f81181241b16e, type: 3}
   m_Name: 
@@ -6835,6 +6836,37 @@ MonoBehaviour:
   - {fileID: 1514887275}
   singleCam3pSmoothingMinLerp: 5
   singleCam3pSmoothingMaxLerp: 200
+  scaler: {fileID: 945615539}
+  camXClampMin: 21
+--- !u!114 &1718756875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718756871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 054070e7e46df7343aa1924d46ce1892, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameras:
+  - {fileID: 321024163}
+  - {fileID: 1016863245}
+  - {fileID: 1016368623}
+  cameraOffset: -2
+  projectionFactor: 1.049149
+  splitViewPortOffsetY: -4.73
+  cameraSplitDistance: 22
+  splitScreenLines:
+  - {fileID: 1661086305}
+  - {fileID: 347563220}
+  - {fileID: 1514887275}
+  singlePlayerSmoothing: 100
+  singleCam2pSmoothingMinLerp: 5
+  singleCam2pSmoothingMaxLerp: 20
+  singleCam3pSmoothingMinLerp: 5
+  singleCam3pSmoothingMaxLerp: 20
   scaler: {fileID: 945615539}
   camXClampMin: 21
 --- !u!1 &1721902123

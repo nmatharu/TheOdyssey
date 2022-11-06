@@ -77,7 +77,7 @@ public class WorldGenerator : MonoBehaviour
     {
         _perlinSeed = Random.value;
 
-        Instantiate( Gen( WorldGenIndex.Misc.Water ), Vector3.zero, Quaternion.identity, miscParent );
+        // Instantiate( Gen( WorldGenIndex.Misc.Water ), Vector3.zero, Quaternion.identity, miscParent );
         Instantiate( Gen( WorldGenIndex.Misc.Cliffs ), Vector3.zero, Quaternion.identity, edgesParent );
         GenerateGrassBase();
         
