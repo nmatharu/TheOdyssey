@@ -6864,9 +6864,9 @@ MonoBehaviour:
   - {fileID: 1514887275}
   singlePlayerSmoothing: 100
   singleCam2pSmoothingMinLerp: 5
-  singleCam2pSmoothingMaxLerp: 20
+  singleCam2pSmoothingMaxLerp: 100
   singleCam3pSmoothingMinLerp: 5
-  singleCam3pSmoothingMaxLerp: 20
+  singleCam3pSmoothingMaxLerp: 100
   scaler: {fileID: 945615539}
   camXClampMin: 21
 --- !u!1 &1721902123

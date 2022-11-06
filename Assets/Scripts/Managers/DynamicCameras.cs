@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,7 +31,7 @@ public class DynamicCameras : MonoBehaviour
     float[] _sortedPlayerXPoses;
     
     // x-positions of players 1-3
-    readonly float[] _xs = new float[ 3 ];
+    float[] _xs = new float[ 3 ];
     
     // min and max x-position
     float _min;
@@ -52,8 +53,7 @@ public class DynamicCameras : MonoBehaviour
 
     void Start()
     {
-        SortPlayerXPoses();
-        CalcTargetValues();
+        CalculatePositions();
 
         var fwd = cameras[ 0 ].transform.forward;
         _initY = cameras[ 0 ].transform.position.y;
@@ -70,11 +70,7 @@ public class DynamicCameras : MonoBehaviour
         _splitScreenLineHeight = scaler.referenceResolution.y * ( 16f / 9f ) / aspectRatio;
     }
 
-    void Update()
-    {
-        SortPlayerXPoses();
-        CalcTargetValues();
-    }
+    void Update() => CalculatePositions();
 
     // Update is called once per frame
     void LateUpdate()
@@ -172,8 +168,7 @@ public class DynamicCameras : MonoBehaviour
 
         var smoothingBehind = _singleCam3PLerp - _singleCam3PTarget;
         
-        // if( acDist < acThreshold && abDist < adjThreshold && bcDist < adjThreshold )
-        // if( acDist < acThreshold )
+        // All players can be displayed on one cam
         if( c - abMid < cameraSplitDistance && bcMid - a < cameraSplitDistance )
         {
             cameras[ 0 ].rect = new Rect( 0, 0, 1f, 1f );
@@ -239,37 +234,27 @@ public class DynamicCameras : MonoBehaviour
         t.position = new Vector3( cameraOffset + x, _initY + ( -1 + 2f * offsetYPct ) * splitViewPortOffsetY, p.z );
     }
 
-    void SortPlayerXPoses()
-    {
-        var adjustedXPoses = ( from p in GameManager.Instance.CameraPlayers() 
-            select CameraCompensation( p.transform.position ) ).ToList();
-        _numPlayers = adjustedXPoses.Count;
-        _sortedPlayerXPoses = adjustedXPoses.OrderBy( p => p ).ToArray();
-    }
-
     float CameraCompensation( Vector3 pos )
     {
         var right = new Vector3( _cameraUp.z, 0, -_cameraUp.x );
         return Mathf.Max( camXClampMin, Vector3.Project( pos, right ).x * projectionFactor );
     }
 
-    void CalcTargetValues()
+    void CalculatePositions()
     {
-        for( var i = 0; i < _sortedPlayerXPoses.Length; i++ )
-        {
-            _xs[ i ]  = _sortedPlayerXPoses[ i ];
-        }
+        var xs = ( from p in GameManager.Instance.CameraPlayers() 
+                select CameraCompensation( p.transform.position ) ).ToList();
+        _numPlayers = xs.Count;
+        if( _numPlayers < 1 )   return;
         
-        if( _sortedPlayerXPoses.Length == 0 ) return;
-
-        _min = _sortedPlayerXPoses.Min();
-        _max = _sortedPlayerXPoses.Max();
-
+        _xs = xs.OrderBy( p => p ).ToArray();
+        _min = _xs[ 0 ];
+        _max = _xs[ _numPlayers - 1 ];
         _m = ( _min + _max ) / 2f;
-
+        
         if( _numPlayers < 3 ) return;
-        _l = ( _sortedPlayerXPoses[ 0 ] + _sortedPlayerXPoses[ 1 ] ) / 2f;
-        _r = ( _sortedPlayerXPoses[ 1 ] + _sortedPlayerXPoses[ 2 ] ) / 2f;
+        _l = ( _xs[ 0 ] + _xs[ 1 ] ) / 2f;
+        _r = ( _xs[ 1 ] + _xs[ 2 ] ) / 2f;
     }
 
     static float SplitScreenBarWidth( float dist ) => 
