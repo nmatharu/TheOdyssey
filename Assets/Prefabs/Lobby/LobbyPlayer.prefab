@@ -2194,7 +2194,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -1.03}
-  m_SizeDelta: {x: 35, y: 50}
+  m_SizeDelta: {x: 40, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8495151521020779137
 CanvasRenderer:
@@ -2354,7 +2354,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 200
   m_TargetDisplay: 0
 --- !u!114 &8495151521437811951
 MonoBehaviour:
@@ -2836,8 +2836,7 @@ GameObject:
   - component: {fileID: 8495151521538178667}
   - component: {fileID: 8495151521538178664}
   - component: {fileID: 8495151521538178679}
-  - component: {fileID: 1943678445050425817}
-  - component: {fileID: 6841069964949934039}
+  - component: {fileID: 1091229837820599371}
   m_Layer: 0
   m_Name: LobbyPlayer
   m_TagString: Untagged
@@ -2911,7 +2910,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1943678445050425817
+--- !u!114 &1091229837820599371
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2920,45 +2919,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8729593036261750422}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 371d9ddae5e1c184796b5bbe29cbe2fc, type: 3}
+  m_Script: {fileID: 11500000, guid: 84bb62baa27887b428ee7b631988b50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 300
-  rollSpeedMultiplier: 1.5
   speed: 8
-  rollDuration: 0.3
-  rollCooldown: 1.3
-  swordPfx: {fileID: 0}
+  playerName: {fileID: 8495151521020779150}
   inputDisabled: 0
-  dead: 0
-  rolling: 0
-  locked: 0
-  stunned: 0
-  weaponless: 0
-  rollOnCd: 0
---- !u!114 &6841069964949934039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8729593036261750422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3a3ea6c1ee5eff4dbe2b33745ad78f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lightAttackFramesLock: 12
-  lightAttackActiveFrame: 2
-  lightAttackSlashRadius: 2
-  lightStabRectBounds: {x: 2, y: 1, z: 2}
-  slashAttackFramesLock: 30
-  slashAttackActiveFrame: 16
-  slashAttackRadius: 3
-  firstSwingDelay: 0.75
-  lightAttackDmg: 3
-  lightAttackDmg3: 5
-  slashAttackDmg: 8
 --- !u!1 &8905673122864534027
 GameObject:
   m_ObjectHideFlags: 0
