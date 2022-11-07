@@ -571,7 +571,7 @@
                 {
                     "name": "negative",
                     "id": "17b63895-2fb3-4057-800c-241ed4ae6ea8",
-                    "path": "<Keyboard>/leftBracket",
+                    "path": "<Keyboard>/l",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -582,7 +582,7 @@
                 {
                     "name": "positive",
                     "id": "a6a43aaa-7282-4dc6-bbf0-7545069fbcc0",
-                    "path": "<Keyboard>/rightBracket",
+                    "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",

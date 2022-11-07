@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviour
 {
+    [ SerializeField ] Vector3 playerSpawnPosition;
+    [ SerializeField ] LobbyPlayerCanvas[] playerCanvases;
     [ SerializeField ] int maxPlayers = 3;
     [ SerializeField ] GameObject lobbyPlayer;
 
@@ -32,7 +34,6 @@ public class LobbyManager : MonoBehaviour
 
     public void PlayerJoined( PlayerInput input )
     {
-        Debug.Log( input.devices.ToCommaSeparatedString() );
     }
 
     public void PlayerLeft( PlayerInput input )
@@ -40,18 +41,19 @@ public class LobbyManager : MonoBehaviour
         Debug.Log( input.devices.ToCommaSeparatedString() + " Left" );
     }
 
-    public int RequestBinding( PlayerInputBroadcast input )
+    public int RequestBinding( PlayerInputBroadcast input, string deviceName )
     {
         if( _inputs.Count > maxPlayers )
             return -1;
         
-        var o = Instantiate( lobbyPlayer, Vector3.zero, Quaternion.identity );
+        var o = Instantiate( lobbyPlayer, playerSpawnPosition, Quaternion.identity );
 
         _inputs.Add( input );
         var playerId = _inputs.Count - 1;
         
         _players[ playerId ] = o.GetComponent<LobbyPlayer>();
         _players[ playerId ].Init( GetUnusedName() );
+        playerCanvases[ playerId ].Init( input, _players[ playerId ].PlayerName(), deviceName );
         
         return _inputs.Count - 1;
     }
