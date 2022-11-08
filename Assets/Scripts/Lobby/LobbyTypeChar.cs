@@ -23,14 +23,14 @@ public class LobbyTypeChar : MonoBehaviour
     public void Hover()
     {
         charDisplay.color = Color.white;
-        outlineBox.color = Color.white;
+        outlineBox.enabled = true;
         imageDisplay.color = Color.white;
     }
 
     public void Unhover()
     {
         charDisplay.color = new Color( 1f, 1f, 1f, unhoverAlpha );
-        outlineBox.color = new Color( 1f, 1f, 1f, unhoverAlpha );
+        outlineBox.enabled = false;
         imageDisplay.color = new Color( 1f, 1f, 1f, unhoverAlpha );
     }
 

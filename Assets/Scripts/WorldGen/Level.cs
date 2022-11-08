@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 
-public interface Level
+public abstract class Level : MonoBehaviour
 {
-    public const int DefaultWorldSizeX = 400;
-    public const int DefaultWorldSizeY = 12;
+    [ SerializeField ] GameObject baseBlock;
+    
+    protected const int DefaultWorldSizeX = 200;
+    protected const int DefaultWorldSizeY = 12;
 
     public abstract void Generate( WorldGenerator generator );
-    public abstract Vector2Int WorldSize();
+    public Vector2Int WorldSize() => new( DefaultWorldSizeX, DefaultWorldSizeY + 1 );
 
 }

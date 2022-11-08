@@ -12,6 +12,9 @@ public class LobbyManager : MonoBehaviour
     [ SerializeField ] LobbyPlayerCanvas[] playerCanvases;
     [ SerializeField ] int maxPlayers = 3;
     [ SerializeField ] GameObject lobbyPlayer;
+    
+    [ SerializeField ] CanvasGroup[] difficultyCanvases;
+    [ SerializeField ] float difficultyCanvasAlpha = 0.3f;
 
     // 0: Casual, 1: Normal, 2: Brutal, 3: Unreal (locked by default)
     int _difficulty = 1;
@@ -30,6 +33,7 @@ public class LobbyManager : MonoBehaviour
 
         _inputs = new List<PlayerInputBroadcast>();
         _players = new LobbyPlayer[ maxPlayers ];
+        HighlightDifficulty( _difficulty );
     }
 
     public void PlayerJoined( PlayerInput input )
@@ -74,8 +78,14 @@ public class LobbyManager : MonoBehaviour
 
     public void CycleDifficulty()
     {
-        _difficulty = ( _difficulty + 1 ) % 3;
-        Debug.Log( "Difficulty is now " + _difficulty );
+        _difficulty = ( _difficulty + 1 ) % 4;
+        HighlightDifficulty( _difficulty );
+    }
+
+    void HighlightDifficulty( int index )
+    {
+        for( var i = 0; i < difficultyCanvases.Length; i++ )
+            difficultyCanvases[ i ].alpha = i == index ? 1 : difficultyCanvasAlpha;
     }
 
     public void BackToMenu() => SceneManager.LoadScene( "Menu" );

@@ -55,7 +55,8 @@ public class WorldGenerator : MonoBehaviour
 
     void Start()
     {
-        _currentLevel = new LevelGrasslands();
+        _currentLevel = GetComponentInChildren<LevelGrasslands>();
+        _currentLevel.gameObject.SetActive( true );
         StartCoroutine( Generate() );
     }
 
@@ -65,9 +66,10 @@ public class WorldGenerator : MonoBehaviour
 
         InitMaps( _currentLevel.WorldSize() );
         // InitMaps( new Vector2Int( 600, 12 ) );
-        // _currentLevel.Generate( this );
+        _currentLevel.Generate( this );
 
-        GenerateGrasslands();
+        // GenerateGrasslands();
+        // GenerateGrasslands2();
         
         yield return new WaitForSeconds( 2f );
         _generating = false;
@@ -109,9 +111,51 @@ public class WorldGenerator : MonoBehaviour
 
         // puts chests, campfires, etc near objects
 
-        DuplicateTopRow();
+        DuplicateTopRow( worldSizeX, worldSizeY );
         
         // GoofyFun();
+    }
+
+    void GenerateGrasslands2()
+    {
+        _perlinSeed = Random.value;
+
+        Instantiate( Gen( WorldGenIndex.Misc.Water ), Vector3.zero, Quaternion.identity, miscParent );
+        Instantiate( Gen( WorldGenIndex.Misc.Cliffs ), Vector3.zero, Quaternion.identity, edgesParent );
+        GenerateGrassBase();
+
+        for( var x = 105; x < worldSizeX - 21; x += 60 )
+            GenerateNpc( x );
+        
+        GenerateWaterfall( 0, 8 );
+        for( var x = 30; x < worldSizeX - 21; x += 30 )
+            GenerateWaterfall( x, Random.Range( 2, 7 ) );
+        
+        GenerateEnvironmentalObjects();
+
+        _bossZone = Instantiate( Gen( WorldGenIndex.Misc.BossZone ), 
+                CoordsToWorldPos( worldSizeX - 20, 0 ), Quaternion.identity, GameManager.Instance.miscParent )
+            .GetComponent<BossZone>();
+        _bossZone.SetStartEnd( 3, 3 + 6 );
+
+        DuplicateTopRow( worldSizeX, worldSizeY );
+    }
+
+    public void GrasslandsPub()
+    {
+        for( var x = 105; x < worldSizeX - 21; x += 60 )
+            GenerateNpc( x );
+        
+        GenerateWaterfall( 0, 8 );
+        for( var x = 30; x < worldSizeX - 21; x += 30 )
+            GenerateWaterfall( x, Random.Range( 2, 7 ) );
+        
+        GenerateEnvironmentalObjects();
+
+        _bossZone = Instantiate( Gen( WorldGenIndex.Misc.BossZone ), 
+                CoordsToWorldPos( worldSizeX - 20, 0 ), Quaternion.identity, GameManager.Instance.miscParent )
+            .GetComponent<BossZone>();
+        _bossZone.SetStartEnd( 3, 3 + 6 );
     }
 
     void GenerateGrassBase()
@@ -123,6 +167,18 @@ public class WorldGenerator : MonoBehaviour
                 var o = Instantiate( Gen( WorldGenIndex.Blocks.Grass ), 
                     CoordsToWorldPos( x, y ), JBB.Random90Rot(), blocksParent );
                 _tileMap[ x, y ] = new Tile( o, x, y, (int) WorldGenIndex.Blocks.Grass, CoordsToWorldPos( x, y ), false );
+            }
+        }
+    }
+
+    public void GenerateBase( WorldGenIndex.Blocks block, int xs, int ys )
+    {
+        for( var x = 0; x < xs; x++ )
+        {
+            for( var y = 0; y < ys; y++ )
+            {
+                var o = Instantiate( Gen( block ), CoordsToWorldPos( x, y ), JBB.Random90Rot(), blocksParent );
+                _tileMap[ x, y ] = new Tile( o, x, y, ( int ) block, CoordsToWorldPos( x, y ), false );
             }
         }
     }
@@ -288,15 +344,14 @@ public class WorldGenerator : MonoBehaviour
         }
     }
 
-    void DuplicateTopRow()
+    public void DuplicateTopRow( int xs, int ys )
     {
-        for( var x = 0; x < worldSizeX; x++ )
+        for( var x = 0; x < xs; x++ )
         {
-            var toCopy = _tileMap[ x, worldSizeY - 1 ];
+            var toCopy = _tileMap[ x, ys - 1 ];
             var o = Instantiate( genBlocks[ toCopy.GenIndex ], 
-                CoordsToWorldPos( x, worldSizeY ), JBB.Random90Rot(), blocksParent );
-            _tileMap[ x, worldSizeY ] = new Tile( o, x, worldSizeY, toCopy.GenIndex, CoordsToWorldPos( x, worldSizeY ),
-                toCopy.EmptyCollider );
+                CoordsToWorldPos( x, ys ), JBB.Random90Rot(), blocksParent );
+            _tileMap[ x, ys ] = new Tile( o, x, ys, toCopy.GenIndex, CoordsToWorldPos( x, ys ), toCopy.EmptyCollider );
         }
     }
 
@@ -395,8 +450,8 @@ public class WorldGenerator : MonoBehaviour
 
     public bool IsGenerating() => _generating;
 
-    GameObject Gen( WorldGenIndex.Blocks block ) => genBlocks[ (int) block ];
-    GameObject Gen( WorldGenIndex.Objs obj ) => genObjects[ (int) obj ];
-    GameObject Gen( WorldGenIndex.Misc misc ) => genMisc[ (int) misc ];
-    GameObject Gen( WorldGenIndex.NPCs npc ) => genNpcs[ (int) npc ];
+    public GameObject Gen( WorldGenIndex.Blocks block ) => genBlocks[ (int) block ];
+    public GameObject Gen( WorldGenIndex.Objs obj ) => genObjects[ (int) obj ];
+    public GameObject Gen( WorldGenIndex.Misc misc ) => genMisc[ (int) misc ];
+    public GameObject Gen( WorldGenIndex.NPCs npc ) => genNpcs[ (int) npc ];
 }

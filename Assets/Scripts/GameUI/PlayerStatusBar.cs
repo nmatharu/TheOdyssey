@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,8 +12,8 @@ public class PlayerStatusBar : MonoBehaviour
 
     [ SerializeField ] Transform statusBarTransform;
     [ SerializeField ] Transform inventoryBarTransform;
-    int _statusBarState;    // 0 - hp bar, 1-3 - inventory indices 0-2
-    
+    int _statusBarState; // 0 - hp bar, 1-3 - inventory indices 0-2
+
     [ SerializeField ] Transform notchesParent;
     [ SerializeField ] GameObject notch;
     [ SerializeField ] int notchDivision = 10;
@@ -29,6 +28,7 @@ public class PlayerStatusBar : MonoBehaviour
     [ SerializeField ] RectTransform[] inventoryDarkSquares;
 
     const float HpFollowBarSpeed = 0.6f;
+
     // We Want the follow bar to scale with max hp, so higher healths take longer to go down
     const float HpFollowBarSpeedDivisor = 18;
     Player _player;
@@ -44,7 +44,7 @@ public class PlayerStatusBar : MonoBehaviour
         _player = GetComponentInParent<Player>();
         _hpPct = _player.HpPct();
         _hpFollowPct = _player.HpPct();
-        
+
         var sizeDelta = hpBar.rectTransform.sizeDelta;
         _maxHpBarWidth = sizeDelta.x;
         _hpBarHeight = sizeDelta.y;
@@ -55,8 +55,11 @@ public class PlayerStatusBar : MonoBehaviour
 
     void Update()
     {
+        if( float.IsNaN( _hpFollowPct ) )
+            _hpFollowPct = _player.HpPct();
+
         _hpPct = _player.HpPct();
-        _hpFollowPct = Mathf.MoveTowards( _hpFollowPct, _hpPct, HpFollowBarSpeedDivisor / _player.MaxHp() * Time.deltaTime );
+        _hpFollowPct = Mathf.MoveTowards( _hpFollowPct, _hpPct, HpFollowBarSpeed * Time.deltaTime );
         hpBar.rectTransform.sizeDelta = new Vector2( _hpPct * _maxHpBarWidth, _hpBarHeight );
         hpFollowBar.rectTransform.sizeDelta = new Vector2( _hpFollowPct * _maxHpBarWidth, _hpBarHeight );
     }
@@ -68,7 +71,7 @@ public class PlayerStatusBar : MonoBehaviour
         foreach( Transform n in notchesParent )
             Destroy( n.gameObject );
 
-        var notchWidth = JBB.ClampedMap( maxHp, 
+        var notchWidth = JBB.ClampedMap( maxHp,
             minNotchWidthThreshold, maxNotchWidthThreshold,
             minNotchWidth, maxNotchWidth );
 
@@ -76,10 +79,10 @@ public class PlayerStatusBar : MonoBehaviour
         {
             var image = Instantiate( notch, notchesParent ).GetComponent<Image>();
             image.rectTransform.sizeDelta = new Vector2( notchWidth, _hpBarHeight );
-            image.rectTransform.anchoredPosition = 
+            image.rectTransform.anchoredPosition =
                 new Vector3( hp / maxHp * _maxHpBarWidth, 0, 0 );
         }
-        
+
         _overlayUI.ReRun();
     }
 
@@ -124,7 +127,7 @@ public class PlayerStatusBar : MonoBehaviour
 
     IEnumerator RotXTransition( Transform t, bool rotateIn )
     {
-        if( rotateIn )  t.gameObject.SetActive( true );
+        if( rotateIn ) t.gameObject.SetActive( true );
         t.localEulerAngles = new Vector3( rotateIn ? -90 : 0, 0, 0 );
         var wait = new WaitForEndOfFrame();
         for( var i = 0; i < 18; i++ )
@@ -132,7 +135,7 @@ public class PlayerStatusBar : MonoBehaviour
             t.Rotate( 5, 0, 0 );
             yield return wait;
         }
+
         t.gameObject.SetActive( rotateIn );
     }
-
 }
