@@ -19,7 +19,7 @@ public class LobbyManager : MonoBehaviour
     // 0: Casual, 1: Normal, 2: Brutal, 3: Unreal (locked by default)
     int _difficulty = 1;
 
-    List<PlayerInputBroadcast> _inputs;
+    List<GlobalPlayerInput> _inputs;
     LobbyPlayer[] _players;
 
     public static LobbyManager Instance { get; private set; }
@@ -31,7 +31,7 @@ public class LobbyManager : MonoBehaviour
         else
             Instance = this;
 
-        _inputs = new List<PlayerInputBroadcast>();
+        _inputs = new List<GlobalPlayerInput>();
         _players = new LobbyPlayer[ maxPlayers ];
         HighlightDifficulty( _difficulty );
     }
@@ -45,21 +45,29 @@ public class LobbyManager : MonoBehaviour
         Debug.Log( input.devices.ToCommaSeparatedString() + " Left" );
     }
 
-    public int RequestBinding( PlayerInputBroadcast input, string deviceName )
+    public int RequestBinding( GlobalPlayerInput input, string deviceName )
     {
-        if( _inputs.Count > maxPlayers )
+        var id = FirstAvailableId();
+        if( id == -1 )
             return -1;
         
         var o = Instantiate( lobbyPlayer, playerSpawnPosition, Quaternion.identity );
 
         _inputs.Add( input );
-        var playerId = _inputs.Count - 1;
         
-        _players[ playerId ] = o.GetComponent<LobbyPlayer>();
-        _players[ playerId ].Init( GetUnusedName() );
-        playerCanvases[ playerId ].Init( input, _players[ playerId ].PlayerName(), deviceName );
+        _players[ id ] = o.GetComponent<LobbyPlayer>();
+        _players[ id ].Init( GetUnusedName() );
+        playerCanvases[ id ].Init( input, _players[ id ].PlayerName(), deviceName );
         
         return _inputs.Count - 1;
+    }
+
+    int FirstAvailableId()
+    {
+        for( var i = 0; i < _players.Length; i++ )
+            if( _players[ i ] == null )
+                return i;
+        return -1;
     }
 
     string GetUnusedName()
@@ -88,5 +96,19 @@ public class LobbyManager : MonoBehaviour
             difficultyCanvases[ i ].alpha = i == index ? 1 : difficultyCanvasAlpha;
     }
 
-    public void BackToMenu() => SceneManager.LoadScene( "Menu" );
+    public void BackToMenu()
+    {
+        GlobalInputManager.Instance.ToMenu();
+        SceneManager.LoadScene( "Menu" );
+    }
+
+    public void RemovePlayer( GlobalPlayerInput input, int playerId )
+    {
+        _inputs.Remove( input );
+        _players[ playerId ] = null;
+        // throw new NotImplementedException();
+        
+        if( _inputs.Empty() )
+            BackToMenu();
+    }
 }

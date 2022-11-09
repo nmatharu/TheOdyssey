@@ -24,7 +24,7 @@ public class LobbyPlayerCanvas : MonoBehaviour
         descCanvas.SetActive( false );
     }
 
-    public void Init( PlayerInputBroadcast input, string pName, string deviceName )
+    public void Init( GlobalPlayerInput input, string pName, string deviceName )
     {
         promptText.SetActive( false );
         descCanvas.SetActive( true );

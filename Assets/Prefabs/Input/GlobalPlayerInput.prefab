@@ -188,8 +188,8 @@ MonoBehaviour:
     m_ActionName: InGame/Start[/Keyboard/escape,/XInputControllerWindows/start,/XInputControllerWindows/select]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerInputBroadcast, Assembly-CSharp
+      - m_Target: {fileID: 6704447546178417886}
+        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
         m_MethodName: LobbyMove
         m_Mode: 0
         m_Arguments:
@@ -204,8 +204,8 @@ MonoBehaviour:
     m_ActionName: Lobby/Movement[/XInputControllerWindows/leftStick,/XInputControllerWindows/dpad,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerInputBroadcast, Assembly-CSharp
+      - m_Target: {fileID: 6704447546178417886}
+        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
         m_MethodName: LobbyChangeChar
         m_Mode: 0
         m_Arguments:
@@ -220,8 +220,8 @@ MonoBehaviour:
     m_ActionName: Lobby/ChangeCharacter[/XInputControllerWindows/leftShoulder,/XInputControllerWindows/rightShoulder,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/rightTrigger,/Keyboard/leftBracket,/Keyboard/rightBracket]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerInputBroadcast, Assembly-CSharp
+      - m_Target: {fileID: 6704447546178417886}
+        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
         m_MethodName: LobbyLDUR
         m_Mode: 0
         m_Arguments:
@@ -236,8 +236,8 @@ MonoBehaviour:
     m_ActionName: Lobby/LDUR[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/dpad/up,/XInputControllerWindows/dpad/down,/XInputControllerWindows/dpad/left,/XInputControllerWindows/dpad/right,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerInputBroadcast, Assembly-CSharp
+      - m_Target: {fileID: 6704447546178417886}
+        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
         m_MethodName: LobbyBackToMenu
         m_Mode: 0
         m_Arguments:
@@ -252,8 +252,8 @@ MonoBehaviour:
     m_ActionName: Lobby/Leave[/XInputControllerWindows/buttonEast,/Keyboard/escape]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerInputBroadcast, Assembly-CSharp
+      - m_Target: {fileID: 6704447546178417886}
+        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
         m_MethodName: LobbyEditName
         m_Mode: 0
         m_Arguments:
@@ -268,8 +268,8 @@ MonoBehaviour:
     m_ActionName: Lobby/EditName[/XInputControllerWindows/buttonWest,/Keyboard/e]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerInputBroadcast, Assembly-CSharp
+      - m_Target: {fileID: 6704447546178417886}
+        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
         m_MethodName: LobbyChangeDifficulty
         m_Mode: 0
         m_Arguments:
@@ -284,8 +284,8 @@ MonoBehaviour:
     m_ActionName: Lobby/ChangeDifficulty[/XInputControllerWindows/buttonNorth,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerInputBroadcast, Assembly-CSharp
+      - m_Target: {fileID: 6704447546178417886}
+        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
         m_MethodName: LobbyConfirmButton
         m_Mode: 0
         m_Arguments:

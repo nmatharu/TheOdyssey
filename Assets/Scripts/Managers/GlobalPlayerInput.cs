@@ -21,7 +21,8 @@ public class GlobalPlayerInput : MonoBehaviour
         
         if( lobby != null )
         {
-            // _playerId = lobby.RequestBinding( this, DeviceName() );
+            GlobalInputManager.Instance.ToLobby();
+            _playerId = lobby.RequestBinding( this, DeviceName() );
             if( _playerId != -1 )
                 _lobbyPlayer = lobby.GetPlayer( _playerId );
         }
@@ -95,12 +96,19 @@ public class GlobalPlayerInput : MonoBehaviour
     public void LobbyBackToMenu( InputAction.CallbackContext context )
     {
         if( _lobbyPlayer == null || !context.action.triggered || _playerId != 0 )  return;
-        LobbyManager.Instance.BackToMenu();
+        LobbyManager.Instance.RemovePlayer( this, _playerId );
+        // LobbyManager.Instance.BackToMenu();
     }
 
     public void LobbyJoin( InputAction.CallbackContext context )
     {
         if( !context.action.triggered || _lobbyPlayer != null ) return;
-        Debug.Log( "joining" );
+        
+        var lobby = LobbyManager.Instance;
+        if( lobby == null ) return;
+        
+        _playerId = lobby.RequestBinding( this, DeviceName() );
+        if( _playerId != -1 )
+            _lobbyPlayer = lobby.GetPlayer( _playerId );
     }
 }

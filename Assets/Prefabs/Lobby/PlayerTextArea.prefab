@@ -565,9 +565,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'PRESS ANY BUTTON ON
+  m_text: 'PRESS [ START ] ON
 
-    A GAMEPAD TO JOIN'
+    ANY GAMEPAD TO JOIN'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f32f31680a3cf694a9ef7fc0f01fed46, type: 2}
   m_sharedMaterial: {fileID: 476927336751886983, guid: f32f31680a3cf694a9ef7fc0f01fed46, type: 2}
