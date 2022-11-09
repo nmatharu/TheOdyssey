@@ -11,7 +11,18 @@ public class MenuManager : MonoBehaviour
     [ SerializeField ] GameObject[] topLevelMenuOptions;
     public static MenuManager Instance { get; private set; }
     int _topLevelMenuIndex = 0;
-    
+
+    [ SerializeField ] GameObject settingsCanvas;
+    [ SerializeField ] GameObject creditsCanvas;
+
+    MenuState _state;
+    enum MenuState
+    {
+        Top,
+        Settings,
+        Credits
+    }
+
     void Start()
     {
         if( Instance != null && Instance != this )
@@ -20,23 +31,7 @@ public class MenuManager : MonoBehaviour
             Instance = this;
         
         UpdateMenuOptions();
-    }
-
-    void Update()
-    {
-        if( Input.GetKeyDown( KeyCode.A ) )
-        {
-            _topLevelMenuIndex = ( _topLevelMenuIndex - 1 + 4 ) % 4;
-            UpdateMenuOptions();
-        }
-        if( Input.GetKeyDown( KeyCode.D ) )
-        {
-            _topLevelMenuIndex = ( _topLevelMenuIndex + 1 ) % 4;
-            UpdateMenuOptions();
-        }
-
-        if( Input.GetKeyDown( KeyCode.Return ) )
-            ConfirmTopLevelSelection();
+        _state = MenuState.Top;
     }
 
     void ConfirmTopLevelSelection()
@@ -44,15 +39,74 @@ public class MenuManager : MonoBehaviour
         switch( _topLevelMenuIndex )
         {
             case 0:
+                GlobalInputManager.Instance.ToLobby();
                 SceneManager.LoadScene( "Lobby" );
                 break;
             case 1:
+                settingsCanvas.SetActive( true );
+                _state = MenuState.Settings;
                 break;
             case 2:
+                creditsCanvas.SetActive( true );
+                _state = MenuState.Credits;
                 break;
             case 3:
                 Application.Quit();
                 break;
+        }
+    }
+
+    public void MenuNavLDUR( Vector2Int nav )
+    {
+        switch( _state )
+        {
+            case MenuState.Top:
+                _topLevelMenuIndex = ( _topLevelMenuIndex + nav.x + topLevelMenuOptions.Length ) % topLevelMenuOptions.Length;
+                UpdateMenuOptions();
+                break;
+            case MenuState.Settings:
+                break;
+            case MenuState.Credits:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    public void ConfirmSelection()
+    {
+        switch( _state )
+        {
+            case MenuState.Top:
+                ConfirmTopLevelSelection();
+                break;
+            case MenuState.Settings:
+                break;
+            case MenuState.Credits:
+                creditsCanvas.SetActive( false );
+                _state = MenuState.Top;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    public void BackSelection()
+    {
+        switch( _state )
+        {
+            case MenuState.Top:
+                break;
+            case MenuState.Settings:
+                settingsCanvas.SetActive( false );
+                _state = MenuState.Top;
+                break;
+            case MenuState.Credits:
+                creditsCanvas.SetActive( false );
+                _state = MenuState.Top;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 
