@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ public class PlayerStatusBar : MonoBehaviour
 
     [ SerializeField ] Transform statusBarTransform;
     [ SerializeField ] Transform inventoryBarTransform;
+    [ SerializeField ] Transform inventoryBarNewTransform;
     int _statusBarState; // 0 - hp bar, 1-3 - inventory indices 0-2
 
     [ SerializeField ] Transform notchesParent;
@@ -125,17 +127,28 @@ public class PlayerStatusBar : MonoBehaviour
         // inventoryBarTransform.gameObject.SetActive( _statusBarState == 1 );
     }
 
+    public void ShowInventory( bool b )
+    {
+        var oldState = _statusBarState;
+        _statusBarState = b ? 1 : 0;
+
+        if( oldState == _statusBarState ) return;
+        StartCoroutine( RotXTransition( statusBarTransform, _statusBarState == 0 ) );
+        StartCoroutine( RotXTransition( inventoryBarNewTransform, _statusBarState == 1 ) );
+    }
+    
     IEnumerator RotXTransition( Transform t, bool rotateIn )
     {
         if( rotateIn ) t.gameObject.SetActive( true );
         t.localEulerAngles = new Vector3( rotateIn ? -90 : 0, 0, 0 );
         var wait = new WaitForEndOfFrame();
-        for( var i = 0; i < 18; i++ )
+        for( var i = 0; i < 10; i++ )
         {
-            t.Rotate( 5, 0, 0 );
+            t.Rotate( 9, 0, 0 );
             yield return wait;
         }
 
+        t.localEulerAngles = new Vector3( rotateIn ? 0 : 90, 0, 0 );
         t.gameObject.SetActive( rotateIn );
     }
 }

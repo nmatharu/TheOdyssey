@@ -57,8 +57,7 @@ public class PlayerControls : MonoBehaviour
     public void Inventory( InputAction.CallbackContext context )
     {
         if( Paused() || _player == null || _player.inputDisabled ) return;
-        if( context.action.triggered )
-            _player.CycleInventory();
+        _player.ShowInventory( context.ReadValue<float>() > 0.9f );
     }
 
     public void GamePause( InputAction.CallbackContext context )

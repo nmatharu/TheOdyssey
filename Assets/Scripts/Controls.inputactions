@@ -847,12 +847,12 @@
                 },
                 {
                     "name": "RIventory",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "3cfcc5b3-15f3-4e88-9f81-7a70dd1c5880",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Start",

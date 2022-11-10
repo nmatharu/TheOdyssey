@@ -399,4 +399,6 @@ public class Player : MonoBehaviour
             GameManager.Instance.SpawnGenericFloating( transform.position + Vector3.up, "+", Color.green, 16 );
         _hp = Mathf.Clamp( _hp + 1, 0, _maxHp );
     }
+
+    public void ShowInventory( bool b ) => _statusBar.ShowInventory( b );
 }
