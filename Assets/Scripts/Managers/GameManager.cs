@@ -58,6 +58,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Application.targetFrameRate = -1;
+        
         InvokeRepeating( nameof( CheckForNextWave ), 1f, 0.25f );
         _levelIncrementRoutine = StartCoroutine( LevelIncrementor() );
     }

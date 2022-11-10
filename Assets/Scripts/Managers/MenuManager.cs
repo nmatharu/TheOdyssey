@@ -32,6 +32,8 @@ public class MenuManager : MonoBehaviour
         
         UpdateMenuOptions();
         _state = MenuState.Top;
+
+        Application.targetFrameRate = 60;
     }
 
     void ConfirmTopLevelSelection()
@@ -83,8 +85,6 @@ public class MenuManager : MonoBehaviour
             case MenuState.Settings:
                 break;
             case MenuState.Credits:
-                creditsCanvas.SetActive( false );
-                _state = MenuState.Top;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

@@ -55,7 +55,7 @@ public class LobbyPlayer : MonoBehaviour
 
     public void MenuNav( Vector2 nav )
     {
-        Debug.Log( "Nav: " + nav );
+        // Debug.Log( "Nav: " + nav );
     }
 
     public void ConfirmBtn()

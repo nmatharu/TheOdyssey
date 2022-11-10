@@ -56,4 +56,10 @@ public class LobbyPlayerCanvas : MonoBehaviour
             o.GetComponent<LobbyTypeChar>().InitSpecial( x - typeCharRowLength + 3 );
         }
     }
+
+    public void Reset()
+    {
+        promptText.SetActive( true );
+        descCanvas.SetActive( false );
+    }
 }

@@ -9,7 +9,7 @@ public class GlobalInputManager : MonoBehaviour
     PlayerInputManager _inputManager;
     List<PlayerInput> _inputs;
 
-    void Start()
+    void Awake()
     {
         if( Instance != null && Instance != this )
         {
@@ -31,29 +31,15 @@ public class GlobalInputManager : MonoBehaviour
         _inputs.Add( playerInput );
     }
 
-    public void ToMenu()
-    {
-        foreach( var input in _inputs )
-        {
-            input.defaultActionMap = "MenuNav";
-            input.SwitchCurrentActionMap( input.defaultActionMap );
-        }
-    }
+    public void ToMenu() => SwitchActionMap( "MenuNav" );
+    public void ToLobby() => SwitchActionMap( "Lobby" );
+    public void ToGame() => SwitchActionMap( "InGame" );
 
-    public void ToLobby()
+    void SwitchActionMap( string map )
     {
         foreach( var input in _inputs )
         {
-            input.defaultActionMap = "Lobby";
-            input.SwitchCurrentActionMap( input.defaultActionMap );
-        }
-    }
-
-    public void ToGame()
-    {
-        foreach( var input in _inputs )
-        {
-            input.defaultActionMap = "InGame";
+            input.defaultActionMap = map;
             input.SwitchCurrentActionMap( input.defaultActionMap );
         }
     }

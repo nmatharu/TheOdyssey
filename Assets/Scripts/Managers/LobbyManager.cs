@@ -34,17 +34,10 @@ public class LobbyManager : MonoBehaviour
         _inputs = new List<GlobalPlayerInput>();
         _players = new LobbyPlayer[ maxPlayers ];
         HighlightDifficulty( _difficulty );
-    }
 
-    public void PlayerJoined( PlayerInput input )
-    {
+        Application.targetFrameRate = 240;
     }
-
-    public void PlayerLeft( PlayerInput input )
-    {
-        Debug.Log( input.devices.ToCommaSeparatedString() + " Left" );
-    }
-
+    
     public int RequestBinding( GlobalPlayerInput input, string deviceName )
     {
         var id = FirstAvailableId();
@@ -59,7 +52,7 @@ public class LobbyManager : MonoBehaviour
         _players[ id ].Init( GetUnusedName() );
         playerCanvases[ id ].Init( input, _players[ id ].PlayerName(), deviceName );
         
-        return _inputs.Count - 1;
+        return id;
     }
 
     int FirstAvailableId()
@@ -105,8 +98,9 @@ public class LobbyManager : MonoBehaviour
     public void RemovePlayer( GlobalPlayerInput input, int playerId )
     {
         _inputs.Remove( input );
+        Destroy( _players[ playerId ].gameObject );
         _players[ playerId ] = null;
-        // throw new NotImplementedException();
+        playerCanvases[ playerId ].Reset();
         
         if( _inputs.Empty() )
             BackToMenu();
