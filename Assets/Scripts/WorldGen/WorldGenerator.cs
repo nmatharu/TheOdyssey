@@ -1,19 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class WorldGenerator : MonoBehaviour
 {
+    [ SerializeField ] DynamicCameras cameras;
     [ SerializeField ] Transform blocksParent;
     [ SerializeField ] Transform objsParent;
     [ SerializeField ] Transform edgesParent;
     [ SerializeField ] Transform wallsParent;
     [ SerializeField ] Transform miscParent;
-
-    [ SerializeField ] int worldSizeX = 600;
-    [ SerializeField ] int worldSizeY = 12;
 
     [ SerializeField ] int offMapThresholdX = 30;
     [ SerializeField ] int offMapThresholdY = 15;
@@ -65,6 +61,7 @@ public class WorldGenerator : MonoBehaviour
         _generating = true;
 
         InitMaps( _currentLevel.WorldSize() );
+        cameras.CalcXClampMax( WorldSizeX() );
         // InitMaps( new Vector2Int( 600, 12 ) );
         _currentLevel.Generate( this );
 
@@ -83,15 +80,15 @@ public class WorldGenerator : MonoBehaviour
         Instantiate( Gen( WorldGenIndex.Misc.Cliffs ), Vector3.zero, Quaternion.identity, edgesParent );
         GenerateGrassBase();
         
-        var puzzlePlacements = new Vector2Int[] { new( 74, 4 ), new( 196, 5 ), new( worldSizeX - 21, 6 ) };
+        var puzzlePlacements = new Vector2Int[] { new( 74, 4 ), new( 196, 5 ), new( WorldSizeX() - 21, 6 ) };
         foreach( var p in puzzlePlacements ) 
             GenerateLinkPuzzle( p.x, p.y );
 
-        for( var x = 105; x < worldSizeX - 21; x += 60 )
+        for( var x = 105; x < WorldSizeX() - 21; x += 60 )
             GenerateNpc( x );
         
         GenerateWaterfall( 0, 8 );
-        for( var x = 30; x < worldSizeX - 21; x += 30 )
+        for( var x = 30; x < WorldSizeX() - 21; x += 30 )
             GenerateWaterfall( x, Random.Range( 2, 7 ) );
         
         // GenerateLinkAltars();
@@ -103,7 +100,7 @@ public class WorldGenerator : MonoBehaviour
         GenerateEnvironmentalObjects();
 
         _bossZone = Instantiate( Gen( WorldGenIndex.Misc.BossZone ), 
-            CoordsToWorldPos( worldSizeX - 20, 0 ), Quaternion.identity, GameManager.Instance.miscParent )
+            CoordsToWorldPos( WorldSizeX() - 20, 0 ), Quaternion.identity, GameManager.Instance.miscParent )
             .GetComponent<BossZone>();
         _bossZone.SetStartEnd( 3, 3 + 6 );
         // this.Invoke( () => _bossZone.CloseLeft(), 5f );
@@ -111,7 +108,7 @@ public class WorldGenerator : MonoBehaviour
 
         // puts chests, campfires, etc near objects
 
-        DuplicateTopRow( worldSizeX, worldSizeY );
+        DuplicateTopRow( WorldSizeX(), WorldSizeY() );
         
         // GoofyFun();
     }
@@ -124,45 +121,46 @@ public class WorldGenerator : MonoBehaviour
         Instantiate( Gen( WorldGenIndex.Misc.Cliffs ), Vector3.zero, Quaternion.identity, edgesParent );
         GenerateGrassBase();
 
-        for( var x = 105; x < worldSizeX - 21; x += 60 )
+        for( var x = 105; x < WorldSizeX() - 21; x += 60 )
             GenerateNpc( x );
         
         GenerateWaterfall( 0, 8 );
-        for( var x = 30; x < worldSizeX - 21; x += 30 )
+        for( var x = 30; x < WorldSizeX() - 21; x += 30 )
             GenerateWaterfall( x, Random.Range( 2, 7 ) );
         
         GenerateEnvironmentalObjects();
 
         _bossZone = Instantiate( Gen( WorldGenIndex.Misc.BossZone ), 
-                CoordsToWorldPos( worldSizeX - 20, 0 ), Quaternion.identity, GameManager.Instance.miscParent )
+                CoordsToWorldPos( WorldSizeX() - 20, 0 ), Quaternion.identity, GameManager.Instance.miscParent )
             .GetComponent<BossZone>();
         _bossZone.SetStartEnd( 3, 3 + 6 );
 
-        DuplicateTopRow( worldSizeX, worldSizeY );
+        DuplicateTopRow( WorldSizeX(), WorldSizeY() );
     }
 
     public void GrasslandsPub()
     {
-        for( var x = 105; x < worldSizeX - 21; x += 60 )
+        for( var x = 105; x < WorldSizeX() - 21; x += 60 )
             GenerateNpc( x );
         
         GenerateWaterfall( 0, 8 );
-        for( var x = 30; x < worldSizeX - 21; x += 30 )
+        for( var x = 30; x < WorldSizeX() - 21; x += 30 )
             GenerateWaterfall( x, Random.Range( 2, 7 ) );
-        
+
+        GenerateCrystalBarrier( WorldSizeX() - 21 );
         GenerateEnvironmentalObjects();
 
         _bossZone = Instantiate( Gen( WorldGenIndex.Misc.BossZone ), 
-                CoordsToWorldPos( worldSizeX - 20, 0 ), Quaternion.identity, GameManager.Instance.miscParent )
+                CoordsToWorldPos( WorldSizeX() - 20, 0 ), Quaternion.identity, GameManager.Instance.miscParent )
             .GetComponent<BossZone>();
         _bossZone.SetStartEnd( 3, 3 + 6 );
     }
 
     void GenerateGrassBase()
     {
-        for( var x = 0; x < worldSizeX; x++ )
+        for( var x = 0; x < WorldSizeX(); x++ )
         {
-            for( var y = 0; y < worldSizeY; y++ )
+            for( var y = 0; y < WorldSizeY(); y++ )
             {
                 var o = Instantiate( Gen( WorldGenIndex.Blocks.Grass ), 
                     CoordsToWorldPos( x, y ), JBB.Random90Rot(), blocksParent );
@@ -186,9 +184,9 @@ public class WorldGenerator : MonoBehaviour
     void GenerateLinkPuzzle( int x, int size )
     {
         var pieces = new List<GameObject>();
-        var startingPos = worldSizeY / 2 - size / 2;
+        var startingPos = WorldSizeY() / 2 - size / 2;
             
-        for( var y = 0; y < worldSizeY; y++ )
+        for( var y = 0; y < WorldSizeY(); y++ )
         {
             _tileMap[ x, y ].HasSurfaceObject = true;
 
@@ -221,7 +219,7 @@ public class WorldGenerator : MonoBehaviour
         int iters = 0;
         while( points.Count < n )
         {
-            var randomPoint = new Vector2Int( Random.Range( 70, worldSizeX - 21 ), Random.Range( 1, worldSizeY - 1 ) );
+            var randomPoint = new Vector2Int( Random.Range( 70, WorldSizeX() - 21 ), Random.Range( 1, WorldSizeY() - 1 ) );
             if( ValidPoint( randomPoint.x, randomPoint.y ) )
                 points.Add( randomPoint );
 
@@ -239,7 +237,7 @@ public class WorldGenerator : MonoBehaviour
             {
                 for( var y = middleY - 1; y <= middleY + 1; y++ )
                 {
-                    if( !_tileMap.WithinArrayBounds( x, y ) || y >= worldSizeY )
+                    if( !_tileMap.WithinArrayBounds( x, y ) || y >= WorldSizeY() )
                     {
                         Debug.Log( "returning false bc array : " + x + " " + y );
                         return false;
@@ -274,10 +272,10 @@ public class WorldGenerator : MonoBehaviour
 
     void GenerateWaterfall( int xStart, int width )
     {
-        var logY = worldSizeY / 2 + Random.Range( -3, 3 );
+        var logY = WorldSizeY() / 2 + Random.Range( -3, 3 );
         for( var x = xStart; x < xStart + width; x++ )
         {
-            for( var y = 0; y < worldSizeY; y++ )
+            for( var y = 0; y < WorldSizeY(); y++ )
             {
                 Destroy( _tileMap[ x, y ].Ground );
                 _tileMap[ x, y ].Ground = Instantiate( Gen( WorldGenIndex.Blocks.Empty ), 
@@ -297,7 +295,7 @@ public class WorldGenerator : MonoBehaviour
             _tileMap[ x + 1, logY ].OffLimits = true;
         }
         var w = Instantiate( Gen( WorldGenIndex.Misc.WaterfallPfx ),
-            new Vector3( 2 * ( xStart + width / 2f ) - 1, 0, worldSizeY * 2 ),
+            new Vector3( 2 * ( xStart + width / 2f ) - 1, 0, WorldSizeY() * 2 ),
             Quaternion.identity, miscParent);
         w.GetComponent<WaterfallPfx>().SetWidth( width );
     }
@@ -305,25 +303,37 @@ public class WorldGenerator : MonoBehaviour
     void GenerateNpc( int xStart )
     {
         Instantiate( Gen( WorldGenIndex.NPCs.NPCTest ), 
-            CoordsToWorldPos( xStart + 2, worldSizeY - 2 ), Quaternion.identity, objsParent );
+            CoordsToWorldPos( xStart + 2, WorldSizeY() - 2 ), Quaternion.identity, objsParent );
         for( var x = xStart; x < xStart + 5; x++ )
         {
-            for( var y = worldSizeY - 1; y >= worldSizeY - 6; y-- )
+            for( var y = WorldSizeY() - 1; y >= WorldSizeY() - 6; y-- )
             {
-                if( y >= worldSizeY - 3 )
+                if( y >= WorldSizeY() - 3 )
                     _tileMap[ x, y ].HasSurfaceObject = true;
                 _tileMap[ x, y ].OffLimits = true;
             }
         }
     }
 
+    void GenerateCrystalBarrier( int x )
+    {
+        for( var y = 0; y < WorldSizeY(); y++ )
+        {
+            _tileMap[ x, y ].OffLimits = true;
+            _tileMap[ x, y ].HasSurfaceObject = true;
+
+            Instantiate( Gen( y is >= 4 and <= 7 ? WorldGenIndex.Objs.CrystalGate : WorldGenIndex.Objs.LinkPuzzleFence ), 
+                CoordsToWorldPos( x, y ), Quaternion.identity, objsParent );
+        }
+    }
+
     void GenerateEnvironmentalObjects()
     {
-        for( var x = 21; x < worldSizeX - 21; x++ )
+        for( var x = 21; x < WorldSizeX() - 21; x++ )
         {
-            for( var y = 1; y < worldSizeY; y++ )
+            for( var y = 1; y < WorldSizeY(); y++ )
             {
-                if( x < 20 && y > 4 && y < worldSizeY - 4 ) continue;
+                if( x < 20 && y > 4 && y < WorldSizeY() - 4 ) continue;
 
                 var val = Random.value;
                 if( !_tileMap[ x, y ].EmptyCollider && !_tileMap[ x, y ].HasSurfaceObject && !_tileMap[ x, y ].OffLimits && val < 0.025f )
@@ -346,12 +356,14 @@ public class WorldGenerator : MonoBehaviour
 
     public void DuplicateTopRow( int xs, int ys )
     {
+        //     var o = Instantiate( genBlocks[ toCopy.GenIndex ], 
+        //         CoordsToWorldPos( x, ys ), JBB.Random90Rot(), blocksParent );
+        
         for( var x = 0; x < xs; x++ )
         {
             var toCopy = _tileMap[ x, ys - 1 ];
-            var o = Instantiate( genBlocks[ toCopy.GenIndex ], 
-                CoordsToWorldPos( x, ys ), JBB.Random90Rot(), blocksParent );
-            _tileMap[ x, ys ] = new Tile( o, x, ys, toCopy.GenIndex, CoordsToWorldPos( x, ys ), toCopy.EmptyCollider );
+            var o = Instantiate( toCopy.Ground, CoordsToWorldPos( x, ys ), JBB.Random90Rot(), blocksParent );
+            // _tileMap[ x, ys ] = new Tile( o, x, ys, toCopy.GenIndex, CoordsToWorldPos( x, ys ), toCopy.EmptyCollider );
         }
     }
 
@@ -362,13 +374,13 @@ public class WorldGenerator : MonoBehaviour
             for( var x = d; x >= 0; x-- )
             {
                 var y = d - x;
-                if( y > worldSizeY )
+                if( y > WorldSizeY() )
                     continue;
 
                 var x1 = x;
-                _tileMap[ x1, worldSizeY - y ].Ground.SetActive( false );
+                _tileMap[ x1, WorldSizeY() - y ].Ground.SetActive( false );
                 Debug.Log( $"invoking {x} {y}" );
-                this.Invoke( () => StartCoroutine( Xd( _tileMap[ x1, worldSizeY - y ].Ground.transform ) ), x * 0.12f + y * 0.05f );
+                this.Invoke( () => StartCoroutine( Xd( _tileMap[ x1, WorldSizeY() - y ].Ground.transform ) ), x * 0.12f + y * 0.05f );
             }
         }
 
@@ -398,8 +410,8 @@ public class WorldGenerator : MonoBehaviour
     public bool OffMap( Vector3 pos )
     {
         var v2 = WorldPosToCoords( pos );
-        return v2.x < -offMapThresholdX || v2.x > worldSizeX + offMapThresholdX ||
-               v2.y < -offMapThresholdY || v2.y > worldSizeY + offMapThresholdY;
+        return v2.x < -offMapThresholdX || v2.x > WorldSizeX() + offMapThresholdX ||
+               v2.y < -offMapThresholdY || v2.y > WorldSizeY() + offMapThresholdY;
     }
 
     public Vector3[] ValidSpawnPointsAround( float centerX, int num )
@@ -410,7 +422,7 @@ public class WorldGenerator : MonoBehaviour
         {
             var range = 10 + 10 * i / maxIters;
             var point = new Vector3( centerX + Random.Range( -range, range ), 0,
-                Random.Range( 2, ( worldSizeY - 2 ) * 2 ) );
+                Random.Range( 2, ( WorldSizeY() - 2 ) * 2 ) );
             
             if( !InvalidSpawnPoint( point ) )
                 spawnPoints.Add( point );
@@ -424,7 +436,7 @@ public class WorldGenerator : MonoBehaviour
         {
             Debug.Log( "Still looking for more points..." );
             spawnPoints.Add( new Vector3( centerX + Random.Range( -10, 10 ), 0, 
-                Random.Range( 2, ( worldSizeY - 2 ) * 2 ) ) );
+                Random.Range( 2, ( WorldSizeY() - 2 ) * 2 ) ) );
         }
         
         return spawnPoints.ToArray();
@@ -442,8 +454,8 @@ public class WorldGenerator : MonoBehaviour
         if( x < 20 )    return (int) WorldGenIndex.Blocks.Grass;
         
         var val = Mathf.PerlinNoise(
-            ( x + _perlinSeed ) / worldSizeY + _perlinSeed,
-            ( y + _perlinSeed ) / worldSizeY / 2f + _perlinSeed );
+            ( x + _perlinSeed ) / WorldSizeY() + _perlinSeed,
+            ( y + _perlinSeed ) / WorldSizeY() / 2f + _perlinSeed );
         
         return (int) ( val < 0.2f ? WorldGenIndex.Blocks.Empty : WorldGenIndex.Blocks.Grass );
     }
@@ -454,4 +466,7 @@ public class WorldGenerator : MonoBehaviour
     public GameObject Gen( WorldGenIndex.Objs obj ) => genObjects[ (int) obj ];
     public GameObject Gen( WorldGenIndex.Misc misc ) => genMisc[ (int) misc ];
     public GameObject Gen( WorldGenIndex.NPCs npc ) => genNpcs[ (int) npc ];
+
+    int WorldSizeX() => _tileMap.GetLength( 0 );
+    int WorldSizeY() => _tileMap.GetLength( 1 );
 }

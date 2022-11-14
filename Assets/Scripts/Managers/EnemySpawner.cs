@@ -8,7 +8,8 @@ public class EnemySpawner : MonoBehaviour
     [ SerializeField ] GameObject spawnPillar;
     [ SerializeField ] Transform enemiesParent;
     [ SerializeField ] Transform spawnersParent;
-
+    [ SerializeField ] GameObject enemyBarrier;
+    
     [ SerializeField ] Enemy[] enemies;
     [ SerializeField ] EnemyWave[] waves;
     [ SerializeField ] EnemyWave bossWave;
@@ -50,6 +51,12 @@ public class EnemySpawner : MonoBehaviour
 
     public void LetItRip( Vector3[] spawnPoints )
     {
+        var maxX = spawnPoints.Max( p => p.x );
+        
+        var b = Instantiate( enemyBarrier, new Vector3( maxX + 10f, 0, 0 ), 
+            Quaternion.identity, spawnersParent );
+        var barrier = b.GetComponent<EnemyBarrier>();
+
         var wave = _waveQueue.Dequeue().toSpawn;
         for( var i = 0; i < wave.Count; i++ )
         {
@@ -57,7 +64,7 @@ public class EnemySpawner : MonoBehaviour
             this.Invoke( () =>
             {
                 var p = Instantiate( spawnPillar, spawnPoints[ i1 ], Quaternion.identity, spawnersParent ).GetComponent<SpawnPillar>();
-                p.Set( wave[ i1 ], 2f );
+                p.Set( wave[ i1 ], 2f, barrier );
             }, i * 0.25f );
         }
     }

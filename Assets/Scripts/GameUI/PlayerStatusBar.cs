@@ -1,6 +1,5 @@
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +12,6 @@ public class PlayerStatusBar : MonoBehaviour
 
     [ SerializeField ] Transform statusBarTransform;
     [ SerializeField ] Transform inventoryBarTransform;
-    [ SerializeField ] Transform inventoryBarNewTransform;
     int _statusBarState; // 0 - hp bar, 1-3 - inventory indices 0-2
 
     [ SerializeField ] Transform notchesParent;
@@ -25,9 +23,7 @@ public class PlayerStatusBar : MonoBehaviour
     [ SerializeField ] int minNotchWidthThreshold = 200;
 
     [ SerializeField ] TextMeshProUGUI currencyNumber;
-    [ SerializeField ] TextMeshProUGUI inventoryText;
-    [ SerializeField ] RectTransform inventoryHighlightSquare;
-    [ SerializeField ] RectTransform[] inventoryDarkSquares;
+    [ SerializeField ] TextMeshProUGUI crystalNumber;
 
     const float HpFollowBarSpeed = 0.6f;
 
@@ -105,26 +101,10 @@ public class PlayerStatusBar : MonoBehaviour
         rollCdBar.rectTransform.sizeDelta = new Vector2( 0, height );
     }
 
-    public void UpdateCurrency( int currency ) => currencyNumber.text = currency.ToString();
-
-    public void CycleInventory()
+    public void UpdateBag( int currency, int crystals )
     {
-        _statusBarState = ( _statusBarState + 1 ) % 4;
-
-        if( _statusBarState is 0 or 1 )
-        {
-            StartCoroutine( RotXTransition( statusBarTransform, _statusBarState == 0 ) );
-            StartCoroutine( RotXTransition( inventoryBarTransform, _statusBarState == 1 ) );
-        }
-
-        if( _statusBarState.In( 1, 2, 3 ) )
-        {
-            var itemIndex = _statusBarState - 1;
-            inventoryText.text = "ITEM " + _statusBarState;
-            inventoryHighlightSquare.position = inventoryDarkSquares[ itemIndex ].position;
-        }
-        // statusBarTransform.gameObject.SetActive( _statusBarState == 0 );
-        // inventoryBarTransform.gameObject.SetActive( _statusBarState == 1 );
+        currencyNumber.text = currency.ToString();
+        crystalNumber.text = crystals.ToString();
     }
 
     public void ShowInventory( bool b )
@@ -134,7 +114,7 @@ public class PlayerStatusBar : MonoBehaviour
 
         if( oldState == _statusBarState ) return;
         StartCoroutine( RotXTransition( statusBarTransform, _statusBarState == 0 ) );
-        StartCoroutine( RotXTransition( inventoryBarNewTransform, _statusBarState == 1 ) );
+        StartCoroutine( RotXTransition( inventoryBarTransform, _statusBarState == 1 ) );
     }
     
     IEnumerator RotXTransition( Transform t, bool rotateIn )

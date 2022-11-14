@@ -4871,7 +4871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5c6170631f32294fbaaaa7e322a7003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healTicksEverySeconds: 2
+  healTicksEverySeconds: 1
 --- !u!1 &5051505629040426839
 GameObject:
   m_ObjectHideFlags: 0

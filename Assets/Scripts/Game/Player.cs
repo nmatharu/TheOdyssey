@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -33,6 +32,7 @@ public class Player : MonoBehaviour
     float _rollSpeedMultiplier;
     float _secondsPerSoulHarvest;
     int _souls;
+    int _crystals = 1;
     int[] _runeMap;
     Dictionary<string, int> _runes;
 
@@ -139,8 +139,6 @@ public class Player : MonoBehaviour
     public void SpecialAttack() => _playerMoves.SpecialAttack( _specialAttack );
 
     public void Roll() => _playerMoves.Roll();
-
-    public void CycleInventory() => _statusBar.CycleInventory();
 
     public void SetLModifier( bool b ) => _material.color = b ? Color.blue : Color.white;
 
@@ -270,7 +268,7 @@ public class Player : MonoBehaviour
     public void AwardSoul()
     {
         _souls++;
-        _statusBar.UpdateCurrency( _souls );
+        _statusBar.UpdateBag( _souls, _crystals );
     }
 
     IEnumerator RegenerateHealth()
@@ -315,7 +313,7 @@ public class Player : MonoBehaviour
     public void BuyRune( Rune rune, int cost )
     {
         _souls -= cost;
-        _statusBar.UpdateCurrency( _souls );
+        _statusBar.UpdateBag( _souls, _crystals );
         GameManager.Instance.SpawnCostNumber( transform.position, cost );
         Debug.Log( $"Bought the {rune.Name()} rune" );
         AcquireRune( rune );
@@ -401,4 +399,12 @@ public class Player : MonoBehaviour
     }
 
     public void ShowInventory( bool b ) => _statusBar.ShowInventory( b );
+
+    public bool HasCrystal() => _crystals > 0;
+
+    public void ConsumeCrystal()
+    {
+        _crystals--;
+        _statusBar.UpdateBag( _souls, _crystals );
+    }
 }

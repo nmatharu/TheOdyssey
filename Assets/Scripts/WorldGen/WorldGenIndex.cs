@@ -16,7 +16,8 @@
         TreeLarge,
         LinkPuzzle,
         LinkPuzzleFence,
-        LinkAltar
+        LinkAltar,
+        CrystalGate
     }
 
     public enum Misc

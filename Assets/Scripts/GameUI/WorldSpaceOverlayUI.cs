@@ -49,5 +49,5 @@ public class WorldSpaceOverlayUI : MonoBehaviour
         }
     }
 
-    public void ReRun() => MakeGraphicsOverlay();
+    public void ReRun() => Invoke( nameof( MakeGraphicsOverlay ), 0.25f );
 }

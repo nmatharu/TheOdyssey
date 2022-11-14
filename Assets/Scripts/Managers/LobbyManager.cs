@@ -37,7 +37,16 @@ public class LobbyManager : MonoBehaviour
 
         Application.targetFrameRate = 240;
     }
-    
+
+    void Update()
+    {
+        if( Input.GetKeyDown( KeyCode.G ) )
+        {
+            Destroy( GlobalInputManager.Instance.gameObject );
+            SceneManager.LoadScene( "Game" );
+        }
+    }
+
     public int RequestBinding( GlobalPlayerInput input, string deviceName )
     {
         var id = FirstAvailableId();

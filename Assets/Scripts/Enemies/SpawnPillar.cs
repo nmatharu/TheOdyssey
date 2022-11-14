@@ -7,6 +7,7 @@ public class SpawnPillar : MonoBehaviour
     [ SerializeField ] ParticleSystem pfx;
     [ SerializeField ] float spawnDelay;
 
+    EnemyBarrier _barrier;
     GameObject _toSpawn;
     float _radius;
 
@@ -14,6 +15,13 @@ public class SpawnPillar : MonoBehaviour
     {
         _toSpawn = o;
         _radius = r;
+    }
+    
+    public void Set( GameObject o, float r, EnemyBarrier b )
+    {
+        _toSpawn = o;
+        _radius = r;
+        _barrier = b;
     }
 
     void Start()
@@ -26,6 +34,10 @@ public class SpawnPillar : MonoBehaviour
     {
         pfx.Stop();
         var o = Instantiate( _toSpawn, transform.position, Quaternion.identity, EnemySpawner.Instance.EnemiesParent() );
+        
+        if( _barrier != null )
+            _barrier.AddEnemy( o );
+        
         o.GetComponent<Enemy>().Init( GameManager.Instance.EnemyLevel() );
         Destroy( gameObject, 2f );
     }

@@ -25,6 +25,7 @@ public class DynamicCameras : MonoBehaviour
     [ SerializeField ] CanvasScaler scaler;
 
     [ SerializeField ] float camXClampMin = 21f;
+    [ SerializeField ] float camXClampMax = 1000f;
 
     float _initY;
 
@@ -237,8 +238,10 @@ public class DynamicCameras : MonoBehaviour
     float CameraCompensation( Vector3 pos )
     {
         var right = new Vector3( _cameraUp.z, 0, -_cameraUp.x );
-        return Mathf.Max( camXClampMin, Vector3.Project( pos, right ).x * projectionFactor );
+        return Mathf.Clamp( Vector3.Project( pos, right ).x * projectionFactor, camXClampMin, camXClampMax );
     }
+
+    public void CalcXClampMax( int worldSizeX ) => camXClampMax = 2 * worldSizeX - 28f;
 
     void CalculatePositions()
     {
