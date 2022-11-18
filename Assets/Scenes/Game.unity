@@ -4974,6 +4974,7 @@ GameObject:
   - component: {fileID: 1117885864}
   - component: {fileID: 1117885863}
   - component: {fileID: 1117885867}
+  - component: {fileID: 1117885868}
   m_Layer: 5
   m_Name: ScreenSpaceUI
   m_TagString: Untagged
@@ -5078,6 +5079,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5af15c13781fb8545a4f09e79a9b96f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1117885868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117885862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99e6cb3c5b3d33140adcaff7c177da89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1128515465
