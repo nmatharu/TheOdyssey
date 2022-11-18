@@ -7,7 +7,9 @@ public class LobbyPlayer : MonoBehaviour
 {
     [ SerializeField ] float speed = 8f;
     [ SerializeField ] TextMeshProUGUI playerName;
+    [ SerializeField ] MeshRenderer[] costumes;
 
+    LobbyPlayerCanvas _canvas;
     Rigidbody _body;
     Animator _animator;
 
@@ -17,6 +19,10 @@ public class LobbyPlayer : MonoBehaviour
     static Vector3 _cameraUp;
     Vector2 _moveInput;
     Vector3 _moveDir;
+
+    int _costumeIndex = 0;
+
+    string _secretCode = "";
 
     static readonly int IsRunning = Animator.StringToHash( "IsRunning" );
 
@@ -30,7 +36,18 @@ public class LobbyPlayer : MonoBehaviour
         _cameraUp = new Vector3( fwd.x, 0, fwd.z );
     }
 
-    public void Init( string pName ) => playerName.text = pName;
+    void EnableCostume( int i )
+    {
+        foreach( var c in costumes )
+            c.enabled = false;
+        costumes[ i ].enabled = true;
+    }
+
+    public void Init( string pName, LobbyPlayerCanvas canvas )
+    {
+        playerName.text = pName;
+        _canvas = canvas;
+    }
 
     void FixedUpdate()
     {
@@ -45,18 +62,14 @@ public class LobbyPlayer : MonoBehaviour
 
     public void ChangeCharacter( bool toTheRight )
     {
+        _costumeIndex += ( _costumeIndex + _costumeIndex + ( toTheRight ? 1 : -1 ) ) % costumes.Length;
         Debug.Log( "Changing char " + toTheRight );
     }
 
-    public void ToggleEditName()
-    {
-        Debug.Log( "Toggle Edit" );
-    }
+    public void EditName() => _canvas.ToNameEntry();
+    public bool FinishEditName() => _canvas.FinishEditName();
 
-    public void MenuNav( Vector2 nav )
-    {
-        // Debug.Log( "Nav: " + nav );
-    }
+    public void MenuNav( Vector2 nav ) => _canvas.MenuNav( Vector2Int.RoundToInt( nav ) );
 
     public void ConfirmBtn()
     {
@@ -74,4 +87,19 @@ public class LobbyPlayer : MonoBehaviour
     }
 
     public string PlayerName() => playerName.text;
+
+    // This is just for fun, secret character costumes if you enter a particular DPad Code
+    public void DPadCode( Vector2 readValue )
+    {
+        var r = Vector2Int.RoundToInt( readValue );
+        var c = ' ';
+        c = r.x == -1 ? 'L' : r.x == 1 ? 'R' : ' ';
+        c = r.y == -1 ? 'D' : r.y == 1 ? 'U' : ' ';
+
+        _secretCode += c;
+        if( _secretCode.Length > 4 )
+            _secretCode = _secretCode.Substring( 1, 4 );
+        
+        // if secret code == whatever, set a custom costume
+    }
 }

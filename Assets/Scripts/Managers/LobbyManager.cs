@@ -58,7 +58,7 @@ public class LobbyManager : MonoBehaviour
         _inputs.Add( input );
         
         _players[ id ] = o.GetComponent<LobbyPlayer>();
-        _players[ id ].Init( GetUnusedName() );
+        _players[ id ].Init( GetUnusedName(), playerCanvases[ id ] );
         playerCanvases[ id ].Init( input, _players[ id ].PlayerName(), deviceName );
         
         return id;

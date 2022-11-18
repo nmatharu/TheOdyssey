@@ -729,12 +729,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptText: {fileID: 2631022555492073193}
   descCanvas: {fileID: 2631022555334619386}
+  descOverview: {fileID: 2631022556710276372}
+  descTypeName: {fileID: 1493331294922498138}
   playerName: {fileID: 2631022556434301465}
   controllerName: {fileID: 2631022556542810744}
-  validNameCharacters: ABCDEFGHIJKLMNOPQRSTUVWXYZ-?/0123456789
+  validNameCharacters: ABCDEFGHIJKLMNOPQRSTUVWXYZ
   typeCharStartPos: {x: -165, y: 98, z: 0}
   typeCharDistDelta: 26
-  typeCharRowLength: 13
+  typeCharRowLength: 7
   typeCharPrefab: {fileID: 4113307199566344642, guid: 675590a204ade4621aff529f1e9125a9, type: 3}
   typeCharParent: {fileID: 5394377021604326777}
 --- !u!1 &2631022555951276413

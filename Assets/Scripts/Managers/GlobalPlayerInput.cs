@@ -69,16 +69,11 @@ public class GlobalPlayerInput : MonoBehaviour
         _lobbyPlayer.ChangeCharacter( context.ReadValue<float>() > 0 );
     }
 
-    public void LobbyLDUR( InputAction.CallbackContext context )
-    {
-        if( _lobbyPlayer == null || !context.action.triggered )  return;
-        _lobbyPlayer.MenuNav( context.ReadValue<Vector2>() );
-    }
-
     public void LobbyEditName( InputAction.CallbackContext context )
     {
         if( _lobbyPlayer == null || !context.action.triggered )  return;
-        _lobbyPlayer.ToggleEditName();
+        _lobbyPlayer.EditName();
+        _playerInput.SwitchCurrentActionMap( "LobbyType" );
     }
 
     public void LobbyChangeDifficulty( InputAction.CallbackContext context )
@@ -111,5 +106,25 @@ public class GlobalPlayerInput : MonoBehaviour
         _playerId = lobby.RequestBinding( this, DeviceName() );
         if( _playerId != -1 )
             _lobbyPlayer = lobby.GetPlayer( _playerId );
+    }
+    
+    public void LobbyDPadCode( InputAction.CallbackContext context )
+    {
+        if( _lobbyPlayer == null )  return;
+        _lobbyPlayer.DPadCode( context.ReadValue<Vector2>() );
+    }
+    
+    public void LobbyTypeLDUR( InputAction.CallbackContext context )
+    {
+        if( _lobbyPlayer == null || !context.action.triggered )  return;
+        _lobbyPlayer.MenuNav( context.ReadValue<Vector2>() );
+    }
+
+    public void LobbyTypeConfirm( InputAction.CallbackContext context )
+    {
+        if( _lobbyPlayer == null || !context.action.triggered )  return;
+        var success = _lobbyPlayer.FinishEditName();
+        if( success )
+            _playerInput.SwitchCurrentActionMap( "Lobby" );
     }
 }

@@ -222,22 +222,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6704447546178417886}
         m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
-        m_MethodName: LobbyLDUR
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 924ed29f-4e20-41cf-b710-9776b1980657
-    m_ActionName: Lobby/LDUR[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/dpad/up,/XInputControllerWindows/dpad/down,/XInputControllerWindows/dpad/left,/XInputControllerWindows/dpad/right,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6704447546178417886}
-        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
         m_MethodName: LobbyBackToMenu
         m_Mode: 0
         m_Arguments:
@@ -362,6 +346,62 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 89781a28-9c56-4dad-b206-a66fd95c9ad1
     m_ActionName: Lobby/Join[/XInputControllerWindows/start,/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6704447546178417886}
+        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
+        m_MethodName: LobbyDPadCode
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 201c5008-2953-445d-81c0-a9db759449aa
+    m_ActionName: Lobby/DPadCode
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6704447546178417886}
+        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
+        m_MethodName: LobbyTypeLDUR
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 198d4f21-8182-4710-96d4-485a8a262867
+    m_ActionName: LobbyType/LDUR[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 819b29ff-24d9-4426-88d2-2f2b6ae7e4a0
+    m_ActionName: LobbyType/Backspace[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6704447546178417886}
+        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
+        m_MethodName: LobbyTypeConfirm
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2d109ef3-442f-4293-a3bb-fd53d87f75cc
+    m_ActionName: LobbyType/ConfirmName[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e9a28309-febb-4cee-8995-96ae22de5317
+    m_ActionName: LobbyType/AddCharacter[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Controller
   m_DefaultActionMap: MenuNav
