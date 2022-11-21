@@ -13111,11 +13111,11 @@ MonoBehaviour:
   inventoryBarTransform: {fileID: 4675382731837803019}
   notchesParent: {fileID: 8284170621284046947}
   notch: {fileID: 7034340180151910462, guid: 99eb385a64c504c799222bae10811368, type: 3}
-  notchDivision: 10
+  notchDivision: 50
   maxNotchWidth: 0.08
   minNotchWidth: 0.04
-  maxNotchWidthThreshold: 50
-  minNotchWidthThreshold: 200
+  maxNotchWidthThreshold: 250
+  minNotchWidthThreshold: 600
   currencyNumber: {fileID: 711503721458629261}
   crystalNumber: {fileID: 7410419372685286385}
 --- !u!114 &669585400152965924
@@ -13520,7 +13520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371d9ddae5e1c184796b5bbe29cbe2fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseMaxHp: 30
+  baseMaxHp: 50
   baseRollSpeedMultiplier: 1.5
   speed: 8
   baseHpRegenPerMinute: 6

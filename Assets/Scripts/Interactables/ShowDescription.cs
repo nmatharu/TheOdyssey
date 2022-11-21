@@ -7,6 +7,8 @@ public class ShowDescription : MonoBehaviour
 {
     [ SerializeField ] CanvasGroup canvasGroup;
 
+    void Start() => canvasGroup.alpha = 0;
+
     void OnTriggerStay( Collider o )
     {
         var p = o.GetComponent<Player>();

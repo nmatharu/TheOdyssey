@@ -41,6 +41,9 @@ public class Player : MonoBehaviour
     HashSet<Interactable> _interactables;
     Interactable _closestInteractable;
 
+    MagicSpell _magic = null;
+    bool _magicOnCooldown;
+    
     InGameStatistics _statistics;
 
     // For sequences like the intro run-in and outro run-out where we don't want the player to control
@@ -140,7 +143,12 @@ public class Player : MonoBehaviour
 
     public void Roll() => _playerMoves.Roll();
 
-    public void SetLModifier( bool b ) => _material.color = b ? Color.blue : Color.white;
+    public void SetLModifier( bool b )
+    {
+        if( b )
+            CastMagic();
+        // _material.color = b ? Color.blue : Color.white;
+    }
 
     public void IncomingDamage( float unscaledDmg, int enemyLevel )
     {
@@ -406,5 +414,48 @@ public class Player : MonoBehaviour
     {
         _crystals--;
         _statusBar.UpdateBag( _souls, _crystals );
+    }
+
+    public void LearnMagic( MagicSpell magicSpell )
+    {
+        _magic = magicSpell;
+        
+        // TODO Celebration particles/text on learn magic
+    }
+
+    public void CastMagic()
+    {
+        if( _magic == null )
+        {
+            GameManager.Instance.SpawnGenericFloating( transform.position + 4 * Vector3.down, 
+                "NO MAGIC!", Color.white, 4f );
+            return;
+        }
+
+        if( _magicOnCooldown )
+        {
+            GameManager.Instance.SpawnGenericFloating( transform.position + 4 * Vector3.down, 
+                "ON COOLDOWN", Color.white, 4f );
+            return;
+        }
+
+        _magic.Cast( this );
+        StartCoroutine( MagicCooldown( _magic.Cooldown() ) );
+    }
+
+    IEnumerator MagicCooldown( float cooldownSeconds )
+    {
+        _magicOnCooldown = true;
+        
+        var countdown = cooldownSeconds;
+        while( countdown > 0 )
+        {
+            countdown -= Time.deltaTime;
+            Debug.Log( "Progress: " + ( countdown / cooldownSeconds ) );
+            
+            yield return null;
+        }
+
+        _magicOnCooldown = false;
     }
 }

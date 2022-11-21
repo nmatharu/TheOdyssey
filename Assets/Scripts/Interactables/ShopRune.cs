@@ -19,8 +19,6 @@ public class ShopRune : Interactable
     
     void Start()
     {
-        textCanvasGroup.alpha = 0;
-        
         // _rune = RuneIndex.Instance.RandomShopRune();
         _cost = GameManager.Instance.RandomRunePrice( _rune.Tier() );
 
