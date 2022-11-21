@@ -171,6 +171,9 @@ ModelImporter:
   - first:
       74: -4149011746653570422
     second: Armature|7_Heavy_A_Default
+  - first:
+      74: -7586593113868146251
+    second: Armature|4_SwingB_Legless.012
   externalObjects: {}
   materials:
     materialImportMode: 2
