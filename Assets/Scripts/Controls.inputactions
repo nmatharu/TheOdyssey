@@ -502,7 +502,7 @@
                 {
                     "name": "positive",
                     "id": "a6a43aaa-7282-4dc6-bbf0-7545069fbcc0",
-                    "path": "<Keyboard>/r",
+                    "path": "<Keyboard>/semicolon",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",

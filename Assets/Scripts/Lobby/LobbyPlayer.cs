@@ -7,7 +7,7 @@ public class LobbyPlayer : MonoBehaviour
 {
     [ SerializeField ] float speed = 8f;
     [ SerializeField ] TextMeshProUGUI playerName;
-    [ SerializeField ] MeshRenderer[] costumes;
+    [ SerializeField ] GameObject[] costumes;
 
     LobbyPlayerCanvas _canvas;
     Rigidbody _body;
@@ -39,8 +39,8 @@ public class LobbyPlayer : MonoBehaviour
     void EnableCostume( int i )
     {
         foreach( var c in costumes )
-            c.enabled = false;
-        costumes[ i ].enabled = true;
+            c.SetActive( false );
+        costumes[ i ].SetActive( true );
     }
 
     public void Init( string pName, LobbyPlayerCanvas canvas )
@@ -62,8 +62,9 @@ public class LobbyPlayer : MonoBehaviour
 
     public void ChangeCharacter( bool toTheRight )
     {
-        _costumeIndex += ( _costumeIndex + _costumeIndex + ( toTheRight ? 1 : -1 ) ) % costumes.Length;
-        Debug.Log( "Changing char " + toTheRight );
+        _costumeIndex = ( _costumeIndex + costumes.Length + ( toTheRight ? 1 : -1 ) ) % costumes.Length;
+
+        EnableCostume( _costumeIndex );
     }
 
     public void EditName() => _canvas.ToNameEntry();
