@@ -25,7 +25,7 @@ public class WorldGenerator : MonoBehaviour
     BossZone _bossZone;
 
     float _perlinSeed;
-    Level _currentLevel;
+    [ SerializeField ] Level _currentLevel;
 
     public static WorldGenerator Instance { get; private set; }
     bool _generating;
@@ -51,7 +51,9 @@ public class WorldGenerator : MonoBehaviour
 
     void Start()
     {
-        _currentLevel = GetComponentInChildren<LevelGrasslands>();
+        if( _currentLevel == null)
+            _currentLevel = GetComponentInChildren<LevelSands>();
+        
         _currentLevel.gameObject.SetActive( true );
         StartCoroutine( Generate() );
     }
@@ -177,6 +179,18 @@ public class WorldGenerator : MonoBehaviour
             {
                 var o = Instantiate( Gen( block ), CoordsToWorldPos( x, y ), JBB.Random90Rot(), blocksParent );
                 _tileMap[ x, y ] = new Tile( o, x, y, ( int ) block, CoordsToWorldPos( x, y ), false );
+            }
+        }
+    }
+    
+    public void GenerateBase( GameObject ground, int xs, int ys )
+    {
+        for( var x = 0; x < xs; x++ )
+        {
+            for( var y = 0; y < ys; y++ )
+            {
+                var o = Instantiate( ground, CoordsToWorldPos( x, y ), JBB.Random90Rot(), blocksParent );
+                _tileMap[ x, y ] = new Tile( o, x, y, 0, CoordsToWorldPos( x, y ), false );
             }
         }
     }

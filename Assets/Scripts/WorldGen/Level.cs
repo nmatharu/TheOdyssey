@@ -2,7 +2,7 @@
 
 public abstract class Level : MonoBehaviour
 {
-    [ SerializeField ] GameObject baseBlock;
+    [ SerializeField ] protected GameObject baseBlock;
     [ SerializeField ] protected Transform environmentalParent;
     
     protected const int DefaultWorldSizeX = 400;

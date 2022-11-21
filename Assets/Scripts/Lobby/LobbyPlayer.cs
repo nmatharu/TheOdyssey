@@ -63,7 +63,6 @@ public class LobbyPlayer : MonoBehaviour
     public void ChangeCharacter( bool toTheRight )
     {
         _costumeIndex = ( _costumeIndex + costumes.Length + ( toTheRight ? 1 : -1 ) ) % costumes.Length;
-
         EnableCostume( _costumeIndex );
     }
 
