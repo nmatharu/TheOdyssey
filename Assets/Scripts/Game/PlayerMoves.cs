@@ -150,23 +150,26 @@ public class PlayerMoves : MonoBehaviour
     {
         this.Invoke( () =>
         {
-            var hitAnEnemy = false;
+            var enemiesHit = 0;
+            
             foreach( var c in colliders )
             {
                 if( _player.dead )  return;
 
                 if( c == null ) continue;
                 var e = c.GetComponent<Enemy>();
+                
                 if( e != null )
                 {
-                    hitAnEnemy = true;
+                    enemiesHit++;
                     e.TakeDamage( _player, (int) ( damage * _player.DamageMultiplier() ) );
                 }
             }
 
-            if( hitAnEnemy )
+            if( enemiesHit > 0 )
             {
                 _player.LifeSteal();
+                _player.ReduceMagicCd( 0.25f );
             }
             
         }, frames60 / 60f );

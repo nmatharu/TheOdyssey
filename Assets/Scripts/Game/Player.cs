@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     [ SerializeField ] float baseRollSpeedMultiplier = 1.5f;
     [ SerializeField ] float speed = 8f;
     [ SerializeField ] float baseHpRegenPerMinute = 6;
-    
+
     [ SerializeField ] Transform meshParent;
     [ SerializeField ] ParticleSystem deathFx;
 
@@ -43,7 +43,8 @@ public class Player : MonoBehaviour
 
     MagicSpell _magic = null;
     bool _magicOnCooldown;
-    
+    float _magicCdCountdown;
+
     InGameStatistics _statistics;
 
     // For sequences like the intro run-in and outro run-out where we don't want the player to control
@@ -73,7 +74,7 @@ public class Player : MonoBehaviour
         _hp = _maxHp;
         _rollSpeedMultiplier = baseRollSpeedMultiplier;
         _secondsPerSoulHarvest = Mathf.Infinity;
-        
+
         _material = GetComponentInChildren<Renderer>().material;
 
         _renderers = meshParent.GetComponentsInChildren<Renderer>();
@@ -101,7 +102,7 @@ public class Player : MonoBehaviour
         _hpRegenPerMin = baseHpRegenPerMinute;
         StartCoroutine( RegenerateHealth() );
         StartCoroutine( CollectSouls() );
-        
+
         var x =
             GetComponentsInChildren<Renderer>();
     }
@@ -288,6 +289,7 @@ public class Player : MonoBehaviour
                 _hp = Mathf.Clamp( _hp + 1, 0, _maxHp );
                 GameManager.Instance.SpawnGenericFloating( transform.position + Vector3.up, "+", Color.green, 6 );
             }
+
             yield return new WaitForSeconds( 60f / _hpRegenPerMin );
         }
     }
@@ -307,6 +309,7 @@ public class Player : MonoBehaviour
                 AwardSoul();
                 elapsed = 0f;
             }
+
             yield return null;
         }
     }
@@ -352,7 +355,7 @@ public class Player : MonoBehaviour
     }
 
     int StacksOfRune( ItemDirector.Runes rune ) => _runeMap[ (int) rune ];
-    
+
     void UpdateMaxHealth()
     {
         var oldMaxHp = _maxHp;
@@ -361,7 +364,7 @@ public class Player : MonoBehaviour
         _hp = Mathf.Clamp( _hp + diff, 0, _maxHp );
         _statusBar.SetHpBarNotches( _maxHp );
     }
-    
+
     void UpdateMaxHealth( int count )
     {
         var oldMaxHp = _maxHp;
@@ -419,6 +422,8 @@ public class Player : MonoBehaviour
     public void LearnMagic( MagicSpell magicSpell )
     {
         _magic = magicSpell;
+        _statusBar.UpdateMagicIcon( _magic );
+        _statusBar.EndMagicCd();
         
         // TODO Celebration particles/text on learn magic
     }
@@ -427,14 +432,14 @@ public class Player : MonoBehaviour
     {
         if( _magic == null )
         {
-            GameManager.Instance.SpawnGenericFloating( transform.position + 4 * Vector3.down, 
+            GameManager.Instance.SpawnGenericFloating( transform.position + 4 * Vector3.down,
                 "NO MAGIC!", Color.white, 4f );
             return;
         }
 
         if( _magicOnCooldown )
         {
-            GameManager.Instance.SpawnGenericFloating( transform.position + 4 * Vector3.down, 
+            GameManager.Instance.SpawnGenericFloating( transform.position + 4 * Vector3.down,
                 "ON COOLDOWN", Color.white, 4f );
             return;
         }
@@ -446,16 +451,20 @@ public class Player : MonoBehaviour
     IEnumerator MagicCooldown( float cooldownSeconds )
     {
         _magicOnCooldown = true;
-        
-        var countdown = cooldownSeconds;
-        while( countdown > 0 )
+        _statusBar.StartMagicCd( (int) cooldownSeconds );
+
+        _magicCdCountdown = cooldownSeconds;
+        while( _magicCdCountdown > 0 )
         {
-            countdown -= Time.deltaTime;
-            Debug.Log( "Progress: " + ( countdown / cooldownSeconds ) );
-            
+            _magicCdCountdown -= Time.deltaTime;
+            _statusBar.UpdateMagicCd( _magicCdCountdown, cooldownSeconds );
+
             yield return null;
         }
 
         _magicOnCooldown = false;
+        _statusBar.EndMagicCd();
     }
+
+    public void ReduceMagicCd( float amount ) => _magicCdCountdown -= amount;
 }

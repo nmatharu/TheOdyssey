@@ -25,6 +25,13 @@ public class PlayerStatusBar : MonoBehaviour
     [ SerializeField ] TextMeshProUGUI currencyNumber;
     [ SerializeField ] TextMeshProUGUI crystalNumber;
 
+    [ SerializeField ] GameObject magicCircleParent;
+    [ SerializeField ] Image magicIcon;
+    [ SerializeField ] GameObject cooldownParent;
+    [ SerializeField ] Image cooldownRadial;
+    [ SerializeField ] Image cooldownFlashReady;
+    [ SerializeField ] TextMeshProUGUI cooldownSeconds;
+
     const float HpFollowBarSpeed = 0.6f;
 
     // We Want the follow bar to scale with max hp, so higher healths take longer to go down
@@ -46,7 +53,10 @@ public class PlayerStatusBar : MonoBehaviour
         var sizeDelta = hpBar.rectTransform.sizeDelta;
         _maxHpBarWidth = sizeDelta.x;
         _hpBarHeight = sizeDelta.y;
-
+        
+        magicCircleParent.SetActive( false );
+        cooldownParent.SetActive( false );
+        
         _overlayUI = GetComponent<WorldSpaceOverlayUI>();
         SetHpBarNotches( _player.baseMaxHp );
     }
@@ -99,6 +109,42 @@ public class PlayerStatusBar : MonoBehaviour
         }
 
         rollCdBar.rectTransform.sizeDelta = new Vector2( 0, height );
+    }
+
+    public void UpdateMagicIcon( MagicSpell magic )
+    {
+        magicCircleParent.SetActive( true );
+        // TODO icon = magic.icon w/e
+    }
+
+    public void StartMagicCd( int seconds )
+    {
+        cooldownParent.SetActive( true );
+        cooldownSeconds.text = seconds.ToString();
+        StartCoroutine( FlashCdReady() );
+    }
+
+    public void UpdateMagicCd( float secondsRemaining, float totalSeconds )
+    {
+        cooldownRadial.fillAmount = secondsRemaining / totalSeconds;
+        cooldownSeconds.text = ( (int) ( secondsRemaining + 1f ) ).ToString();
+    }
+
+    public void EndMagicCd()
+    {
+        cooldownParent.SetActive( false );
+        StartCoroutine( FlashCdReady() );
+    }
+    
+    IEnumerator FlashCdReady()
+    {
+        var wait = new WaitForFixedUpdate();
+        for( var i = 15; i > 0; i-- )
+        {
+            cooldownFlashReady.color = new Color( 1f, 1f, 1f, i * 0.05f );
+            yield return wait;
+        }
+        cooldownFlashReady.color = Color.clear;
     }
 
     public void UpdateBag( int currency, int crystals )

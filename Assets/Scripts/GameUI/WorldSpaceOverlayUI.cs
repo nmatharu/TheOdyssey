@@ -25,7 +25,7 @@ public class WorldSpaceOverlayUI : MonoBehaviour
     private void MakeGraphicsOverlay()
     {
         if( uiElementsToApplyTo.Length == 0 )
-            uiElementsToApplyTo = gameObject.GetComponentsInChildren<Graphic>();
+            uiElementsToApplyTo = gameObject.GetComponentsInChildren<Graphic>( true );
         
         foreach( var graphic in uiElementsToApplyTo )
         {
