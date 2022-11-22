@@ -4896,7 +4896,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 15
-  spawnCost: 10
+  spawnCost: 1
   renderers:
   - {fileID: 460167910664086936}
   hitFlashIntensity: 2

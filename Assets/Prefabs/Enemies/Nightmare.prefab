@@ -264,7 +264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 30
-  spawnCost: 30
+  spawnCost: 2
   renderers:
   - {fileID: 5604224646061494782}
   - {fileID: 5148483145836803054}

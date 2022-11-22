@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     float _hp;
     float _rollSpeedMultiplier;
     float _secondsPerSoulHarvest;
-    int _souls;
+    int _currency;
     int _crystals = 1;
     int[] _runeMap;
     Dictionary<string, int> _runes;
@@ -274,10 +274,10 @@ public class Player : MonoBehaviour
             r.enabled = !hide;
     }
 
-    public void AwardSoul()
+    public void AwardCurrency( int spawnCost )
     {
-        _souls++;
-        _statusBar.UpdateBag( _souls, _crystals );
+        _currency += spawnCost;
+        _statusBar.UpdateBag( _currency, _crystals );
     }
 
     IEnumerator RegenerateHealth()
@@ -306,7 +306,7 @@ public class Player : MonoBehaviour
             else
             {
                 GameManager.Instance.SpawnGenericFloating( transform.position + Vector3.up, "+1", Color.cyan, 12 );
-                AwardSoul();
+                AwardCurrency( 1 );
                 elapsed = 0f;
             }
 
@@ -319,12 +319,12 @@ public class Player : MonoBehaviour
     public Animator Mator() => _animator;
     public InGameStatistics Statistics() => _statistics;
 
-    public bool CantAfford( int cost ) => _souls < cost;
+    public bool CantAfford( int cost ) => _currency < cost;
 
     public void BuyRune( Rune rune, int cost )
     {
-        _souls -= cost;
-        _statusBar.UpdateBag( _souls, _crystals );
+        _currency -= cost;
+        _statusBar.UpdateBag( _currency, _crystals );
         GameManager.Instance.SpawnCostNumber( transform.position, cost );
         Debug.Log( $"Bought the {rune.Name()} rune" );
         AcquireRune( rune );
@@ -416,7 +416,7 @@ public class Player : MonoBehaviour
     public void ConsumeCrystal()
     {
         _crystals--;
-        _statusBar.UpdateBag( _souls, _crystals );
+        _statusBar.UpdateBag( _currency, _crystals );
     }
 
     public void LearnMagic( MagicSpell magicSpell )
@@ -430,6 +430,8 @@ public class Player : MonoBehaviour
 
     public void CastMagic()
     {
+        if( dead || rolling || locked ) return;
+    
         if( _magic == null )
         {
             GameManager.Instance.SpawnGenericFloating( transform.position + 4 * Vector3.down,

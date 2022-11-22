@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
     {
         foreach( var p in playersArr )
             if( p.gameObject.activeInHierarchy && !p.dead )
-                p.AwardSoul();
+                p.AwardCurrency( spawnCost );
     }
 
     // This implementation is for testing purposes

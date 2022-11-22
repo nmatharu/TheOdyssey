@@ -169,7 +169,7 @@ public class PlayerMoves : MonoBehaviour
             if( enemiesHit > 0 )
             {
                 _player.LifeSteal();
-                _player.ReduceMagicCd( 0.25f );
+                // _player.ReduceMagicCd( 0.25f );
             }
             
         }, frames60 / 60f );
