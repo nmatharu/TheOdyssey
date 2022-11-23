@@ -39837,12 +39837,15 @@ MonoBehaviour:
   - {fileID: 1275217329680966198, guid: 275904d5f85a42242a1e67d84d5698ec, type: 3}
   - {fileID: 5089324815266731466, guid: 1b035252dfaca6f44a78fad82c492fa8, type: 3}
   - {fileID: 1275217329680966198, guid: d6132beedafb6b247a4d7af770dad1e2, type: 3}
+  - {fileID: 149706034478069901, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+  - {fileID: 149706034478069901, guid: 8de8842a4665e1e4dbc7ba8a3024c2e7, type: 3}
   genMisc:
   - {fileID: 6122615216319422520, guid: 41028b6a2fdf048469a99fde4cf66624, type: 3}
   - {fileID: 5548724672016383405, guid: 00592ce201ced2c4cb188ce1b3bcd074, type: 3}
   - {fileID: 3301573196165606443, guid: f3955a5eb8fb2934faf6bac3cb44747c, type: 3}
   - {fileID: 1828521990042374653, guid: 1cad2192467feee42b8d6d715bda14b2, type: 3}
   - {fileID: 5051505629040426839, guid: f48b73bab2d08354ca18c2b86663704c, type: 3}
+  - {fileID: 2273298902442776807, guid: 9be26d54e6cb14e129f5a6e2ef0b76d1, type: 3}
   genNpcs:
   - {fileID: 3153920260594947028, guid: 702457f91f25cad46b84a1a82b235923, type: 3}
   _currentLevel: {fileID: 317313853}

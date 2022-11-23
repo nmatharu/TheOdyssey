@@ -299,14 +299,18 @@ public class WorldGenerator : MonoBehaviour
         for( var x = xStart; x < xStart + width; x++ )
         {
             for( var y = 0; y < WorldSizeY(); y++ )
+                if( _tileMap[ x, y ].OffLimits )    break;
+            
+            for( var y = 0; y < WorldSizeY(); y++ )
             {
                 Destroy( _tileMap[ x, y ].Ground );
                 _tileMap[ x, y ].Ground = Instantiate( Gen( WorldGenIndex.Blocks.Empty ), 
                     CoordsToWorldPos( x, y ), Quaternion.identity, blocksParent );
                 _tileMap[ x, y ].GenIndex = (int) WorldGenIndex.Blocks.Empty;
+                _tileMap[ x, y ].OffLimits = true;
                 _tileMap[ x, y ].EmptyCollider = true;
             }
-
+            
             Destroy( _tileMap[ x, logY ].Ground );
             _tileMap[ x, logY ].Ground = Instantiate( Gen( WorldGenIndex.Blocks.Log ),
                 CoordsToWorldPos( x, logY ), Quaternion.identity, blocksParent );
@@ -373,6 +377,28 @@ public class WorldGenerator : MonoBehaviour
                         CoordsToWorldPos( x, y ), JBB.RandomYRot(), blocksParent );
                     _tileMap[ x, y ].HasSurfaceObject = true;
                 }
+            }
+        }
+    }
+    
+    public void GenerateShopsAndMagic()
+    {
+        foreach( var stagePct in new[] { 3/9f, 4/9f, 6/9f, 7/9f } )
+            GenerateNpc( (int) ( WorldSizeX() * stagePct ) );
+        GenerateMagic( (int) ( WorldSizeX() * 5 / 9f ) );
+    }
+
+    public void GenerateMagic( int xMid )
+    {
+        foreach( var y in new[] { 2, 5, 8 } )
+            Instantiate( Gen( WorldGenIndex.Objs.MagicShrine ), 
+                CoordsToWorldPos( xMid, y ), Quaternion.identity, objsParent );
+
+        for( var x = xMid - 2; x <= xMid + 2; x++ )
+        {
+            for( var y = 0; y < WorldSizeY(); y++ )
+            {
+                _tileMap[ x, y ].OffLimits = true;
             }
         }
     }
@@ -492,4 +518,17 @@ public class WorldGenerator : MonoBehaviour
 
     int WorldSizeX() => _tileMap.GetLength( 0 );
     int WorldSizeY() => _tileMap.GetLength( 1 );
+
+    public void ShowOffLimits()
+    {
+        for( var x = 0; x < WorldSizeX(); x++ )
+        {
+            for( var y = 0; y < WorldSizeY(); y++ )
+            {
+                if( _tileMap[ x, y ].OffLimits )
+                    Instantiate( Gen( WorldGenIndex.Misc.DebugOffLimits ),
+                        CoordsToWorldPos( x, y ), Quaternion.identity, miscParent );
+            }
+        }
+    }
 }

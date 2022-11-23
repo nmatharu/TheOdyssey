@@ -17,7 +17,9 @@
         LinkPuzzle,
         LinkPuzzleFence,
         LinkAltar,
-        CrystalGate
+        CrystalGate,
+        MagicShrine,
+        Chest
     }
 
     public enum Misc
@@ -26,7 +28,8 @@
         BossZone,
         Water,
         Cliffs,
-        Campfire
+        Campfire,
+        DebugOffLimits,
     }
 
     public enum NPCs
