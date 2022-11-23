@@ -212,7 +212,7 @@ public class GameManager : MonoBehaviour
     {
         return tier switch
         {
-            Rune.RuneTier.Common => Random.Range( 6, 9 ),
+            Rune.RuneTier.Common => Random.Range( 0, 0 ),
             Rune.RuneTier.Rare => Random.Range( 12, 18 ),
             Rune.RuneTier.Legendary => Random.Range( 24, 36 ),
             Rune.RuneTier.Primordial => Random.Range( 77, 99 ),

@@ -9,6 +9,7 @@ public class LevelGrasslands : Level
         environmentalParent.gameObject.SetActive( true );
         generator.GenerateBase( baseBlock, DefaultWorldSizeX, DefaultWorldSizeY );
         generator.GrasslandsPub();
+        // generator.GenerateBossZone( DefaultWorldSizeX - 20 );
         generator.DuplicateTopRow( DefaultWorldSizeX, DefaultWorldSizeY );
     }
 }

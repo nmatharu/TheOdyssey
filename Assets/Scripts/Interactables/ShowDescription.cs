@@ -6,6 +6,8 @@ using UnityEngine;
 public class ShowDescription : MonoBehaviour
 {
     [ SerializeField ] CanvasGroup canvasGroup;
+    [ SerializeField ] float furthestShowDistance = 4f;
+    [ SerializeField ] float closestShowDistance = 2.5f;
 
     void Start() => canvasGroup.alpha = 0;
 
@@ -15,7 +17,7 @@ public class ShowDescription : MonoBehaviour
         if( p != null )
         {
             var d = JBB.DistXZSquared( transform.position, p.transform.position );
-            canvasGroup.alpha = JBB.ClampedMap01( d, 4f, 2.5f );
+            canvasGroup.alpha = JBB.ClampedMap01( d, furthestShowDistance, closestShowDistance );
         }
     }
 

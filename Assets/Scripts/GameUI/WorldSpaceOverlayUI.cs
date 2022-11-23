@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,5 +50,9 @@ public class WorldSpaceOverlayUI : MonoBehaviour
         }
     }
 
-    public void ReRun() => Invoke( nameof( MakeGraphicsOverlay ), 0.25f );
+    public void ReRun()
+    {
+        uiElementsToApplyTo = Array.Empty<Graphic>();
+        Invoke( nameof( MakeGraphicsOverlay ), 0.25f );
+    }
 }

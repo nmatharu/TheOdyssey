@@ -30,9 +30,8 @@ public class Player : MonoBehaviour
     float _maxHp;
     float _hp;
     float _rollSpeedMultiplier;
-    float _secondsPerSoulHarvest;
     int _currency;
-    int _crystals = 1;
+    int _crystals;
     int[] _runeMap;
     Dictionary<string, int> _runes;
 
@@ -73,8 +72,6 @@ public class Player : MonoBehaviour
         _maxHp = baseMaxHp;
         _hp = _maxHp;
         _rollSpeedMultiplier = baseRollSpeedMultiplier;
-        _secondsPerSoulHarvest = Mathf.Infinity;
-
         _material = GetComponentInChildren<Renderer>().material;
 
         _renderers = meshParent.GetComponentsInChildren<Renderer>();
@@ -101,10 +98,8 @@ public class Player : MonoBehaviour
 
         _hpRegenPerMin = baseHpRegenPerMinute;
         StartCoroutine( RegenerateHealth() );
-        StartCoroutine( CollectSouls() );
 
-        var x =
-            GetComponentsInChildren<Renderer>();
+        var x = GetComponentsInChildren<Renderer>();
     }
 
     void Update()
@@ -278,6 +273,7 @@ public class Player : MonoBehaviour
     {
         _currency += spawnCost;
         _statusBar.UpdateBag( _currency, _crystals );
+        GameManager.Instance.SpawnGenericFloating( transform.position, $"+{spawnCost}", Color.yellow, 8f );
     }
 
     IEnumerator RegenerateHealth()
@@ -291,26 +287,6 @@ public class Player : MonoBehaviour
             }
 
             yield return new WaitForSeconds( 60f / _hpRegenPerMin );
-        }
-    }
-
-    IEnumerator CollectSouls()
-    {
-        var elapsed = 0f;
-        for( ;; )
-        {
-            if( elapsed < _secondsPerSoulHarvest )
-            {
-                elapsed += Time.deltaTime;
-            }
-            else
-            {
-                GameManager.Instance.SpawnGenericFloating( transform.position + Vector3.up, "+1", Color.cyan, 12 );
-                AwardCurrency( 1 );
-                elapsed = 0f;
-            }
-
-            yield return null;
         }
     }
 
@@ -347,9 +323,6 @@ public class Player : MonoBehaviour
                 break;
             case "resolve":
                 UpdateHpRegen( count );
-                break;
-            case "collection":
-                UpdateSoulCollection( count );
                 break;
         }
     }
@@ -392,8 +365,6 @@ public class Player : MonoBehaviour
         // StartCoroutine( RegenerateHealth() );
     }
 
-    void UpdateSoulCollection( int count ) => _secondsPerSoulHarvest = 30f * Mathf.Pow( 0.5f, count );
-
     public void LifeSteal()
     {
         var lifeSteal = _runes[ "vampirism" ];
@@ -423,7 +394,9 @@ public class Player : MonoBehaviour
     {
         _magic = magicSpell;
         _statusBar.UpdateMagicIcon( _magic );
-        _statusBar.EndMagicCd();
+        
+        if( !_magicOnCooldown )
+            _statusBar.EndMagicCd();
         
         // TODO Celebration particles/text on learn magic
     }

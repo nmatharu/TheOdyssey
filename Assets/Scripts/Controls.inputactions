@@ -1002,7 +1002,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "LModifier",
+                    "name": "RMagic",
                     "type": "PassThrough",
                     "id": "28f6ed3d-1501-4063-a709-ba278c3e6e50",
                     "expectedControlType": "",
@@ -1011,7 +1011,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "RIventory",
+                    "name": "LBag",
                     "type": "PassThrough",
                     "id": "3cfcc5b3-15f3-4e88-9f81-7a70dd1c5880",
                     "expectedControlType": "",
@@ -1125,29 +1125,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "LModifier",
+                    "action": "RMagic",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "5f9073f6-cc32-4743-8aef-2b6c6ad44108",
-                    "path": "<Gamepad>/leftTrigger",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "LModifier",
+                    "action": "RMagic",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "e1cf756e-eee6-4978-92a3-0ee920a0479b",
-                    "path": "<Gamepad>/leftShoulder",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "LModifier",
+                    "action": "RMagic",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -1158,29 +1158,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "RIventory",
+                    "action": "LBag",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "fe099cba-3068-421c-b75c-aa82910460b1",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "RIventory",
+                    "action": "LBag",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "aa8b253a-01e1-470b-81b6-ba7f15eca56e",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "RIventory",
+                    "action": "LBag",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

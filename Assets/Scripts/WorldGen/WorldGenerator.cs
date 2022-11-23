@@ -101,10 +101,8 @@ public class WorldGenerator : MonoBehaviour
         
         GenerateEnvironmentalObjects();
 
-        _bossZone = Instantiate( Gen( WorldGenIndex.Misc.BossZone ), 
-            CoordsToWorldPos( WorldSizeX() - 20, 0 ), Quaternion.identity, GameManager.Instance.miscParent )
-            .GetComponent<BossZone>();
-        _bossZone.SetStartEnd( 3, 3 + 6 );
+        
+        
         // this.Invoke( () => _bossZone.CloseLeft(), 5f );
         // this.Invoke( () => _bossZone.OpenRight(), 10f );
 
@@ -113,6 +111,23 @@ public class WorldGenerator : MonoBehaviour
         DuplicateTopRow( WorldSizeX(), WorldSizeY() );
         
         // GoofyFun();
+    }
+
+    public void GenerateBossZone( int xStart )
+    {
+        _bossZone = Instantiate( Gen( WorldGenIndex.Misc.BossZone ), 
+                CoordsToWorldPos( xStart + 1, 0 ), Quaternion.identity, GameManager.Instance.miscParent )
+            .GetComponent<BossZone>();
+        _bossZone.SetStartEnd( 3, 3 + 6 );
+        for( var y = 0; y < WorldSizeY(); y++ )
+        {
+            _tileMap[ xStart, y ].OffLimits = true;
+            _tileMap[ xStart, y ].HasSurfaceObject = true;
+
+            if( y is < 4 or > 7 )
+                Instantiate( Gen( WorldGenIndex.Objs.LinkPuzzleFence ), 
+                    CoordsToWorldPos( xStart, y ), Quaternion.identity, objsParent );
+        }
     }
 
     void GenerateGrasslands2()
@@ -149,13 +164,7 @@ public class WorldGenerator : MonoBehaviour
         for( var x = 30; x < WorldSizeX() - 21; x += 30 )
             GenerateWaterfall( x, Random.Range( 2, 7 ) );
 
-        GenerateCrystalBarrier( WorldSizeX() - 21 );
         GenerateEnvironmentalObjects();
-
-        _bossZone = Instantiate( Gen( WorldGenIndex.Misc.BossZone ), 
-                CoordsToWorldPos( WorldSizeX() - 20, 0 ), Quaternion.identity, GameManager.Instance.miscParent )
-            .GetComponent<BossZone>();
-        _bossZone.SetStartEnd( 3, 3 + 6 );
     }
 
     void GenerateGrassBase()
