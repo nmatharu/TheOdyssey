@@ -80,8 +80,12 @@ public abstract class Level : MonoBehaviour
             var numToSpawn = enemy.spawnCost < 2 ? ( numPlayers > 2 ? 3 : 2 ) : 1;
             for( var i = 0; i < numToSpawn; i++ )
                 es.Add( enemy );
+
+            return es;
         }
 
+        // var enemiesToSelect = 
+        
         return es;
     }
     

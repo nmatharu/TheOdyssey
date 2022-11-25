@@ -5440,13 +5440,20 @@ MonoBehaviour:
   - {fileID: 428212638778311382, guid: 6e804079547d89b479e6ce60f1b56b83, type: 3}
   bossSpawner: {fileID: 0}
   enemyWaves:
-  - {x: -0.025, y: 0}
+  - {x: -0.03, y: 0}
   - {x: 0.0625, y: 0}
   - {x: 0.125, y: 0}
-  - {x: 0.1875, y: 20}
-  - {x: Infinity, y: 0}
   baseBlock: {fileID: 8760186154017859944, guid: 33e30de058a7895489381f617c9dc09a, type: 3}
   environmentalParent: {fileID: 666461620}
+  waterfallSpacingPerBiome:
+  - {x: 15, y: 30}
+  - {x: 12, y: 20}
+  - {x: 15, y: 30}
+  waterfallWidthPerBiome:
+  - {x: 2, y: 7}
+  - {x: 2, y: 3}
+  - {x: 4, y: 9}
+  treesPerBiome: 190000003200000019000000
 --- !u!1 &317479174
 GameObject:
   m_ObjectHideFlags: 0
@@ -16564,7 +16571,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runes.Array.data[2].description
-      value: Deal more damage at low health.
+      value: Increase melee damage.
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runes.Array.data[3].description
@@ -29524,7 +29531,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1547566049}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.25}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -29545,7 +29552,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -8, y: 0.01}
+  m_AnchoredPosition: {x: -4.5, y: 0.01}
   m_SizeDelta: {x: 1000, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1547566051
@@ -30971,7 +30978,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1638718374
 Transform:
   m_ObjectHideFlags: 0
@@ -35570,11 +35577,30 @@ MonoBehaviour:
   enemyLevelGraphic: {fileID: 1223026065}
   pauseScreen: {fileID: 395366603}
   respawnHealthPct: 0.25
+  enemyBudgetPlayerCountScaling:
+  - 1
+  - 1.5
+  - 2
   enemyHealthPlayerCountScaling:
   - 1
   - 1.3333334
   - 1.5
-  levelIncrementTimeSeconds: 60
+  baseHpRegenPerMinPerDifficulty:
+  - 30
+  - 10
+  - 0
+  - 0
+  enemyDmgMultiplierPerDifficulty:
+  - 0.5
+  - 1
+  - 1.5
+  - 1.5
+  levelIncrementTimeDifficultySeconds:
+  - 90
+  - 60
+  - 40
+  - 25
+  _difficulty: 1
 --- !u!4 &1900502002
 Transform:
   m_ObjectHideFlags: 0

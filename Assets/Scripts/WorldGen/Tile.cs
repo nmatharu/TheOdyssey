@@ -26,6 +26,9 @@ public class Tile
     // off limits else players would not be able to move onto or off of them
     public bool OffLimits = false;
 
+    // Used temporarily to find evenly spaced points between objects-- essentially a temp OffLimits field
+    public bool Spacing = false;
+    
     public Tile()
     {
     }

@@ -1,18 +1,16 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class WorldGenerator : MonoBehaviour
 {
     [ SerializeField ] DynamicCameras cameras;
-    [ SerializeField ] Transform blocksParent;
-    [ SerializeField ] Transform objsParent;
-    [ SerializeField ] Transform edgesParent;
-    [ SerializeField ] Transform wallsParent;
-    [ SerializeField ] Transform miscParent;
+    [ SerializeField ] public Transform blocksParent;
+    [ SerializeField ] public Transform objsParent;
+    [ SerializeField ] public Transform edgesParent;
+    [ SerializeField ] public Transform wallsParent;
+    [ SerializeField ] public Transform miscParent;
 
     [ SerializeField ] int offMapThresholdX = 30;
     [ SerializeField ] int offMapThresholdY = 15;
@@ -39,7 +37,7 @@ public class WorldGenerator : MonoBehaviour
 
     public static Vector3 CoordsToWorldPos( Vector2Int coords ) => new( 2 * coords.x, 0, 2 * coords.y );
     public static float CoordXToWorldX( float coordX ) => 2 * coordX;
-    static Vector3 CoordsToWorldPos( int x, int y ) => new( 2 * x, 0, 2 * y );
+    public static Vector3 CoordsToWorldPos( int x, int y ) => new( 2 * x, 0, 2 * y );
 
     void Awake()
     {
@@ -461,6 +459,64 @@ public class WorldGenerator : MonoBehaviour
         _nodeMap = new Node[ size.x, size.y ];
     }
 
+    // has no OffLimits squares
+    public bool RectIsClear( int xStart, int width ) => RectIsClear( xStart, 0, width, WorldSizeY() );
+    
+    public bool RectIsClear( int xStart, int yStart, int width, int height )
+    {
+        for( var x = xStart; x < xStart + width; x++ )
+        {
+            for( var y = yStart; y < yStart + height; y++ )
+            {
+                if( _tileMap[ x, y ].OffLimits )
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public List<Vector2Int> GetSpacedOutPoints( int xStart, int width, int minSpace, int maxSpace ) =>
+        GetSpacedOutPoints( xStart, 0, width, WorldSizeY(), minSpace, maxSpace );
+    public List<Vector2Int> GetSpacedOutPoints( int xStart, int yStart, int width, int height, int minSpace, int maxSpace )
+    {
+        var points = new List<Vector2Int>();
+
+        for( var x = xStart + Random.Range( 0, 4 ); x < xStart + width; x++ )
+        {
+            for( var y = yStart + Random.Range( 0, 4 ); y < yStart + height; y++ )
+            {
+                if( _tileMap[ x, y ].Spacing || _tileMap[ x, y ].OffLimits )
+                    continue;
+                
+                points.Add( new Vector2Int( x, y ) );
+                int spacingX = Random.Range( minSpace, maxSpace + 1 );
+                int spacingY = Random.Range( minSpace, maxSpace + 1 );
+
+                for( var sx = x - spacingX; sx <= x + spacingX && sx < WorldSizeX(); sx++ )
+                {
+                    for( var sy = y - spacingY; sy <= y + spacingY && sy < WorldSizeY(); sy++ )
+                    {
+                        if( sx == x + spacingX && sy == y + spacingY )
+                            continue;
+                        
+                        if( !_tileMap.WithinArrayBounds( sx, sy ) )
+                            continue;
+
+                        _tileMap[ sx, sy ].Spacing = true;
+                    }
+                }
+            }
+        }
+        
+        for( var x = xStart; x < xStart + width; x++ )
+            for( var y = yStart; y < yStart + height; y++ )
+                _tileMap[ x, y ].Spacing = false;
+
+        return points;
+    }
+
     public bool OffMap( Vector3 pos )
     {
         var v2 = WorldPosToCoords( pos );
@@ -514,6 +570,13 @@ public class WorldGenerator : MonoBehaviour
         return (int) ( val < 0.2f ? WorldGenIndex.Blocks.Empty : WorldGenIndex.Blocks.Grass );
     }
 
+    public void MakeOffLimits( int x, int y, bool offLimits = true )
+    {
+        if( _tileMap.WithinArrayBounds( x, y ) )
+            _tileMap[ x, y ].OffLimits = offLimits;
+    }
+    public void MakeOffLimits( Vector2Int p, bool offLimits = true ) => MakeOffLimits( p.x, p.y, offLimits );
+
     public bool IsGenerating() => _generating;
 
     public GameObject Gen( WorldGenIndex.Blocks block ) => genBlocks[ (int) block ];
@@ -527,7 +590,10 @@ public class WorldGenerator : MonoBehaviour
 
     public void BossStarted() => cameras.BossLock();
     public void BossFinished() => cameras.BossUnlock();
-    
+    public Tile[ , ] Map() => _tileMap;
+    public Tile Map( int x, int y ) => _tileMap[ x, y ];
+    public Tile Map( Vector2Int p ) => _tileMap[ p.x, p.y ];
+ 
     public void ShowOffLimits()
     {
         for( var x = 0; x < WorldSizeX(); x++ )
@@ -541,11 +607,14 @@ public class WorldGenerator : MonoBehaviour
         }
     }
 
-    // void OnDrawGizmos()
-    // {
-    //     for( var x = 0; x < WorldSizeX(); x += 10 )
-    //     {
-    //         Handles.Label( CoordsToWorldPos( x, 5 ), x.ToString() );
-    //     }
-    // }
+    void OnDrawGizmos()
+    {
+        if( _tileMap == null )
+            return;
+        
+        for( var x = 0; x < WorldSizeX(); x++ )
+        {
+            Handles.Label( CoordsToWorldPos( x, 5 ), x.ToString() );
+        }
+    }
 }

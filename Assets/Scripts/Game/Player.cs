@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
         foreach( Rune rune in RuneIndex.Instance.AllRunes() )
             _runes.Add( rune.Name(), 0 );
 
-        _hpRegenPerMin = baseHpRegenPerMinute;
+        _hpRegenPerMin = GameManager.Instance.BaseHpRegenPerMin();
         StartCoroutine( RegenerateHealth() );
 
         var x = GetComponentsInChildren<Renderer>();
@@ -350,7 +350,7 @@ public class Player : MonoBehaviour
     public float DamageMultiplier()
     {
         var multiplier = 1f;
-        multiplier *= JBB.ClampedMap( HpPct(), 1, 0, 1, GameManager.Scale0( _runes[ "fury" ] ) );
+        multiplier *= GameManager.Scale0( _runes[ "fury" ] );
         return multiplier;
     }
 

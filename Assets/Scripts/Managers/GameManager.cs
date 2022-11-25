@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] public Transform interactablesParent;
     [ SerializeField ] Player[] playersArr;
     [ SerializeField ] Transform projectiles;
-    
+
     [ SerializeField ] Transform damageNumbersParent;
     [ SerializeField ] GameObject damageNumberPrefab;
     [ SerializeField ] int damageNumberPoolSize = 100;
@@ -23,8 +23,12 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] GameObject pauseScreen;
 
     [ SerializeField ] public float respawnHealthPct = 0.25f;
+    [ SerializeField ] public float[] enemyBudgetPlayerCountScaling = { 1f, 1.5f, 2f };
     [ SerializeField ] public float[] enemyHealthPlayerCountScaling = { 1f, 4 / 3f, 3 / 2f };
-    
+    [ SerializeField ] public float[] baseHpRegenPerMinPerDifficulty = { 30f, 10f, 0f, 0f };
+    [ SerializeField ] public float[] enemyDmgMultiplierPerDifficulty = { 0.5f, 1f, 1.5f, 1.5f };
+    [ SerializeField ] public float[] levelIncrementTimeDifficultySeconds = { 90f, 60f, 40f, 25f };
+
     public static GameManager Instance { get; private set; }
     private bool _fpsLimitOn;
 
@@ -32,17 +36,19 @@ public class GameManager : MonoBehaviour
     int _pausedBy;
     int _enemyLevel = 1;
 
-    [ SerializeField ] float levelIncrementTimeSeconds = 60f;
     float _runTimeElapsed = 0f;
     Coroutine _levelIncrementRoutine;
 
     Level _currentLevel;
 
+    // 0 - casual, 1 - normal, 2 - brutal, 3 - unreal
+    [ SerializeField ] int _difficulty = 1;
+
     // Defines almost every (?) scaling in the game, provided 0-indexed and 1-indexed methods
     // How players health scales with stacks of vitality, e.g. 30 hp (0 stacks), 40 hp, 50 hp, etc.
     // How enemy damage scales with levels, e.g. 6 (level 1), 8, 10, etc.
     public static float Scale0( int n ) => 1f + ( 1 / 3f * n );
-    public static float Scale1( int n ) => 1f + ( 1/3f * ( n - 1 ) );
+    public static float Scale1( int n ) => 1f + ( 1 / 3f * ( n - 1 ) );
 
     void Awake()
     {
@@ -59,8 +65,7 @@ public class GameManager : MonoBehaviour
         _damageNumberPool = new DamageNumber[ damageNumberPoolSize ];
         for( var i = 0; i < damageNumberPoolSize; i++ )
         {
-            _damageNumberPool[ i ] =
-                Instantiate( damageNumberPrefab, damageNumbersParent ).GetComponent<DamageNumber>();
+            _damageNumberPool[ i ] = Instantiate( damageNumberPrefab, damageNumbersParent ).GetComponent<DamageNumber>();
             _damageNumberPool[ i ].gameObject.SetActive( false );
         }
     }
@@ -68,7 +73,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = -1;
-        
+
         InvokeRepeating( nameof( CheckForNextWave ), 1f, 0.25f );
         _levelIncrementRoutine = StartCoroutine( LevelIncrementor() );
     }
@@ -85,6 +90,7 @@ public class GameManager : MonoBehaviour
     }
 
     public Level CurrentLevel() => _currentLevel;
+
     public void SetCurrentLevel( Level level )
     {
         _currentLevel = level;
@@ -98,6 +104,7 @@ public class GameManager : MonoBehaviour
             EnemySpawner.Instance.OutOfWaves();
             return;
         }
+
         EnemySpawner.Instance.SetWave( _currentLevel.NextWave() );
     }
 
@@ -119,6 +126,7 @@ public class GameManager : MonoBehaviour
             if( p.gameObject.activeInHierarchy && !p.dead && p.transform.position.x < zoneXStart )
                 return false;
         }
+
         return true;
     }
 
@@ -173,6 +181,8 @@ public class GameManager : MonoBehaviour
         var elapsed = 0f;
         for( ;; )
         {
+            var levelIncrementTimeSeconds = levelIncrementTimeDifficultySeconds[ _difficulty ];
+
             if( elapsed < levelIncrementTimeSeconds )
             {
                 elapsed += Time.deltaTime;
@@ -182,7 +192,7 @@ public class GameManager : MonoBehaviour
                 _enemyLevel++;
                 elapsed -= levelIncrementTimeSeconds;
             }
-            
+
             _runTimeElapsed += Time.deltaTime;
 
             enemyLevelGraphic.UpdateGraphic( _enemyLevel, elapsed / levelIncrementTimeSeconds, _runTimeElapsed );
@@ -202,11 +212,15 @@ public class GameManager : MonoBehaviour
 
     public int NumPlayersInParty() => playersArr.Count( p => p.gameObject.activeInHierarchy );
 
-    public float EnemyHealthMultiplier( int enemyLevel ) => enemyHealthPlayerCountScaling[ NumPlayersInParty() - 1 ] * Scale1( enemyLevel );
+    public float EnemyHealthMultiplier( int enemyLevel ) =>
+        enemyHealthPlayerCountScaling[ NumPlayersInParty() - 1 ] * Scale1( enemyLevel );
 
-    public float EnemyDamageMultiplier( int enemyLevel ) => Scale1( enemyLevel );
-    public float EnemyWaveBudgetMultiplier() => 1f + 0.5f * ( NumPlayersInParty() - 1 );
-    
+    public float EnemyDamageMultiplier( int enemyLevel ) =>
+        enemyDmgMultiplierPerDifficulty[ _difficulty ] * Scale1( enemyLevel );
+
+    public float EnemyWaveBudgetMultiplier() => enemyBudgetPlayerCountScaling[ NumPlayersInParty() - 1 ];
+    public float BaseHpRegenPerMin() => baseHpRegenPerMinPerDifficulty[ _difficulty ];
+
     public void PauseGame( int playerId )
     {
         switch( _paused )
