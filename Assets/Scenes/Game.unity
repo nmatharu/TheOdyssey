@@ -5441,8 +5441,17 @@ MonoBehaviour:
   bossSpawner: {fileID: 0}
   enemyWaves:
   - {x: -0.03, y: 0}
-  - {x: 0.0625, y: 0}
-  - {x: 0.125, y: 0}
+  - {x: 0.06666667, y: 3}
+  - {x: 0.13333334, y: 0}
+  - {x: 0.26666668, y: 4}
+  - {x: 0.33333334, y: 0}
+  - {x: 0.45, y: 5}
+  - {x: 0.56666666, y: 6}
+  - {x: 0.6333333, y: 6}
+  - {x: 0.73333335, y: 7}
+  - {x: 0.8, y: 7}
+  - {x: 0.8666667, y: 8}
+  - {x: 0.93333334, y: 8}
   baseBlock: {fileID: 8760186154017859944, guid: 33e30de058a7895489381f617c9dc09a, type: 3}
   environmentalParent: {fileID: 666461620}
   waterfallSpacingPerBiome:
@@ -5453,7 +5462,7 @@ MonoBehaviour:
   - {x: 2, y: 7}
   - {x: 2, y: 3}
   - {x: 4, y: 9}
-  treesPerBiome: 190000003200000019000000
+  treesPerBiome: 140000001e00000014000000
 --- !u!1 &317479174
 GameObject:
   m_ObjectHideFlags: 0

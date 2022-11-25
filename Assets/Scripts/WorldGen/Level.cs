@@ -81,10 +81,20 @@ public abstract class Level : MonoBehaviour
             for( var i = 0; i < numToSpawn; i++ )
                 es.Add( enemy );
 
+            seenEnemies.Add( enemy );
+            
             return es;
         }
 
-        // var enemiesToSelect = 
+        for( var iters = 0; waveBudget > 0 && iters < 100; iters++ )
+        {
+            var e = seenEnemies.RandomEntry();
+            if( e.spawnCost <= waveBudget )
+            {
+                es.Add( e );
+                waveBudget -= e.spawnCost;
+            }
+        }
         
         return es;
     }

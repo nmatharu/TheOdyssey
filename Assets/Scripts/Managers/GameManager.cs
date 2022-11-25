@@ -44,11 +44,10 @@ public class GameManager : MonoBehaviour
     // 0 - casual, 1 - normal, 2 - brutal, 3 - unreal
     [ SerializeField ] int _difficulty = 1;
 
-    // Defines almost every (?) scaling in the game, provided 0-indexed and 1-indexed methods
+    // Lots of scaling in the game uses this 1 + 0.333x gain, provided 0-indexed and 1-indexed methods
     // How players health scales with stacks of vitality, e.g. 30 hp (0 stacks), 40 hp, 50 hp, etc.
-    // How enemy damage scales with levels, e.g. 6 (level 1), 8, 10, etc.
-    public static float Scale0( int n ) => 1f + ( 1 / 3f * n );
-    public static float Scale1( int n ) => 1f + ( 1 / 3f * ( n - 1 ) );
+    public static float Scale0( int n, float gain = 1/3f ) => 1f + ( gain * n );
+    public static float Scale1( int n, float gain = 1/3f ) => 1f + ( gain * ( n - 1 ) );
 
     void Awake()
     {
@@ -213,10 +212,10 @@ public class GameManager : MonoBehaviour
     public int NumPlayersInParty() => playersArr.Count( p => p.gameObject.activeInHierarchy );
 
     public float EnemyHealthMultiplier( int enemyLevel ) =>
-        enemyHealthPlayerCountScaling[ NumPlayersInParty() - 1 ] * Scale1( enemyLevel );
+        enemyHealthPlayerCountScaling[ NumPlayersInParty() - 1 ] * Scale1( enemyLevel, 0.1f );
 
     public float EnemyDamageMultiplier( int enemyLevel ) =>
-        enemyDmgMultiplierPerDifficulty[ _difficulty ] * Scale1( enemyLevel );
+        enemyDmgMultiplierPerDifficulty[ _difficulty ] * Scale1( enemyLevel, 0.1f );
 
     public float EnemyWaveBudgetMultiplier() => enemyBudgetPlayerCountScaling[ NumPlayersInParty() - 1 ];
     public float BaseHpRegenPerMin() => baseHpRegenPerMinPerDifficulty[ _difficulty ];
@@ -253,9 +252,9 @@ public class GameManager : MonoBehaviour
     {
         return tier switch
         {
-            Rune.RuneTier.Common => Random.Range( 0, 0 ),
+            Rune.RuneTier.Common => Random.Range( 6, 10 ),
             Rune.RuneTier.Rare => Random.Range( 12, 18 ),
-            Rune.RuneTier.Legendary => Random.Range( 24, 36 ),
+            Rune.RuneTier.Legendary => Random.Range( 25, 33 ),
             Rune.RuneTier.Primordial => Random.Range( 77, 99 ),
             _ => throw new ArgumentOutOfRangeException( nameof( tier ), tier, null )
         };

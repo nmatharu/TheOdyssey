@@ -20,7 +20,7 @@ public class ShopRune : Interactable
     void Start()
     {
         // _rune = RuneIndex.Instance.RandomShopRune();
-        _cost = GameManager.Instance.RandomRunePrice( _rune.Tier() );
+        _cost = (int) ( GameManager.Instance.RandomRunePrice( _rune.Tier() ) * GameManager.Instance.EnemyWaveBudgetMultiplier() );
 
         foreach( var i in icons )
             i.sprite = _rune.Icon();

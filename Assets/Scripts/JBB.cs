@@ -102,6 +102,7 @@ public static class JBB
         x >= 0 && x < arr2d.GetLength( 0 ) && y >= 0 && y < arr2d.GetLength( 1 );
 
     public static T RandomEntry<T>( this T[] arr ) => arr[ Random.Range( 0, arr.Length ) ];
+    public static T RandomEntry<T>( this List<T> list ) => list[ Random.Range( 0, list.Count ) ];
 
     public static bool Empty<T>( this T[] arr ) => arr.Length == 0;
     public static bool Empty<T>( this List<T> list ) => list.Count == 0;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LevelGrasslands : Level
@@ -46,11 +47,23 @@ public class LevelGrasslands : Level
         }
 
         var points = generator.GetSpacedOutPoints( biomeStart, 1, 
-            biomeEnd - biomeStart, DefaultWorldSizeY - 2, 4, 4 );
+            biomeEnd - biomeStart - 2, DefaultWorldSizeY - 2, 4, 4 );
         points.Shuffle();
+
+        for( var i = 0; i < points.Count && i < 2; i++ )
+        {
+            Instantiate( generator.Gen( WorldGenIndex.Misc.Campfire ), 
+                WorldGenerator.CoordsToWorldPos( points[ i ] ), 
+                JBB.RandomYRot(), generator.objsParent );
+
+            generator.Map( points[ i ] ).OffLimits = true;
+        }
 
         for( var i = 0; i < points.Count && i < treesPerBiome[ biome ]; i++ )
         {
+            if( generator.Map( points[ i ] ).OffLimits )
+                continue;
+
             Instantiate( RandomTree( generator ), 
                 WorldGenerator.CoordsToWorldPos( points[ i ] ), 
                 JBB.RandomYRot(), generator.objsParent );
