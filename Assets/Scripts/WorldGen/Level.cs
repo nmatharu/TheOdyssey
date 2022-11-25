@@ -16,9 +16,8 @@ public abstract class Level : MonoBehaviour
     // if y is 0, then this wave is an INTRO WAVE, and a new enemy will be spawned 
     [ SerializeField ] Vector2[] enemyWaves;
     
-    // Queues of some of the serialized fields above, can't serialize queues ):
     readonly Queue<Enemy> _enemiesToIntro = new();
-    readonly Queue<Vector2> _waveQueue = new();
+    readonly Queue<Vector2> _waveQueue = new(); // this queue uses the world X positions instead of the pct above
 
     [ SerializeField ] protected GameObject baseBlock;
     [ SerializeField ] protected Transform environmentalParent;
@@ -58,14 +57,40 @@ public abstract class Level : MonoBehaviour
     {
         foreach( var e in newEnemies )
             _enemiesToIntro.Enqueue( e );
+        
         foreach( var w in enemyWaves )
-            _waveQueue.Enqueue( w );
+            _waveQueue.Enqueue(  new Vector2( WorldGenerator.CoordXToWorldX( PlayerStartZone + CoreLength * w.x ), w.y ) );
     }
+
+    public List<Enemy> WaveEnemies( float unscaledWaveBudget )
+    {
+        var numPlayers = GameManager.Instance.NumPlayersInParty();
+        var multiplier = GameManager.Instance.EnemyWaveBudgetMultiplier();
+        
+        var waveBudget = (int) ( unscaledWaveBudget * multiplier );
+        var es = new List<Enemy>();
+        
+        // Introductory wave
+        if( waveBudget == 0 )
+        {
+            var enemy = _enemiesToIntro.Dequeue();
+
+            // Cheap enemy : 1, 2, 3 players -> 2, 2, 3 enemies
+            // Expensive enemy : 1, 2, 3 players -> 1 enemy
+            var numToSpawn = enemy.spawnCost < 2 ? ( numPlayers > 2 ? 3 : 2 ) : 1;
+            for( var i = 0; i < numToSpawn; i++ )
+                es.Add( enemy );
+        }
+
+        return es;
+    }
+    
+    public Vector2 NextWave() => _waveQueue.Dequeue();
+    public bool OutOfWaves() => _waveQueue.Empty();
 
     public abstract void Generate( WorldGenerator generator );
     public Vector2Int WorldSize() => new( DefaultWorldSizeX, DefaultWorldSizeY );
 
     public float BossZoneCenterX() =>
         WorldGenerator.CoordXToWorldX( DefaultWorldSizeX - BossZoneOffset + BossZoneSize / 2f );
-
 }

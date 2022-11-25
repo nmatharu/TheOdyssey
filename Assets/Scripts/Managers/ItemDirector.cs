@@ -42,6 +42,4 @@ public class ItemDirector : MonoBehaviour
         RareA,
         LegendaryA
     }
-
-    public int CommonMaxHpCalc( int stacks, float baseMaxHp ) => (int) ( baseMaxHp * Mathf.Pow( 1.2f, stacks ) );
 }

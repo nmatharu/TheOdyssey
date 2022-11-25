@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerStatusBar : MonoBehaviour
 {
     [ SerializeField ] TextMeshProUGUI level;
+    [ SerializeField ] TextMeshProUGUI playerName;
     [ SerializeField ] Image hpBar;
     [ SerializeField ] Image hpFollowBar;
     [ SerializeField ] Image rollCdBar;
@@ -177,4 +178,6 @@ public class PlayerStatusBar : MonoBehaviour
         t.localEulerAngles = new Vector3( rotateIn ? 0 : 90, 0, 0 );
         t.gameObject.SetActive( rotateIn );
     }
+
+    public void SetPlayerName( string n ) => playerName.text = n;
 }

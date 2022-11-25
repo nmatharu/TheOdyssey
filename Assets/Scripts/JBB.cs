@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -104,4 +105,5 @@ public static class JBB
 
     public static bool Empty<T>( this T[] arr ) => arr.Length == 0;
     public static bool Empty<T>( this List<T> list ) => list.Count == 0;
+    public static bool Empty<T>( this Queue<T> queue ) => queue.Count == 0;
 }

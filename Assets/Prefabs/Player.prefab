@@ -13953,6 +13953,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: {fileID: 8495151521893716285}
+  playerName: {fileID: 8495151521020779150}
   hpBar: {fileID: 8495151522488762794}
   hpFollowBar: {fileID: 8088646342559735527}
   rollCdBar: {fileID: 409522683077027642}
@@ -13960,7 +13961,7 @@ MonoBehaviour:
   inventoryBarTransform: {fileID: 4675382731837803019}
   notchesParent: {fileID: 8284170621284046947}
   notch: {fileID: 7034340180151910462, guid: 99eb385a64c504c799222bae10811368, type: 3}
-  notchDivision: 50
+  notchDivision: 10
   maxNotchWidth: 0.08
   minNotchWidth: 0.04
   maxNotchWidthThreshold: 250
@@ -14375,7 +14376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371d9ddae5e1c184796b5bbe29cbe2fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseMaxHp: 50
+  baseMaxHp: 30
   baseRollSpeedMultiplier: 1.5
   speed: 8
   baseHpRegenPerMinute: 6

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -10,11 +11,11 @@ public class EnemySpawner : MonoBehaviour
     [ SerializeField ] Transform spawnersParent;
     [ SerializeField ] GameObject enemyBarrier;
     
-    [ SerializeField ] Enemy[] enemies;
-    [ SerializeField ] EnemyWave[] waves;
-    [ SerializeField ] EnemyWave bossWave;
-
     Queue<EnemyWave> _waveQueue;
+
+    // new wave gen, remove old stuff TODO
+    float _nextWaveX;
+    float _nextWaveBudget;
     
     enum EnemyType
     {
@@ -31,11 +32,12 @@ public class EnemySpawner : MonoBehaviour
             Destroy( this );
         else
             Instance = this;
+    }
 
-        _waveQueue = new Queue<EnemyWave>();
-
-        foreach( var w in waves )
-            _waveQueue.Enqueue( w );
+    public void SetWave( Vector2 wave )
+    {
+        _nextWaveX = wave.x;
+        _nextWaveBudget = wave.y;
     }
 
     public void LetItRip( float maxPlayerX, Vector3[] spawnPoints )
@@ -59,11 +61,37 @@ public class EnemySpawner : MonoBehaviour
         }
     }
     
+    public void LetItRip2( float maxPlayerX )
+    {
+        var enemies = GameManager.Instance.CurrentLevel().WaveEnemies( _nextWaveBudget );
+        var spawnPoints = WorldGenerator.Instance.ValidSpawnPointsAround( maxPlayerX, enemies.Count );
+        
+        var maxSpawnX = spawnPoints.Max( p => p.x );
+        maxSpawnX = Mathf.Max( maxPlayerX, maxSpawnX );
+
+        var b = Instantiate( enemyBarrier, new Vector3( maxSpawnX + 8f, 0, 0 ), 
+            Quaternion.identity, spawnersParent );
+        var barrier = b.GetComponent<EnemyBarrier>();
+        
+        for( var i = 0; i < enemies.Count; i++ )
+        {
+            var i1 = i;
+            this.Invoke( () =>
+            {
+                var p = Instantiate( spawnPillar, spawnPoints[ i1 ], Quaternion.identity, spawnersParent ).GetComponent<SpawnPillar>();
+                p.Set( enemies[ i1 ].gameObject, 2f, barrier );
+            }, i * 0.25f );
+        }
+
+        GameManager.Instance.RequestNextWave();
+    }
+
+    public void OutOfWaves() => _nextWaveX = int.MaxValue;
+
     public Transform EnemiesParent() => enemiesParent;
 
-    public int NextXTrigger() => _waveQueue.Count > 0 ? _waveQueue.Peek().xTrigger : int.MaxValue;
-    public int NextWaveSize() => _waveQueue.Peek().toSpawn.Count;
-
+    public float NextXTrigger() => _nextWaveX;
+    
     [ Serializable ]
     class EnemyWave
     {
@@ -77,20 +105,19 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    GameObject Enemy( EnemyType type ) => enemies[ (int) type ].gameObject;
-
     public void StartBoss( float posX )
     {
-        var wave = bossWave.toSpawn;
-        var spawnPoints = WorldGenerator.Instance.ValidSpawnPointsAround( posX, wave.Count );
-        for( var i = 0; i < wave.Count; i++ )
-        {
-            var i1 = i;
-            this.Invoke( () =>
-            {
-                var p = Instantiate( spawnPillar, spawnPoints[ i1 ], Quaternion.identity, spawnersParent ).GetComponent<SpawnPillar>();
-                p.Set( wave[ i1 ], 2f );
-            }, i * 0.25f );
-        }
+        Debug.Log( "Not Boss Started" );
+        // var wave = bossWave.toSpawn;
+        // var spawnPoints = WorldGenerator.Instance.ValidSpawnPointsAround( posX, wave.Count );
+        // for( var i = 0; i < wave.Count; i++ )
+        // {
+        //     var i1 = i;
+        //     this.Invoke( () =>
+        //     {
+        //         var p = Instantiate( spawnPillar, spawnPoints[ i1 ], Quaternion.identity, spawnersParent ).GetComponent<SpawnPillar>();
+        //         p.Set( wave[ i1 ], 2f );
+        //     }, i * 0.25f );
+        // }
     }
 }

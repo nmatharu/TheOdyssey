@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     Animator _animator;
     Material _material;
 
+    string _playerName;
     int _level = 1;
     float _maxHp;
     float _hp;
@@ -100,6 +101,12 @@ public class Player : MonoBehaviour
         StartCoroutine( RegenerateHealth() );
 
         var x = GetComponentsInChildren<Renderer>();
+    }
+
+    public void Init( string playerName )
+    {
+        _playerName = playerName;
+        _statusBar.SetPlayerName( _playerName );
     }
 
     void Update()
@@ -329,19 +336,10 @@ public class Player : MonoBehaviour
 
     int StacksOfRune( ItemDirector.Runes rune ) => _runeMap[ (int) rune ];
 
-    void UpdateMaxHealth()
-    {
-        var oldMaxHp = _maxHp;
-        _maxHp = ItemDirector.Instance.CommonMaxHpCalc( StacksOfRune( ItemDirector.Runes.CommonMaxHp ), baseMaxHp );
-        var diff = _maxHp - oldMaxHp;
-        _hp = Mathf.Clamp( _hp + diff, 0, _maxHp );
-        _statusBar.SetHpBarNotches( _maxHp );
-    }
-
     void UpdateMaxHealth( int count )
     {
         var oldMaxHp = _maxHp;
-        _maxHp = ItemDirector.Instance.CommonMaxHpCalc( count, baseMaxHp );
+        _maxHp = baseMaxHp * GameManager.Scale0( count );
         var diff = _maxHp - oldMaxHp;
         _hp = Mathf.Clamp( _hp + diff, 0, _maxHp );
         _statusBar.SetHpBarNotches( _maxHp );
@@ -352,7 +350,7 @@ public class Player : MonoBehaviour
     public float DamageMultiplier()
     {
         var multiplier = 1f;
-        multiplier *= JBB.ClampedMap( HpPct(), 1, 0, 1, 1 + 0.4f * _runes[ "fury" ] );
+        multiplier *= JBB.ClampedMap( HpPct(), 1, 0, 1, GameManager.Scale0( _runes[ "fury" ] ) );
         return multiplier;
     }
 

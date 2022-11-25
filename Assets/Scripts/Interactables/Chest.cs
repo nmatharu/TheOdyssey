@@ -7,6 +7,7 @@ public class Chest : Interactable
 {
     [ SerializeField ] Transform chestHinge;
     [ SerializeField ] ParticleSystem openPfx;
+    [ SerializeField ] ParticleSystem twinklePfx;
     
     bool _opened;
     bool _taken;
@@ -19,6 +20,7 @@ public class Chest : Interactable
     {
         _opened = true;
         openPfx.Play();
+        twinklePfx.Stop();
         interactPrompt = "TAKE";
 
         StartCoroutine( SwingOpenHinge() );

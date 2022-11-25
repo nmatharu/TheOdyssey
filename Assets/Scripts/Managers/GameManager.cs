@@ -23,7 +23,8 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] GameObject pauseScreen;
 
     [ SerializeField ] public float respawnHealthPct = 0.25f;
-
+    [ SerializeField ] public float[] enemyHealthPlayerCountScaling = { 1f, 4 / 3f, 3 / 2f };
+    
     public static GameManager Instance { get; private set; }
     private bool _fpsLimitOn;
 
@@ -34,7 +35,15 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] float levelIncrementTimeSeconds = 60f;
     float _runTimeElapsed = 0f;
     Coroutine _levelIncrementRoutine;
-    
+
+    Level _currentLevel;
+
+    // Defines almost every (?) scaling in the game, provided 0-indexed and 1-indexed methods
+    // How players health scales with stacks of vitality, e.g. 30 hp (0 stacks), 40 hp, 50 hp, etc.
+    // How enemy damage scales with levels, e.g. 6 (level 1), 8, 10, etc.
+    public static float Scale0( int n ) => 1f + ( 1 / 3f * n );
+    public static float Scale1( int n ) => 1f + ( 1/3f * ( n - 1 ) );
+
     void Awake()
     {
         if( Instance != null && Instance != this )
@@ -75,14 +84,31 @@ public class GameManager : MonoBehaviour
         UpdateFpsDisplay();
     }
 
+    public Level CurrentLevel() => _currentLevel;
+    public void SetCurrentLevel( Level level )
+    {
+        _currentLevel = level;
+        RequestNextWave();
+    }
+
+    public void RequestNextWave()
+    {
+        if( _currentLevel.OutOfWaves() )
+        {
+            EnemySpawner.Instance.OutOfWaves();
+            return;
+        }
+        EnemySpawner.Instance.SetWave( _currentLevel.NextWave() );
+    }
+
     void CheckForNextWave()
     {
         var maxX = playersArr.Max( p => p.transform.position.x );
-        if( maxX > WorldGenerator.CoordXToWorldX( EnemySpawner.Instance.NextXTrigger() ) )
+        if( maxX > EnemySpawner.Instance.NextXTrigger() )
         {
-            var waveSize = EnemySpawner.Instance.NextWaveSize();
-            var spawnPoints = WorldGenerator.Instance.ValidSpawnPointsAround( maxX, waveSize );
-            EnemySpawner.Instance.LetItRip( maxX, spawnPoints );
+            // var waveSize = EnemySpawner.Instance.NextWaveSize();
+            // var spawnPoints = WorldGenerator.Instance.ValidSpawnPointsAround( maxX, waveSize );
+            EnemySpawner.Instance.LetItRip2( maxX );
         }
     }
 
@@ -176,10 +202,11 @@ public class GameManager : MonoBehaviour
 
     public int NumPlayersInParty() => playersArr.Count( p => p.gameObject.activeInHierarchy );
 
-    // TODO take into account Level and Num players
-    public float EnemyHealthMultiplier( int enemyLevel ) => ( 1f + ( NumPlayersInParty() - 1 ) * 0.5f ) * Mathf.Pow( 1.1f, enemyLevel - 1 );
-    public float EnemyDamageMultiplier( int enemyLevel ) => ( 1f + ( NumPlayersInParty() - 1 ) * 0.5f ) * Mathf.Pow( 1.1f, enemyLevel - 1 );
+    public float EnemyHealthMultiplier( int enemyLevel ) => enemyHealthPlayerCountScaling[ NumPlayersInParty() - 1 ] * Scale1( enemyLevel );
 
+    public float EnemyDamageMultiplier( int enemyLevel ) => Scale1( enemyLevel );
+    public float EnemyWaveBudgetMultiplier() => 1f + 0.5f * ( NumPlayersInParty() - 1 );
+    
     public void PauseGame( int playerId )
     {
         switch( _paused )

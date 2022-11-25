@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        _hp = maxHp;
+        _hp = Mathf.RoundToInt( maxHp );
         _originalMatColors = new Color[ renderers.Length ];
         for( var i = 0; i < renderers.Length; i++ )
             _originalMatColors[ i ] = renderers[ i ].material.color;
@@ -31,7 +31,6 @@ public class Enemy : MonoBehaviour
         maxHp *= GameManager.Instance.EnemyHealthMultiplier( _level );
         _statusBar = GetComponentInChildren<EnemyStatusBar>();
         _statusBar.SetLevel( lvl );
-        // TODO Set Status Bar Level
     }
 
     public void TakeDamage( Player p, float dmg )

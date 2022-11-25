@@ -73,6 +73,8 @@ public class WorldGenerator : MonoBehaviour
         cameras.CalcXClampMax( WorldSizeX() );
         cameras.SetBossZoneX( _currentLevel.BossZoneCenterX() );
         _currentLevel.Generate( this );
+        
+        GameManager.Instance.SetCurrentLevel( _currentLevel );
 
         // GenerateGrasslands();
         // GenerateGrasslands2();
