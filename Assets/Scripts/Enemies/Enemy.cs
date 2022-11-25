@@ -58,6 +58,17 @@ public class Enemy : MonoBehaviour
             GameManager.Instance.SpawnGenericFloating( transform.position, stacks.ToString(), new Color( 1, 0.3f, 0.3f ), 8f );
             CheckForDeath( p );
         }
+        
+        /*
+         *  var wait = new WaitForSeconds( 1f / stacks );
+            for( var i = 0; i < stacks * 3; i++ )
+            {
+                yield return wait;
+                _hp--;
+                GameManager.Instance.SpawnGenericFloating( transform.position, "1", new Color( 1, 0.3f, 0.3f ), 8f );
+                CheckForDeath( p );
+            }
+         */
     }
 
     void CheckForDeath( Player p )

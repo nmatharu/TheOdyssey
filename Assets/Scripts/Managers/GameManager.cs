@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
         {
             var waveSize = EnemySpawner.Instance.NextWaveSize();
             var spawnPoints = WorldGenerator.Instance.ValidSpawnPointsAround( maxX, waveSize );
-            EnemySpawner.Instance.LetItRip( spawnPoints );
+            EnemySpawner.Instance.LetItRip( maxX, spawnPoints );
         }
     }
 
@@ -174,7 +174,7 @@ public class GameManager : MonoBehaviour
     public Player[] CameraPlayers() =>
         ( from Player p in playersArr where p.showOnCamera && p.gameObject.activeInHierarchy select p ).ToArray();
 
-    int NumPlayersInParty() => playersArr.Count( p => p.gameObject.activeInHierarchy );
+    public int NumPlayersInParty() => playersArr.Count( p => p.gameObject.activeInHierarchy );
 
     // TODO take into account Level and Num players
     public float EnemyHealthMultiplier( int enemyLevel ) => ( 1f + ( NumPlayersInParty() - 1 ) * 0.5f ) * Mathf.Pow( 1.1f, enemyLevel - 1 );

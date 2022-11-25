@@ -23,6 +23,8 @@ public class CrystalGate : Interactable
     public void LinkToPuzzle( int index, LinkPuzzle puzzle )
     {
         _index = index;
+
+        Debug.Log( _locked + " " + _solved );
     }
 
     public void LightUp( bool lightUp ) => puzzleLight.SetActive( lightUp );

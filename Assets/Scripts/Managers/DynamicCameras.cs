@@ -29,6 +29,10 @@ public class DynamicCameras : MonoBehaviour
 
     float _initY;
 
+    [ SerializeField ] float bossZoneCameraOffset;
+    float _bossLockX;
+    bool _bossLock;
+    
     float[] _sortedPlayerXPoses;
     
     // x-positions of players 1-3
@@ -68,6 +72,8 @@ public class DynamicCameras : MonoBehaviour
         _twelfth = cameraSplitDistance / 6f;
         
         splitViewPortOffsetY *= aspectRatio / ( 16f / 9f );
+        bossZoneCameraOffset *= aspectRatio / ( 16f / 9f );
+        
         _splitScreenLineHeight = scaler.referenceResolution.y * ( 16f / 9f ) / aspectRatio;
     }
 
@@ -76,6 +82,12 @@ public class DynamicCameras : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        if( _bossLock )
+        {
+            SingleCamBoss();
+            return;
+        }
+
         switch( _numPlayers )
         {
             case 1:
@@ -98,6 +110,18 @@ public class DynamicCameras : MonoBehaviour
         _singleCam1PLerp = Mathf.Lerp( _singleCam1PLerp, _m, singlePlayerSmoothing * Time.deltaTime );
         SetCameraPosition( cameras[ 0 ], _singleCam1PLerp, 0.5f );
 
+        foreach( var l in splitScreenLines )
+            l.rectTransform.sizeDelta = Vector2.zero;
+    }
+
+    void SingleCamBoss()
+    {
+        EnableCameras( 0 );
+        cameras[ 0 ].rect = new Rect( 0, 0, 1f, 1f );
+        _singleCam1PLerp = Mathf.Lerp( _singleCam1PLerp, _bossLockX + bossZoneCameraOffset, 
+            singlePlayerSmoothing * Time.deltaTime );
+        SetCameraPosition( cameras[ 0 ], _singleCam1PLerp, 0.5f );
+        
         foreach( var l in splitScreenLines )
             l.rectTransform.sizeDelta = Vector2.zero;
     }
@@ -193,8 +217,7 @@ public class DynamicCameras : MonoBehaviour
                 SplitScreenBarWidth( c - abMid - cameraSplitDistance ), _splitScreenLineHeight );
             return;
         }
-
-
+        
         // One player is far off to the right
         if( ab > _adjThreshold && bc < _adjThreshold )
         {
@@ -207,7 +230,6 @@ public class DynamicCameras : MonoBehaviour
                 SplitScreenBarWidth( bcMid - a - cameraSplitDistance ), _splitScreenLineHeight );
             return;
         }
-
 
         // All 3 players are far from each other
         EnableCameras( 0, 1, 2 );
@@ -258,6 +280,21 @@ public class DynamicCameras : MonoBehaviour
         if( _numPlayers < 3 ) return;
         _l = ( _xs[ 0 ] + _xs[ 1 ] ) / 2f;
         _r = ( _xs[ 1 ] + _xs[ 2 ] ) / 2f;
+    }
+
+    public void SetBossZoneX( float bossZoneCenterX ) => _bossLockX = bossZoneCenterX;
+    
+    public void BossLock()
+    {
+        _bossLock = true;
+        CalculatePositions();
+        _singleCam1PLerp = _m;
+    }
+
+    public void BossUnlock()
+    {
+        _bossLock = false;
+        camXClampMin = _bossLockX + bossZoneCameraOffset;
     }
 
     static float SplitScreenBarWidth( float dist ) => 

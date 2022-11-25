@@ -44,7 +44,7 @@ public class BossZone : MonoBehaviour
         var wait = new WaitForSeconds( 1f );
         for( ;; )
         {
-            if( GameManager.Instance.PlayersInBossZone( 760 ) )
+            if( GameManager.Instance.PlayersInBossZone( transform.position.x + 3f ) )
             {
                 StartBoss();
                 yield break;
@@ -64,8 +64,8 @@ public class BossZone : MonoBehaviour
             Destroy( e.gameObject );
         }
 
-        
-        EnemySpawner.Instance.StartBoss( 780f );
+        WorldGenerator.Instance.BossStarted();
+        EnemySpawner.Instance.StartBoss( transform.position.x + 21f );
         this.Invoke( () => StartCoroutine( CheckEndBoss() ), 5f );
     }
 
@@ -76,6 +76,7 @@ public class BossZone : MonoBehaviour
         {
             if( GameManager.Instance.AllEnemiesDead() )
             {
+                WorldGenerator.Instance.BossFinished();
                 OpenRight();
                 yield break;
             }

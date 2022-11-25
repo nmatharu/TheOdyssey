@@ -36,24 +36,14 @@ public class EnemySpawner : MonoBehaviour
 
         foreach( var w in waves )
             _waveQueue.Enqueue( w );
-        
-        // _waveStack.Enqueue( new EnemyWave( 20, new[] { Enemy( EnemyType.Skull ) } ) );
-        //
-        // _waveStack.Enqueue( new EnemyWave( 40, new[] { enemies[ 0 ].gameObject, enemies[ 0 ].gameObject } ) );
-        //
-        // _waveStack.Enqueue( new EnemyWave( 60, new[] { enemies[ 1 ].gameObject, enemies[ 2 ].gameObject, 
-        //     enemies[ 2 ].gameObject, enemies[ 0 ].gameObject } ) );
-        //
-        // _waveStack.Enqueue( new EnemyWave( 80, new[] { enemies[ 1 ].gameObject, enemies[ 2 ].gameObject, 
-        //     enemies[ 2 ].gameObject, enemies[ 0 ].gameObject, enemies[ 1 ].gameObject, enemies[ 2 ].gameObject, 
-        //     enemies[ 2 ].gameObject, enemies[ 0 ].gameObject, enemies[ 1 ].gameObject } ) );
     }
 
-    public void LetItRip( Vector3[] spawnPoints )
+    public void LetItRip( float maxPlayerX, Vector3[] spawnPoints )
     {
-        var maxX = spawnPoints.Max( p => p.x );
+        var maxSpawnX = spawnPoints.Max( p => p.x );
+        maxSpawnX = Mathf.Max( maxPlayerX, maxSpawnX );
         
-        var b = Instantiate( enemyBarrier, new Vector3( maxX + 10f, 0, 0 ), 
+        var b = Instantiate( enemyBarrier, new Vector3( maxSpawnX + 8f, 0, 0 ), 
             Quaternion.identity, spawnersParent );
         var barrier = b.GetComponent<EnemyBarrier>();
 

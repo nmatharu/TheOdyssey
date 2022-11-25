@@ -2235,6 +2235,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8495151521020779150, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
+      propertyPath: m_text
+      value: P3
+      objectReference: {fileID: 0}
     - target: {fileID: 8495151521538178678, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
       propertyPath: lKey
       value: 113
@@ -5523,6 +5527,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a8bf326b5134072a053b996e77a7bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seenEnemies: []
+  newEnemies:
+  - {fileID: 428212638778311382, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
+  - {fileID: 428212638778311382, guid: d79882ec50ec18d418e97e792cea9d43, type: 3}
+  - {fileID: 428212638778311382, guid: 6e804079547d89b479e6ce60f1b56b83, type: 3}
+  bossSpawner: {fileID: 0}
+  enemyWaves:
+  - {x: 0, y: 0}
+  - {x: 0.0625, y: 0}
+  - {x: 0.125, y: 0}
+  - {x: 0.1875, y: 20}
   baseBlock: {fileID: 8760186154017859944, guid: 33e30de058a7895489381f617c9dc09a, type: 3}
   environmentalParent: {fileID: 666461620}
 --- !u!1 &317479174
@@ -7044,6 +7059,10 @@ PrefabInstance:
     - target: {fileID: 8245649128297245740, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8495151521020779150, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
+      propertyPath: m_text
+      value: P2
       objectReference: {fileID: 0}
     - target: {fileID: 8495151521538178678, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
       propertyPath: lKey
@@ -9742,6 +9761,10 @@ PrefabInstance:
     - target: {fileID: 8338058390577404355, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8495151521020779150, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
+      propertyPath: m_text
+      value: PLAYER
       objectReference: {fileID: 0}
     - target: {fileID: 8729593036261750422, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
       propertyPath: m_Name
@@ -32700,6 +32723,7 @@ MonoBehaviour:
   scaler: {fileID: 945615539}
   camXClampMin: 21
   camXClampMax: 1000
+  bossZoneCameraOffset: -0.45
 --- !u!1 &1721902123
 GameObject:
   m_ObjectHideFlags: 0
@@ -33357,6 +33381,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8490ac7a562c41f7b7f7b90854720cdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seenEnemies: []
+  newEnemies: []
+  bossSpawner: {fileID: 0}
+  enemyWaves: []
   baseBlock: {fileID: 8760186154017859944, guid: 81aa08a49d8097b489b21b82a8689370, type: 3}
   environmentalParent: {fileID: 793181710}
 --- !u!1 &1767039109
@@ -37354,6 +37382,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 410b606cd9cc4253baab141b1b3f98f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seenEnemies: []
+  newEnemies: []
+  bossSpawner: {fileID: 0}
+  enemyWaves: []
   baseBlock: {fileID: 8760186154017859944, guid: 436e6124715859d43a2b9648f53c4efc, type: 3}
   environmentalParent: {fileID: 1595333452}
 --- !u!4 &1974198878
@@ -37401,6 +37433,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23d74429f54a4d8d98bb69a4f62cb248, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seenEnemies: []
+  newEnemies: []
+  bossSpawner: {fileID: 0}
+  enemyWaves: []
   baseBlock: {fileID: 8760186154017859944, guid: ffe7669205cbd354e980498e36b14ec4, type: 3}
   environmentalParent: {fileID: 1600591090}
 --- !u!4 &1981998481

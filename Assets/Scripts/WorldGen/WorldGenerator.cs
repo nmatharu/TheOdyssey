@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class WorldGenerator : MonoBehaviour
 {
@@ -26,6 +29,7 @@ public class WorldGenerator : MonoBehaviour
 
     float _perlinSeed;
     [ SerializeField ] Level _currentLevel;
+    int _numPlayers;
 
     public static WorldGenerator Instance { get; private set; }
     bool _generating;
@@ -53,7 +57,9 @@ public class WorldGenerator : MonoBehaviour
     {
         if( _currentLevel == null)
             _currentLevel = GetComponentInChildren<LevelSands>();
-        
+
+        _numPlayers = GameManager.Instance.NumPlayersInParty();
+        Debug.Log( $"Generating world w/ {_numPlayers} players" );
         _currentLevel.gameObject.SetActive( true );
         StartCoroutine( Generate() );
     }
@@ -63,8 +69,9 @@ public class WorldGenerator : MonoBehaviour
         _generating = true;
 
         InitMaps( _currentLevel.WorldSize() );
+        
         cameras.CalcXClampMax( WorldSizeX() );
-        // InitMaps( new Vector2Int( 600, 12 ) );
+        cameras.SetBossZoneX( _currentLevel.BossZoneCenterX() );
         _currentLevel.Generate( this );
 
         // GenerateGrasslands();
@@ -116,7 +123,7 @@ public class WorldGenerator : MonoBehaviour
     public void GenerateBossZone( int xStart )
     {
         _bossZone = Instantiate( Gen( WorldGenIndex.Misc.BossZone ), 
-                CoordsToWorldPos( xStart + 1, 0 ), Quaternion.identity, GameManager.Instance.miscParent )
+                CoordsToWorldPos( xStart, 0 ), Quaternion.identity, GameManager.Instance.miscParent )
             .GetComponent<BossZone>();
         _bossZone.SetStartEnd( 3, 3 + 6 );
         for( var y = 0; y < WorldSizeY(); y++ )
@@ -381,11 +388,11 @@ public class WorldGenerator : MonoBehaviour
         }
     }
     
-    public void GenerateShopsAndMagic()
+    public void GenerateShopsAndMagic( IEnumerable<int> shopXs, int magicX )
     {
-        foreach( var stagePct in new[] { 3/9f, 4/9f, 6/9f, 7/9f } )
-            GenerateNpc( (int) ( WorldSizeX() * stagePct ) );
-        GenerateMagic( (int) ( WorldSizeX() * 5 / 9f ) );
+        foreach( var x in shopXs )
+            GenerateNpc( x );
+        GenerateMagic( magicX );
     }
 
     public void GenerateMagic( int xMid )
@@ -405,14 +412,10 @@ public class WorldGenerator : MonoBehaviour
 
     public void DuplicateTopRow( int xs, int ys )
     {
-        //     var o = Instantiate( genBlocks[ toCopy.GenIndex ], 
-        //         CoordsToWorldPos( x, ys ), JBB.Random90Rot(), blocksParent );
-        
         for( var x = 0; x < xs; x++ )
         {
             var toCopy = _tileMap[ x, ys - 1 ];
-            var o = Instantiate( toCopy.Ground, CoordsToWorldPos( x, ys ), JBB.Random90Rot(), blocksParent );
-            // _tileMap[ x, ys ] = new Tile( o, x, ys, toCopy.GenIndex, CoordsToWorldPos( x, ys ), toCopy.EmptyCollider );
+            Instantiate( toCopy.Ground, CoordsToWorldPos( x, ys ), JBB.Random90Rot(), blocksParent );
         }
     }
 
@@ -516,9 +519,13 @@ public class WorldGenerator : MonoBehaviour
     public GameObject Gen( WorldGenIndex.Misc misc ) => genMisc[ (int) misc ];
     public GameObject Gen( WorldGenIndex.NPCs npc ) => genNpcs[ (int) npc ];
 
+    public int NumPlayers() => _numPlayers;
     int WorldSizeX() => _tileMap.GetLength( 0 );
     int WorldSizeY() => _tileMap.GetLength( 1 );
 
+    public void BossStarted() => cameras.BossLock();
+    public void BossFinished() => cameras.BossUnlock();
+    
     public void ShowOffLimits()
     {
         for( var x = 0; x < WorldSizeX(); x++ )
@@ -531,4 +538,12 @@ public class WorldGenerator : MonoBehaviour
             }
         }
     }
+
+    // void OnDrawGizmos()
+    // {
+    //     for( var x = 0; x < WorldSizeX(); x += 10 )
+    //     {
+    //         Handles.Label( CoordsToWorldPos( x, 5 ), x.ToString() );
+    //     }
+    // }
 }
