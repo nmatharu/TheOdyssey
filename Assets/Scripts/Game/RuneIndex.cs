@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 public class RuneIndex : MonoBehaviour
 {
     [ SerializeField ] Rune[] runes;
+    [ SerializeField ] NewRune[] runeIndex;
 
     Rune[][] _tieredRunes;
 

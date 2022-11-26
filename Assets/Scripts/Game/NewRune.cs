@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [ Serializable ]
-public class NewRune : MonoBehaviour
+public class NewRune
 {
     static int[] _rarityLevelMap = { 1, 2, 4 };
 
@@ -21,12 +21,17 @@ public class NewRune : MonoBehaviour
         RareBleed,
         RareBigHit,
         RareShield,
+        RareLowHpDmg,
+        RareSiphon,
+        RareCampfireHeal,
+        RareCashbackCard,
 
         LegendaryGuardian,
         LegendaryCdOnHit,
         LegendaryLifeSteal,
         LegendaryExplode,
-        LegendaryLooting
+        LegendaryLooting,
+        LegendaryOrbitDaggers
     }
 
     public enum Rarity
@@ -36,12 +41,13 @@ public class NewRune : MonoBehaviour
         Legendary
     }
 
-    [ SerializeField ] public Rarity rarity;
-    [ SerializeField ] public string runeName;
+    [ SerializeField ] Type type;
+    [ SerializeField ] Rarity rarity;
+    [ SerializeField ] string runeName;
     [ SerializeField ] bool gives0Levels;
     [ TextArea( 1, 2 ) ]
-    [ SerializeField ] public string description;
-    [ SerializeField ] public Sprite icon;
+    [ SerializeField ] string description;
+    [ SerializeField ] Sprite icon;
 
     public int LevelsToAdd() => gives0Levels ? 0 : _rarityLevelMap[ (int) rarity ];
 }

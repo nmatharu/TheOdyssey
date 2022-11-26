@@ -16492,6 +16492,18 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeeee.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.size
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndices.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runes.Array.data[1].icon
       value: 
       objectReference: {fileID: 21300000, guid: 5eae8d4a6bd146c44b662d879dcc6416, type: 3}
@@ -16554,10 +16566,10 @@ PrefabInstance:
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runes.Array.data[6].icon
       value: 
-      objectReference: {fileID: 21300000, guid: 0067cb3903424d8489d6b40a655765ea, type: 3}
+      objectReference: {fileID: 21300000, guid: 7196827bc79b88c4099748692d23d664, type: 3}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runes.Array.data[6].name
-      value: collection
+      value: vampirism
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runes.Array.data[6].tier
@@ -16573,6 +16585,142 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runes.Array.data[7].tier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[1].type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[2].type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[3].type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[4].type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[5].type
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[6].type
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[7].type
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[8].type
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[9].type
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[10].type
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[11].type
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[12].type
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[13].type
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[14].type
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[15].type
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[16].type
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[17].type
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[18].type
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[19].type
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[20].type
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[21].type
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[9].rarity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[10].rarity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[11].rarity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[12].rarity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[13].rarity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[14].rarity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[15].rarity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[16].rarity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[17].rarity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[18].rarity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[19].rarity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[20].rarity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[21].rarity
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
@@ -16597,11 +16745,163 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runes.Array.data[6].description
-      value: Passively harvest souls.
+      value: Heal for a small amount of health on hit.
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runes.Array.data[7].description
       value: Passively harvest souls.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[0].runeName
+      value: SHARPEN
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[1].runeName
+      value: ARCANE
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[2].runeName
+      value: FOCUS
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[8].runeName
+      value: GOD-SLAYER
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[9].runeName
+      value: HEMORRHAGE
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[10].runeName
+      value: COLOSSUS
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[11].runeName
+      value: SAFEGUARD
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[12].runeName
+      value: BERSERK
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[13].runeName
+      value: SIPHON
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[14].runeName
+      value: WARMTH
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[15].runeName
+      value: CASHBACK
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[16].runeName
+      value: GUARDIAN
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[18].runeName
+      value: VAMPIRISM
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[20].runeName
+      value: LOOTING
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[0].description
+      value: Increase melee damage.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[1].description
+      value: Increase magic effectiveness.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[2].description
+      value: Decrease cooldown of magic spells.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[3].description
+      value: Increase maximum health.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[4].description
+      value: Increase passive health regeneration.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[5].description
+      value: Heal whenever you cast magic.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[6].description
+      value: Increase movement speed.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[7].description
+      value: Decrease roll cooldown.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[8].description
+      value: Deal increased damage in boss fights.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[9].description
+      value: Bleed enemies on-hit (stacking).
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[10].description
+      value: Every 4th attack deals significantly more damage.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[11].description
+      value: Gain a regenerating shield.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[12].description
+      value: Deal significantly more damage the lower health you are.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[13].description
+      value: Siphon health from the closest enemy in combat.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[14].description
+      value: Campfires heal you considerably quicker.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[15].description
+      value: Get gold back on shop purchases.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[16].description
+      value: Cheat death.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[17].description
+      value: Reduce magic cooldown on-hit.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[18].description
+      value: Steal health from enemies on-hit.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[19].description
+      value: Enemies explode when they are killed.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[20].description
+      value: Gain significantly more gold from enemy kills.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[21].description
+      value: Orbitting daggers automatically fire at nearby enemies.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[15].gives0Levels
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[20].gives0Levels
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runes.Array.data[0].overrideLevelsToAdd
@@ -16629,7 +16929,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runes.Array.data[6].overrideLevelsToAdd
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runes.Array.data[7].overrideLevelsToAdd
