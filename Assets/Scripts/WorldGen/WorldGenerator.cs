@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class WorldGenerator : MonoBehaviour
@@ -38,6 +37,7 @@ public class WorldGenerator : MonoBehaviour
     public static Vector3 CoordsToWorldPos( Vector2Int coords ) => new( 2 * coords.x, 0, 2 * coords.y );
     public static float CoordXToWorldX( float coordX ) => 2 * coordX;
     public static Vector3 CoordsToWorldPos( int x, int y ) => new( 2 * x, 0, 2 * y );
+    public static Vector3 CoordsToWorldPos( float x, float y ) => new( 2 * x, 0, 2 * y );
 
     void Awake()
     {
@@ -552,6 +552,14 @@ public class WorldGenerator : MonoBehaviour
         return spawnPoints.ToArray();
     }
 
+    public Vector3[] BossWaveSpawnPoints( int enemiesCount )
+    {
+        var spawnPoints = new Vector3[ enemiesCount ];
+        for( var i = 0; i < spawnPoints.Length; i++ )
+            spawnPoints[ i ] = _currentLevel.RandomBossZonePoint();
+        return spawnPoints;
+    }
+    
     bool InvalidSpawnPoint( Vector3 pos )
     {
         var coords = WorldPosToCoords( pos );
@@ -590,6 +598,9 @@ public class WorldGenerator : MonoBehaviour
 
     public void BossStarted() => cameras.BossLock();
     public void BossFinished() => cameras.BossUnlock();
+    public GameObject BossSpawner() => _currentLevel.BossSpawner();
+    public Vector3 BossZoneCenter() => CoordsToWorldPos( _currentLevel.BossZoneCenterCoords() );
+    
     public Tile[ , ] Map() => _tileMap;
     public Tile Map( int x, int y ) => _tileMap[ x, y ];
     public Tile Map( Vector2Int p ) => _tileMap[ p.x, p.y ];
@@ -609,12 +620,12 @@ public class WorldGenerator : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if( _tileMap == null )
-            return;
-        
-        for( var x = 0; x < WorldSizeX(); x++ )
-        {
-            Handles.Label( CoordsToWorldPos( x, 5 ), x.ToString() );
-        }
+        // if( _tileMap == null )
+        //     return;
+        //
+        // for( var x = 0; x < WorldSizeX(); x++ )
+        // {
+        //     Handles.Label( CoordsToWorldPos( x, 5 ), x.ToString() );
+        // }
     }
 }

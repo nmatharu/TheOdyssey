@@ -65,7 +65,7 @@ public class BossZone : MonoBehaviour
         }
 
         WorldGenerator.Instance.BossStarted();
-        EnemySpawner.Instance.StartBoss( transform.position.x + 21f );
+        EnemySpawner.Instance.StartBoss();
         this.Invoke( () => StartCoroutine( CheckEndBoss() ), 5f );
     }
 

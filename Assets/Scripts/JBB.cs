@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -75,6 +73,14 @@ public static class JBB
         {
             return Mathf.Abs( a.x - b.x ) + Mathf.Abs( a.y - b.y );
         }
+    }
+
+    public static int[] To( this int min, int max )
+    {
+        var arr = new int[ max - min + 1 ];
+        for( var i = 0; i < arr.Length; i++ )
+            arr[ i ] = min + i;
+        return arr;
     }
 
     public static Quaternion Random90Rot() => Quaternion.Euler( new Vector3( 0, 90 * Random.Range( 0, 4 ), 0 ) );

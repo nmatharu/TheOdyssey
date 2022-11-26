@@ -120,6 +120,9 @@ public class GameManager : MonoBehaviour
 
     public bool PlayersInBossZone( float zoneXStart )
     {
+        if( AllPlayersDead() )
+            return false;
+        
         foreach( var p in playersArr )
         {
             if( p.gameObject.activeInHierarchy && !p.dead && p.transform.position.x < zoneXStart )
@@ -129,7 +132,8 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    public bool AllEnemiesDead() => FindObjectsOfType<Enemy>().Length == 0;
+    public bool AllEnemiesDead() => 
+        FindObjectsOfType<Enemy>().Length == 0 && FindObjectsOfType<SpawnPillar>().Length == 0;
 
     public void AwardGold( int spawnCost )
     {
@@ -210,12 +214,13 @@ public class GameManager : MonoBehaviour
         ( from Player p in playersArr where p.showOnCamera && p.gameObject.activeInHierarchy select p ).ToArray();
 
     public int NumPlayersInParty() => playersArr.Count( p => p.gameObject.activeInHierarchy );
-
+    public bool AllPlayersDead() => playersArr.All( p => !p.gameObject.activeInHierarchy || p.dead );
+    
     public float EnemyHealthMultiplier( int enemyLevel ) =>
-        enemyHealthPlayerCountScaling[ NumPlayersInParty() - 1 ] * Scale1( enemyLevel, 0.1f );
+        enemyHealthPlayerCountScaling[ NumPlayersInParty() - 1 ] * Mathf.Sqrt( Scale1( enemyLevel ) );
 
-    public float EnemyDamageMultiplier( int enemyLevel ) =>
-        enemyDmgMultiplierPerDifficulty[ _difficulty ] * Scale1( enemyLevel, 0.1f );
+    public float EnemyDamageMultiplier( int enemyLevel ) => 
+        enemyDmgMultiplierPerDifficulty[ _difficulty ] * Mathf.Sqrt( Scale1( enemyLevel ) );
 
     public float EnemyWaveBudgetMultiplier() => enemyBudgetPlayerCountScaling[ NumPlayersInParty() - 1 ];
     public float BaseHpRegenPerMin() => baseHpRegenPerMinPerDifficulty[ _difficulty ];

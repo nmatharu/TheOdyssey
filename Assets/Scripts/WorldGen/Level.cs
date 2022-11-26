@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public abstract class Level : MonoBehaviour
 {
@@ -20,6 +22,7 @@ public abstract class Level : MonoBehaviour
     readonly Queue<Vector2> _waveQueue = new(); // this queue uses the world X positions instead of the pct above
 
     [ SerializeField ] protected GameObject baseBlock;
+    [ SerializeField ] protected GameObject nextStageBaseBlock;
     [ SerializeField ] protected Transform environmentalParent;
 
     protected const int DefaultWorldSizeX = 400;
@@ -27,6 +30,8 @@ public abstract class Level : MonoBehaviour
 
     protected const int PlayerStartZone = 30;
     protected const int BossZoneOffset = 70;
+    protected const int BlockTransitionStartOffset = 45;
+    protected const int BlockTransitionEndOffset = 15;
     protected const float BossZoneSize = 18f;
 
     protected int CoreLength;
@@ -98,13 +103,57 @@ public abstract class Level : MonoBehaviour
         
         return es;
     }
-    
+
+    protected void TransitionBlocks( WorldGenerator gen )
+    {
+        var ys = new List<int>();
+        for( var x = DefaultWorldSizeX - BlockTransitionStartOffset; x < DefaultWorldSizeX; x++ )
+        {
+            var potentialYs = 0.To( DefaultWorldSizeY - 1 ).ToList();
+            potentialYs.RemoveAll( n => ys.Contains( n ) );
+            if( potentialYs.Count > 0 )
+            {
+                ys.Add( potentialYs.RandomEntry() );
+
+                foreach( var y in ys )
+                {
+                    Destroy( gen.Map( x, y ).Ground );
+                    gen.Map( x, y ).Ground = Instantiate( nextStageBaseBlock, 
+                        WorldGenerator.CoordsToWorldPos( x, y ), 
+                        JBB.Random90Rot(), gen.blocksParent );
+                }
+            }
+            else
+            {
+                for( var y = 0; y < DefaultWorldSizeY; y++ )
+                {
+                    Destroy( gen.Map( x, y ).Ground );
+                    gen.Map( x, y ).Ground = Instantiate( nextStageBaseBlock, 
+                        WorldGenerator.CoordsToWorldPos( x, y ), 
+                        JBB.Random90Rot(), gen.blocksParent );
+                }
+            }
+        }
+    }
+
+    public Vector3 RandomBossZonePoint()
+    {
+        const int xStart = DefaultWorldSizeX - BossZoneOffset;
+        return WorldGenerator.CoordsToWorldPos(
+            Random.Range( xStart + 1f, xStart + BossZoneSize - 1f ),
+            Random.Range( 0f, DefaultWorldSizeY - 1f ) );
+    }
+
     public Vector2 NextWave() => _waveQueue.Dequeue();
     public bool OutOfWaves() => _waveQueue.Empty();
 
     public abstract void Generate( WorldGenerator generator );
     public Vector2Int WorldSize() => new( DefaultWorldSizeX, DefaultWorldSizeY );
 
+    public Vector2Int BossZoneCenterCoords() =>
+        new( DefaultWorldSizeX - BossZoneOffset + ( int ) ( BossZoneSize / 2f ), DefaultWorldSizeY / 2 );
     public float BossZoneCenterX() =>
         WorldGenerator.CoordXToWorldX( DefaultWorldSizeX - BossZoneOffset + BossZoneSize / 2f );
+
+    public GameObject BossSpawner() => bossSpawner;
 }

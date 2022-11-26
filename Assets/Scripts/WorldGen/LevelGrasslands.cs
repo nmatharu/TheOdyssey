@@ -30,6 +30,8 @@ public class LevelGrasslands : Level
         GenerateBiome( generator, 2, BiomeCStart, (int) ( BiomeCStart + CoreLength / 3f ) );
 
         generator.GenerateBossZone( DefaultWorldSizeX - BossZoneOffset );
+        TransitionBlocks( generator );
+        
         generator.DuplicateTopRow( DefaultWorldSizeX, DefaultWorldSizeY );
 
         // generator.ShowOffLimits();
@@ -88,7 +90,7 @@ public class LevelGrasslands : Level
         }
         
         rockPoints.Shuffle();
-        for( var i = 0; i < 10; i++ )
+        for( var i = 0; i < 5; i++ )
         {
             Instantiate( generator.Gen( WorldGenIndex.Objs.Rock ), 
                 WorldGenerator.CoordsToWorldPos( rockPoints[ i ] ), 

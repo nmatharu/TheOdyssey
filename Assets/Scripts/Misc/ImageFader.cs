@@ -32,6 +32,8 @@ public class ImageFader : MonoBehaviour
             FadeOut();
     }
 
+    public void Show() => _image.color = _color;
+    
     public void FadeIn() => StartCoroutine( FadeInCoroutine() );
 
     public void FadeOut() => StartCoroutine( FadeOutCoroutine() );

@@ -5438,7 +5438,7 @@ MonoBehaviour:
   - {fileID: 428212638778311382, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
   - {fileID: 428212638778311382, guid: d79882ec50ec18d418e97e792cea9d43, type: 3}
   - {fileID: 428212638778311382, guid: 6e804079547d89b479e6ce60f1b56b83, type: 3}
-  bossSpawner: {fileID: 0}
+  bossSpawner: {fileID: 2148079099040143359, guid: baba837708a42f444b25e81dc8620531, type: 3}
   enemyWaves:
   - {x: -0.03, y: 0}
   - {x: 0.06666667, y: 3}
@@ -5453,16 +5453,17 @@ MonoBehaviour:
   - {x: 0.8666667, y: 8}
   - {x: 0.93333334, y: 8}
   baseBlock: {fileID: 8760186154017859944, guid: 33e30de058a7895489381f617c9dc09a, type: 3}
+  nextStageBaseBlock: {fileID: 8760186154017859944, guid: 81aa08a49d8097b489b21b82a8689370, type: 3}
   environmentalParent: {fileID: 666461620}
   waterfallSpacingPerBiome:
+  - {x: 20, y: 40}
   - {x: 15, y: 30}
-  - {x: 12, y: 20}
-  - {x: 15, y: 30}
+  - {x: 20, y: 40}
   waterfallWidthPerBiome:
   - {x: 2, y: 7}
   - {x: 2, y: 3}
-  - {x: 4, y: 9}
-  treesPerBiome: 140000001e00000014000000
+  - {x: 4, y: 12}
+  treesPerBiome: 0f000000190000000f000000
 --- !u!1 &317479174
 GameObject:
   m_ObjectHideFlags: 0
@@ -12716,7 +12717,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 155, y: -39.999996}
-  m_SizeDelta: {x: 25, y: 25}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &743792279
 MonoBehaviour:
@@ -17677,6 +17678,67 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 985260969}
   m_Mesh: {fileID: -121586978152425214, guid: f4ed21b2dba1099468100274b5b2903b, type: 3}
+--- !u!1001 &988658389
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1382625898}
+    m_Modifications:
+    - target: {fileID: 2148079099040143359, guid: baba837708a42f444b25e81dc8620531, type: 3}
+      propertyPath: m_Name
+      value: BossGolem
+      objectReference: {fileID: 0}
+    - target: {fileID: 2148079099040143359, guid: baba837708a42f444b25e81dc8620531, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5814673285304824606, guid: baba837708a42f444b25e81dc8620531, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5814673285304824606, guid: baba837708a42f444b25e81dc8620531, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5814673285304824606, guid: baba837708a42f444b25e81dc8620531, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5814673285304824606, guid: baba837708a42f444b25e81dc8620531, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5814673285304824606, guid: baba837708a42f444b25e81dc8620531, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5814673285304824606, guid: baba837708a42f444b25e81dc8620531, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5814673285304824606, guid: baba837708a42f444b25e81dc8620531, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5814673285304824606, guid: baba837708a42f444b25e81dc8620531, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5814673285304824606, guid: baba837708a42f444b25e81dc8620531, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5814673285304824606, guid: baba837708a42f444b25e81dc8620531, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5814673285304824606, guid: baba837708a42f444b25e81dc8620531, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: baba837708a42f444b25e81dc8620531, type: 3}
 --- !u!1 &990455894
 GameObject:
   m_ObjectHideFlags: 0
@@ -17847,6 +17909,11 @@ MeshFilter:
 Transform:
   m_CorrespondingSourceObject: {fileID: 37019941820895536, guid: 8de8842a4665e1e4dbc7ba8a3024c2e7, type: 3}
   m_PrefabInstance: {fileID: 1339584920}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1001226347 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5814673285304824606, guid: baba837708a42f444b25e81dc8620531, type: 3}
+  m_PrefabInstance: {fileID: 988658389}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1003395210
 GameObject:
@@ -26430,6 +26497,7 @@ Transform:
   m_Children:
   - {fileID: 1032759085}
   - {fileID: 789896980}
+  - {fileID: 1001226347}
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -33187,6 +33255,7 @@ MonoBehaviour:
   bossSpawner: {fileID: 0}
   enemyWaves: []
   baseBlock: {fileID: 8760186154017859944, guid: 81aa08a49d8097b489b21b82a8689370, type: 3}
+  nextStageBaseBlock: {fileID: 0}
   environmentalParent: {fileID: 793181710}
 --- !u!1 &1767039109
 GameObject:
@@ -37154,6 +37223,7 @@ MonoBehaviour:
   bossSpawner: {fileID: 0}
   enemyWaves: []
   baseBlock: {fileID: 8760186154017859944, guid: 436e6124715859d43a2b9648f53c4efc, type: 3}
+  nextStageBaseBlock: {fileID: 0}
   environmentalParent: {fileID: 1595333452}
 --- !u!4 &1974198878
 Transform:
@@ -37205,6 +37275,7 @@ MonoBehaviour:
   bossSpawner: {fileID: 0}
   enemyWaves: []
   baseBlock: {fileID: 8760186154017859944, guid: ffe7669205cbd354e980498e36b14ec4, type: 3}
+  nextStageBaseBlock: {fileID: 0}
   environmentalParent: {fileID: 1600591090}
 --- !u!4 &1981998481
 Transform:

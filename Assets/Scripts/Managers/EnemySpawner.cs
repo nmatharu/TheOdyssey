@@ -86,6 +86,21 @@ public class EnemySpawner : MonoBehaviour
         GameManager.Instance.RequestNextWave();
     }
 
+    public void LetItRipBossWave( List<Enemy> enemies )
+    {
+        var spawnPoints = WorldGenerator.Instance.BossWaveSpawnPoints( enemies.Count );
+        
+        for( var i = 0; i < enemies.Count; i++ )
+        {
+            var i1 = i;
+            this.Invoke( () =>
+            {
+                var p = Instantiate( spawnPillar, spawnPoints[ i1 ], Quaternion.identity, spawnersParent ).GetComponent<SpawnPillar>();
+                p.Set( enemies[ i1 ].gameObject, 2f, null );
+            }, i * 0.25f );
+        }
+    }
+
     public void OutOfWaves() => _nextWaveX = int.MaxValue;
 
     public Transform EnemiesParent() => enemiesParent;
@@ -105,19 +120,11 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    public void StartBoss( float posX )
+    public void StartBoss()
     {
-        Debug.Log( "Not Boss Started" );
-        // var wave = bossWave.toSpawn;
-        // var spawnPoints = WorldGenerator.Instance.ValidSpawnPointsAround( posX, wave.Count );
-        // for( var i = 0; i < wave.Count; i++ )
-        // {
-        //     var i1 = i;
-        //     this.Invoke( () =>
-        //     {
-        //         var p = Instantiate( spawnPillar, spawnPoints[ i1 ], Quaternion.identity, spawnersParent ).GetComponent<SpawnPillar>();
-        //         p.Set( wave[ i1 ], 2f );
-        //     }, i * 0.25f );
-        // }
+        var o = WorldGenerator.Instance.BossSpawner();
+        var p = WorldGenerator.Instance.BossZoneCenter();
+        
+        this.Invoke( () => Instantiate( o, p, Quaternion.identity, enemiesParent ), 1f );
     }
 }

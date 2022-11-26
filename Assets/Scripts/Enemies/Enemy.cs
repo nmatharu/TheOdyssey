@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     Color[] _originalMatColors;
     EnemyStatusBar _statusBar;
 
-    int _level;
+    int _level = 1;
     float _hp;
 
     void Start()
