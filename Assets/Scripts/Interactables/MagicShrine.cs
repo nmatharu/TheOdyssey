@@ -1,22 +1,25 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MagicShrine : Interactable
 {
+    [ SerializeField ] MagicSpell[] magicPool;
+    
+    [ SerializeField ] TextMeshProUGUI magicTitle;
+    [ SerializeField ] TextMeshProUGUI magicDescription;
+
     MagicSpell _magic;
 
-    void Start()
-    {
-        Init( gameObject.AddComponent<TestMagic>() );
-    }
+    void Start() => Init( magicPool.RandomEntry() );
 
-    public void Init( MagicSpell magic )
+    void Init( MagicSpell magic )
     {
         _magic = magic;
-        
-        // Set interface fields
+        magicTitle.text = magic.magicName;
+        magicDescription.text = magic.magicDescription;
     }
 
     public override void Interact( Player player ) => player.LearnMagic( _magic );

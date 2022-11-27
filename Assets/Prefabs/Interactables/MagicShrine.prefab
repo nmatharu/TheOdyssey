@@ -68,6 +68,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactPrompt: LEARN
   cannotInteractPrompt: 
+  magicPool:
+  - {fileID: 0}
+  magicTitle: {fileID: 9194811398381957585}
+  magicDescription: {fileID: 900685618190947569}
 --- !u!114 &6741281584562122077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5246,7 +5250,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 45, y: 12.5, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 2}
   m_SizeDelta: {x: 6, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3882039771442520854

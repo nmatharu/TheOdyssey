@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
 
     [ SerializeField ] Transform meshParent;
     [ SerializeField ] ParticleSystem deathFx;
+    [ SerializeField ] ParticleSystem magicLearnFx;
     [ SerializeField ] SkinnedMeshRenderer[] costumes;
 
     public float rollDuration = 0.3f;
@@ -393,8 +394,18 @@ public class Player : MonoBehaviour
 
     public void LearnMagic( MagicSpell magicSpell )
     {
+        if( _magic == null )
+        {
+            _level++;
+            _statusBar.SetLevel( _level );
+        }
+
         _magic = magicSpell;
         _statusBar.UpdateMagicIcon( _magic );
+        
+        magicLearnFx.Play();
+        GameManager.Instance.SpawnGenericFloating( transform.position, 
+            $"LEARNED\n{_magic.magicName}", Color.magenta, 8f );
         
         if( !_magicOnCooldown )
             _statusBar.EndMagicCd();

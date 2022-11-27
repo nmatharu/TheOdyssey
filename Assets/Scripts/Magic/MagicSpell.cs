@@ -4,8 +4,8 @@ using UnityEngine;
 
 public abstract class MagicSpell : MonoBehaviour
 {
-    [ SerializeField ] string magicName;
-    [ SerializeField ] string magicDescription;
+    [ SerializeField ] public string magicName;
+    [ SerializeField ] public string magicDescription;
     [ SerializeField ] protected float cooldownSeconds;
 
     public abstract void Cast( Player player );
