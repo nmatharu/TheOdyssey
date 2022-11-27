@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class Player : MonoBehaviour
 {
@@ -122,7 +123,7 @@ public class Player : MonoBehaviour
         UpdateInteractablePrompt();
         
         // TODO remove
-        _playerMoves.SetRunSpeed( Mathf.Sqrt( speed / 8f ) );
+        // _playerMoves.SetRunSpeed( Mathf.Sqrt( speed / 8f ) );
     }
 
     void FixedUpdate()
@@ -358,6 +359,16 @@ public class Player : MonoBehaviour
         return multiplier;
     }
 
+    public float MeleeMultiplier()
+    {
+        return 1f;
+    }
+
+    public float MagicMultiplier()
+    {
+        return 1f;
+    }
+
     public int BleedStacks() => _runes[ "hemorrhage" ];
 
     void UpdateHpRegen( int count )
@@ -432,7 +443,7 @@ public class Player : MonoBehaviour
         }
 
         _magic.Cast( this );
-        StartCoroutine( MagicCooldown( _magic.Cooldown() ) );
+        StartCoroutine( MagicCooldown( _magic.cooldownSeconds ) );
     }
 
     IEnumerator MagicCooldown( float cooldownSeconds )
@@ -464,4 +475,6 @@ public class Player : MonoBehaviour
         if( costumeIndex >= 0 && costumeIndex < costumes.Length )
             costumes[ costumeIndex ].enabled = true;
     }
+
+    public MagicSpell MagicSpell() => _magic;
 }

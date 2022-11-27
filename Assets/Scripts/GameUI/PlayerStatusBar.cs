@@ -115,7 +115,7 @@ public class PlayerStatusBar : MonoBehaviour
     public void UpdateMagicIcon( MagicSpell magic )
     {
         magicCircleParent.SetActive( true );
-        // TODO icon = magic.icon w/e
+        magicIcon.sprite = magic.magicIcon;
     }
 
     public void StartMagicCd( int seconds )

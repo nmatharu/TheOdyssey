@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a333a02bd701493da3c69d6e1556d8dc, type: 3}
+  m_Name: LightFire
+  m_EditorClassIdentifier: 
+  magicName: LIGHTFIRE
+  magicDescription: Fire an orb of light that deals damage as it passes through enemies.
+  magicIcon: {fileID: 21300000, guid: 3143409e3d12443459d82d9d9efa3ddb, type: 3}
+  cooldownSeconds: 2
+  lightBall: {fileID: 5370022414490394703, guid: 940cd0a1820cc7943a55039a1a0f4f95, type: 3}

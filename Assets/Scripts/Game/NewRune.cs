@@ -25,6 +25,7 @@ public class NewRune
         RareSiphon,
         RareCampfireHeal,
         RareCashbackCard,
+        RareLightning,
 
         LegendaryGuardian,
         LegendaryCdOnHit,

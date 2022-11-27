@@ -24,5 +24,5 @@ public class MagicShrine : Interactable
 
     public override void Interact( Player player ) => player.LearnMagic( _magic );
 
-    public override bool InteractionLocked( Player player ) => false;
+    public override bool InteractionLocked( Player player ) => player.MagicSpell() == _magic;
 }

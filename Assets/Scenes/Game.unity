@@ -4502,6 +4502,71 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7093755779829420499, guid: 47f5eefde4bd2254296072ee38211e83, type: 3}
   m_PrefabInstance: {fileID: 778142591}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &284947357
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 292366172461371980, guid: 940cd0a1820cc7943a55039a1a0f4f95, type: 3}
+      propertyPath: m_RootOrder
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 292366172461371980, guid: 940cd0a1820cc7943a55039a1a0f4f95, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 292366172461371980, guid: 940cd0a1820cc7943a55039a1a0f4f95, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292366172461371980, guid: 940cd0a1820cc7943a55039a1a0f4f95, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 292366172461371980, guid: 940cd0a1820cc7943a55039a1a0f4f95, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 292366172461371980, guid: 940cd0a1820cc7943a55039a1a0f4f95, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292366172461371980, guid: 940cd0a1820cc7943a55039a1a0f4f95, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292366172461371980, guid: 940cd0a1820cc7943a55039a1a0f4f95, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292366172461371980, guid: 940cd0a1820cc7943a55039a1a0f4f95, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292366172461371980, guid: 940cd0a1820cc7943a55039a1a0f4f95, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292366172461371980, guid: 940cd0a1820cc7943a55039a1a0f4f95, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4695811184984740222, guid: 940cd0a1820cc7943a55039a1a0f4f95, type: 3}
+      propertyPath: speed
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 5370022414490394703, guid: 940cd0a1820cc7943a55039a1a0f4f95, type: 3}
+      propertyPath: m_Name
+      value: LightFireBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 5370022414490394703, guid: 940cd0a1820cc7943a55039a1a0f4f95, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 940cd0a1820cc7943a55039a1a0f4f95, type: 3}
 --- !u!1 &288409122
 GameObject:
   m_ObjectHideFlags: 0
@@ -12607,6 +12672,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7bcc728f3de0e70448faaa1e1a1c1ba4, type: 3}
   m_PrefabInstance: {fileID: 1962546747}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &740657136
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_RootOrder
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 149706034478069901, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_Name
+      value: MagicShrine
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
 --- !u!1 &741002752
 GameObject:
   m_ObjectHideFlags: 0
@@ -16506,7 +16628,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.size
-      value: 22
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndices.Array.size
@@ -16662,22 +16784,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[17].type
-      value: 17
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[18].type
-      value: 18
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[19].type
-      value: 19
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[20].type
-      value: 20
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[21].type
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[22].type
       value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
@@ -16710,7 +16836,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[16].rarity
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[17].rarity
@@ -16730,6 +16856,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[21].rarity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[22].rarity
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
@@ -16826,7 +16956,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[16].runeName
-      value: GUARDIAN
+      value: LYRE
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[17].runeName
@@ -16834,18 +16964,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[18].runeName
-      value: VAMPIRISM
-      objectReference: {fileID: 0}
-    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
-      propertyPath: runeIndex.Array.data[19].runeName
       value: tba
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[19].runeName
+      value: VAMPIRISM
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[20].runeName
-      value: LOOTING
+      value: tba
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[21].runeName
+      value: LOOTING
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[22].runeName
       value: tba
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
@@ -16914,26 +17048,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[16].description
-      value: Cheat death.
+      value: Chain lightning on enemies.
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[17].description
-      value: Reduce magic cooldown on-hit.
+      value: Orbitting daggers automatically fire at nearby enemies.
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[18].description
-      value: Steal health from enemies on-hit.
+      value: Reduce magic cooldown on-hit.
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[19].description
-      value: Enemies explode when they are killed.
+      value: Steal health from enemies on-hit.
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[20].description
-      value: Gain significantly more gold from enemy kills.
+      value: Enemies explode when they are killed.
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[21].description
+      value: Gain significantly more gold from enemy kills.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[22].description
       value: Orbitting daggers automatically fire at nearby enemies.
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
@@ -16942,6 +17080,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[20].gives0Levels
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[21].gives0Levels
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
@@ -24305,6 +24447,63 @@ Transform:
   m_Father: {fileID: 1213198307}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1252032348
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_RootOrder
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 37019941820895536, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 149706034478069901, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
+      propertyPath: m_Name
+      value: MagicShrine (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f7049dc93a1a14333bf0ef8d2aa87fe3, type: 3}
 --- !u!1 &1253845587
 GameObject:
   m_ObjectHideFlags: 0
