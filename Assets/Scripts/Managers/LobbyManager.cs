@@ -86,7 +86,14 @@ public class LobbyManager : MonoBehaviour
 
     IEnumerator ToGame()
     {
-        Destroy( GlobalInputManager.Instance.gameObject );
+        // Destroy( GlobalInputManager.Instance.gameObject );
+        GlobalInputManager.Instance.ToGame();
+
+        GameManager.GameConfig.difficulty = _difficulty;
+        GameManager.GameConfig.playerCount = _players.Count( p => p != null );
+        GameManager.GameConfig.playerNames = _players.Where( p => p != null ).Select( p => p.PlayerName() ).ToList();
+        GameManager.GameConfig.playerSkins = _players.Where( p => p != null ).Select( p => p.Costume() ).ToList();
+        
         _asyncGameLoad.allowSceneActivation = true;
         yield break;
     }

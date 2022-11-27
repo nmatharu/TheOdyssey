@@ -22,5 +22,8 @@ public class RToRestart : MonoBehaviour
         if( Input.GetKey( KeyCode.LeftShift ) && Input.GetKeyDown( KeyCode.G ))
             foreach( var p in GameManager.Instance.Players() )
                 p.Init( "GERBERT" );
+
+        if( Input.GetKey( KeyCode.RightShift ) && Input.GetKeyDown( KeyCode.M ) )
+            SceneManager.LoadScene( "Menu" );
     }
 }

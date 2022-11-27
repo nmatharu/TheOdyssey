@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,6 +14,8 @@ public class ConsoleToGui : MonoBehaviour
 
     void OnEnable() => Application.logMessageReceived += Log;
     void OnDisable() => Application.logMessageReceived -= Log;
+
+    void Start() => DontDestroyOnLoad( this );
 
     public void Log( string logString, string stackTrace, LogType type )
     {

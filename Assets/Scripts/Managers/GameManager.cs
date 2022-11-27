@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] public int[] initialGoldPerPlayerCount = { 15, 20, 25 };
     [ SerializeField ] public int[] totalChestGoldPerPlayerCount = { 36, 54, 72 };
 
+    public static GameConfig GameConfig = new();
     public static GameManager Instance { get; private set; }
     private bool _fpsLimitOn;
 
@@ -63,17 +65,25 @@ public class GameManager : MonoBehaviour
             // DontDestroyOnLoad( this );
         }
 
-        _damageNumberPool = new DamageNumber[ damageNumberPoolSize ];
-        for( var i = 0; i < damageNumberPoolSize; i++ )
-        {
-            _damageNumberPool[ i ] = Instantiate( damageNumberPrefab, damageNumbersParent ).GetComponent<DamageNumber>();
-            _damageNumberPool[ i ].gameObject.SetActive( false );
-        }
+        Init();
+    }
+
+    void Init()
+    {
+        _difficulty = GameConfig.difficulty;
+        InitDamageNumberPool();
     }
 
     void Start()
     {
         Application.targetFrameRate = -1;
+        
+        for( var i = 0; i < GameConfig.playerCount; i++ )
+        {
+            playersArr[ i ].gameObject.SetActive( true );
+            playersArr[ i ].SetPlayerName( GameConfig.playerNames[ i ] );
+            playersArr[ i ].SetCostume( GameConfig.playerSkins[ i ] );
+        }
 
         InvokeRepeating( nameof( CheckForNextWave ), 1f, 0.25f );
         _levelIncrementRoutine = StartCoroutine( LevelIncrementor() );
@@ -134,6 +144,16 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
+    void InitDamageNumberPool()
+    {
+        _damageNumberPool = new DamageNumber[ damageNumberPoolSize ];
+        for( var i = 0; i < damageNumberPoolSize; i++ )
+        {
+            _damageNumberPool[ i ] = Instantiate( damageNumberPrefab, damageNumbersParent ).GetComponent<DamageNumber>();
+            _damageNumberPool[ i ].gameObject.SetActive( false );
+        }
+    }
+    
     public bool AllEnemiesDead() => 
         FindObjectsOfType<Enemy>().Length == 0 && FindObjectsOfType<SpawnPillar>().Length == 0;
 

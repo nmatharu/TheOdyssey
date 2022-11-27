@@ -108,4 +108,5 @@ public class LobbyPlayer : MonoBehaviour
     }
 
     public void WobbleCanvas( Vector2 readValue ) => _canvas.Wobble( readValue );
+    public int Costume() => _costumeIndex;
 }

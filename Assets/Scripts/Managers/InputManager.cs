@@ -12,6 +12,9 @@ public class InputManager : MonoBehaviour
 
     void Awake()
     {
+        if( FindObjectOfType<GlobalInputManager>())
+            Destroy( gameObject );
+        
         if( Instance != null && Instance != this )
         {
             Destroy( this );
