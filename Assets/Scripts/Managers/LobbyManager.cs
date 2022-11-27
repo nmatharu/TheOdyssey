@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviour
 {
@@ -16,11 +19,18 @@ public class LobbyManager : MonoBehaviour
     [ SerializeField ] CanvasGroup[] difficultyCanvases;
     [ SerializeField ] float difficultyCanvasAlpha = 0.3f;
 
+    [ SerializeField ] GameObject gameStartingBanner;
+    [ SerializeField ] TextMeshProUGUI gameStartingText;
+    [ SerializeField ] Image fadeToBlack;
+
     // 0: Casual, 1: Normal, 2: Brutal, 3: Unreal (locked by default)
     int _difficulty = 1;
 
     List<GlobalPlayerInput> _inputs;
     LobbyPlayer[] _players;
+
+    Coroutine _gameStartCountdown;
+    AsyncOperation _asyncGameLoad;
 
     public static LobbyManager Instance { get; private set; }
     
@@ -36,15 +46,49 @@ public class LobbyManager : MonoBehaviour
         HighlightDifficulty( _difficulty );
 
         Application.targetFrameRate = 240;
+        StartCoroutine( LoadGame() );
     }
 
     void Update()
     {
-        if( Input.GetKeyDown( KeyCode.G ) )
+        if( _players.Any( p => p != null ) && _players.All( p => p == null || p.ready ) )
         {
-            Destroy( GlobalInputManager.Instance.gameObject );
-            SceneManager.LoadScene( "Game" );
+            _gameStartCountdown ??= StartCoroutine( GameStartCountdown() );
         }
+        else
+        {
+            if( _gameStartCountdown != null )
+                StopCoroutine( _gameStartCountdown );
+            gameStartingBanner.SetActive( false );
+            _gameStartCountdown = null;
+        }
+    }
+
+    IEnumerator GameStartCountdown()
+    {
+        gameStartingBanner.SetActive( true );
+        var wait = new WaitForSeconds( 1f );
+        for( var i = 0; i < 3; i++ )
+        {
+            gameStartingText.text = $"GAME STARTING IN { 3 - i }";
+            yield return wait;
+        }
+
+        StartCoroutine( ToGame() );
+    }
+
+    IEnumerator LoadGame()
+    {
+        _asyncGameLoad = SceneManager.LoadSceneAsync( "Game" );
+        _asyncGameLoad.allowSceneActivation = false;
+        yield break;
+    }
+
+    IEnumerator ToGame()
+    {
+        Destroy( GlobalInputManager.Instance.gameObject );
+        _asyncGameLoad.allowSceneActivation = true;
+        yield break;
     }
 
     public int RequestBinding( GlobalPlayerInput input, string deviceName )

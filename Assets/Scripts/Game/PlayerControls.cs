@@ -70,7 +70,8 @@ public class PlayerControls : MonoBehaviour
     public void LModifier( InputAction.CallbackContext context )
     {
         if( Paused() || _player == null || _player.inputDisabled ) return;
-        _player.SetLModifier( context.ReadValue<float>() > 0.9f );
+        if( context.action.triggered )
+            _player.CastMagic();
     }
     
     bool Paused() => GameManager.Instance.Paused();

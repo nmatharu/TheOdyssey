@@ -2,14 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LobbyPlayerCanvas : MonoBehaviour
 {
+    [ SerializeField ] Image backdrop;
+    
     [ SerializeField ] GameObject promptText;
     [ SerializeField ] GameObject descCanvas;
 
     [ SerializeField ] GameObject descOverview;
     [ SerializeField ] GameObject descTypeName;
+    [ SerializeField ] GameObject descReady;
+
+    [ SerializeField ] Color defColor;
+    [ SerializeField ] Color readyColor;
     
     [ SerializeField ] TextMeshProUGUI playerName;
     [ SerializeField ] TextMeshProUGUI controllerName;
@@ -23,6 +30,8 @@ public class LobbyPlayerCanvas : MonoBehaviour
     [ SerializeField ] Transform typeCharParent;
 
     LobbyTypeChar[ , ] _keyboard;
+
+    [ SerializeField ] float wobbleAmount = 50f;
     
     void Start()
     {
@@ -63,20 +72,20 @@ public class LobbyPlayerCanvas : MonoBehaviour
             o.GetComponent<RectTransform>().SetParent( typeCharParent, false );
             o.GetComponent<LobbyTypeChar>().InitSpecial( x - typeCharRowLength + 3 );
         }
-
-        Debug.Log( _keyboard.GetLength( 0 ) + ", " + _keyboard.GetLength( 1 ) );
     }
 
     public void Reset()
     {
         promptText.SetActive( true );
         descCanvas.SetActive( false );
+        descReady.SetActive( false );
     }
 
     public void ToNameEntry()
     {
         descOverview.SetActive( false );
         descTypeName.SetActive( true );
+        descReady.SetActive( false );
     }
 
     public void MenuNav( Vector2Int nav )
@@ -89,6 +98,28 @@ public class LobbyPlayerCanvas : MonoBehaviour
     {
         descOverview.SetActive( true );
         descTypeName.SetActive( false );
+        descReady.SetActive( false );
         return true;
     }
+
+    public void SetReady( bool ready )
+    {
+        if( !ready )
+        {
+            FinishEditName();
+            StopWobble();
+            backdrop.color = defColor;
+            return;
+        }
+        
+        descReady.SetActive( true );
+        descOverview.SetActive( false );
+        descTypeName.SetActive( false );
+        backdrop.color = readyColor;
+    }
+
+    void StopWobble() => transform.rotation = Quaternion.identity;
+
+    public void Wobble( Vector2 readValue ) =>
+        transform.rotation = Quaternion.Euler( readValue.y * wobbleAmount, 0, readValue.x * wobbleAmount );
 }

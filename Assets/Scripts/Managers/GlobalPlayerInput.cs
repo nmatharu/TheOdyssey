@@ -61,24 +61,26 @@ public class GlobalPlayerInput : MonoBehaviour
     {
         if( _lobbyPlayer == null )  return;
         _lobbyPlayer.InputMovement( context.ReadValue<Vector2>() );
+        if( _lobbyPlayer.ready )
+            _lobbyPlayer.WobbleCanvas( context.ReadValue<Vector2>() );
     }
 
     public void LobbyChangeChar( InputAction.CallbackContext context )
     {
-        if( _lobbyPlayer == null || !context.action.triggered )  return;
+        if( _lobbyPlayer == null || !context.action.triggered || _lobbyPlayer.ready )  return;
         _lobbyPlayer.ChangeCharacter( context.ReadValue<float>() > 0 );
     }
 
     public void LobbyEditName( InputAction.CallbackContext context )
     {
-        if( _lobbyPlayer == null || !context.action.triggered )  return;
+        if( _lobbyPlayer == null || !context.action.triggered || _lobbyPlayer.ready )  return;
         _lobbyPlayer.EditName();
         _playerInput.SwitchCurrentActionMap( "LobbyType" );
     }
 
     public void LobbyChangeDifficulty( InputAction.CallbackContext context )
     {
-        if( _lobbyPlayer == null || !context.action.triggered || _playerId != 0 )  return;
+        if( _lobbyPlayer == null || !context.action.triggered || _playerId != 0 || _lobbyPlayer.ready )  return;
         LobbyManager.Instance.CycleDifficulty();
     }
 
@@ -91,8 +93,18 @@ public class GlobalPlayerInput : MonoBehaviour
     public void LobbyBackToMenu( InputAction.CallbackContext context )
     {
         if( _lobbyPlayer == null || !context.action.triggered || context.canceled || _playerId == -1 )  return;
-        LobbyManager.Instance.RemovePlayer( this, _playerId );
-        _playerId = -1;
+
+        if( _lobbyPlayer.ready )
+        {
+            _lobbyPlayer.ConfirmBtn();
+        }
+        else
+        {
+            LobbyManager.Instance.RemovePlayer( this, _playerId );
+            _playerId = -1;
+        }
+
+        
         // LobbyManager.Instance.BackToMenu();
     }
 

@@ -152,13 +152,6 @@ public class Player : MonoBehaviour
 
     public void Roll() => _playerMoves.Roll();
 
-    public void SetLModifier( bool b )
-    {
-        if( b )
-            CastMagic();
-        // _material.color = b ? Color.blue : Color.white;
-    }
-
     public void IncomingDamage( float unscaledDmg, int enemyLevel )
     {
         if( rolling ) return;

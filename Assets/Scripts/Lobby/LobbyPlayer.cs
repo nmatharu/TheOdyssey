@@ -13,6 +13,8 @@ public class LobbyPlayer : MonoBehaviour
     Rigidbody _body;
     Animator _animator;
 
+    public bool ready = false;
+
     // For sequences like the intro run-in and outro run-out where we don't want the player to control
     public bool inputDisabled = false;
 
@@ -67,13 +69,15 @@ public class LobbyPlayer : MonoBehaviour
     }
 
     public void EditName() => _canvas.ToNameEntry();
+
     public bool FinishEditName() => _canvas.FinishEditName();
 
     public void MenuNav( Vector2 nav ) => _canvas.MenuNav( Vector2Int.RoundToInt( nav ) );
 
     public void ConfirmBtn()
     {
-        Debug.Log( "Confirm btn" );
+        ready = !ready;
+        _canvas.SetReady( ready );
     }
 
     public void InputMovement( Vector2 v ) => _moveInput = v;
@@ -102,4 +106,6 @@ public class LobbyPlayer : MonoBehaviour
         
         // if secret code == whatever, set a custom costume
     }
+
+    public void WobbleCanvas( Vector2 readValue ) => _canvas.Wobble( readValue );
 }

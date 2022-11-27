@@ -9580,7 +9580,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1943678445050425817, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
       propertyPath: speed
-      value: 26
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4469352636808420908, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
       propertyPath: m_IsActive
@@ -36018,7 +36018,7 @@ MonoBehaviour:
   - 40
   - 25
   initialGoldPerPlayerCount: 0f0000001400000019000000
-  totalChestGoldPerPlayerCount: 240000003600000048000000
+  totalChestGoldPerPlayerCount: 180000002400000030000000
   _difficulty: 1
 --- !u!4 &1900502002
 Transform:

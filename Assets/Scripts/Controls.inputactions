@@ -621,6 +621,39 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "",
+                    "id": "d41603ca-7cb3-450a-821f-fc559b0062b8",
+                    "path": "<DualShockGamepad>/touchpadButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "007b98f1-ef95-4d6c-a224-26edb42cb5d8",
+                    "path": "<SwitchProControllerHID>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f82a5490-f1c8-4dfc-bca7-8d08c1c62ff2",
+                    "path": "<SwitchProControllerHID>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "2D Vector",
                     "id": "8e5bd9ba-442c-4a92-9664-bd10314d97b5",
                     "path": "2DVector",
@@ -1002,19 +1035,19 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "RMagic",
+                    "name": "LBag",
                     "type": "PassThrough",
-                    "id": "28f6ed3d-1501-4063-a709-ba278c3e6e50",
+                    "id": "3cfcc5b3-15f3-4e88-9f81-7a70dd1c5880",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 },
                 {
-                    "name": "LBag",
-                    "type": "PassThrough",
-                    "id": "3cfcc5b3-15f3-4e88-9f81-7a70dd1c5880",
-                    "expectedControlType": "",
+                    "name": "RMagic",
+                    "type": "Button",
+                    "id": "28f6ed3d-1501-4063-a709-ba278c3e6e50",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -1153,39 +1186,6 @@
                 },
                 {
                     "name": "",
-                    "id": "f59304d8-c514-4563-801f-61c4eb042969",
-                    "path": "<Keyboard>/tab",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "LBag",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "fe099cba-3068-421c-b75c-aa82910460b1",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Controller",
-                    "action": "LBag",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "aa8b253a-01e1-470b-81b6-ba7f15eca56e",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Controller",
-                    "action": "LBag",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c8979c16-45c7-4fd7-9e34-ccffedd20e72",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
@@ -1291,6 +1291,72 @@
                     "processors": "",
                     "groups": "Controller",
                     "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0c90d5ea-fa48-4fe4-be8c-d9a06de3678e",
+                    "path": "<DualShockGamepad>/touchpadButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Start",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "caac671e-56d7-4d84-8e08-a6714793f583",
+                    "path": "<SwitchProControllerHID>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Start",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0f71c87c-6995-46f3-a04c-a0bfabcf310b",
+                    "path": "<SwitchProControllerHID>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Start",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f59304d8-c514-4563-801f-61c4eb042969",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "LBag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fe099cba-3068-421c-b75c-aa82910460b1",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "LBag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aa8b253a-01e1-470b-81b6-ba7f15eca56e",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "LBag",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
