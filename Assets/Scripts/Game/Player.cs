@@ -100,6 +100,9 @@ public class Player : MonoBehaviour
         _hpRegenPerMin = GameManager.Instance.BaseHpRegenPerMin();
         StartCoroutine( RegenerateHealth() );
 
+        _currency = GameManager.Instance.GetInitGold();
+        _statusBar.UpdateBag( _currency, _crystals );
+        
         var x = GetComponentsInChildren<Renderer>();
     }
 
@@ -113,6 +116,9 @@ public class Player : MonoBehaviour
     {
         FindClosestInteractable();
         UpdateInteractablePrompt();
+        
+        // TODO remove
+        _playerMoves.SetRunSpeed( Mathf.Sqrt( speed / 8f ) );
     }
 
     void FixedUpdate()
@@ -201,7 +207,7 @@ public class Player : MonoBehaviour
 
         Interactable closest = null;
         var closestDSqr = Mathf.Infinity;
-        foreach( var interactable in _interactables.Where( interactable => interactable != null ) )
+        foreach( var interactable in _interactables.Where( interactable => interactable != null && !interactable.Disabled() ) )
         {
             if( closest == null )
             {
@@ -276,11 +282,12 @@ public class Player : MonoBehaviour
             r.enabled = !hide;
     }
 
-    public void AwardCurrency( int spawnCost )
+    public void AwardCurrency( int spawnCost, bool showAnimation = true )
     {
         _currency += spawnCost;
         _statusBar.UpdateBag( _currency, _crystals );
-        GameManager.Instance.SpawnGenericFloating( transform.position, $"+{spawnCost}", Color.yellow, 8f );
+        if( showAnimation )
+            GameManager.Instance.SpawnGenericFloating( transform.position, $"+{spawnCost}", Color.yellow, 8f );
     }
 
     IEnumerator RegenerateHealth()

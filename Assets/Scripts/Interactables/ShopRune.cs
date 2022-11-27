@@ -20,7 +20,7 @@ public class ShopRune : Interactable
     void Start()
     {
         // _rune = RuneIndex.Instance.RandomShopRune();
-        _cost = (int) ( GameManager.Instance.RandomRunePrice( _rune.Tier() ) * GameManager.Instance.EnemyWaveBudgetMultiplier() );
+        _cost = (int) ( GameManager.Instance.RandomRunePrice( _rune.Tier() ) );
 
         foreach( var i in icons )
             i.sprite = _rune.Icon();
@@ -31,7 +31,7 @@ public class ShopRune : Interactable
         
         costText.text = _cost.ToString();
         interactPrompt = "PURCHASE";
-        cannotInteractPrompt = "TOO MUCH";
+        cannotInteractPrompt = "NEED MORE";
     }
 
     public override void Interact( Player player ) => player.BuyRune( _rune, _cost );

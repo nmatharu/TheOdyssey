@@ -21,7 +21,7 @@ public class WorldSpaceOverlayUI : MonoBehaviour
     static readonly int UnityGuizTestMode = Shader.PropertyToID( ShaderTestMode );
 
     // Invoke with delay to give a moment for the health bar notches to populate
-    protected virtual void Start() => Invoke( nameof( MakeGraphicsOverlay ), 1f );
+    protected virtual void Start() => Invoke( nameof( MakeGraphicsOverlay ), 0.1f );
 
     private void MakeGraphicsOverlay()
     {

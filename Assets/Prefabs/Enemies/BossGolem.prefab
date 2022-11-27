@@ -188,21 +188,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossWaves:
   - HealthPct: 1
-    SpawnBudget: 4
-    EnemyBucket:
-    - {fileID: 428212638778311382, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
-  - HealthPct: 0.75
-    SpawnBudget: 4
+    SpawnBudget: 3
     EnemyBucket:
     - {fileID: 428212638778311382, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
     - {fileID: 428212638778311382, guid: d79882ec50ec18d418e97e792cea9d43, type: 3}
-  - HealthPct: 0.5
+  - HealthPct: 0.66
     SpawnBudget: 5
     EnemyBucket:
     - {fileID: 428212638778311382, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
     - {fileID: 428212638778311382, guid: d79882ec50ec18d418e97e792cea9d43, type: 3}
-  - HealthPct: 0.25
-    SpawnBudget: 6
+  - HealthPct: 0.33
+    SpawnBudget: 7
     EnemyBucket:
     - {fileID: 428212638778311382, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
     - {fileID: 428212638778311382, guid: d79882ec50ec18d418e97e792cea9d43, type: 3}
@@ -219,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b0d29ef027971146902f8e3924521fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 120
+  maxHp: 250
   spawnCost: 0
   renderers:
   - {fileID: 85228741658665345}

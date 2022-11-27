@@ -97,7 +97,7 @@ public class EnemySpawner : MonoBehaviour
             {
                 var p = Instantiate( spawnPillar, spawnPoints[ i1 ], Quaternion.identity, spawnersParent ).GetComponent<SpawnPillar>();
                 p.Set( enemies[ i1 ].gameObject, 2f, null );
-            }, i * 0.25f );
+            }, i * 1f );
         }
     }
 
@@ -124,6 +124,10 @@ public class EnemySpawner : MonoBehaviour
     {
         var o = WorldGenerator.Instance.BossSpawner();
         var p = WorldGenerator.Instance.BossZoneCenter();
+        
+        var e = o.GetComponent<Enemy>();
+        if( e != null )
+            e.Init( GameManager.Instance.EnemyLevel() );
         
         this.Invoke( () => Instantiate( o, p, Quaternion.identity, enemiesParent ), 1f );
     }

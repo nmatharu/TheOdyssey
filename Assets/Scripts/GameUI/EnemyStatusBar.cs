@@ -26,9 +26,13 @@ public class EnemyStatusBar : MonoBehaviour
     float _hpPct;
     float _hpFollowPct;
 
+    WorldSpaceOverlayUI _overlay;
+
     void Start()
     {
         _enemy = GetComponentInParent<Enemy>();
+        _overlay = GetComponent<WorldSpaceOverlayUI>();
+        
         _maxHp = _enemy.MaxHp();
         _hpPct = _enemy.HpPct();
         _hpFollowPct = _hpPct;
@@ -64,6 +68,8 @@ public class EnemyStatusBar : MonoBehaviour
             image.rectTransform.anchoredPosition = 
                 new Vector3( hp / _maxHp * _maxHpBarWidth, 0, 0 );
         }
+        
+        _overlay.ReRun();
     }
 
     public void SetLevel( int lvl ) => enemyLevel.text = lvl.ToString();

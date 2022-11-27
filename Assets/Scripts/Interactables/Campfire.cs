@@ -16,6 +16,7 @@ public class Campfire : Interactable
             firePfx.Play();
             healingRing.SetActive( true );
             _lit = true;
+            _disabled = true;
         }
     }
 

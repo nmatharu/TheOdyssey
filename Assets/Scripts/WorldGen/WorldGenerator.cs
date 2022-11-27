@@ -334,13 +334,15 @@ public class WorldGenerator : MonoBehaviour
         w.GetComponent<WaterfallPfx>().SetWidth( width );
     }
 
-    void GenerateNpc( int xStart )
+    void GenerateNpc( int xStart, bool bigShop = false )
     {
-        Instantiate( Gen( WorldGenIndex.NPCs.NPCTest ), 
-            CoordsToWorldPos( xStart + 2, WorldSizeY() - 2 ), Quaternion.identity, objsParent );
-        for( var x = xStart; x < xStart + 5; x++ )
+        var xEnd = xStart + ( bigShop ? 7 : 5 );
+        
+        Instantiate( bigShop ? Gen( WorldGenIndex.NPCs.BigNPC ) : Gen( WorldGenIndex.NPCs.NPC ), 
+            CoordsToWorldPos( xStart + ( bigShop ? 3 : 2 ), WorldSizeY() - 2 ), Quaternion.identity, objsParent );
+        for( var x = xStart; x < xEnd; x++ )
         {
-            for( var y = WorldSizeY() - 1; y >= WorldSizeY() - 6; y-- )
+            for( var y = WorldSizeY() - 1; y >= WorldSizeY() - ( bigShop ? 9 : 6 ); y-- )
             {
                 if( y >= WorldSizeY() - 3 )
                     _tileMap[ x, y ].HasSurfaceObject = true;
@@ -388,10 +390,10 @@ public class WorldGenerator : MonoBehaviour
         }
     }
     
-    public void GenerateShopsAndMagic( IEnumerable<int> shopXs, int magicX )
+    public void GenerateShopsAndMagic( int[] shopXs, int magicX )
     {
         foreach( var x in shopXs )
-            GenerateNpc( x );
+            GenerateNpc( x, x == shopXs[ ^1 ] );
         GenerateMagic( magicX );
     }
 
@@ -617,6 +619,8 @@ public class WorldGenerator : MonoBehaviour
             }
         }
     }
+
+    public bool SafeValidPoint( int x, int y ) => _tileMap.WithinArrayBounds( x, y ) && !_tileMap[ x, y ].OffLimits;
 
     void OnDrawGizmos()
     {

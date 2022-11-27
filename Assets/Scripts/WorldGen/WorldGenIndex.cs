@@ -34,6 +34,7 @@
 
     public enum NPCs
     {
-        NPCTest
+        NPC,
+        BigNPC
     }
 }

@@ -5460,10 +5460,11 @@ MonoBehaviour:
   - {x: 15, y: 30}
   - {x: 20, y: 40}
   waterfallWidthPerBiome:
-  - {x: 2, y: 7}
+  - {x: 3, y: 7}
   - {x: 2, y: 3}
   - {x: 4, y: 12}
   treesPerBiome: 0f000000190000000f000000
+  rocksPerBiome: 05000000000000000f000000
 --- !u!1 &317479174
 GameObject:
   m_ObjectHideFlags: 0
@@ -9577,6 +9578,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 56212838}
     m_Modifications:
+    - target: {fileID: 1943678445050425817, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
+      propertyPath: speed
+      value: 26
+      objectReference: {fileID: 0}
     - target: {fileID: 4469352636808420908, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -16764,6 +16769,26 @@ PrefabInstance:
       value: FOCUS
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[3].runeName
+      value: VITALITY
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[4].runeName
+      value: PERSEVERANCE
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[5].runeName
+      value: HARMONY
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[6].runeName
+      value: ALACRITY
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[7].runeName
+      value: AGILITY
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[8].runeName
       value: GOD-SLAYER
       objectReference: {fileID: 0}
@@ -16773,7 +16798,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[10].runeName
-      value: COLOSSUS
+      value: PRECISION
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[11].runeName
@@ -16800,12 +16825,24 @@ PrefabInstance:
       value: GUARDIAN
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[17].runeName
+      value: tba
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[18].runeName
       value: VAMPIRISM
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[19].runeName
+      value: tba
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[20].runeName
       value: LOOTING
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[21].runeName
+      value: tba
       objectReference: {fileID: 0}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[0].description
@@ -33550,10 +33587,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8490ac7a562c41f7b7f7b90854720cdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seenEnemies: []
+  seenEnemies:
+  - {fileID: 436286037931020361, guid: 9b409564e389f274b8df4701736abddf, type: 3}
   newEnemies: []
   bossSpawner: {fileID: 0}
-  enemyWaves: []
+  enemyWaves:
+  - {x: 0.01, y: 4}
   baseBlock: {fileID: 8760186154017859944, guid: 81aa08a49d8097b489b21b82a8689370, type: 3}
   nextStageBaseBlock: {fileID: 0}
   environmentalParent: {fileID: 793181710}
@@ -35978,6 +36017,8 @@ MonoBehaviour:
   - 60
   - 40
   - 25
+  initialGoldPerPlayerCount: 0f0000001400000019000000
+  totalChestGoldPerPlayerCount: 240000003600000048000000
   _difficulty: 1
 --- !u!4 &1900502002
 Transform:
@@ -40022,6 +40063,7 @@ MonoBehaviour:
   - {fileID: 2273298902442776807, guid: 9be26d54e6cb14e129f5a6e2ef0b76d1, type: 3}
   genNpcs:
   - {fileID: 3153920260594947028, guid: 702457f91f25cad46b84a1a82b235923, type: 3}
+  - {fileID: 3153920260594947028, guid: 1c112c09cf163ee43bca69905eb33352, type: 3}
   _currentLevel: {fileID: 317313853}
 --- !u!4 &2113210664
 Transform:

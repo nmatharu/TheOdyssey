@@ -33,7 +33,7 @@ public class BossGolemDropIn : MonoBehaviour
         _enemy = GetComponent<Enemy>();
         _golem = GetComponent<Golem>();
         _golem.enabled = false;
-        
+
         this.Invoke( () => smashIndicator.FadeIn(), 0.1f );
         
         _dropSpeed = initVelocity;
@@ -71,6 +71,11 @@ public class BossGolemDropIn : MonoBehaviour
             }, smashDelay );
             
             _golem.enabled = true;
+
+            var spd = _golem.speed;
+            _golem.speed = 0;
+            this.Invoke( () => _golem.speed = spd, 0.5f );
+
         }
     }
 }

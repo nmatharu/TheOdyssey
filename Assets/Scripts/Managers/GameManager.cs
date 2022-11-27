@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] public float[] baseHpRegenPerMinPerDifficulty = { 30f, 10f, 0f, 0f };
     [ SerializeField ] public float[] enemyDmgMultiplierPerDifficulty = { 0.5f, 1f, 1.5f, 1.5f };
     [ SerializeField ] public float[] levelIncrementTimeDifficultySeconds = { 90f, 60f, 40f, 25f };
+    [ SerializeField ] public int[] initialGoldPerPlayerCount = { 15, 20, 25 };
+    [ SerializeField ] public int[] totalChestGoldPerPlayerCount = { 36, 54, 72 };
 
     public static GameManager Instance { get; private set; }
     private bool _fpsLimitOn;
@@ -225,6 +227,8 @@ public class GameManager : MonoBehaviour
     public float EnemyWaveBudgetMultiplier() => enemyBudgetPlayerCountScaling[ NumPlayersInParty() - 1 ];
     public float BaseHpRegenPerMin() => baseHpRegenPerMinPerDifficulty[ _difficulty ];
 
+    public int GetInitGold() => initialGoldPerPlayerCount[ NumPlayersInParty() - 1 ]; 
+
     public void PauseGame( int playerId )
     {
         switch( _paused )
@@ -255,13 +259,29 @@ public class GameManager : MonoBehaviour
 
     public int RandomRunePrice( Rune.RuneTier tier )
     {
-        return tier switch
+        var basePrice = tier switch
         {
-            Rune.RuneTier.Common => Random.Range( 6, 10 ),
-            Rune.RuneTier.Rare => Random.Range( 12, 18 ),
-            Rune.RuneTier.Legendary => Random.Range( 25, 33 ),
+            Rune.RuneTier.Common => Random.Range( 10, 16 + 1 ),
+            Rune.RuneTier.Rare => Random.Range( 22, 28 + 1 ),
+            Rune.RuneTier.Legendary => Random.Range( 46, 52 + 1 ),
             Rune.RuneTier.Primordial => Random.Range( 77, 99 ),
             _ => throw new ArgumentOutOfRangeException( nameof( tier ), tier, null )
         };
+
+        return (int) ( basePrice * EnemyWaveBudgetMultiplier() );
     }
+
+    public int ChestGoldAmount()
+    {
+        var expectedChestGold = (float) totalChestGoldPerPlayerCount[ NumPlayersInParty() - 1 ] / Level.ChestsPerPlayerPerStage;
+        return Random.value switch
+        {
+            < 0.8f => (int) Random.Range( expectedChestGold * 0.8f, expectedChestGold * 1.2f ),
+            < 0.96f => (int) Random.Range( expectedChestGold * 1.6f, expectedChestGold * 2.4f ),
+            _ => (int) Random.Range( expectedChestGold * 3.2f, expectedChestGold * 4.8f )
+        };
+    }
+
+    public float PctOfExpectedChestGold( int gold ) => 
+        gold / ( (float) totalChestGoldPerPlayerCount[ NumPlayersInParty() - 1 ] / Level.ChestsPerPlayerPerStage );
 }

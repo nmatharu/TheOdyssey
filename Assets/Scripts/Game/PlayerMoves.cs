@@ -48,6 +48,8 @@ public class PlayerMoves : MonoBehaviour
     static readonly int ASlash = Animator.StringToHash( "Armature|7_Heavy_A_Default" );
     static readonly int ARoll = Animator.StringToHash( "Armature|6_Roll" );
 
+    static readonly int ARunningSpeed = Animator.StringToHash( "RunningSpeed" );
+
     int _physicsLayerPlayer;
     int _physicsLayerPlayerDashing;
 
@@ -61,6 +63,11 @@ public class PlayerMoves : MonoBehaviour
         
         _physicsLayerPlayer = LayerMask.NameToLayer( "PlayerRb" );
         _physicsLayerPlayerDashing = LayerMask.NameToLayer( "PlayerRbDashing" );
+    }
+
+    public void SetRunSpeed( float spdMultiplier )
+    {
+        _player.Mator().SetFloat( ARunningSpeed, spdMultiplier );
     }
 
     public void LightAttack()

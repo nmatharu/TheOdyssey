@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 37019941820895536}
   - component: {fileID: 7319272712476354880}
   - component: {fileID: 6741281584562122077}
-  - component: {fileID: 3746196609782661959}
+  - component: {fileID: 2372894369757845845}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -68,7 +68,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 3380891904237677039}
   furthestShowDistance: 4
   closestShowDistance: 2.5
---- !u!114 &3746196609782661959
+--- !u!114 &2372894369757845845
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 149706034478069901}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a868bd4cbdf7074eaf14cc3c08cd4de, type: 3}
+  m_Script: {fileID: 11500000, guid: d96e726ce1ef41fd980c26d241549f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   interactPrompt: OPEN

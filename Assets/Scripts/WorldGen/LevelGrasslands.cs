@@ -7,6 +7,7 @@ public class LevelGrasslands : Level
     [ SerializeField ] Vector2[] waterfallSpacingPerBiome = { new( 15, 30 ), new( 5, 12 ), new( 15, 30 ) };
     [ SerializeField ] Vector2[] waterfallWidthPerBiome = { new( 2, 7 ), new( 2, 4 ), new( 4, 9 ) };
     [ SerializeField ] int[] treesPerBiome = { 25, 100, 15 };
+    [ SerializeField ] int[] rocksPerBiome = { 5, 0, 15 };
 
     List<Vector2Int> _treePoints = new();
 
@@ -18,8 +19,8 @@ public class LevelGrasslands : Level
         generator.GenerateShopsAndMagic( DefaultShopPlacements, DefaultMagicPlacement );
 
         // generator.GrasslandsPub();
-        GenerateWaterfall( generator, 0, 10 );
-
+        Waterfalls( generator, BiomeAStart, (int) ( BiomeCStart + CoreLength / 3f ) );
+        
         // Biome A - Med waterfalls, med trees
         GenerateBiome( generator, 0, BiomeAStart, (int) ( BiomeAStart + CoreLength / 3f ) );
 
@@ -28,25 +29,30 @@ public class LevelGrasslands : Level
 
         // Biome C - Lots waterfalls, few trees
         GenerateBiome( generator, 2, BiomeCStart, (int) ( BiomeCStart + CoreLength / 3f ) );
-
+        
         generator.GenerateBossZone( DefaultWorldSizeX - BossZoneOffset );
         TransitionBlocks( generator );
         
+        GenerateChests( generator, _treePoints, ChestsPerPlayerPerStage * generator.NumPlayers() );
+
         generator.DuplicateTopRow( DefaultWorldSizeX, DefaultWorldSizeY );
 
         // generator.ShowOffLimits();
     }
 
-    void GenerateBiome( WorldGenerator generator, int biome, int biomeStart, int biomeEnd )
+    void Waterfalls( WorldGenerator generator, int xStart, int xEnd )
     {
-        // TODO Generate ALL Waterfalls first, not each biome at a time-- biome edges = problems
-        
-        for( var x = biomeStart; x < biomeEnd; x += RandomV2Range( waterfallSpacingPerBiome[ biome ] ) )
+        GenerateWaterfall( generator, 0, 10 );
+        for( var x = xStart; x < xEnd; x += RandomV2Range( waterfallSpacingPerBiome[ 0 ] ) )
         {
-            var w = RandomV2Range( waterfallWidthPerBiome[ biome ] );
-            if( x + w < biomeEnd - 2 && generator.RectIsClear( x, w ) )
+            var w = RandomV2Range( waterfallWidthPerBiome[ 0 ] );
+            if( x + w < xEnd - 2 && generator.RectIsClear( x, w ) )
                 GenerateWaterfall( generator, x, w );
         }
+    }
+
+    void GenerateBiome( WorldGenerator generator, int biome, int biomeStart, int biomeEnd )
+    {
 
         var points = generator.GetSpacedOutPoints( biomeStart, 1, 
             biomeEnd - biomeStart - 2, DefaultWorldSizeY - 2, 4, 4 );
@@ -90,13 +96,13 @@ public class LevelGrasslands : Level
         }
         
         rockPoints.Shuffle();
-        for( var i = 0; i < 5; i++ )
+        for( var i = 0; i < rocksPerBiome[ biome ]; i++ )
         {
             Instantiate( generator.Gen( WorldGenIndex.Objs.Rock ), 
                 WorldGenerator.CoordsToWorldPos( rockPoints[ i ] ), 
                 JBB.RandomYRot(), generator.objsParent );
 
-            generator.Map( points[ i ] ).OffLimits = true;
+            generator.Map( rockPoints[ i ] ).OffLimits = true;
         }
     }
 

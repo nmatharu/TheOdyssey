@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 public class Golem : MonoBehaviour
 {
-    [ SerializeField ] float speed = 3f;
+    [ SerializeField ] public float speed = 3f;
 
     const float FrameTime = 1 / 60f;
 

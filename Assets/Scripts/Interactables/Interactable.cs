@@ -7,6 +7,7 @@ public abstract class Interactable : MonoBehaviour
 {
     [ SerializeField ] protected string interactPrompt;
     [ SerializeField ] protected string cannotInteractPrompt;
+    protected bool _disabled = false;
 
     void OnTriggerEnter( Collider o )
     {
@@ -24,6 +25,7 @@ public abstract class Interactable : MonoBehaviour
 
     public abstract void Interact( Player player );
     public abstract bool InteractionLocked( Player player );
+    public bool Disabled() => _disabled;
     public string InteractPrompt() => interactPrompt;
     public string CannotInteractPrompt() => cannotInteractPrompt;
     public string Prompt( bool l ) => l ? cannotInteractPrompt : interactPrompt;

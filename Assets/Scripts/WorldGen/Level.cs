@@ -34,6 +34,16 @@ public abstract class Level : MonoBehaviour
     protected const int BlockTransitionEndOffset = 15;
     protected const float BossZoneSize = 18f;
 
+    protected static readonly Vector3Int[] ChestDirs =
+    {
+        new( 0, 1, 0 ),
+        new( 1, 0, 90 ),
+        new( 0, -1, 180 ),
+        new( -1, 0, 270 )
+    };
+
+    public const int ChestsPerPlayerPerStage = 5;
+
     protected int CoreLength;
     protected int BiomeAStart;
     protected int BiomeBStart;
@@ -50,12 +60,12 @@ public abstract class Level : MonoBehaviour
 
         DefaultShopPlacements = new[]
         {
-            (int) ( 2/10f * CoreLength + PlayerStartZone ),
-            (int) ( 5/10f * CoreLength + PlayerStartZone ),
-            (int) ( 7/10f * CoreLength + PlayerStartZone ),
+            (int) ( 2/5f * CoreLength + PlayerStartZone ),
+            (int) ( 3/5f * CoreLength + PlayerStartZone ),
+            (int) ( 4/5f * CoreLength + PlayerStartZone ),
             DefaultWorldSizeX - BossZoneOffset - 6
         };
-        DefaultMagicPlacement = (int) ( PlayerStartZone + 2/5f * CoreLength );
+        DefaultMagicPlacement = (int) ( PlayerStartZone + 1/2f * CoreLength );
     }
 
     void Start()
@@ -104,6 +114,35 @@ public abstract class Level : MonoBehaviour
         return es;
     }
 
+    protected void GenerateChests( WorldGenerator gen, List<Vector2Int> pointsToGlueTo, int chestsToGenerate )
+    {
+        // z value represents the orientation of the chest in degrees
+        var potentialPoints = new HashSet<Vector3Int>();
+        foreach( var p in pointsToGlueTo )
+        {
+            foreach( var dir in ChestDirs )
+            {
+                var x = p.x + dir.x;
+                var y = p.y + dir.y;
+                
+                if( gen.SafeValidPoint( x, y ) && y != 0 && y != DefaultWorldSizeY - 1 && ChestDirs.All( d => 
+                       gen.SafeValidPoint( x + d.x, y + d.y ) || ( p.x == x - dir.x && p.y == y - dir.y ) ) )
+                    potentialPoints.Add( new Vector3Int( x, y, dir.z ) );
+            }
+        }
+
+        var chestPoints = potentialPoints.ToList();
+        chestPoints.Shuffle();
+        for( var i = 0; i < chestsToGenerate && i < chestPoints.Count; i++ )
+        {
+            var p = chestPoints[ i ];
+            Instantiate( gen.Gen( WorldGenIndex.Objs.Chest ), 
+                WorldGenerator.CoordsToWorldPos( p.x, p.y ),
+                Quaternion.Euler( 0, p.z, 0 ), gen.objsParent );
+            gen.MakeOffLimits( p.x, p.y );
+        }
+    }
+    
     protected void TransitionBlocks( WorldGenerator gen )
     {
         var ys = new List<int>();
