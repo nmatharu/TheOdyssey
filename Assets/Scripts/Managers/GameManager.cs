@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] GameObject pauseScreen;
     [ SerializeField ] TextMeshProUGUI pauseScreenText;
     [ SerializeField ] ImageFader fadeToWhite;
+    [ SerializeField ] GameObject[] difficultyLabels;
     
     [ SerializeField ] DynamicCameras cameras;
 
@@ -101,6 +102,10 @@ public class GameManager : MonoBehaviour
             p.SetPlayerName( "PLAYER" );
             p.SetCostume( 0 );
         }
+
+        foreach( var l in difficultyLabels )
+            l.SetActive( false );
+        difficultyLabels[ _difficulty ].SetActive( true );
 
         InvokeRepeating( nameof( CheckForNextWave ), 1f, 0.25f );
         _levelIncrementRoutine = StartCoroutine( LevelIncrementor() );
