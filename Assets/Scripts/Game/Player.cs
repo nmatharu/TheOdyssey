@@ -15,8 +15,11 @@ public class Player : MonoBehaviour
     [ SerializeField ] Vector3 levelStartPosition;
     
     [ SerializeField ] Transform meshParent;
+    
     [ SerializeField ] ParticleSystem deathFx;
     [ SerializeField ] ParticleSystem magicLearnFx;
+    [ SerializeField ] ParticleSystem itemBuyFx;
+    
     [ SerializeField ] GameObject[] costumes;
 
     public float rollDuration = 0.3f;
@@ -317,6 +320,8 @@ public class Player : MonoBehaviour
         _statusBar.UpdateBag( _currency, _crystals );
         GameManager.Instance.SpawnCostNumber( transform.position, cost );
         Debug.Log( $"Bought the {rune.Name()} rune" );
+        
+        itemBuyFx.Play();
         AcquireRune( rune );
     }
 
