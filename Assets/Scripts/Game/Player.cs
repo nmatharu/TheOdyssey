@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     [ SerializeField ] Transform meshParent;
     [ SerializeField ] ParticleSystem deathFx;
     [ SerializeField ] ParticleSystem magicLearnFx;
-    [ SerializeField ] SkinnedMeshRenderer[] costumes;
+    [ SerializeField ] GameObject[] costumes;
 
     public float rollDuration = 0.3f;
     public float rollCooldown = 1f;
@@ -475,13 +475,14 @@ public class Player : MonoBehaviour
     public void ReduceMagicCd( float amount ) => _magicCdCountdown -= amount;
 
     public void SetPlayerName( string playerName ) => _playerName = playerName;
+    public string PlayerName() => _playerName;
 
     public void SetCostume( int costumeIndex )
     {
         foreach( var c in costumes )
-            c.enabled = false;
+            c.SetActive( false );
         if( costumeIndex >= 0 && costumeIndex < costumes.Length )
-            costumes[ costumeIndex ].enabled = true;
+            costumes[ costumeIndex ].SetActive( true );
     }
 
     public MagicSpell MagicSpell() => _magic;

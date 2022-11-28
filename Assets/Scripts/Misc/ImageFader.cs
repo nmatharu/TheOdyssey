@@ -7,6 +7,7 @@ public class ImageFader : MonoBehaviour
 {
     [ SerializeField ] float fadeTimeFrames = 6f;
     [ SerializeField ] bool showByDefault;
+    [ SerializeField ] bool targetAlpha100;
 
     static readonly Color Transparent = new( 0, 0, 0, 0 );
     
@@ -18,6 +19,7 @@ public class ImageFader : MonoBehaviour
     {
         _image = GetComponent<Image>();
         _color = _image.color;
+        _color.a = targetAlpha100 ? 1 : _color.a;
         if( !showByDefault )
         {
             _image.color = Transparent;

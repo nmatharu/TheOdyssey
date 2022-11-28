@@ -17,7 +17,6 @@ public class GlobalPlayerInput : MonoBehaviour
         _deviceName = DeviceName();
 
         var lobby = LobbyManager.Instance;
-        var game = InputManager.Instance;
         
         if( lobby != null )
         {
@@ -80,8 +79,8 @@ public class GlobalPlayerInput : MonoBehaviour
 
     public void LobbyChangeDifficulty( InputAction.CallbackContext context )
     {
-        if( _lobbyPlayer == null || !context.action.triggered || _playerId != 0 || _lobbyPlayer.ready )  return;
-        LobbyManager.Instance.CycleDifficulty();
+        if( _lobbyPlayer == null || !context.action.triggered || _lobbyPlayer.ready )  return;
+        LobbyManager.Instance.CycleDifficulty( _playerId );
     }
 
     public void LobbyConfirmButton( InputAction.CallbackContext context )
@@ -138,5 +137,74 @@ public class GlobalPlayerInput : MonoBehaviour
         var success = _lobbyPlayer.FinishEditName();
         if( success )
             _playerInput.SwitchCurrentActionMap( "Lobby" );
+    }
+    
+    public void GameMove( InputAction.CallbackContext context )
+    {
+        if( Paused() || _gamePlayer == null || _gamePlayer.inputDisabled ) return;
+        _gamePlayer.InputMovement( context.ReadValue<Vector2>() );
+    }
+
+    public void GameInteract( InputAction.CallbackContext context )
+    {
+        if( Paused() || _gamePlayer == null || _gamePlayer.inputDisabled ) return;
+        if( context.action.triggered )
+            _gamePlayer.Interact();
+    }
+
+    public void GameAttack1( InputAction.CallbackContext context )
+    {
+        if( Paused() && _gamePlayer != null && context.action.triggered )
+            GameManager.Instance.AttemptQuitToMenu( _playerId );
+        
+        if( Paused() || _gamePlayer == null || _gamePlayer.inputDisabled ) return;
+        if( context.action.triggered )
+            _gamePlayer.LightAttack();
+    }
+
+    public void GameAttack2( InputAction.CallbackContext context )
+    {
+        if( Paused() || _gamePlayer == null || _gamePlayer.inputDisabled ) return;
+        if( context.action.triggered )
+            _gamePlayer.SpecialAttack();
+    }
+
+    public void GameRoll( InputAction.CallbackContext context )
+    {
+        if( Paused() || _gamePlayer == null || _gamePlayer.inputDisabled ) return;
+        if( context.action.triggered )
+            _gamePlayer.Roll();
+    }
+
+    public void GameInventory( InputAction.CallbackContext context )
+    {
+        if( Paused() || _gamePlayer == null || _gamePlayer.inputDisabled ) return;
+        _gamePlayer.ShowInventory( context.ReadValue<float>() > 0.9f );
+    }
+
+    public void GamePause( InputAction.CallbackContext context )
+    {
+        if( _gamePlayer == null || _gamePlayer.inputDisabled ) return;
+        if( context.action.triggered )
+            GameManager.Instance.PauseGame( _playerId );
+    }
+
+    public void GameMagic( InputAction.CallbackContext context )
+    {
+        if( Paused() || _gamePlayer == null || _gamePlayer.inputDisabled ) return;
+        if( context.action.triggered )
+            _gamePlayer.CastMagic();
+    }
+    
+    bool Paused() => GameManager.Instance.Paused();
+    public int PId() => _playerId;
+
+    public void BindGamePlayer( Player player ) => _gamePlayer = player;
+
+    public void Detach()
+    {
+        _playerId = -1;
+        _lobbyPlayer = null;
+        _gamePlayer = null;
     }
 }

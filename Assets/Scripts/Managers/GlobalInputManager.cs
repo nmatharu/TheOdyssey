@@ -31,7 +31,32 @@ public class GlobalInputManager : MonoBehaviour
         _inputs.Add( playerInput );
     }
 
-    public void ToMenu() => SwitchActionMap( "MenuNav" );
+    public void FindAndBind( Player player, int pId )
+    {
+        foreach( Transform t in transform )
+        {
+            var input = t.GetComponent<GlobalPlayerInput>();
+            if( input != null && input.PId() == pId )
+                input.BindGamePlayer( player );
+        }
+    }
+
+    public void ToMenu()
+    {
+        SwitchActionMap( "MenuNav" );
+        DetachAllPlayers();
+    }
+
+    public void DetachAllPlayers()
+    {
+        foreach( Transform t in transform )
+        {
+            var input = t.GetComponent<GlobalPlayerInput>();
+            if( input != null )
+                input.Detach();
+        }
+    }
+
     public void ToLobby() => SwitchActionMap( "Lobby" );
     public void ToGame() => SwitchActionMap( "InGame" );
 

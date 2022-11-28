@@ -89,10 +89,13 @@ public class LobbyManager : MonoBehaviour
         // Destroy( GlobalInputManager.Instance.gameObject );
         GlobalInputManager.Instance.ToGame();
 
-        GameManager.GameConfig.difficulty = _difficulty;
-        GameManager.GameConfig.playerCount = _players.Count( p => p != null );
-        GameManager.GameConfig.playerNames = _players.Where( p => p != null ).Select( p => p.PlayerName() ).ToList();
-        GameManager.GameConfig.playerSkins = _players.Where( p => p != null ).Select( p => p.Costume() ).ToList();
+        GameManager.GameConfig.Difficulty = _difficulty;
+        GameManager.GameConfig.PlayerCount = _players.Count( p => p != null );
+        GameManager.GameConfig.Players = new List<GameConfig.PlayerConfig>();
+
+        foreach( var p in _players.Where( p => p != null ) )
+            GameManager.GameConfig.Players.Add( 
+                new GameConfig.PlayerConfig( p.pId, p.PlayerName(), p.Costume() ) );
         
         _asyncGameLoad.allowSceneActivation = true;
         yield break;
@@ -109,7 +112,7 @@ public class LobbyManager : MonoBehaviour
         _inputs.Add( input );
         
         _players[ id ] = o.GetComponent<LobbyPlayer>();
-        _players[ id ].Init( GetUnusedName(), playerCanvases[ id ] );
+        _players[ id ].Init( GetUnusedName(), id, playerCanvases[ id ] );
         playerCanvases[ id ].Init( input, _players[ id ].PlayerName(), deviceName );
         
         return id;
@@ -137,8 +140,11 @@ public class LobbyManager : MonoBehaviour
 
     public LobbyPlayer GetPlayer( int index ) => _players[ index ];
 
-    public void CycleDifficulty()
+    public void CycleDifficulty( int playerId )
     {
+        if( playerId != _players.Where( p => p != null ).Min( p => p.pId ) )
+            return;
+            
         _difficulty = ( _difficulty + 1 ) % 4;
         HighlightDifficulty( _difficulty );
     }

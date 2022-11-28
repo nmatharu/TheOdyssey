@@ -60,8 +60,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pfx: {fileID: 5042901839437853071}
-  speed: 20
+  speed: 30
   timeToEnd: 0.75
+  baseDamage: 12
 --- !u!1 &8218427089688068217
 GameObject:
   m_ObjectHideFlags: 0

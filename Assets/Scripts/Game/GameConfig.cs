@@ -2,8 +2,21 @@
 
 public class GameConfig
 {
-    public int difficulty = 1;
-    public int playerCount = 1;
-    public List<int> playerSkins = new() { 0 };
-    public List<string> playerNames = new() { "PLAYER" };
+    public int Difficulty = 1;
+    public int PlayerCount = 1;
+    public List<PlayerConfig> Players = new();
+
+    public class PlayerConfig
+    {
+        public readonly int PlayerSkin;
+        public readonly string PlayerName;
+        public readonly int PlayerId;
+
+        public PlayerConfig( int playerId, string playerName, int playerSkin )
+        {
+            PlayerSkin = playerSkin;
+            PlayerName = playerName;
+            PlayerId = playerId;
+        }
+    }
 }

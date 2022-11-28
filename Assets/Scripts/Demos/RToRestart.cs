@@ -25,6 +25,7 @@ public class RToRestart : MonoBehaviour
 
         if( Input.GetKeyDown( KeyCode.Q ) )
         {
+            GameManager.Instance.Unpause();
             SceneManager.LoadScene( "Menu" );
             GlobalInputManager.Instance.ToMenu();
         }

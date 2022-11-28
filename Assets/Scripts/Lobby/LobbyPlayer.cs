@@ -25,6 +25,7 @@ public class LobbyPlayer : MonoBehaviour
     int _costumeIndex = 0;
 
     string _secretCode = "";
+    public int pId;
 
     static readonly int IsRunning = Animator.StringToHash( "IsRunning" );
 
@@ -45,9 +46,10 @@ public class LobbyPlayer : MonoBehaviour
         costumes[ i ].SetActive( true );
     }
 
-    public void Init( string pName, LobbyPlayerCanvas canvas )
+    public void Init( string pName, int playerId, LobbyPlayerCanvas canvas )
     {
         playerName.text = pName;
+        pId = playerId;
         _canvas = canvas;
     }
 

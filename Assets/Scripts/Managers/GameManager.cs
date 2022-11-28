@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] TextMeshProUGUI fpsDisplay;
     [ SerializeField ] EnemyLevelGraphic enemyLevelGraphic;
     [ SerializeField ] GameObject pauseScreen;
+    [ SerializeField ] TextMeshProUGUI pauseScreenText;
+    [ SerializeField ] ImageFader fadeToWhite;
+    
     [ SerializeField ] DynamicCameras cameras;
 
     [ SerializeField ] public float respawnHealthPct = 0.25f;
@@ -45,6 +48,7 @@ public class GameManager : MonoBehaviour
     Coroutine _levelIncrementRoutine;
 
     Level _currentLevel;
+    bool _transitioningToNextStage;
 
     // 0 - casual, 1 - normal, 2 - brutal, 3 - unreal
     [ SerializeField ] int _difficulty = 1;
@@ -71,19 +75,31 @@ public class GameManager : MonoBehaviour
 
     void Init()
     {
-        _difficulty = GameConfig.difficulty;
+        _difficulty = GameConfig.Difficulty;
         InitDamageNumberPool();
     }
 
     void Start()
     {
         Application.targetFrameRate = -1;
-        
-        for( var i = 0; i < GameConfig.playerCount; i++ )
+
+        if( GlobalInputManager.Instance != null )
         {
-            playersArr[ i ].gameObject.SetActive( true );
-            playersArr[ i ].SetPlayerName( GameConfig.playerNames[ i ] );
-            playersArr[ i ].SetCostume( GameConfig.playerSkins[ i ] );
+            foreach( var config in GameConfig.Players )
+            {
+                var p = playersArr[ config.PlayerId ];
+                p.gameObject.SetActive( true );
+                p.SetPlayerName( config.PlayerName );
+                p.SetCostume( config.PlayerSkin );
+                GlobalInputManager.Instance.FindAndBind( p, config.PlayerId );
+            }
+        }
+        else
+        {
+            var p = playersArr[ 0 ];
+            p.gameObject.SetActive( true );
+            p.SetPlayerName( "PLAYER" );
+            p.SetCostume( 0 );
         }
 
         InvokeRepeating( nameof( CheckForNextWave ), 1f, 0.25f );
@@ -133,7 +149,6 @@ public class GameManager : MonoBehaviour
             EnemySpawner.Instance.LetItRip2( maxX );
         }
 
-        Debug.Log( minX + " " + WorldGenerator.Instance.EndLevelXTrigger() );
         if( minX > WorldGenerator.Instance.EndLevelXTrigger() )
         {
             StartNextLevel();
@@ -142,15 +157,30 @@ public class GameManager : MonoBehaviour
 
     void StartNextLevel()
     {
-        Debug.Log( "STARTING NEW LEVEL" );
-        
-        KillAllEnemies();
-        RespawnAll();
-        foreach( var p in playersArr )
-            p.BackToLevelStart();
-        cameras.ResetNewStage();
+        if( _transitioningToNextStage ) return;
+        _transitioningToNextStage = true;
 
-        WorldGenerator.Instance.ToNextStage();
+        fadeToWhite.gameObject.SetActive( true );
+        fadeToWhite.FadeIn();
+        
+        this.Invoke( () =>
+        {
+            KillAllEnemies();
+            RespawnAll();
+            foreach( var p in playersArr )
+                p.BackToLevelStart();
+            cameras.ResetNewStage();
+
+            WorldGenerator.Instance.ToNextStage();
+            
+            this.Invoke( () =>
+            {
+                fadeToWhite.FadeOut();
+                _transitioningToNextStage = false;
+            }, 0.25f );
+            
+        }, 1f );
+        
     }
 
     public bool PlayersInBossZone( float zoneXStart )
@@ -285,6 +315,7 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 0;
                 _paused = true;
                 pauseScreen.SetActive( true );
+                pauseScreenText.text = $"BY {playersArr[playerId].PlayerName()}";
                 _pausedBy = playerId;
                 break;
         }
@@ -336,5 +367,22 @@ public class GameManager : MonoBehaviour
         var ps = FindObjectsOfType<SpawnPillar>();
         foreach( var p in ps )
             Destroy( p.gameObject );
+    }
+
+    public void AttemptQuitToMenu( int playerId )
+    {
+        if( _paused && _pausedBy == playerId )
+        {
+            Unpause();
+            SceneManager.LoadScene( "Menu" );
+            GlobalInputManager.Instance.ToMenu();
+        }
+    }
+
+    public void Unpause()
+    {
+        Time.timeScale = 1;
+        _paused = false;
+        pauseScreen.SetActive( false );
     }
 }

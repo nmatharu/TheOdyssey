@@ -60,9 +60,9 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
-        m_MethodName: Move
+      - m_Target: {fileID: 6704447546178417886}
+        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
+        m_MethodName: GameMove
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -76,9 +76,9 @@ MonoBehaviour:
     m_ActionName: InGame/Movement[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow,/XInputControllerWindows/leftStick,/XInputControllerWindows/dpad]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
-        m_MethodName: Interact
+      - m_Target: {fileID: 6704447546178417886}
+        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
+        m_MethodName: GameInteract
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -92,9 +92,9 @@ MonoBehaviour:
     m_ActionName: InGame/Interact[/Keyboard/e,/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
-        m_MethodName: Attack1
+      - m_Target: {fileID: 6704447546178417886}
+        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
+        m_MethodName: GameAttack1
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -108,9 +108,9 @@ MonoBehaviour:
     m_ActionName: InGame/Attack1[/Keyboard/q,/XInputControllerWindows/buttonWest]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
-        m_MethodName: Attack2
+      - m_Target: {fileID: 6704447546178417886}
+        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
+        m_MethodName: GameAttack2
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -124,9 +124,9 @@ MonoBehaviour:
     m_ActionName: InGame/Attack2[/Keyboard/w,/XInputControllerWindows/buttonNorth]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
-        m_MethodName: Roll
+      - m_Target: {fileID: 6704447546178417886}
+        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
+        m_MethodName: GameRoll
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -140,9 +140,9 @@ MonoBehaviour:
     m_ActionName: InGame/Roll[/Keyboard/space,/XInputControllerWindows/buttonEast]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
-        m_MethodName: LModifier
+      - m_Target: {fileID: 6704447546178417886}
+        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
+        m_MethodName: GameMagic
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -156,9 +156,9 @@ MonoBehaviour:
     m_ActionName: InGame/LModifier[/Keyboard/leftShift,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/leftShoulder]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
-        m_MethodName: Inventory
+      - m_Target: {fileID: 6704447546178417886}
+        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
+        m_MethodName: GameInventory
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -172,8 +172,8 @@ MonoBehaviour:
     m_ActionName: InGame/RIventory[/Keyboard/tab,/XInputControllerWindows/rightTrigger,/XInputControllerWindows/rightShoulder]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+      - m_Target: {fileID: 6704447546178417886}
+        m_TargetAssemblyTypeName: GlobalPlayerInput, Assembly-CSharp
         m_MethodName: GamePause
         m_Mode: 0
         m_Arguments:
