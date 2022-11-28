@@ -25,7 +25,10 @@ public class WorldGenerator : MonoBehaviour
     BossZone _bossZone;
 
     float _perlinSeed;
-    [ SerializeField ] Level _currentLevel;
+    [ SerializeField ] Level[] levels;
+    Level _currentLevel;
+    int _currentLevelIndex = 0;
+    
     int _numPlayers;
 
     public static WorldGenerator Instance { get; private set; }
@@ -53,12 +56,25 @@ public class WorldGenerator : MonoBehaviour
 
     void Start()
     {
-        if( _currentLevel == null)
-            _currentLevel = GetComponentInChildren<LevelSands>();
-
+        _currentLevel = levels[ _currentLevelIndex ];
         _numPlayers = GameManager.Instance.NumPlayersInParty();
         Debug.Log( $"Generating world w/ {_numPlayers} players" );
         _currentLevel.gameObject.SetActive( true );
+        StartCoroutine( Generate() );
+    }
+
+    public void ToNextStage()
+    {
+        _currentLevel.HideLevelObjs();
+        _currentLevel.HideActTitle();
+        _currentLevelIndex++;
+        _currentLevel = levels[ _currentLevelIndex ];
+
+        var toPurge = new[] { miscParent, objsParent, blocksParent, edgesParent };
+        foreach( var tParent in toPurge )
+            foreach( Transform t in tParent )
+                Destroy( t.gameObject );
+
         StartCoroutine( Generate() );
     }
 
@@ -73,6 +89,7 @@ public class WorldGenerator : MonoBehaviour
         _currentLevel.Generate( this );
         
         GameManager.Instance.SetCurrentLevel( _currentLevel );
+        _currentLevel.ShowActTitle();
 
         // GenerateGrasslands();
         // GenerateGrasslands2();
@@ -632,4 +649,6 @@ public class WorldGenerator : MonoBehaviour
         //     Handles.Label( CoordsToWorldPos( x, 5 ), x.ToString() );
         // }
     }
+
+    public float EndLevelXTrigger() => CoordXToWorldX( _currentLevel.EndLevelX() );
 }

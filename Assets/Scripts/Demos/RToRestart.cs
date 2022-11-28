@@ -23,7 +23,10 @@ public class RToRestart : MonoBehaviour
             foreach( var p in GameManager.Instance.Players() )
                 p.Init( "GERBERT" );
 
-        if( Input.GetKey( KeyCode.RightShift ) && Input.GetKeyDown( KeyCode.M ) )
+        if( Input.GetKeyDown( KeyCode.Q ) )
+        {
             SceneManager.LoadScene( "Menu" );
+            GlobalInputManager.Instance.ToMenu();
+        }
     }
 }

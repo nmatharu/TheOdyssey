@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] TextMeshProUGUI fpsDisplay;
     [ SerializeField ] EnemyLevelGraphic enemyLevelGraphic;
     [ SerializeField ] GameObject pauseScreen;
+    [ SerializeField ] DynamicCameras cameras;
 
     [ SerializeField ] public float respawnHealthPct = 0.25f;
     [ SerializeField ] public float[] enemyBudgetPlayerCountScaling = { 1f, 1.5f, 2f };
@@ -121,13 +122,35 @@ public class GameManager : MonoBehaviour
 
     void CheckForNextWave()
     {
-        var maxX = playersArr.Max( p => p.transform.position.x );
+        var ps = playersArr.Where( p => p.gameObject.activeInHierarchy && !p.dead ).ToArray();
+        if( ps.Empty() )    return;
+        var minX = ps.Min( p => p.transform.position.x );
+        var maxX = ps.Max( p => p.transform.position.x );
         if( maxX > EnemySpawner.Instance.NextXTrigger() )
         {
             // var waveSize = EnemySpawner.Instance.NextWaveSize();
             // var spawnPoints = WorldGenerator.Instance.ValidSpawnPointsAround( maxX, waveSize );
             EnemySpawner.Instance.LetItRip2( maxX );
         }
+
+        Debug.Log( minX + " " + WorldGenerator.Instance.EndLevelXTrigger() );
+        if( minX > WorldGenerator.Instance.EndLevelXTrigger() )
+        {
+            StartNextLevel();
+        }
+    }
+
+    void StartNextLevel()
+    {
+        Debug.Log( "STARTING NEW LEVEL" );
+        
+        KillAllEnemies();
+        RespawnAll();
+        foreach( var p in playersArr )
+            p.BackToLevelStart();
+        cameras.ResetNewStage();
+
+        WorldGenerator.Instance.ToNextStage();
     }
 
     public bool PlayersInBossZone( float zoneXStart )
@@ -304,4 +327,14 @@ public class GameManager : MonoBehaviour
 
     public float PctOfExpectedChestGold( int gold ) => 
         gold / ( (float) totalChestGoldPerPlayerCount[ NumPlayersInParty() - 1 ] / Level.ChestsPerPlayerPerStage );
+
+    public void KillAllEnemies()
+    {
+        var es = FindObjectsOfType<Enemy>();
+        foreach( var e in es )
+            Destroy( e.gameObject );
+        var ps = FindObjectsOfType<SpawnPillar>();
+        foreach( var p in ps )
+            Destroy( p.gameObject );
+    }
 }

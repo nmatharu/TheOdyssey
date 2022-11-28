@@ -19251,6 +19251,7 @@ MonoBehaviour:
   baseRollSpeedMultiplier: 1.5
   speed: 8
   baseHpRegenPerMinute: 6
+  levelStartPosition: {x: 26, y: 0, z: 12}
   meshParent: {fileID: 5843433947479411979}
   deathFx: {fileID: 979728753446256026}
   magicLearnFx: {fileID: 5185133564891664834}

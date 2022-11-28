@@ -25,6 +25,8 @@ public abstract class Level : MonoBehaviour
     [ SerializeField ] protected GameObject nextStageBaseBlock;
     [ SerializeField ] protected Transform environmentalParent;
 
+    [ SerializeField ] GameObject actTitle;
+
     protected const int DefaultWorldSizeX = 400;
     protected const int DefaultWorldSizeY = 12;
 
@@ -33,6 +35,7 @@ public abstract class Level : MonoBehaviour
     protected const int BlockTransitionStartOffset = 45;
     protected const int BlockTransitionEndOffset = 15;
     protected const float BossZoneSize = 18f;
+    protected const int EndLevelAfterBossZone = 20;
 
     protected static readonly Vector3Int[] ChestDirs =
     {
@@ -195,4 +198,10 @@ public abstract class Level : MonoBehaviour
         WorldGenerator.CoordXToWorldX( DefaultWorldSizeX - BossZoneOffset + BossZoneSize / 2f );
 
     public GameObject BossSpawner() => bossSpawner;
+
+    public float EndLevelX() => DefaultWorldSizeX - BossZoneOffset + BossZoneSize + EndLevelAfterBossZone;
+
+    public void HideLevelObjs() => environmentalParent.gameObject.SetActive( false );
+    public void ShowActTitle() => actTitle.SetActive( true );
+    public void HideActTitle() => actTitle.SetActive( false );
 }

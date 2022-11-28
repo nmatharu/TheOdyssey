@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     [ SerializeField ] float speed = 8f;
     [ SerializeField ] float baseHpRegenPerMinute = 6;
 
+    [ SerializeField ] Vector3 levelStartPosition;
+    
     [ SerializeField ] Transform meshParent;
     [ SerializeField ] ParticleSystem deathFx;
     [ SerializeField ] ParticleSystem magicLearnFx;
@@ -367,6 +369,12 @@ public class Player : MonoBehaviour
     public float MagicMultiplier()
     {
         return 1f;
+    }
+
+    public void BackToLevelStart()
+    {
+        transform.position = levelStartPosition;
+        _hp = _maxHp;
     }
 
     public int BleedStacks() => _runes[ "hemorrhage" ];

@@ -15,5 +15,5 @@ MonoBehaviour:
   magicName: LIGHTFIRE
   magicDescription: Fire an orb of light that deals damage as it passes through enemies.
   magicIcon: {fileID: 21300000, guid: 3143409e3d12443459d82d9d9efa3ddb, type: 3}
-  cooldownSeconds: 2
+  cooldownSeconds: 10
   lightBall: {fileID: 5370022414490394703, guid: 940cd0a1820cc7943a55039a1a0f4f95, type: 3}

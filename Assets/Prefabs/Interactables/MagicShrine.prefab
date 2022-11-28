@@ -69,7 +69,6 @@ MonoBehaviour:
   interactPrompt: LEARN
   cannotInteractPrompt: LEARNED
   magicPool:
-  - {fileID: 11400000, guid: 56f817cc7c9ab664388aeafc49461b97, type: 2}
   - {fileID: 11400000, guid: afa0221a00fef7e48b4b18cfaeda950c, type: 2}
   magicTitle: {fileID: 9194811398381957585}
   magicDescription: {fileID: 900685618190947569}

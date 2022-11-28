@@ -19,7 +19,15 @@
         LinkAltar,
         CrystalGate,
         MagicShrine,
-        Chest
+        Chest,
+        SandRockA,
+        SandRockB,
+        SandRockC,
+        CactusA,
+        CactusB,
+        DeadTree,
+        LavaRock,
+        LavaTree
     }
 
     public enum Misc

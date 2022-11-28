@@ -297,6 +297,14 @@ public class DynamicCameras : MonoBehaviour
         camXClampMin = _bossLockX + bossZoneCameraOffset;
     }
 
+    public void ResetNewStage()
+    {
+        _bossLock = false;
+        CalculatePositions();
+        camXClampMin = 21f;
+        camXClampMax = 1000f;
+    }
+
     static float SplitScreenBarWidth( float dist ) => 
         1f + JBB.ClampedMap( Mathf.Sqrt( dist ), 0, 20, 0, 49 );
 }

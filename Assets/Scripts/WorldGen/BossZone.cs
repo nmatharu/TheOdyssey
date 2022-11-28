@@ -57,13 +57,8 @@ public class BossZone : MonoBehaviour
     {
         Debug.Log( "BOSS STARTED" );
         CloseLeft();
-        
-        var es = FindObjectsOfType<Enemy>();
-        foreach( var e in es )
-        {
-            Destroy( e.gameObject );
-        }
 
+        GameManager.Instance.KillAllEnemies();
         WorldGenerator.Instance.BossStarted();
         EnemySpawner.Instance.StartBoss();
         this.Invoke( () => StartCoroutine( CheckEndBoss() ), 5f );

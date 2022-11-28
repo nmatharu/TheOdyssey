@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b0d29ef027971146902f8e3924521fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 250
+  maxHp: 300
   spawnCost: 0
   renderers:
   - {fileID: 85228741658665345}
@@ -10280,6 +10280,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5814673285304824606}
     m_Modifications:
+    - target: {fileID: 6953189759884802247, guid: 5c6457f438553aa41a1f6d0ea96a813c, type: 3}
+      propertyPath: m_text
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7287745684721212189, guid: 5c6457f438553aa41a1f6d0ea96a813c, type: 3}
       propertyPath: m_Color.b
       value: 1
