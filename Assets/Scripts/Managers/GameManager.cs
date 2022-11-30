@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] TextMeshProUGUI pauseScreenText;
     [ SerializeField ] ImageFader fadeToWhite;
     [ SerializeField ] GameObject[] difficultyLabels;
+    [ SerializeField ] PostGameScreen postGameCanvas;
     
     [ SerializeField ] DynamicCameras cameras;
 
@@ -44,6 +45,9 @@ public class GameManager : MonoBehaviour
     bool _paused;
     int _pausedBy;
     int _enemyLevel = 1;
+
+    bool _gameOver;
+    bool _readyToExitGame; // when the post-game screen shows
 
     float _runTimeElapsed = 0f;
     Coroutine _levelIncrementRoutine;
@@ -283,6 +287,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void CheckIfGameOver()
+    {
+        if( !_gameOver && AllPlayersDead() )
+        {
+            _gameOver = true;
+            Unpause();
+            postGameCanvas.Init( _difficulty, EnemyLevelGraphic.ToClockFormat( (int) _runTimeElapsed ) );
+            this.Invoke( () => _readyToExitGame = true, postGameCanvas.timeToEnableInput );
+        }
+    }
+
     void UpdateFpsDisplay() => fpsDisplay.text = (int) ( 1f / Time.unscaledDeltaTime ) + " FPS";
 
     public Transform Projectiles() => projectiles;
@@ -309,6 +324,8 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame( int playerId )
     {
+        if( _gameOver ) return;
+        
         switch( _paused )
         {
             case true when playerId == _pausedBy:
@@ -389,5 +406,14 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         _paused = false;
         pauseScreen.SetActive( false );
+    }
+
+    public bool ReadyToExitGame() => _readyToExitGame;
+
+    public void QuitToLobby()
+    {
+        Unpause();
+        SceneManager.LoadScene( "Lobby" );
+        GlobalInputManager.Instance.ToLobby();
     }
 }

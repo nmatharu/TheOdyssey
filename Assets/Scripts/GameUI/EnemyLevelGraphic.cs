@@ -17,12 +17,12 @@ public class EnemyLevelGraphic : MonoBehaviour
 
         var seconds = (int) totalTimeElapsed;
         if( _lastSeconds == seconds )   return;
+        _lastSeconds = seconds;
         totalTimeElapsedText.text = ToClockFormat( seconds );
     }
 
-    string ToClockFormat( int seconds )
+    public static string ToClockFormat( int seconds )
     {
-        _lastSeconds = seconds;
         var minutes = seconds / 60;
         seconds %= 60;
         return minutes + ":" + seconds.ToString( "D2" );

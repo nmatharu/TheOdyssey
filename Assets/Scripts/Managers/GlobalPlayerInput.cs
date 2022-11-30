@@ -91,7 +91,9 @@ public class GlobalPlayerInput : MonoBehaviour
 
     public void LobbyBackToMenu( InputAction.CallbackContext context )
     {
-        if( _lobbyPlayer == null || !context.action.triggered || context.canceled || _playerId == -1 )  return;
+        if( !context.action.triggered || context.canceled )  return;
+        LobbyManager.Instance.CheckIfReturnToMenu();
+        if( _lobbyPlayer == null || _playerId == -1 )   return;
 
         if( _lobbyPlayer.ready )
         {

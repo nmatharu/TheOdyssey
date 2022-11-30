@@ -167,7 +167,11 @@ public class LobbyManager : MonoBehaviour
         Destroy( _players[ playerId ].gameObject );
         _players[ playerId ] = null;
         playerCanvases[ playerId ].Reset();
-        
+        CheckIfReturnToMenu();
+    }
+
+    public void CheckIfReturnToMenu()
+    {
         if( _inputs.Empty() )
             BackToMenu();
     }

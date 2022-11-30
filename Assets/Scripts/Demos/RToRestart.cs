@@ -22,6 +22,10 @@ public class RToRestart : MonoBehaviour
         if( Input.GetKey( KeyCode.LeftShift ) && Input.GetKeyDown( KeyCode.G ))
             foreach( var p in GameManager.Instance.Players() )
                 p.Init( "GERBERT" );
+        
+        if( Input.GetKey( KeyCode.LeftShift ) && Input.GetKeyDown( KeyCode.D ))
+            foreach( var p in GameManager.Instance.Players() )
+                p.IncomingDamage( 2000f, 1 );
 
         if( Input.GetKeyDown( KeyCode.Q ) )
         {

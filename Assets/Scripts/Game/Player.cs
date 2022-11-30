@@ -244,6 +244,9 @@ public class Player : MonoBehaviour
 
     public void Interact()
     {
+        if( GameManager.Instance.ReadyToExitGame() )
+            GameManager.Instance.QuitToLobby();
+        
         if( dead || locked || rolling ) return;
 
         if( _closestInteractable != null && !_closestInteractable.InteractionLocked( this ) )
@@ -257,6 +260,7 @@ public class Player : MonoBehaviour
         _statistics.Die();
         Hide();
         deathFx.Play();
+        GameManager.Instance.CheckIfGameOver();
 
         this.Invoke( () =>
         {
