@@ -14,6 +14,11 @@ public class ShopRune : Interactable
     [ SerializeField ] TextMeshProUGUI costText;
     [ SerializeField ] Image[] icons;
 
+    [ SerializeField ] MeshRenderer ringRenderer;
+    [ SerializeField ] Material normalMat;
+    [ SerializeField ] Material goldMat;
+    [ SerializeField ] ParticleSystem goldPfx;
+
     Rune _rune;
     int _cost;
     
@@ -21,6 +26,12 @@ public class ShopRune : Interactable
     {
         // _rune = RuneIndex.Instance.RandomShopRune();
         _cost = (int) ( GameManager.Instance.RandomRunePrice( _rune.Tier() ) );
+
+        if( Random.value < 0.33f )
+        {
+            ringRenderer.material = goldMat;
+            goldPfx.Play();
+        }
 
         foreach( var i in icons )
             i.sprite = _rune.Icon();
