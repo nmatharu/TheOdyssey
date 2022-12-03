@@ -7,13 +7,13 @@ public class Enemy : MonoBehaviour
 {
     [ SerializeField ] float maxHp = 20;
     [ SerializeField ] public int spawnCost = 10;
-    [ SerializeField ] Renderer[] renderers;
+    [ SerializeField ] List<Renderer> renderers;
     [ SerializeField ] float hitFlashIntensity = 1f;
     [ SerializeField ] ParticleSystem deathPfx;
+    [ SerializeField ] bool deathPfxIdentityRot;
     
-    Color[] _originalMatColors;
+    List<Color> _originalMatColors = new();
     EnemyStatusBar _statusBar;
-    Vector3 _damageNumberPos;
 
     int _level = 1;
     float _hp;
@@ -23,14 +23,12 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         _hp = Mathf.RoundToInt( maxHp );
-        _originalMatColors = new Color[ renderers.Length ];
-        for( var i = 0; i < renderers.Length; i++ )
-            _originalMatColors[ i ] = renderers[ i ].material.color;
+        
+        foreach( var r in renderers )
+            _originalMatColors.Add( r.material.color );
 
         _hitGuids = new HashSet<Guid>();
         InvokeRepeating( nameof( ClearGuids ), 0f, 1f );
-
-        _damageNumberPos = transform.position;
     }
 
     void ClearGuids() => _hitGuids.Clear();
@@ -56,7 +54,7 @@ public class Enemy : MonoBehaviour
         var bleed = p.BleedStacks();
         if( bleed > 0 ) StartCoroutine( Bleed( p, bleed ) );
         
-        GameManager.Instance.SpawnDamageNumber( _damageNumberPos, d, true );
+        GameManager.Instance.SpawnDamageNumber( transform.position, d, true );
         p.Statistics().DealDamage( dmg );
         CheckForDeath( p );
     }
@@ -68,7 +66,7 @@ public class Enemy : MonoBehaviour
         {
             yield return wait;
             _hp -= stacks;
-            GameManager.Instance.SpawnGenericFloating( _damageNumberPos, stacks.ToString(), new Color( 1, 0.3f, 0.3f ), 8f );
+            GameManager.Instance.SpawnGenericFloating( transform.position, stacks.ToString(), new Color( 1, 0.3f, 0.3f ), 8f );
             CheckForDeath( p );
         }
         
@@ -102,22 +100,35 @@ public class Enemy : MonoBehaviour
             yield return delay;
         }
 
-        for( var i = 0; i < renderers.Length; i++ )
+        for( var i = 0; i < renderers.Count; i++ )
             renderers[ i ].material.color = _originalMatColors[ i ];
     }
 
     void Die()
     {
-        Instantiate( deathPfx, transform.position, transform.rotation, GameManager.Instance.effectsParent ).Play();
+        Instantiate( deathPfx, transform.position, 
+            deathPfxIdentityRot ? Quaternion.identity : transform.rotation, 
+            GameManager.Instance.effectsParent ).Play();
         Destroy( gameObject );
     }
 
     public static Enemy FromCollider( Collider c )
     {
         var e = c.GetComponent<Enemy>();
-        if( e == null )
-            e = c.GetComponentInParent<Enemy>();
+        if( e != null )
+            return e;
+        
+        var sn = c.GetComponent<SandWormNode>();
+        if( sn != null && sn.childNode )
+            e = sn.Enemy();
+        
         return e;
+    }
+
+    public void AddRenderer( Renderer r )
+    {
+        renderers.Add( r );
+        _originalMatColors.Add( r.material.color );
     }
 
     // void Die()

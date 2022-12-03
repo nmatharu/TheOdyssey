@@ -8,18 +8,19 @@ public class SandWormNode : MonoBehaviour
 {
     [ SerializeField ] public Transform backPoint;
     [ SerializeField ] Transform nodeMesh;
-    
+    [ SerializeField ] public MeshRenderer meshRenderer;
+
+    Enemy _enemy;
     Transform _target;
     SandWorm _worm;
-    
-    void Start()
-    {
-        _worm = GetComponentInParent<SandWorm>();
-    }
 
+    public bool childNode;
+
+    Vector3 _v3Target;
+    
     void Update()
     {
-        var targetPos = _target.position;
+        var targetPos =  childNode ? _target.position : _v3Target;
         var pos = transform.position;
 
         var look = targetPos - pos;
@@ -31,13 +32,21 @@ public class SandWormNode : MonoBehaviour
         // _body.velocity = Vector3.ClampMagnitude( targetPos - pos, 1f ) * _worm.speed;
     }
 
-    public void Init( Transform t, int i, int wormSize )
+    public void Init( Enemy enemy, SandWorm worm, Transform t )
     {
-        var nodePct = (float) ( i - 1 ) / ( wormSize - 1 ); 
-        nodeMesh.Rotate( 0, 0, nodePct * 360 );
-        
+        _enemy = enemy;
+        _worm = worm;
         _target = t;
     }
 
-    public void Init( Transform t ) => _target = t;
+    public void SetV3Target( Vector3 v ) => _v3Target = v;
+
+    public void InitAutoRot( int i, int wormSize )
+    {
+        var nodePct = (float) ( i - 1 ) / ( wormSize - 1 ); 
+        nodeMesh.Rotate( 0, 0, nodePct * 360 );
+        childNode = true;
+    }
+
+    public Enemy Enemy() => _enemy;
 }

@@ -106,7 +106,7 @@ public class EnemySpawner : MonoBehaviour
     public Transform EnemiesParent() => enemiesParent;
 
     public float NextXTrigger() => _nextWaveX;
-    
+
     [ Serializable ]
     class EnemyWave
     {
