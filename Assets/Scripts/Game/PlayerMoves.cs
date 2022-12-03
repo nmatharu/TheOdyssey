@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayerMoves : MonoBehaviour
 {
@@ -158,19 +159,21 @@ public class PlayerMoves : MonoBehaviour
         this.Invoke( () =>
         {
             var enemiesHit = 0;
+
+            var id = Guid.NewGuid();
             
             foreach( var c in colliders )
             {
                 if( _player.dead )  return;
-
                 if( c == null ) continue;
-                var e = c.GetComponent<Enemy>();
                 
+                var e = Enemy.FromCollider( c );
                 if( e != null )
                 {
                     enemiesHit++;
-                    e.TakeDamage( _player, (int) ( damage * _player.DamageMultiplier() ) );
+                    e.TakeDamage( _player, (int) ( damage * _player.DamageMultiplier() ), id );
                 }
+
             }
 
             if( enemiesHit > 0 )

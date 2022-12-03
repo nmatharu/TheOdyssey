@@ -13,9 +13,12 @@ public class Enemy : MonoBehaviour
     
     Color[] _originalMatColors;
     EnemyStatusBar _statusBar;
+    Vector3 _damageNumberPos;
 
     int _level = 1;
     float _hp;
+
+    HashSet<Guid> _hitGuids;
 
     void Start()
     {
@@ -23,7 +26,14 @@ public class Enemy : MonoBehaviour
         _originalMatColors = new Color[ renderers.Length ];
         for( var i = 0; i < renderers.Length; i++ )
             _originalMatColors[ i ] = renderers[ i ].material.color;
+
+        _hitGuids = new HashSet<Guid>();
+        InvokeRepeating( nameof( ClearGuids ), 0f, 1f );
+
+        _damageNumberPos = transform.position;
     }
+
+    void ClearGuids() => _hitGuids.Clear();
 
     public void Init( int lvl )
     {
@@ -33,8 +43,12 @@ public class Enemy : MonoBehaviour
         _statusBar.SetLevel( lvl );
     }
 
-    public void TakeDamage( Player p, float dmg )
+    public void TakeDamage( Player p, float dmg, Guid guid )
     {
+        if( _hitGuids.Contains( guid ) )
+            return;
+        _hitGuids.Add( guid );
+        
         StartCoroutine( FlashMaterial() );
 
         var d = Mathf.RoundToInt( dmg );
@@ -42,7 +56,7 @@ public class Enemy : MonoBehaviour
         var bleed = p.BleedStacks();
         if( bleed > 0 ) StartCoroutine( Bleed( p, bleed ) );
         
-        GameManager.Instance.SpawnDamageNumber( transform.position, d, true );
+        GameManager.Instance.SpawnDamageNumber( _damageNumberPos, d, true );
         p.Statistics().DealDamage( dmg );
         CheckForDeath( p );
     }
@@ -54,7 +68,7 @@ public class Enemy : MonoBehaviour
         {
             yield return wait;
             _hp -= stacks;
-            GameManager.Instance.SpawnGenericFloating( transform.position, stacks.ToString(), new Color( 1, 0.3f, 0.3f ), 8f );
+            GameManager.Instance.SpawnGenericFloating( _damageNumberPos, stacks.ToString(), new Color( 1, 0.3f, 0.3f ), 8f );
             CheckForDeath( p );
         }
         
@@ -96,6 +110,14 @@ public class Enemy : MonoBehaviour
     {
         Instantiate( deathPfx, transform.position, transform.rotation, GameManager.Instance.effectsParent ).Play();
         Destroy( gameObject );
+    }
+
+    public static Enemy FromCollider( Collider c )
+    {
+        var e = c.GetComponent<Enemy>();
+        if( e == null )
+            e = c.GetComponentInParent<Enemy>();
+        return e;
     }
 
     // void Die()

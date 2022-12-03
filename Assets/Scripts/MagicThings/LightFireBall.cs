@@ -23,10 +23,12 @@ public class LightFireBall : MonoBehaviour
 
     void OnTriggerEnter( Collider c )
     {
-        var e = c.GetComponent<Enemy>();
+        var id = Guid.NewGuid();
+        var e = Enemy.FromCollider( c );
         if( e != null )
         {
-            e.TakeDamage( _player, baseDamage * _player.DamageMultiplier() * _player.MagicMultiplier() );
+            // TODO Move out of magic, call player dmg, all in one place
+            e.TakeDamage( _player, baseDamage * _player.DamageMultiplier() * _player.MagicMultiplier(), id );
         }
     }
 

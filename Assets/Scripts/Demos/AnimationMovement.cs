@@ -183,7 +183,7 @@ public class AnimationMovement : MonoBehaviour
                 {
                     if( c.GetComponent<Enemy>() != null )
                     {
-                        c.GetComponent<Enemy>().TakeDamage( _player, 4 );
+                        // c.GetComponent<Enemy>().TakeDamage( _player, 4 );
                     }
                 }
             }
@@ -229,7 +229,7 @@ public class AnimationMovement : MonoBehaviour
                     {
                         if( c.GetComponent<Enemy>() != null )
                         {
-                            c.GetComponent<Enemy>().TakeDamage( _player, 7 );
+                            // c.GetComponent<Enemy>().TakeDamage( _player, 7 );
                         }
                     }
 
