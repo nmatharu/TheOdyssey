@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 public class RuneIndex : MonoBehaviour
 {
     [ SerializeField ] Rune[] runes;
-    [ SerializeField ] NewRune[] runeIndex;
+    [ SerializeField ] public NewRune[] runeIndex;
 
     Rune[][] _tieredRunes;
 
@@ -58,6 +58,20 @@ public class RuneIndex : MonoBehaviour
         randomIndices.Shuffle();
         for( var i = 0; i < count; i++ )
             randomRunes[ i ] = runes[ randomIndices[ i ] ];
+
+        return randomRunes;
+    }
+
+    public NewRune[] ShopRunes( int count )
+    {
+        var randomRunes = new NewRune[ count ];
+        var randomIndices = new int[ runeIndex.Length ];
+        for( var i = 0; i < randomIndices.Length; i++ )
+            randomIndices[ i ] = i;
+        
+        randomIndices.Shuffle();
+        for( var i = 0; i < count; i++ )
+            randomRunes[ i ] = runeIndex[ randomIndices[ i ] ];
 
         return randomRunes;
     }

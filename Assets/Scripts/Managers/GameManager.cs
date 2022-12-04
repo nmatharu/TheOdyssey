@@ -367,6 +367,17 @@ public class GameManager : MonoBehaviour
         return (int) ( basePrice * EnemyWaveBudgetMultiplier() );
     }
 
+    public int RandomRunePrice( NewRune.Rarity rarity )
+    {
+        var basePrice = rarity switch
+        {
+            NewRune.Rarity.Common => Random.Range( 12, 18 + 1 ),
+            NewRune.Rarity.Rare => Random.Range( 24, 36 + 1 ),
+            _ => throw new ArgumentOutOfRangeException( nameof( rarity ), rarity, null )
+        };
+        return (int) ( basePrice * EnemyWaveBudgetMultiplier() );
+    }
+
     public int ChestGoldAmount()
     {
         var expectedChestGold = (float) totalChestGoldPerPlayerCount[ NumPlayersInParty() - 1 ] / Level.ChestsPerPlayerPerStage;

@@ -58,14 +58,14 @@ public class LevelGrasslands : Level
             biomeEnd - biomeStart - 2, DefaultWorldSizeY - 2, 4, 4 );
         points.Shuffle();
 
-        for( var i = 0; i < points.Count && i < 2; i++ )
-        {
-            Instantiate( generator.Gen( WorldGenIndex.Misc.Campfire ), 
-                WorldGenerator.CoordsToWorldPos( points[ i ] ), 
-                JBB.RandomYRot(), generator.objsParent );
-
-            generator.Map( points[ i ] ).OffLimits = true;
-        }
+        // for( var i = 0; i < points.Count && i < 2; i++ )
+        // {
+        //     Instantiate( generator.Gen( WorldGenIndex.Misc.Campfire ), 
+        //         WorldGenerator.CoordsToWorldPos( points[ i ] ), 
+        //         JBB.RandomYRot(), generator.objsParent );
+        //
+        //     generator.Map( points[ i ] ).OffLimits = true;
+        // }
 
         for( var i = 0; i < points.Count && i < treesPerBiome[ biome ]; i++ )
         {

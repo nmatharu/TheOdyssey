@@ -10,6 +10,7 @@ public class SandWorm : MonoBehaviour
     [ SerializeField ] Transform toFollow;
     [ SerializeField ] float dmg = 10f;
     [ SerializeField ] public float speed = 5f;
+    [ SerializeField ] public float headLookSlerp = 12f;
     [ SerializeField ] public float lookSlerp = 10f;
     [ SerializeField ] float sinSpeed = 3f;
     [ SerializeField ] float sinStrength = 15f;
@@ -63,7 +64,7 @@ public class SandWorm : MonoBehaviour
     {
         var p = c.collider.GetComponent<Player>();
 
-        if( p == null || p.rolling ) return;
+        if( p == null ) return;
         p.IncomingDamage( dmg, _enemy.Level() );
     }
 

@@ -19,26 +19,26 @@ public class ShopRune : Interactable
     [ SerializeField ] Material goldMat;
     [ SerializeField ] ParticleSystem goldPfx;
 
-    Rune _rune;
+    NewRune _rune;
     int _cost;
     
     void Start()
     {
         // _rune = RuneIndex.Instance.RandomShopRune();
-        _cost = (int) ( GameManager.Instance.RandomRunePrice( _rune.Tier() ) );
+        _cost = GameManager.Instance.RandomRunePrice( _rune.rarity );
 
-        if( Random.value < 0.33f )
+        if( _rune.rarity == NewRune.Rarity.Rare )
         {
             ringRenderer.material = goldMat;
             goldPfx.Play();
         }
 
         foreach( var i in icons )
-            i.sprite = _rune.Icon();
+            i.sprite = _rune.icon;
 
-        titleText.text = _rune.Name().ToUpper();
-        rarityText.text = _rune.Tier().ToString().ToUpper();
-        descText.text = _rune.Desc();
+        titleText.text = _rune.runeName.ToUpper();
+        rarityText.text = _rune.rarity.ToString().ToUpper();
+        descText.text = _rune.description;
         
         costText.text = _cost.ToString();
         interactPrompt = "PURCHASE";
@@ -49,5 +49,5 @@ public class ShopRune : Interactable
 
     public override bool InteractionLocked( Player player ) => player.CantAfford( _cost );
 
-    public void SetRune( Rune rune ) => _rune = rune;
+    public void SetRune( NewRune rune ) => _rune = rune;
 }

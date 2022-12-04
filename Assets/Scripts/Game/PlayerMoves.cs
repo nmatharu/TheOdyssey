@@ -171,14 +171,16 @@ public class PlayerMoves : MonoBehaviour
                 if( e != null )
                 {
                     enemiesHit++;
-                    e.TakeDamage( _player, (int) ( damage * _player.DamageMultiplier() ), id );
+
+                    _player.DamageEnemy( id, e, damage, true, false );
                 }
 
             }
 
             if( enemiesHit > 0 )
             {
-                _player.LifeSteal();
+                _player.OnHit( enemiesHit, true, false );
+                // _player.LifeSteal();
                 // _player.ReduceMagicCd( 0.25f );
             }
             

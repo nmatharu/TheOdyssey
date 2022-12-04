@@ -63,9 +63,8 @@ public abstract class Level : MonoBehaviour
 
         DefaultShopPlacements = new[]
         {
-            (int) ( 2/5f * CoreLength + PlayerStartZone ),
-            (int) ( 3/5f * CoreLength + PlayerStartZone ),
-            (int) ( 4/5f * CoreLength + PlayerStartZone ),
+            (int) ( 1/3f * CoreLength + PlayerStartZone ),
+            (int) ( 2/3f * CoreLength + PlayerStartZone ),
             DefaultWorldSizeX - BossZoneOffset - 6
         };
         DefaultMagicPlacement = (int) ( PlayerStartZone + 1/2f * CoreLength );

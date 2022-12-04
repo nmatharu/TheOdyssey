@@ -410,7 +410,10 @@ public class WorldGenerator : MonoBehaviour
     public void GenerateShopsAndMagic( int[] shopXs, int magicX )
     {
         foreach( var x in shopXs )
-            GenerateNpc( x, x == shopXs[ ^1 ] );
+            GenerateNpc( x, true );
+        
+        // foreach( var x in shopXs )
+            // GenerateNpc( x, x == shopXs[ ^1 ] );
         GenerateMagic( magicX );
     }
 

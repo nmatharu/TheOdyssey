@@ -6,13 +6,6 @@ using Random = UnityEngine.Random;
 
 public static class JBB
 {
-    // https://stackoverflow.com/a/833477
-    public static bool In<T>( this T source, params T[] list )
-    {
-        if( null == source ) throw new ArgumentNullException( nameof( source ) );
-        return ( (IList) list ).Contains( source );
-    }
-
     public static void Invoke( this MonoBehaviour mb, Action f, float delay ) =>
         mb.StartCoroutine( InvokeRoutine( f, delay ) );
 
@@ -65,15 +58,6 @@ public static class JBB
 
     public static float ClampedMap01( float value, float inputMin, float inputMax ) =>
         Mathf.Clamp01( Map( value, inputMin, inputMax, 0, 1 ) );
-
-    // https://forum.unity.com/threads/suggest-add-vector3int-manhattandistance-vector3int-a-vector3int-b.444672/
-    public static int ManhattanDistance( this Vector2Int a, Vector2Int b )
-    {
-        checked
-        {
-            return Mathf.Abs( a.x - b.x ) + Mathf.Abs( a.y - b.y );
-        }
-    }
 
     public static int[] To( this int min, int max )
     {

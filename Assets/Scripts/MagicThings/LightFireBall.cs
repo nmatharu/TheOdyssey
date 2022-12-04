@@ -10,10 +10,12 @@ public class LightFireBall : MonoBehaviour
     [ SerializeField ] float timeToEnd = 0.75f;
     [ SerializeField ] float baseDamage = 5;
     Player _player;
-
+    Guid _id;
+    
     void Start()
     {
         Destroy( gameObject, 3f );
+        _id = Guid.NewGuid();
     }
 
     void Update()
@@ -23,12 +25,11 @@ public class LightFireBall : MonoBehaviour
 
     void OnTriggerEnter( Collider c )
     {
-        var id = Guid.NewGuid();
         var e = Enemy.FromCollider( c );
         if( e != null )
         {
-            // TODO Move out of magic, call player dmg, all in one place
-            e.TakeDamage( _player, baseDamage * _player.DamageMultiplier() * _player.MagicMultiplier(), id );
+            _player.DamageEnemy( _id, e, baseDamage, false, true );
+            _player.OnHit( 1, false, true );
         }
     }
 

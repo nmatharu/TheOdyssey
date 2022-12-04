@@ -13,13 +13,27 @@ public class MagicShrine : Interactable
 
     MagicSpell _magic;
 
-    void Start() => Init( magicPool.RandomEntry() );
+    void Start()
+    {
+        if( _magic == null )
+            Init( magicPool.RandomEntry() );
+    }
 
     void Init( MagicSpell magic )
     {
         _magic = magic;
         magicTitle.text = magic.magicName;
         magicDescription.text = magic.magicDescription;
+    }
+
+    public void Init( int i )
+    {
+        if( i >= magicPool.Length )
+        {
+            Destroy( gameObject );
+            return;
+        }
+        Init( magicPool[ i ] );
     }
 
     public override void Interact( Player player ) => player.LearnMagic( _magic );

@@ -9,7 +9,7 @@ public class ShopNPC : MonoBehaviour
     
     void Start()
     {
-        var runes = RuneIndex.Instance.RandomShopRunes( shopPositions.Length );
+        var runes = RuneIndex.Instance.ShopRunes( shopPositions.Length );
         for( var i = 0; i < shopPositions.Length; i++ )
         {
             var t = shopPositions[ i ];

@@ -47,16 +47,165 @@ MonoBehaviour:
   runes:
   - tier: 0
     name: vitality
-    overrideLevelsToAdd: 0
+    overrideLevelsToAdd: -1
     description: Increase max health.
     icon: {fileID: 21300000, guid: 20c27078755c68444952b4f1b07968d8, type: 3}
+  - tier: 0
+    name: evasion
+    overrideLevelsToAdd: -1
+    description: Increase roll speed.
+    icon: {fileID: 21300000, guid: 5eae8d4a6bd146c44b662d879dcc6416, type: 3}
+  - tier: 0
+    name: fury
+    overrideLevelsToAdd: -1
+    description: Increase melee damage.
+    icon: {fileID: 21300000, guid: 3143409e3d12443459d82d9d9efa3ddb, type: 3}
   - tier: 1
     name: hemorrhage
-    overrideLevelsToAdd: 0
+    overrideLevelsToAdd: -1
     description: Bleed enemies on hit (stacking).
     icon: {fileID: 21300000, guid: 44752d404fe71624193e161a33ae81c1, type: 3}
+  - tier: 1
+    name: resolve
+    overrideLevelsToAdd: -1
+    description: Increase health regeneration.
+    icon: {fileID: 21300000, guid: fe7986138fc8d2148b28f81648afc121, type: 3}
   - tier: 2
     name: vampirism
-    overrideLevelsToAdd: 0
+    overrideLevelsToAdd: -1
     description: Heal for a small amount of health on hit.
     icon: {fileID: 21300000, guid: 7196827bc79b88c4099748692d23d664, type: 3}
+  runeIndex:
+  - type: 0
+    rarity: 0
+    runeName: SHARPEN
+    gives0Levels: 0
+    description: Increase melee damage.
+    icon: {fileID: 0}
+    disabled: 0
+  - type: 1
+    rarity: 0
+    runeName: ARCANE
+    gives0Levels: 0
+    description: Increase magic effectiveness.
+    icon: {fileID: 0}
+    disabled: 0
+  - type: 2
+    rarity: 0
+    runeName: FOCUS
+    gives0Levels: 0
+    description: Decrease cooldown of magic spells.
+    icon: {fileID: 0}
+    disabled: 0
+  - type: 3
+    rarity: 0
+    runeName: VITALITY
+    gives0Levels: 0
+    description: Increase maximum health.
+    icon: {fileID: 0}
+    disabled: 0
+  - type: 4
+    rarity: 0
+    runeName: PERSEVERANCE
+    gives0Levels: 0
+    description: Increase passive health regeneration.
+    icon: {fileID: 0}
+    disabled: 0
+  - type: 5
+    rarity: 0
+    runeName: ALACRITY
+    gives0Levels: 0
+    description: Increase movement speed.
+    icon: {fileID: 0}
+    disabled: 0
+  - type: 6
+    rarity: 0
+    runeName: AGILITY
+    gives0Levels: 0
+    description: Decrease roll cooldown.
+    icon: {fileID: 0}
+    disabled: 0
+  - type: 7
+    rarity: 0
+    runeName: HARMONY
+    gives0Levels: 0
+    description: Heal whenever you cast magic.
+    icon: {fileID: 0}
+    disabled: 0
+  - type: 8
+    rarity: 0
+    runeName: HEMORRHAGE
+    gives0Levels: 0
+    description: Bleed enemies on-hit (stacking).
+    icon: {fileID: 0}
+    disabled: 0
+  - type: 9
+    rarity: 0
+    runeName: PRECISION
+    gives0Levels: 0
+    description: Every 4th attack deals significantly more damage.
+    icon: {fileID: 0}
+    disabled: 0
+  - type: 10
+    rarity: 1
+    runeName: BERSERK
+    gives0Levels: 0
+    description: Deal significantly more damage the lower health you are.
+    icon: {fileID: 0}
+    disabled: 0
+  - type: 11
+    rarity: 1
+    runeName: SIPHON
+    gives0Levels: 0
+    description: Siphon health from the closest enemy in combat.
+    icon: {fileID: 0}
+    disabled: 0
+  - type: 12
+    rarity: 1
+    runeName: tba
+    gives0Levels: 0
+    description: Enemies explode when they are killed.
+    icon: {fileID: 0}
+    disabled: 0
+  - type: 13
+    rarity: 1
+    runeName: CASHBACK
+    gives0Levels: 1
+    description: Get gold back on shop purchases.
+    icon: {fileID: 0}
+    disabled: 0
+  - type: 14
+    rarity: 1
+    runeName: SAFEGUARD
+    gives0Levels: 0
+    description: Gain a regenerating shield.
+    icon: {fileID: 0}
+    disabled: 0
+  - type: 15
+    rarity: 1
+    runeName: GUARDIAN
+    gives0Levels: 0
+    description: Cheat death.
+    icon: {fileID: 0}
+    disabled: 0
+  - type: 16
+    rarity: 1
+    runeName: tba
+    gives0Levels: 0
+    description: Reduce magic cooldown on-hit.
+    icon: {fileID: 0}
+    disabled: 0
+  - type: 17
+    rarity: 1
+    runeName: VAMPIRISM
+    gives0Levels: 0
+    description: Steal health from enemies on-hit.
+    icon: {fileID: 0}
+    disabled: 0
+  - type: 18
+    rarity: 1
+    runeName: LYRE
+    gives0Levels: 0
+    description: Chain lightning on enemies.
+    icon: {fileID: 0}
+    disabled: 0

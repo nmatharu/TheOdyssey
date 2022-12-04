@@ -25,7 +25,8 @@ public class SandWormNode : MonoBehaviour
 
         var look = targetPos - pos;
         var lookRot = look != Vector3.zero ? Quaternion.LookRotation( targetPos - pos ) : Quaternion.identity;
-        var lookTarget = Quaternion.Slerp( transform.rotation, lookRot, _worm.lookSlerp * Time.deltaTime );
+        var lookTarget = Quaternion.Slerp( transform.rotation, lookRot, 
+            ( childNode ? _worm.lookSlerp : _worm.headLookSlerp ) * Time.deltaTime );
         transform.rotation = lookTarget;
 
         transform.position = Vector3.MoveTowards( pos, targetPos, _worm.speed * Time.deltaTime );

@@ -112,6 +112,8 @@ public class PlayerStatusBar : MonoBehaviour
         rollCdBar.rectTransform.sizeDelta = new Vector2( 0, height );
     }
 
+    public void ResetMagic() => magicCircleParent.SetActive( false );
+
     public void UpdateMagicIcon( MagicSpell magic )
     {
         magicCircleParent.SetActive( true );

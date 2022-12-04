@@ -31,14 +31,14 @@ public class LevelFires : Level
             endX - startX - 2, DefaultWorldSizeY - 2, 3, 3 );
         points.Shuffle();
         
-        for( var i = 0; i < points.Count && i < 6; i++ )
-        {
-            Instantiate( generator.Gen( WorldGenIndex.Misc.Campfire ), 
-                WorldGenerator.CoordsToWorldPos( points[ i ] ), 
-                JBB.RandomYRot(), generator.objsParent );
-
-            generator.Map( points[ i ] ).OffLimits = true;
-        }
+        // for( var i = 0; i < points.Count && i < 6; i++ )
+        // {
+        //     Instantiate( generator.Gen( WorldGenIndex.Misc.Campfire ), 
+        //         WorldGenerator.CoordsToWorldPos( points[ i ] ), 
+        //         JBB.RandomYRot(), generator.objsParent );
+        //
+        //     generator.Map( points[ i ] ).OffLimits = true;
+        // }
         
         for( var i = 0; i < points.Count && i < 60; i++ )
         {

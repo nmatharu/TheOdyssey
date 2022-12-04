@@ -29,6 +29,7 @@ public class Player : MonoBehaviour
     InteractPrompt _interactPrompt;
     PlayerMoves _playerMoves;
     PlayerStatusBar _statusBar;
+    PlayerRunes _playerRunes;
 
     Rigidbody _body;
     Animator _animator;
@@ -86,6 +87,7 @@ public class Player : MonoBehaviour
         _renderers = meshParent.GetComponentsInChildren<Renderer>();
         _interactPrompt = GetComponentInChildren<InteractPrompt>();
         _playerMoves = GetComponent<PlayerMoves>();
+        _playerRunes = GetComponent<PlayerRunes>();
         _statusBar = GetComponentInChildren<PlayerStatusBar>();
         _specialAttack = PlayerMoves.SpecialAttackType.Slash;
         _lastPos = transform.position;
@@ -165,7 +167,9 @@ public class Player : MonoBehaviour
     public void IncomingDamage( float unscaledDmg, int enemyLevel )
     {
         if( rolling ) return;
-        TakeDamage( unscaledDmg * GameManager.Instance.EnemyDamageMultiplier( enemyLevel ) );
+        var dmg = _playerRunes.IncomingDamageCalc( unscaledDmg, enemyLevel );
+        if( dmg > 0 )
+            TakeDamage( dmg );
     }
 
     void TakeDamage( float dmg )
@@ -318,15 +322,17 @@ public class Player : MonoBehaviour
 
     public bool CantAfford( int cost ) => _currency < cost;
 
-    public void BuyRune( Rune rune, int cost )
+    public void BuyRune( NewRune rune, int cost )
     {
         _currency -= cost;
         _statusBar.UpdateBag( _currency, _crystals );
         GameManager.Instance.SpawnCostNumber( transform.position, cost );
-        Debug.Log( $"Bought the {rune.Name()} rune" );
+        
+        Debug.Log( $"Bought the {rune.runeName} rune" );
         
         itemBuyFx.Play();
-        AcquireRune( rune );
+        _playerRunes.AcquireRune( rune );
+        // AcquireRune( rune );
     }
 
     public void AcquireRune( Rune rune )
@@ -362,22 +368,11 @@ public class Player : MonoBehaviour
     }
 
     void UpdateRollSpeed( int count ) => _rollSpeedMultiplier = baseRollSpeedMultiplier + 0.5f * count;
-
-    public float DamageMultiplier()
+    
+    public void DamageEnemy( Guid attackId, Enemy enemy, float baseDamage, bool melee, bool magic )
     {
-        var multiplier = 1f;
-        multiplier *= GameManager.Scale0( _runes[ "fury" ] );
-        return multiplier;
-    }
-
-    public float MeleeMultiplier()
-    {
-        return 1f;
-    }
-
-    public float MagicMultiplier()
-    {
-        return 1f;
+        var damage = (int) _playerRunes.OutgoingDamageCalc( baseDamage, melee, magic );
+        enemy.TakeDamage( this, damage, attackId );
     }
 
     public void BackToLevelStart()
@@ -495,4 +490,40 @@ public class Player : MonoBehaviour
     }
 
     public MagicSpell MagicSpell() => _magic;
+
+    public void InitSandbox()
+    {
+        _currency = 0;
+        AwardCurrency( 999 );
+    }
+
+    public void OnHit( int enemiesHit, bool melee, bool magic ) => _playerRunes.OnHit( enemiesHit, melee, magic );
+
+    public void SandboxControl( SandboxInteractable.SandboxControl control )
+    {
+        switch( control )
+        {
+            case SandboxInteractable.SandboxControl.Reset:
+                _currency = 999;
+                _level = 1;
+                _magic = null;
+                _statusBar.UpdateBag( _currency, _crystals );
+                _statusBar.SetLevel( _level );
+                _statusBar.ResetMagic();
+                _playerRunes.SandboxReset();
+                break;
+            case SandboxInteractable.SandboxControl.To1Hp:
+                TakeDamage( _hp - 1 );
+                break;
+            case SandboxInteractable.SandboxControl.ToFull:
+                GameManager.Instance.SpawnGenericFloating( transform.position + Vector3.up, "+", Color.green, 24 );
+                _hp = _maxHp;
+                break;
+            case SandboxInteractable.SandboxControl.Die:
+                TakeDamage( _hp );
+                break;
+            default:
+                throw new ArgumentOutOfRangeException( nameof( control ), control, null );
+        }
+    }
 }
