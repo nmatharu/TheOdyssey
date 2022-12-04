@@ -4,6 +4,7 @@ public class GameConfig
 {
     public int Difficulty = 1;
     public int PlayerCount = 1;
+    public bool Sandbox = false;
     public List<PlayerConfig> Players = new();
 
     public class PlayerConfig

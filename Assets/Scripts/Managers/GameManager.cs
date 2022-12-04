@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
     // Lots of scaling in the game uses this 1 + 0.333x gain, provided 0-indexed and 1-indexed methods
     // How players health scales with stacks of vitality, e.g. 30 hp (0 stacks), 40 hp, 50 hp, etc.
     public static float Scale0( int n, float gain = 1/3f ) => 1f + ( gain * n );
-    public static float Scale1( int n, float gain = 1/3f ) => 1f + ( gain * ( n - 1 ) );
+    public static float Scale1( int n, float gain = 1/2f ) => 1f + ( gain * ( n - 1 ) );
 
     void Awake()
     {

@@ -75,10 +75,10 @@ public class GlobalPlayerInput : MonoBehaviour
         if( _lobbyPlayer == null || !context.action.triggered || _lobbyPlayer.ready )  return;
         
         // TODO Implement name entry
-        return;
+        // return;
         
-        _lobbyPlayer.EditName();
-        _playerInput.SwitchCurrentActionMap( "LobbyType" );
+        // _lobbyPlayer.EditName();
+        // _playerInput.SwitchCurrentActionMap( "LobbyType" );
     }
 
     public void LobbyChangeDifficulty( InputAction.CallbackContext context )

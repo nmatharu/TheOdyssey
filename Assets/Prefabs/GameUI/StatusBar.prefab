@@ -187,10 +187,12 @@ MonoBehaviour:
   hpBar: {fileID: 680768841097415376}
   hpFollowBar: {fileID: 1677280968216362539}
   notchesParent: {fileID: 3492589238641865574}
-  notch: {fileID: 6669465897340907075, guid: 182064fe6629149b49a868d5358b100b, type: 3}
-  notchDivision: 10
-  maxNotchWidth: 0.08
-  minNotchWidth: 0.04
+  notch: {fileID: 7034340180151910462, guid: 99eb385a64c504c799222bae10811368, type: 3}
+  notchBig: {fileID: 0}
+  notchDivision: 50
+  bigNotchEverySmall: 10
+  maxNotchWidth: 0.4
+  minNotchWidth: 0.4
   maxNotchWidthThreshold: 50
   minNotchWidthThreshold: 200
 --- !u!114 &9222422866617839388
@@ -513,7 +515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.25943398, b: 0.25943398, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

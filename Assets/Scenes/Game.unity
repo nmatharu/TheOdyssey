@@ -11414,6 +11414,10 @@ PrefabInstance:
       propertyPath: speed
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 2847299727457804892, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
+      propertyPath: bonusSpeedPerStack
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4469352636808420908, guid: 951a4fad21ab0d64197ef079190399dd, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -17200,7 +17204,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &823649248
 Transform:
   m_ObjectHideFlags: 0
@@ -19827,6 +19831,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[9].icon
+      value: 
+      objectReference: {fileID: 21300000, guid: 468687645287b2441ac82cc089b11ec6, type: 3}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[10].icon
+      value: 
+      objectReference: {fileID: 21300000, guid: d62796a448515e448adfe6beacc90578, type: 3}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[10].description
+      value: Deal massive damage when close to death.
+      objectReference: {fileID: 0}
     - target: {fileID: 8667302490267327709, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -43696,7 +43712,7 @@ MonoBehaviour:
   - 0.5
   - 1
   - 1.5
-  - 1.5
+  - 2
   levelIncrementTimeDifficultySeconds:
   - 90
   - 60
@@ -48262,12 +48278,13 @@ MonoBehaviour:
   genNpcs:
   - {fileID: 3153920260594947028, guid: 702457f91f25cad46b84a1a82b235923, type: 3}
   - {fileID: 3153920260594947028, guid: 1c112c09cf163ee43bca69905eb33352, type: 3}
+  sandboxMode: 1
   levels:
-  - {fileID: 590174255}
   - {fileID: 317313853}
   - {fileID: 1764224119}
   - {fileID: 1974198877}
   - {fileID: 1981998480}
+  - {fileID: 590174255}
 --- !u!4 &2113210664
 Transform:
   m_ObjectHideFlags: 0

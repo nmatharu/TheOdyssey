@@ -23,15 +23,15 @@ public class RToRestart : MonoBehaviour
             foreach( var p in GameManager.Instance.Players() )
                 p.Init( "GERBERT" );
         
-        if( Input.GetKey( KeyCode.LeftShift ) && Input.GetKeyDown( KeyCode.D ))
-            foreach( var p in GameManager.Instance.Players() )
-                p.IncomingDamage( 2000f, 1 );
+        // if( Input.GetKey( KeyCode.LeftShift ) && Input.GetKeyDown( KeyCode.D ))
+        //     foreach( var p in GameManager.Instance.Players() )
+        //         p.IncomingDamage( 2000f, 1 );
 
-        if( Input.GetKeyDown( KeyCode.Q ) )
-        {
-            GameManager.Instance.Unpause();
-            SceneManager.LoadScene( "Menu" );
-            GlobalInputManager.Instance.ToMenu();
-        }
+        // if( Input.GetKeyDown( KeyCode.Q ) )
+        // {
+        //     GameManager.Instance.Unpause();
+        //     SceneManager.LoadScene( "Menu" );
+        //     GlobalInputManager.Instance.ToMenu();
+        // }
     }
 }

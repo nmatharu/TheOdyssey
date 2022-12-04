@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour
             _originalMatColors.Add( r.material.color );
 
         _hitGuids = new HashSet<Guid>();
-        InvokeRepeating( nameof( ClearGuids ), 0f, 1f );
+        // InvokeRepeating( nameof( ClearGuids ), 0f, 1f );
     }
 
     void ClearGuids() => _hitGuids.Clear();
@@ -51,18 +51,19 @@ public class Enemy : MonoBehaviour
 
         var d = Mathf.RoundToInt( dmg );
         _hp -= d;
-        var bleed = p.BleedStacks();
-        if( bleed > 0 ) StartCoroutine( Bleed( p, bleed ) );
         
         GameManager.Instance.SpawnDamageNumber( transform.position, d, true );
         p.Statistics().DealDamage( dmg );
         CheckForDeath( p );
     }
 
-    IEnumerator Bleed( Player p, int stacks )
+    public void Bleed( Player p, int stacks, int bleedDamage ) => 
+        StartCoroutine( BleedCoroutine( p, stacks, bleedDamage ) );
+
+    IEnumerator BleedCoroutine( Player p, int stacks, int dmg )
     {
         var wait = new WaitForSeconds( 1f );
-        for( var i = 0; i < 3; i++ )
+        for( var i = 0; i < dmg; i++ )
         {
             yield return wait;
             _hp -= stacks;

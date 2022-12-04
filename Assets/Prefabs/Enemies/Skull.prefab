@@ -4895,12 +4895,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b0d29ef027971146902f8e3924521fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 20
+  maxHp: 30
   spawnCost: 1
   renderers:
   - {fileID: 460167910664086936}
   hitFlashIntensity: 2
   deathPfx: {fileID: 7099122110959006634, guid: 4047783b4f1194bc99e7ba89efbfda95, type: 3}
+  deathPfxIdentityRot: 0
 --- !u!114 &4159721235228118989
 MonoBehaviour:
   m_ObjectHideFlags: 0

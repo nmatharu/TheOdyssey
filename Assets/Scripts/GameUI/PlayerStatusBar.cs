@@ -17,7 +17,10 @@ public class PlayerStatusBar : MonoBehaviour
 
     [ SerializeField ] Transform notchesParent;
     [ SerializeField ] GameObject notch;
+    [ SerializeField ] GameObject notchBig;
+    
     [ SerializeField ] int notchDivision = 10;
+    [ SerializeField ] int bigNotchEverySmall = 10;
     [ SerializeField ] float maxNotchWidth = 0.08f;
     [ SerializeField ] float minNotchWidth = 0.04f;
     [ SerializeField ] int maxNotchWidthThreshold = 50;
@@ -84,14 +87,17 @@ public class PlayerStatusBar : MonoBehaviour
             minNotchWidthThreshold, maxNotchWidthThreshold,
             minNotchWidth, maxNotchWidth );
 
+        var i = 1;
         for( var hp = notchDivision; hp < maxHp; hp += notchDivision )
         {
-            var image = Instantiate( notch, notchesParent ).GetComponent<Image>();
+            var image = Instantiate( i % bigNotchEverySmall == 0 ? notchBig : notch, notchesParent ).GetComponent<Image>();
             image.rectTransform.sizeDelta = new Vector2( notchWidth, _hpBarHeight );
-            image.rectTransform.anchoredPosition =
+            image.rectTransform.anchoredPosition = 
                 new Vector3( hp / maxHp * _maxHpBarWidth, 0, 0 );
-        }
 
+            i++;
+        }
+        
         _overlayUI.ReRun();
     }
 

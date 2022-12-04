@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
     [ SerializeField ] public float baseMaxHp = 30f;
     [ SerializeField ] float baseRollSpeedMultiplier = 1.5f;
     [ SerializeField ] float speed = 8f;
-    [ SerializeField ] float baseHpRegenPerMinute = 6;
 
     [ SerializeField ] Vector3 levelStartPosition;
     
@@ -24,6 +23,8 @@ public class Player : MonoBehaviour
 
     public float rollDuration = 0.3f;
     public float rollCooldown = 1f;
+    float _baseRollCd;
+    float _baseSpeed;
 
     Renderer[] _renderers;
     InteractPrompt _interactPrompt;
@@ -73,6 +74,7 @@ public class Player : MonoBehaviour
     Vector3 _moveDir;
     Vector3 _lastPos;
 
+    float _baseHpRegen;
     float _hpRegenPerMin;
 
     static readonly int IsRunning = Animator.StringToHash( "IsRunning" );
@@ -107,7 +109,11 @@ public class Player : MonoBehaviour
         foreach( Rune rune in RuneIndex.Instance.AllRunes() )
             _runes.Add( rune.Name(), 0 );
 
-        _hpRegenPerMin = GameManager.Instance.BaseHpRegenPerMin();
+        _baseRollCd = rollCooldown;
+        _baseSpeed = speed;
+        
+        _baseHpRegen = GameManager.Instance.BaseHpRegenPerMin();
+        _hpRegenPerMin = _baseHpRegen;
         StartCoroutine( RegenerateHealth() );
 
         _currency = GameManager.Instance.GetInitGold();
@@ -136,6 +142,9 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         if( dead ) return;
+        
+        _playerRunes.UpdateBerserkPfx();
+        
         if( rolling )
         {
             _body.velocity = transform.forward * ( _rollSpeedMultiplier * speed );
@@ -303,15 +312,22 @@ public class Player : MonoBehaviour
 
     IEnumerator RegenerateHealth()
     {
+        var elapsed = 0f;
         for( ;; )
         {
-            if( _hp < _maxHp && gameObject.activeInHierarchy && !dead )
+            if( elapsed > 60f / _hpRegenPerMin )
             {
-                _hp = Mathf.Clamp( _hp + 1, 0, _maxHp );
-                GameManager.Instance.SpawnGenericFloating( transform.position + Vector3.up, "+", Color.green, 6 );
-            }
+                if( _hp < _maxHp && gameObject.activeInHierarchy && !dead )
+                {
+                    _hp = Mathf.Clamp( _hp + 1, 0, _maxHp );
+                    GameManager.Instance.SpawnGenericFloating( transform.position + Vector3.up, "+", Color.green, 6 );
+                }
 
-            yield return new WaitForSeconds( 60f / _hpRegenPerMin );
+                elapsed -= 60f / _hpRegenPerMin;
+            }
+            
+            elapsed += Time.deltaTime;
+            yield return null;
         }
     }
 
@@ -331,8 +347,11 @@ public class Player : MonoBehaviour
         Debug.Log( $"Bought the {rune.runeName} rune" );
         
         itemBuyFx.Play();
+
+        _level += rune.LevelsToAdd();
+        _statusBar.SetLevel( _level );
+        
         _playerRunes.AcquireRune( rune );
-        // AcquireRune( rune );
     }
 
     public void AcquireRune( Rune rune )
@@ -350,18 +369,15 @@ public class Player : MonoBehaviour
             case "evasion":
                 UpdateRollSpeed( count );
                 break;
-            case "resolve":
-                UpdateHpRegen( count );
-                break;
         }
     }
 
     int StacksOfRune( ItemDirector.Runes rune ) => _runeMap[ (int) rune ];
 
-    void UpdateMaxHealth( int count )
+    public void UpdateMaxHealth( float baseMultiplier )
     {
         var oldMaxHp = _maxHp;
-        _maxHp = baseMaxHp * GameManager.Scale0( count );
+        _maxHp = baseMaxHp * baseMultiplier;
         var diff = _maxHp - oldMaxHp;
         _hp = Mathf.Clamp( _hp + diff, 0, _maxHp );
         _statusBar.SetHpBarNotches( _maxHp );
@@ -371,23 +387,20 @@ public class Player : MonoBehaviour
     
     public void DamageEnemy( Guid attackId, Enemy enemy, float baseDamage, bool melee, bool magic )
     {
-        var damage = (int) _playerRunes.OutgoingDamageCalc( baseDamage, melee, magic );
+        var damage = (int) _playerRunes.OutgoingDamageCalc( attackId, baseDamage, melee, magic );
         enemy.TakeDamage( this, damage, attackId );
+
+        var bleedStacks = _playerRunes.BleedStacks();
+        if( bleedStacks > 0 )
+            enemy.Bleed( this, bleedStacks, _playerRunes.BleedDamage() );
     }
 
     public void BackToLevelStart()
     {
         transform.position = levelStartPosition;
         _hp = _maxHp;
-    }
-
-    public int BleedStacks() => _runes[ "hemorrhage" ];
-
-    void UpdateHpRegen( int count )
-    {
-        _hpRegenPerMin = baseHpRegenPerMinute + count * 12f;
-        // StopCoroutine( nameof( RegenerateHealth ) );
-        // StartCoroutine( RegenerateHealth() );
+        if( _playerRunes != null )
+            _playerRunes.NextLevel();
     }
 
     public void LifeSteal()
@@ -398,11 +411,18 @@ public class Player : MonoBehaviour
             GameManager.Instance.SpawnGenericFloating( transform.position + Vector3.up, "+", Color.green, 12 );
     }
 
-    public void CampfireHeal()
+    public void CampfireHeal() => Heal( 1, true, false, 16f );
+
+    void Heal( float amount, bool showText, bool showTextIfFull, float textSize )
     {
-        if( _hp < _maxHp )
-            GameManager.Instance.SpawnGenericFloating( transform.position + Vector3.up, "+", Color.green, 16 );
-        _hp = Mathf.Clamp( _hp + 1, 0, _maxHp );
+        if( showText )
+        {
+            if( showTextIfFull || _hp < _maxHp )
+            {
+                GameManager.Instance.SpawnGenericFloating( transform.position + Vector3.up, "+", Color.green, textSize );
+            }
+        }
+        _hp = Mathf.Clamp( _hp + amount, 0, _maxHp );
     }
 
     public void ShowInventory( bool b ) => _statusBar.ShowInventory( b );
@@ -455,7 +475,11 @@ public class Player : MonoBehaviour
         }
 
         _magic.Cast( this );
-        StartCoroutine( MagicCooldown( _magic.cooldownSeconds ) );
+        var magicHeal = _playerRunes.MagicHealAmount();
+        if( magicHeal > 0 )
+            Heal( magicHeal, true, true, 20f );
+        
+        StartCoroutine( MagicCooldown( _magic.cooldownSeconds * _playerRunes.MagicCdMultiplier() ) );
     }
 
     IEnumerator MagicCooldown( float cooldownSeconds )
@@ -476,7 +500,8 @@ public class Player : MonoBehaviour
         _statusBar.EndMagicCd();
     }
 
-    public void ReduceMagicCd( float amount ) => _magicCdCountdown -= amount;
+    public void ReduceMagicCdFlat( float amount ) => _magicCdCountdown -= amount;
+    public void ReduceMagicCdPct( float pct ) => _magicCdCountdown *= 1 - pct;
 
     public void SetPlayerName( string playerName ) => _playerName = playerName;
     public string PlayerName() => _playerName;
@@ -490,14 +515,27 @@ public class Player : MonoBehaviour
     }
 
     public MagicSpell MagicSpell() => _magic;
-
+    
+    public float MagicEffectiveness() => _playerRunes.MagicEffectiveness();
+    
+    public void UpdateHealthRegen( float bonusRegen ) => _hpRegenPerMin = _baseHpRegen + bonusRegen;
+    public void UpdateRollCd() => rollCooldown = _playerRunes.RollCooldown( _baseRollCd, rollDuration );
+    
+    public void UpdateSpeed( float bonusSpeed )
+    {
+        speed = _baseSpeed + bonusSpeed;
+        _playerMoves.SetRunSpeed( Mathf.Sqrt( speed / 8f ) );
+    }
+    
+    public void OnHit( int enemiesHit, bool melee, bool magic ) => _playerRunes.OnHit( enemiesHit, melee, magic );
+    
+    // SANDBOX
+    
     public void InitSandbox()
     {
         _currency = 0;
         AwardCurrency( 999 );
     }
-
-    public void OnHit( int enemiesHit, bool melee, bool magic ) => _playerRunes.OnHit( enemiesHit, melee, magic );
 
     public void SandboxControl( SandboxInteractable.SandboxControl control )
     {
@@ -507,6 +545,7 @@ public class Player : MonoBehaviour
                 _currency = 999;
                 _level = 1;
                 _magic = null;
+                _hp = _maxHp;
                 _statusBar.UpdateBag( _currency, _crystals );
                 _statusBar.SetLevel( _level );
                 _statusBar.ResetMagic();

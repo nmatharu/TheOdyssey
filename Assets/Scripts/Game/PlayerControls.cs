@@ -35,6 +35,9 @@ public class PlayerControls : MonoBehaviour
 
     public void Attack1( InputAction.CallbackContext context )
     {
+        if( Paused() && _player != null && context.action.triggered )
+            GameManager.Instance.AttemptQuitToMenu( _playerId );
+        
         if( Paused() || _player == null || _player.inputDisabled ) return;
         if( context.action.triggered )
             _player.LightAttack();

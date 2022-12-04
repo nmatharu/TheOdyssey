@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3296310348440722584, guid: f48b73bab2d08354ca18c2b86663704c, type: 3}
       propertyPath: healTicksEverySeconds
-      value: 0.33
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 3600602709969173887, guid: f48b73bab2d08354ca18c2b86663704c, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
@@ -69,7 +69,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5051505629040426839, guid: f48b73bab2d08354ca18c2b86663704c, type: 3}
       propertyPath: m_Name
-      value: BeegCampfire
+      value: BeegCampfire Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f48b73bab2d08354ca18c2b86663704c, type: 3}

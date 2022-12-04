@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WorldGenerator : MonoBehaviour
@@ -19,6 +20,8 @@ public class WorldGenerator : MonoBehaviour
     [ SerializeField ] GameObject[] genMisc; // misc objects in environment, e.g. waterfall particle systems
     [ SerializeField ] GameObject[] genNpcs; // npcs to interact with, shops, quests, etc.
 
+    [ SerializeField ] bool sandboxMode;
+    
     Tile[ , ] _tileMap;
     Node[ , ] _nodeMap;
 
@@ -57,8 +60,15 @@ public class WorldGenerator : MonoBehaviour
     void Start()
     {
         _currentLevel = levels[ _currentLevelIndex ];
+        if( GameManager.GameConfig.Sandbox || sandboxMode )
+        {
+            _currentLevel = levels.Where( l => l.GetType() == typeof( LevelSandbox ) ).ToList()[ 0 ];
+            _currentLevelIndex = -1;
+        }
+
         _numPlayers = GameManager.Instance.NumPlayersInParty();
-        Debug.Log( $"Generating world w/ {_numPlayers} players" );
+        
+        // Debug.Log( $"Generating world w/ {_numPlayers} players" );
         _currentLevel.gameObject.SetActive( true );
         StartCoroutine( Generate() );
     }
