@@ -418,12 +418,10 @@ public class Player : MonoBehaviour
             _playerRunes.NextLevel();
     }
 
-    public void LifeSteal()
+    public void LifeSteal( float amountToHeal = 1f )
     {
-        var lifeSteal = _runes[ "vampirism" ];
-        _hp = Mathf.Clamp( _hp + lifeSteal, 0, _maxHp );
-        if( lifeSteal > 0 )
-            GameManager.Instance.SpawnGenericFloating( transform.position + Vector3.up, "+", Color.green, 12 );
+        _hp = Mathf.Clamp( _hp + amountToHeal, 0, _maxHp );
+        GameManager.Instance.SpawnGenericFloating( transform.position + Vector3.up, "+", Color.green, 12 );
     }
 
     public void CampfireHeal() => Heal( 1, true, false, 16f );
@@ -465,10 +463,7 @@ public class Player : MonoBehaviour
         GameManager.Instance.SpawnGenericFloating( transform.position, 
             $"LEARNED\n{_magic.magicName}", Color.magenta, 8f );
         
-        if( !_magicOnCooldown )
-            _statusBar.EndMagicCd();
-        
-        // TODO Celebration particles/text on learn magic
+        _statusBar.FlashMagicIcon();
     }
 
     public void CastMagic()
@@ -515,8 +510,19 @@ public class Player : MonoBehaviour
         _statusBar.EndMagicCd();
     }
 
-    public void ReduceMagicCdFlat( float amount ) => _magicCdCountdown -= amount;
-    public void ReduceMagicCdPct( float pct ) => _magicCdCountdown *= 1 - pct;
+    public void ReduceMagicCdFlat( float amount )
+    {
+        _magicCdCountdown -= amount;
+        if( _magicOnCooldown )
+            _statusBar.FlashMagicIcon( 5f );
+    }
+
+    public void ReduceMagicCdPct( float pct )
+    {
+        _magicCdCountdown *= 1 - pct;
+        if( _magicOnCooldown )
+            _statusBar.FlashMagicIcon( 5f );
+    }
 
     public void SetPlayerName( string playerName ) => _playerName = playerName;
     public string PlayerName() => _playerName;
@@ -548,6 +554,8 @@ public class Player : MonoBehaviour
         speed = _baseSpeed + bonusSpeed;
         _playerMoves.SetRunSpeed( Mathf.Sqrt( speed / 8f ) );
     }
+
+    public void EnemyKilled( Enemy enemy ) => _playerRunes.Splatter( enemy );
     
     public void OnHit( int enemiesHit, bool melee, bool magic ) => _playerRunes.OnHit( enemiesHit, melee, magic );
     

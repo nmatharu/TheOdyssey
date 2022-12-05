@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class MagicShrine : Interactable
 {
-    [ SerializeField ] MagicSpell[] magicPool;
+    [ SerializeField ] public MagicSpell[] magicPool;
     
     [ SerializeField ] TextMeshProUGUI magicTitle;
     [ SerializeField ] TextMeshProUGUI magicDescription;

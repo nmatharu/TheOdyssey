@@ -144,65 +144,58 @@ MonoBehaviour:
     runeName: PRECISION
     gives0Levels: 0
     description: Every 4th attack deals bonus damage.
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 468687645287b2441ac82cc089b11ec6, type: 3}
     disabled: 0
   - type: 10
     rarity: 1
     runeName: BERSERK
     gives0Levels: 0
-    description: Deal more damage when close to death.
-    icon: {fileID: 0}
+    description: Deal massive damage when close to death.
+    icon: {fileID: 21300000, guid: d62796a448515e448adfe6beacc90578, type: 3}
     disabled: 0
   - type: 11
     rarity: 1
-    runeName: SIPHON
-    gives0Levels: 0
-    description: Siphon health from the closest enemy.
-    icon: {fileID: 0}
-    disabled: 0
-  - type: 12
-    rarity: 1
-    runeName: tba
+    runeName: SPLATTER
     gives0Levels: 0
     description: Enemies explode when they are killed.
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 9abb85e4e02fbb54c8ac6493addda4e3, type: 3}
     disabled: 0
-  - type: 13
+  - type: 12
     rarity: 1
     runeName: CASHBACK
     gives0Levels: 1
     description: Get gold back on shop purchases.
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 31fe363bc14f08d4e96daff5ee2d1783, type: 3}
     disabled: 0
-  - type: 14
+  - type: 13
     rarity: 1
     runeName: SAFEGUARD
     gives0Levels: 0
     description: Gain a regenerating shield.
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 0cd24a8b2053cb04994e37ebdd095261, type: 3}
     disabled: 0
-  - type: 15
+  - type: 14
     rarity: 1
     runeName: GUARDIAN
     gives0Levels: 0
     description: Cheat death.
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 3ecf82fb1f58451408dec1f9f5448e1d, type: 3}
     disabled: 0
-  - type: 16
+  - type: 15
     rarity: 1
     runeName: tba
     gives0Levels: 0
-    description: Reduce magic cooldown on-hit.
+    description: Melee attacks reduce magic cooldown.
     icon: {fileID: 0}
     disabled: 0
-  - type: 17
+  - type: 16
     rarity: 1
     runeName: VAMPIRISM
     gives0Levels: 0
     description: Steal health from enemies on-hit.
     icon: {fileID: 0}
     disabled: 0
-  - type: 18
+  - type: 17
     rarity: 1
     runeName: LYRE
     gives0Levels: 0

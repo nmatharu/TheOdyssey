@@ -14,6 +14,7 @@ public class PlayerRunes : MonoBehaviour
     [ SerializeField ] ParticleSystem shieldPfx;
     [ SerializeField ] ParticleSystem guardianPfx;
     [ SerializeField ] Sprite guardianIcon;
+    [ SerializeField ] GameObject splatterPfx;
     
     [ SerializeField ] float meleePctIncrease = 0.50f;
     [ SerializeField ] float magicPctIncrease = 0.50f;
@@ -32,11 +33,19 @@ public class PlayerRunes : MonoBehaviour
     [ SerializeField ] float guardianBurstRadius = 3f;
     [ SerializeField ] float guardianBurstDamage = 30f;
     
+    [ SerializeField ] float splatterBaseDamage = 20f;
+    [ SerializeField ] float splatterDamagePerStack = 15f;
+    [ SerializeField ] float splatterRadius = 4f;
+    [ SerializeField ] float splatterDmgDelayFrames = 2f;
+    [ SerializeField ] float cdReduceOnHitPerStack = 1f;
+    [ SerializeField ] float lifeStealOnHitPerStack = 1f;
+    
     Player _player;
     int[] _runes;
     bool _shieldUp;
     bool _precision;
     bool _berserk;
+    bool _splatter;
     int _precisionIndex = 0;
     HashSet<Guid> _hitGuids;
     HashSet<Guid> _fourthHitGuids;
@@ -52,7 +61,9 @@ public class PlayerRunes : MonoBehaviour
         _berserkPfxEmission = berserkPfx.emission.rateOverTime.constant;
         
         // TODO Remove
-        _runes[ (int) NewRune.Type.GoldGuardian ] = 100;
+        // _runes[ (int) NewRune.Type.GoldEnemiesExplode ] = 1;
+        // _splatter = true;
+        // _runes[ (int) NewRune.Type.CommonMeleeDmg ] = 10;
     }
 
     int Count( NewRune.Type type ) => _runes[ (int) type ];
@@ -93,6 +104,9 @@ public class PlayerRunes : MonoBehaviour
             case NewRune.Type.GoldShield:
                 if( Count( NewRune.Type.GoldShield ) == 1 )
                     InitShield();
+                break;
+            case NewRune.Type.GoldEnemiesExplode:
+                _splatter = Count( NewRune.Type.GoldEnemiesExplode ) > 0;
                 break;
         }
     }
@@ -172,7 +186,14 @@ public class PlayerRunes : MonoBehaviour
 
     public void OnHit( int enemiesHit, bool melee, bool magic )
     {
-        // throw new System.NotImplementedException();
+        var magicCdStacks = Count( NewRune.Type.GoldReduceCdOnHit );
+        var lifeStealStacks = Count( NewRune.Type.GoldLifeSteal );
+        
+        if( magicCdStacks > 0 && melee )
+            _player.ReduceMagicCdFlat( cdReduceOnHitPerStack * magicCdStacks );
+        
+        if( lifeStealStacks > 0 ) 
+            _player.LifeSteal( enemiesHit * lifeStealOnHitPerStack * lifeStealStacks );
     }
 
     public void SandboxReset()
@@ -238,6 +259,27 @@ public class PlayerRunes : MonoBehaviour
         return true;
     }
 
+    public void Splatter( Enemy enemy )
+    {
+        if( !_splatter ) return;
+
+        var pos = enemy.transform.position;
+        Instantiate( splatterPfx, pos, Quaternion.identity );
+        this.Invoke( () =>
+        {
+            var guid = Guid.NewGuid();
+            var dmg = splatterBaseDamage + splatterDamagePerStack * ( Count( NewRune.Type.GoldEnemiesExplode ) - 1 );
+            var colliders = Physics.OverlapSphere( pos, splatterRadius );
+            foreach( var c in colliders )
+            {
+                var e = c.GetComponent<Enemy>();
+                if( e != null && e != enemy )
+                    e.TakeDamage( _player, dmg, guid );
+            }
+            
+        }, splatterDmgDelayFrames / 50f );
+    }
+    
     public int MagicHealAmount() => magicHealAmount * Count( NewRune.Type.CommonMagicHeal );
 
     public int BleedStacks() => Count( NewRune.Type.CommonBleed );

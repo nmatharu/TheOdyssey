@@ -19831,30 +19831,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
-      propertyPath: runeIndex.Array.data[9].icon
-      value: 
-      objectReference: {fileID: 21300000, guid: 468687645287b2441ac82cc089b11ec6, type: 3}
-    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
-      propertyPath: runeIndex.Array.data[10].icon
-      value: 
-      objectReference: {fileID: 21300000, guid: d62796a448515e448adfe6beacc90578, type: 3}
-    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
-      propertyPath: runeIndex.Array.data[13].icon
-      value: 
-      objectReference: {fileID: 21300000, guid: 31fe363bc14f08d4e96daff5ee2d1783, type: 3}
-    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
-      propertyPath: runeIndex.Array.data[14].icon
-      value: 
-      objectReference: {fileID: 21300000, guid: 0cd24a8b2053cb04994e37ebdd095261, type: 3}
-    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
-      propertyPath: runeIndex.Array.data[15].icon
-      value: 
-      objectReference: {fileID: 21300000, guid: 3ecf82fb1f58451408dec1f9f5448e1d, type: 3}
-    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
-      propertyPath: runeIndex.Array.data[10].description
-      value: Deal massive damage when close to death.
-      objectReference: {fileID: 0}
     - target: {fileID: 8667302490267327709, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: m_RootOrder
       value: 5

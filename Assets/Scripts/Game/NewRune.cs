@@ -20,7 +20,7 @@ public class NewRune
         CommonBigHit,
         
         GoldLowHealthDmg,
-        GoldSiphon,
+        // GoldSiphon,
         GoldEnemiesExplode,
         GoldCashbackCard,
         GoldShield,

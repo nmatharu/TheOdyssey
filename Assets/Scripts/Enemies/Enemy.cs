@@ -87,6 +87,7 @@ public class Enemy : MonoBehaviour
     {
         if( _hp > 0 ) return;
         p.Statistics().KillEnemy();
+        p.EnemyKilled( this );
         GameManager.Instance.AwardGold( spawnCost );
         Die();
     }

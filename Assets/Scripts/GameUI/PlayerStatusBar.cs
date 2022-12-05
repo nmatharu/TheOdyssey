@@ -139,7 +139,7 @@ public class PlayerStatusBar : MonoBehaviour
     {
         cooldownParent.SetActive( true );
         cooldownSeconds.text = seconds.ToString();
-        StartCoroutine( FlashCdReady() );
+        FlashMagicIcon();
     }
 
     public void UpdateMagicCd( float secondsRemaining, float totalSeconds )
@@ -151,15 +151,18 @@ public class PlayerStatusBar : MonoBehaviour
     public void EndMagicCd()
     {
         cooldownParent.SetActive( false );
-        StartCoroutine( FlashCdReady() );
+        FlashMagicIcon();
     }
 
-    IEnumerator FlashCdReady()
+    public void FlashMagicIcon( float frames = 15f ) => StartCoroutine( FlashCdReady( frames ) );
+
+    IEnumerator FlashCdReady( float frames )
     {
         var wait = new WaitForFixedUpdate();
-        for( var i = 15; i > 0; i-- )
+        var inc = 0.75f / frames;
+        for( var i = frames; i > 0; i-- )
         {
-            cooldownFlashReady.color = new Color( 1f, 1f, 1f, i * 0.05f );
+            cooldownFlashReady.color = new Color( 1f, 1f, 1f, i * inc );
             yield return wait;
         }
 
