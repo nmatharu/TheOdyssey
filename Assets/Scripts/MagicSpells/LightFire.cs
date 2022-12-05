@@ -5,10 +5,11 @@ public class LightFire : MagicSpell
 {
     [ SerializeField ] GameObject lightBall;
     
-    public override void Cast( Player player )
+    public override bool Cast( Player player )
     {
         var t = player.transform;
         var o = Instantiate( lightBall, t.position, t.rotation );
         o.GetComponent<LightFireBall>().Init( player );
+        return true;
     }
 }

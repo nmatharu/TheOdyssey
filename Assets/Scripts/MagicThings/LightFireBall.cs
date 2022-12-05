@@ -7,7 +7,7 @@ public class LightFireBall : MonoBehaviour
 {
     [ SerializeField ] ParticleSystem pfx;
     [ SerializeField ] float speed = 20f;
-    [ SerializeField ] float timeToEnd = 0.75f;
+    // [ SerializeField ] float timeToEnd = 0.75f;
     [ SerializeField ] float baseDamage = 5;
     Player _player;
     Guid _id;

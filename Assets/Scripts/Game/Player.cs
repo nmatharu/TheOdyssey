@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     PlayerMoves _playerMoves;
     PlayerStatusBar _statusBar;
     PlayerRunes _playerRunes;
+    PlayerMagic _playerMagic;
 
     Rigidbody _body;
     Animator _animator;
@@ -90,6 +91,7 @@ public class Player : MonoBehaviour
         _interactPrompt = GetComponentInChildren<InteractPrompt>();
         _playerMoves = GetComponent<PlayerMoves>();
         _playerRunes = GetComponent<PlayerRunes>();
+        _playerMagic = GetComponent<PlayerMagic>();
         _statusBar = GetComponentInChildren<PlayerStatusBar>();
         _specialAttack = PlayerMoves.SpecialAttackType.Slash;
         _lastPos = transform.position;
@@ -469,7 +471,7 @@ public class Player : MonoBehaviour
     public void CastMagic()
     {
         if( dead || rolling || locked ) return;
-    
+
         if( _magic == null )
         {
             GameManager.Instance.SpawnGenericFloating( transform.position + 4 * Vector3.down,
@@ -484,7 +486,14 @@ public class Player : MonoBehaviour
             return;
         }
 
-        _magic.Cast( this );
+        var success = _magic.Cast( this );
+        if( !success )
+        {
+            GameManager.Instance.SpawnGenericFloating( transform.position + 4 * Vector3.down,
+                "NO TARGETS", Color.white, 4f );
+            return;
+        }
+
         var magicHeal = _playerRunes.MagicHealAmount();
         if( magicHeal > 0 )
             Heal( magicHeal, true, true, 20f );
@@ -558,6 +567,7 @@ public class Player : MonoBehaviour
     public void EnemyKilled( Enemy enemy ) => _playerRunes.Splatter( enemy );
     
     public void OnHit( int enemiesHit, bool melee, bool magic ) => _playerRunes.OnHit( enemiesHit, melee, magic );
+    public PlayerMagic Magic() => _playerMagic;
     
     // SANDBOX
     

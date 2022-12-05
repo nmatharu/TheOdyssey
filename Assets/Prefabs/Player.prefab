@@ -9427,6 +9427,7 @@ GameObject:
   - component: {fileID: 6841069964949934039}
   - component: {fileID: 1969243036096671559}
   - component: {fileID: 2847299727457804892}
+  - component: {fileID: 4392068342761350371}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -9456,6 +9457,7 @@ Transform:
   - {fileID: 5980981093096673156}
   - {fileID: 4526100844018592882}
   - {fileID: 8941678595902498595}
+  - {fileID: 1686305465364569573}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9634,6 +9636,19 @@ MonoBehaviour:
   splatterDmgDelayFrames: 2
   cdReduceOnHitPerStack: 0.75
   lifeStealOnHitPerStack: 1
+--- !u!114 &4392068342761350371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8729593036261750422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dddf186bd06b9348b61ac0f37f525d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aoeHealPfx: {fileID: 25978823334152725}
 --- !u!1 &8905673122864534027
 GameObject:
   m_ObjectHideFlags: 0
@@ -15138,6 +15153,81 @@ ParticleSystem:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5292451002397347148, guid: 5b4f3a579b99cfc4da169a582c65c4a1, type: 3}
   m_PrefabInstance: {fileID: 1905628168129544904}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2496050787610721165
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8245649128297245740}
+    m_Modifications:
+    - target: {fileID: 2521887617966748056, guid: c38888de8d958ee4aa9c6221faf67b93, type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2521887617966748056, guid: c38888de8d958ee4aa9c6221faf67b93, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 3874561421367060072, guid: c38888de8d958ee4aa9c6221faf67b93, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3874561421367060072, guid: c38888de8d958ee4aa9c6221faf67b93, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3874561421367060072, guid: c38888de8d958ee4aa9c6221faf67b93, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3874561421367060072, guid: c38888de8d958ee4aa9c6221faf67b93, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3874561421367060072, guid: c38888de8d958ee4aa9c6221faf67b93, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3874561421367060072, guid: c38888de8d958ee4aa9c6221faf67b93, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3874561421367060072, guid: c38888de8d958ee4aa9c6221faf67b93, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3874561421367060072, guid: c38888de8d958ee4aa9c6221faf67b93, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3874561421367060072, guid: c38888de8d958ee4aa9c6221faf67b93, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3874561421367060072, guid: c38888de8d958ee4aa9c6221faf67b93, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3874561421367060072, guid: c38888de8d958ee4aa9c6221faf67b93, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6694415930949828172, guid: c38888de8d958ee4aa9c6221faf67b93, type: 3}
+      propertyPath: m_Name
+      value: RejuvenatePfx
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c38888de8d958ee4aa9c6221faf67b93, type: 3}
+--- !u!198 &25978823334152725 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2521887617966748056, guid: c38888de8d958ee4aa9c6221faf67b93, type: 3}
+  m_PrefabInstance: {fileID: 2496050787610721165}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1686305465364569573 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3874561421367060072, guid: c38888de8d958ee4aa9c6221faf67b93, type: 3}
+  m_PrefabInstance: {fileID: 2496050787610721165}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4489972776939020749
 PrefabInstance:

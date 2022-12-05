@@ -9,5 +9,5 @@ public abstract class MagicSpell : ScriptableObject
     public string magicDescription;
     public Sprite magicIcon;
     public float cooldownSeconds;
-    public abstract void Cast( Player player );
+    public abstract bool Cast( Player player );
 }

@@ -3,15 +3,14 @@ using UnityEngine;
 [ CreateAssetMenu( fileName = "AOEHeal", menuName = "Scriptable Objects/AOEHeal" ) ]
 public class AOEHeal : MagicSpell
 {
-    [ SerializeField ] ParticleSystem healPfx;
     [ SerializeField ] float healRadius = 8f;
     [ SerializeField ] float baseHealAmount = 5f;
     
-    public override void Cast( Player player )
+    public override bool Cast( Player player )
     {
         var t = player.transform;
-        // var o = Instantiate( healPfx, t.position, t.rotation );
 
+        player.Magic().PlayAoeHealPfx();
         var healAmount = baseHealAmount * player.MagicEffectiveness();
         
         var colliders = Physics.OverlapSphere( t.position, healRadius );
@@ -21,5 +20,7 @@ public class AOEHeal : MagicSpell
             if( e != null )
                 e.Heal( healAmount, true, false, 16f );
         }
+
+        return true;
     }
 }

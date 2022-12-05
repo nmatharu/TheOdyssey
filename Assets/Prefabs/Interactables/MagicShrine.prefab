@@ -71,6 +71,7 @@ MonoBehaviour:
   magicPool:
   - {fileID: 11400000, guid: afa0221a00fef7e48b4b18cfaeda950c, type: 2}
   - {fileID: 11400000, guid: f734acae52ca7d4449772cd807c577a9, type: 2}
+  - {fileID: 11400000, guid: 9e4e38b315d0c074194bd2bf90711e51, type: 2}
   magicTitle: {fileID: 9194811398381957585}
   magicDescription: {fileID: 900685618190947569}
 --- !u!114 &6741281584562122077
