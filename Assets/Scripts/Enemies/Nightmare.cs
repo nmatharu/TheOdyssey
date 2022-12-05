@@ -22,6 +22,10 @@ public class Nightmare : MonoBehaviour
     [ SerializeField ] float slashDamageRadius = 2.5f;
     [ SerializeField ] int damage = 9;
 
+    [ SerializeField ] Renderer[] renderers;
+    [ SerializeField ] Material baseMaterial;
+    [ SerializeField ] Material dashingMaterial;
+
     Quaternion _movementDirection;
     Queue<Vector2Int> _path;
     Vector3 _currentTargetTile;
@@ -106,6 +110,9 @@ public class Nightmare : MonoBehaviour
         if( !defaultTarget && !_slashOnCooldown &&
             JBB.DistXZSquared( pos, _targetPlayer.position ) < dashThreshold * dashThreshold )
         {
+            if( _state != NightmareState.Dashing )
+                ToDashMaterial();
+            
             _state = NightmareState.Dashing;
             _dashDir = ( _currentTargetTile - transform.position ).normalized;
             transform.LookAt( _currentTargetTile );
@@ -116,6 +123,7 @@ public class Nightmare : MonoBehaviour
             {
                 _state = NightmareState.Slashing;
                 _animator.CrossFade( ASlash, 0.1f );
+                ToNormalMaterial();
                 // damage thing
             }, dashTime );
 
@@ -125,6 +133,18 @@ public class Nightmare : MonoBehaviour
             this.Invoke( () => _state = NightmareState.Chasing, dashTime + slashTime );
             this.Invoke( () => _slashOnCooldown = false, dashTime + slashTime + slashCooldown );
         }
+    }
+
+    void ToDashMaterial()
+    {
+        foreach( var r in renderers )
+            r.material = dashingMaterial;
+    }
+
+    void ToNormalMaterial()
+    {
+        foreach( var r in renderers )
+            r.material = baseMaterial;
     }
 
     void StartPfx()

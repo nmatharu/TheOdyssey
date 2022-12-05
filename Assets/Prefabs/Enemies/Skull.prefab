@@ -4914,7 +4914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff550c6871205ee4ca24ab2ffb3b8a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 1.5
   fireballPrefab: {fileID: 5059226689855004248, guid: 9ab3a8a70e5f3524dab909d0c35628b8, type: 3}
   mouthPos: {fileID: 3264562629823970017}
   mouthFire: {fileID: 8988585043289336893}

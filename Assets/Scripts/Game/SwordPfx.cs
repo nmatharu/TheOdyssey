@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SwordPfx : MonoBehaviour
 {
-    [ SerializeField ] ParticleSystem pfx;
+    [ SerializeField ] ParticleSystem[] pfxs;
     [ SerializeField ] PfxDefinition basicDef;
     [ SerializeField ] PfxDefinition slashDef;
     const float AnimFrameTime = 1 / 60f;
@@ -15,11 +15,14 @@ public class SwordPfx : MonoBehaviour
 
     void PlayPfx( PfxDefinition definition )
     {
-        this.Invoke( () => pfx.Play(), definition.start * AnimFrameTime );
-        this.Invoke( () => pfx.Stop(), definition.stop * AnimFrameTime );
-        var sh = pfx.shape;
-        sh.position = definition.position;
-        sh.radius = definition.radius;
+        foreach( var pfx in pfxs )
+        {
+            this.Invoke( () => pfx.Play(), definition.start * AnimFrameTime );
+            this.Invoke( () => pfx.Stop(), definition.stop * AnimFrameTime );
+            var sh = pfx.shape;
+            sh.position = definition.position;
+            sh.radius = definition.radius;
+        }
     }
 
     [ Serializable ]

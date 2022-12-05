@@ -1305,9 +1305,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 0, b: 0.5287266, a: 1}
-        key1: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
-        key2: {r: 0, g: 0, b: 0, a: 0}
+        key0: {r: 1, g: 0.8666667, b: 0.60784316, a: 1}
+        key1: {r: 0, g: 0, b: 0, a: 1}
+        key2: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -1315,7 +1315,7 @@ ParticleSystem:
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
         ctime1: 65535
-        ctime2: 0
+        ctime2: 65535
         ctime3: 0
         ctime4: 0
         ctime5: 0
@@ -4914,8 +4914,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff550c6871205ee4ca24ab2ffb3b8a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  fireballPrefab: {fileID: 5059226689855004248, guid: 9ab3a8a70e5f3524dab909d0c35628b8, type: 3}
+  speed: 2
+  fireballPrefab: {fileID: 5059226689855004248, guid: 49b107ceaa3e4d24b9ab9db3a6f968f8, type: 3}
   mouthPos: {fileID: 3264562629823970017}
   mouthFire: {fileID: 8988585043289336893}
   fireballFireRate: 4

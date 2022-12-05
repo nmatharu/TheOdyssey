@@ -84,7 +84,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -163,8 +163,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce0100e678ca4a4eabd5676f4106503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pfx: {fileID: 5568092683355916230}
   speed: 8
   dmg: 3
+  sineMovement: 0
+  sineAmount: 2
+  sinePeriod: 2
 --- !u!54 &7795100490814317570
 Rigidbody:
   m_ObjectHideFlags: 0

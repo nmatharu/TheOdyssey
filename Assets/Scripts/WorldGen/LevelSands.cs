@@ -20,13 +20,8 @@ public class LevelSands : Level
         generator.GenerateShopsAndMagic( DefaultShopPlacements, DefaultMagicPlacement );
         generator.GenerateBossZone( DefaultWorldSizeX - BossZoneOffset );
         
-        // Biome A - Med waterfalls, med trees
-        GenerateBiome( generator, 0, BiomeAStart, (int) ( BiomeAStart + CoreLength / 3f ) );
-
-        // Biome B - Few waterfalls, dense trees
+        GenerateBiome( generator, 0, BiomeAStart - 15, (int) ( BiomeAStart + CoreLength / 3f ) );
         GenerateBiome( generator, 1, BiomeBStart, (int) ( BiomeBStart + CoreLength / 3f ) );
-
-        // Biome C - Lots waterfalls, few trees
         GenerateBiome( generator, 2, BiomeCStart, (int) ( BiomeCStart + CoreLength / 3f ) );
         
         GenerateChests( generator, _chestAdjPoints, ChestsPerPlayerPerStage * generator.NumPlayers() );
