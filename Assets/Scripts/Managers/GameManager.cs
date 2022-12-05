@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     
     [ SerializeField ] DynamicCameras cameras;
 
+    [ SerializeField ] public MagicSpell[] magicPool;
     [ SerializeField ] public float respawnHealthPct = 0.25f;
     [ SerializeField ] public float[] enemyBudgetPlayerCountScaling = { 1f, 1.5f, 2f };
     [ SerializeField ] public float[] enemyHealthPlayerCountScaling = { 1f, 4 / 3f, 3 / 2f };

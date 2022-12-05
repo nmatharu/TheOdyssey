@@ -19831,6 +19831,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[15].icon
+      value: 
+      objectReference: {fileID: 21300000, guid: 58fc59143fd3af04f9894fef80ebabcc, type: 3}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[15].runeName
+      value: CHRONOBLADE
+      objectReference: {fileID: 0}
     - target: {fileID: 8667302490267327709, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -43683,6 +43691,10 @@ MonoBehaviour:
   - {fileID: 2103383141}
   postGameCanvas: {fileID: 1432779495}
   cameras: {fileID: 1718756875}
+  magicPool:
+  - {fileID: 11400000, guid: afa0221a00fef7e48b4b18cfaeda950c, type: 2}
+  - {fileID: 11400000, guid: f734acae52ca7d4449772cd807c577a9, type: 2}
+  - {fileID: 11400000, guid: 9e4e38b315d0c074194bd2bf90711e51, type: 2}
   respawnHealthPct: 0.25
   enemyBudgetPlayerCountScaling:
   - 1

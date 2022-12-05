@@ -27,12 +27,14 @@ public class HomingDagger : MonoBehaviour
             _moving = false;
             pfx.Stop();
             Destroy( gameObject, 1f );
+            return;
         }
 
         var elapsedPct = _elapsed / _timeToTarget; 
 
-        transform.position = Vector3.Lerp( _startPos, _target.transform.position, elapsedPct );
-        
+        transform.position = Vector3.Lerp( _startPos, _target.transform.position +
+            new Vector3( 0, 3f * Mathf.Sin( elapsedPct * Mathf.PI ), 0 ), elapsedPct );
+
         if( _elapsed > _timeToTarget && _moving )
             DamageTarget();
         
@@ -43,7 +45,10 @@ public class HomingDagger : MonoBehaviour
     {
         _moving = false;
         pfx.Stop();
-        _target.TakeDamage( _player, _damage, Guid.NewGuid() );
+
+        _player.DamageEnemy( Guid.NewGuid(), _target, _damage, false, true );
+        _player.OnHit( 1, false, true );
+        
         Destroy( gameObject, 1f );
     }
     

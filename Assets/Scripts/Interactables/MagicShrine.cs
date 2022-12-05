@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class MagicShrine : Interactable
 {
-    [ SerializeField ] public MagicSpell[] magicPool;
-    
     [ SerializeField ] TextMeshProUGUI magicTitle;
     [ SerializeField ] TextMeshProUGUI magicDescription;
 
@@ -16,10 +14,10 @@ public class MagicShrine : Interactable
     void Start()
     {
         if( _magic == null )
-            Init( magicPool.RandomEntry() );
+            Init( GameManager.Instance.magicPool.RandomEntry() );
     }
 
-    void Init( MagicSpell magic )
+    public void Init( MagicSpell magic )
     {
         _magic = magic;
         magicTitle.text = magic.magicName;
@@ -28,12 +26,12 @@ public class MagicShrine : Interactable
 
     public void Init( int i )
     {
-        if( i >= magicPool.Length )
+        if( i >= GameManager.Instance.magicPool.Length )
         {
             Destroy( gameObject );
             return;
         }
-        Init( magicPool[ i ] );
+        Init( GameManager.Instance.magicPool[ i ] );
     }
 
     public override void Interact( Player player ) => player.LearnMagic( _magic );

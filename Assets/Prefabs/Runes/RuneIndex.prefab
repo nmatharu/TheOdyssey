@@ -183,22 +183,22 @@ MonoBehaviour:
     disabled: 0
   - type: 15
     rarity: 1
-    runeName: tba
+    runeName: CHRONOBLADE
     gives0Levels: 0
     description: Melee attacks reduce magic cooldown.
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 58fc59143fd3af04f9894fef80ebabcc, type: 3}
     disabled: 0
   - type: 16
     rarity: 1
-    runeName: VAMPIRISM
+    runeName: BLOODLUST
     gives0Levels: 0
     description: Steal health from enemies on-hit.
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 7196827bc79b88c4099748692d23d664, type: 3}
     disabled: 0
   - type: 17
     rarity: 1
     runeName: LYRE
     gives0Levels: 0
     description: Chain lightning on enemies.
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: dfd93a7fa684f5241ab45b221980d86e, type: 3}
     disabled: 0

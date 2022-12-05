@@ -18,13 +18,15 @@ public class HomingDaggers : MagicSpell
         var pos = player.transform.position;
 
         var colliders = Physics.OverlapSphere( pos, lockOnRange );
-        var enemies = colliders.Select( c => c.GetComponent<Enemy>() ).Where( e => e != null ).ToList();
+        var enemies = colliders.Select( c => c.GetComponent<Enemy>() ).Where( e => e != null ).ToArray();
 
         if( enemies.Empty() )
             return false;
-
-        var dmg = baseDamage * player.MagicEffectiveness();
         
+        var targets = new Enemy[ numDaggers ];
+        for( var i = 0; i < numDaggers; i++ )
+            targets[ i ] = enemies[ i % enemies.Length ];
+
         player.StartCoroutine( FireDaggers() );
         IEnumerator FireDaggers()
         {
@@ -32,7 +34,7 @@ public class HomingDaggers : MagicSpell
             for( var i = 0; i < numDaggers && !player.dead; i++ )
             {
                 var o = Instantiate( homingDagger, player.transform.position, Quaternion.identity );
-                o.GetComponent<HomingDagger>().Init( player, enemies[ 0 ], dmg, timeToTarget );
+                o.GetComponent<HomingDagger>().Init( player, targets[ i ], baseDamage, timeToTarget );
                 
                 yield return wait;
             }

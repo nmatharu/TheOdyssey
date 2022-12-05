@@ -429,9 +429,16 @@ public class WorldGenerator : MonoBehaviour
 
     public void GenerateMagic( int xMid )
     {
-        foreach( var y in new[] { 2, 5, 8 } )
-            Instantiate( Gen( WorldGenIndex.Objs.MagicShrine ), 
-                CoordsToWorldPos( xMid, y ), Quaternion.identity, objsParent );
+        int[] magicLocs = { 2, 5, 8 };
+        GameManager.Instance.magicPool.Shuffle();
+
+        for( var i = 0; i < magicLocs.Length; i++ )
+        {
+            var o = Instantiate( Gen( WorldGenIndex.Objs.MagicShrine ),
+                CoordsToWorldPos( xMid, magicLocs[ i ] ), Quaternion.identity, objsParent );
+            o.GetComponent<MagicShrine>().Init( GameManager.Instance.magicPool[ i ] );
+        }
+
 
         for( var x = xMid - 2; x <= xMid + 2; x++ )
         {
