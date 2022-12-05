@@ -19831,14 +19831,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
-      propertyPath: runeIndex.Array.data[15].icon
-      value: 
-      objectReference: {fileID: 21300000, guid: 58fc59143fd3af04f9894fef80ebabcc, type: 3}
-    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
-      propertyPath: runeIndex.Array.data[15].runeName
-      value: CHRONOBLADE
-      objectReference: {fileID: 0}
     - target: {fileID: 8667302490267327709, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -40281,20 +40273,20 @@ MonoBehaviour:
   newEnemies:
   - {fileID: 428212638778311382, guid: b4c459d7870717748b5f2fb8c8b1d6dc, type: 3}
   - {fileID: 8706685121159334724, guid: 646afd47d2ea24a42816565c7140d65e, type: 3}
-  bossSpawner: {fileID: 2148079099040143359, guid: baba837708a42f444b25e81dc8620531, type: 3}
+  bossSpawner: {fileID: 4106126115751608662, guid: b1ed421e19d79494287683bf58ca6d3c, type: 3}
   enemyWaves:
   - {x: -0.03, y: 0}
   - {x: 0.06666667, y: 5}
   - {x: 0.13333334, y: 0}
   - {x: 0.26666668, y: 5}
-  - {x: 0.33333334, y: 5}
-  - {x: 0.45, y: 5}
-  - {x: 0.56666666, y: 6}
-  - {x: 0.6333333, y: 6}
-  - {x: 0.73333335, y: 7}
-  - {x: 0.8, y: 7}
-  - {x: 0.8666667, y: 8}
-  - {x: 0.93333334, y: 8}
+  - {x: 0.33333334, y: 6}
+  - {x: 0.45, y: 6}
+  - {x: 0.56666666, y: 7}
+  - {x: 0.6333333, y: 7}
+  - {x: 0.73333335, y: 8}
+  - {x: 0.8, y: 8}
+  - {x: 0.8666667, y: 9}
+  - {x: 0.93333334, y: 9}
   baseBlock: {fileID: 8760186154017859944, guid: 81aa08a49d8097b489b21b82a8689370, type: 3}
   nextStageBaseBlock: {fileID: 0}
   environmentalParent: {fileID: 793181710}
@@ -48279,10 +48271,11 @@ MonoBehaviour:
   genNpcs:
   - {fileID: 3153920260594947028, guid: 702457f91f25cad46b84a1a82b235923, type: 3}
   - {fileID: 3153920260594947028, guid: 1c112c09cf163ee43bca69905eb33352, type: 3}
-  sandboxMode: 1
+  sandboxMode: 0
+  skipToBoss: 0
   levels:
-  - {fileID: 317313853}
   - {fileID: 1764224119}
+  - {fileID: 317313853}
   - {fileID: 1974198877}
   - {fileID: 1981998480}
   - {fileID: 590174255}

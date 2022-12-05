@@ -235,8 +235,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1.4
-  damage: 13
-  smashRange: 8
+  damage: 10
+  smashRange: 20
   smashingFrames: 110
   smashActiveFrame: 53
   smashIndicator: {fileID: 8974027619778574292}
@@ -244,7 +244,8 @@ MonoBehaviour:
   smashBoxCenterDist: 10
   smashBoxBounds: {x: 6.5, y: 4, z: 29.5}
   smashCooldownMin: 1
-  smashCooldownMax: 8
+  smashCooldownMax: 4
+  initialSmashWait: 2
 --- !u!114 &3665180042425785057
 MonoBehaviour:
   m_ObjectHideFlags: 0

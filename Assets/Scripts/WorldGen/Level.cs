@@ -72,6 +72,9 @@ public abstract class Level : MonoBehaviour
 
     void Start()
     {
+        if( WorldGenerator.Instance.skipToBoss )
+            enemyWaves = Array.Empty<Vector2>();
+        
         foreach( var e in newEnemies )
             _enemiesToIntro.Enqueue( e );
         

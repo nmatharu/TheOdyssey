@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8547450493588145010}
   - component: {fileID: 2490235048784935793}
   - component: {fileID: 4699276296140501283}
-  - component: {fileID: 6115300781702372873}
+  - component: {fileID: 5984625998851624366}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!225 &6115300781702372873
+--- !u!225 &5984625998851624366
 CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5134888775936910539}
   m_Layer: 0
-  m_Name: SandWormIndicator
+  m_Name: BossWormIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -183,7 +183,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 40, y: 40}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2870106621814049627
 CanvasRenderer:

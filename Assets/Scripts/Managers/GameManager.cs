@@ -115,6 +115,10 @@ public class GameManager : MonoBehaviour
 
         InvokeRepeating( nameof( CheckForNextWave ), 1f, 0.25f );
         _levelIncrementRoutine = StartCoroutine( LevelIncrementor() );
+        
+        if( WorldGenerator.Instance.skipToBoss )
+            foreach( var p in playersArr )
+                p.transform.position = WorldGenerator.CoordsToWorldPos( 330, 6 );
     }
 
     void Update()

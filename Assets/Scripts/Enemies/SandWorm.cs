@@ -1,8 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
 
 public class SandWorm : MonoBehaviour
 {
@@ -25,13 +25,20 @@ public class SandWorm : MonoBehaviour
     public SandWormNode head;
     Enemy _enemy;
 
-   
+
+    GameObject _headIndicator; 
+    CanvasGroup _indicatorImage;
+    
     Transform _move;
     Transform _targetPlayer;
     
     void Start()
     {
         _enemy = GetComponentInParent<Enemy>();
+
+        var pos = transform.position;
+        _headIndicator = Instantiate( dangerIndicator, new Vector3( pos.x, 0.01f, pos.z ), Quaternion.identity );
+        _indicatorImage = _headIndicator.GetComponentInChildren<CanvasGroup>();
 
         // transform.position += Vector3.down;
         var initRot = Quaternion.Euler( -90, 0, 0 );
@@ -58,6 +65,13 @@ public class SandWorm : MonoBehaviour
         InvokeRepeating( nameof( FindNewTarget ), 0, 1f );
         
         StartCoroutine( Movement() );
+    }
+
+    void Update()
+    {
+        var pos = transform.position;
+        _headIndicator.transform.position = new Vector3( pos.x, 0.01f, pos.z );
+        _indicatorImage.alpha = JBB.ClampedMap01( Mathf.Abs( pos.y ), 10, 4 );
     }
 
     void OnCollisionEnter( Collision c )
@@ -102,7 +116,7 @@ public class SandWorm : MonoBehaviour
             {
                 targetY = -sinStrength;
                 goingDown = true;
-                DrawIndicator( targetX, targetZ );
+                // DrawIndicator( targetX, targetZ );
             }
 
             // Burrowing frame
@@ -122,7 +136,7 @@ public class SandWorm : MonoBehaviour
             {
                 targetY = sinStrength;
                 goingDown = false;
-                DrawIndicator( targetX, targetZ );
+                // DrawIndicator( targetX, targetZ );
             }
 
             head.SetV3Target( new Vector3( targetX, targetY, targetZ ) );
@@ -131,10 +145,10 @@ public class SandWorm : MonoBehaviour
         }
     }
 
-    void DrawIndicator( float x, float z )
-    {
-        var o = Instantiate( dangerIndicator, new Vector3( x, 0.01f, z ), Quaternion.identity );
-    }
+    // void DrawIndicator( float x, float z )
+    // {
+    //     var o = Instantiate( dangerIndicator, new Vector3( x, 0.01f, z ), Quaternion.identity );
+    // }
 
     void DrawBurrowPfx()
     {
@@ -160,6 +174,7 @@ public class SandWorm : MonoBehaviour
 
     void OnDestroy()
     {
+        _headIndicator.GetComponentInChildren<AutoImageFader>().FadeOut();
         for( var i = 1; i < nodes.Count; i++ )
         {
             Destroy( nodes[ i ].gameObject );

@@ -95,10 +95,11 @@ public class Enemy : MonoBehaviour
     IEnumerator FlashMaterial()
     {
         var delay = new WaitForFixedUpdate();
+        var original = renderers[ 0 ].material.color;
         for( var i = 1f + hitFlashIntensity; i >= 1; i -= hitFlashIntensity / 3f )
         {
             foreach( var r in renderers )
-                r.material.color = new Color( i, i, i );
+                r.material.color = new Color( original.r * i, original.g * i, original.b * i );
             yield return delay;
         }
 

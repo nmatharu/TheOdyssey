@@ -42,6 +42,8 @@ public class Golem : MonoBehaviour
     [ SerializeField ] float smashCooldownMin = 4;
     [ SerializeField ] float smashCooldownMax = 6;
 
+    [ SerializeField ] float initialSmashWait = 0f;
+
     void Start()
     {
         _body = GetComponent<Rigidbody>();
@@ -50,7 +52,7 @@ public class Golem : MonoBehaviour
 
         InvokeRepeating( nameof( RunPathfinding ), 0, 1f );
 
-        this.Invoke( () => _smashOnCooldown = false, Random.Range( 1f, 2f ) );
+        this.Invoke( () => _smashOnCooldown = false, initialSmashWait + Random.Range( 1f, 2f ) );
         
         _movementDirection = Quaternion.identity;
         _path = new Queue<Vector2Int>();

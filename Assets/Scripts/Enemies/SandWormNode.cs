@@ -29,7 +29,10 @@ public class SandWormNode : MonoBehaviour
             ( childNode ? _worm.lookSlerp : _worm.headLookSlerp ) * Time.deltaTime );
         transform.rotation = lookTarget;
 
-        transform.position = Vector3.MoveTowards( pos, targetPos, _worm.speed * Time.deltaTime );
+        if( childNode )
+            transform.position = Vector3.MoveTowards( pos, targetPos, _worm.speed * Time.deltaTime );
+        else
+            transform.position += transform.forward * _worm.speed * Time.deltaTime;
         // _body.velocity = Vector3.ClampMagnitude( targetPos - pos, 1f ) * _worm.speed;
     }
 

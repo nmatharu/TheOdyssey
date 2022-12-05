@@ -21,6 +21,7 @@ public class WorldGenerator : MonoBehaviour
     [ SerializeField ] GameObject[] genNpcs; // npcs to interact with, shops, quests, etc.
 
     [ SerializeField ] bool sandboxMode;
+    [ SerializeField ] public bool skipToBoss;
     
     Tile[ , ] _tileMap;
     Node[ , ] _nodeMap;

@@ -188,7 +188,7 @@ MonoBehaviour:
   hpFollowBar: {fileID: 1677280968216362539}
   notchesParent: {fileID: 3492589238641865574}
   notch: {fileID: 7034340180151910462, guid: 99eb385a64c504c799222bae10811368, type: 3}
-  notchBig: {fileID: 0}
+  notchBig: {fileID: 7034340180151910462, guid: 4c3077b9e10a7164fadb23a6733344f0, type: 3}
   notchDivision: 50
   bigNotchEverySmall: 10
   maxNotchWidth: 0.4

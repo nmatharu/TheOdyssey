@@ -10,6 +10,9 @@ public class AutoImageFader : MonoBehaviour
     [ SerializeField ] float fadeOutAfter = 19f;
     [ SerializeField ] float destroyAfter = 12f;
     [ SerializeField ] bool targetAlpha100;
+
+    [ SerializeField ] bool autoFadeOut = true;
+    [ SerializeField ] bool destroyAfterFadeOut = true;
     
     static readonly Color Transparent = new( 0, 0, 0, 0 );
 
@@ -24,6 +27,7 @@ public class AutoImageFader : MonoBehaviour
         _color.a = targetAlpha100 ? 1 : _color.a;
         FadeIn();
         
+        if( !autoFadeOut ) return;
         Invoke( nameof( FadeOut ), fadeOutAfter / 50f );
         Destroy( transform.root.gameObject, destroyAfter / 50f );
     }
@@ -50,5 +54,6 @@ public class AutoImageFader : MonoBehaviour
             yield return _wait;
         }
         _image.color = Transparent;
+        Destroy( transform.root.gameObject, 1f );
     }
 }
