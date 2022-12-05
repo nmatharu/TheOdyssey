@@ -48,4 +48,6 @@ public class Boss : MonoBehaviour
             
         EnemySpawner.Instance.LetItRipBossWave( es );
     }
+
+    void OnDestroy() => GameManager.Instance.AwardCrystal();
 }

@@ -19840,6 +19840,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d62796a448515e448adfe6beacc90578, type: 3}
     - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[13].icon
+      value: 
+      objectReference: {fileID: 21300000, guid: 31fe363bc14f08d4e96daff5ee2d1783, type: 3}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[14].icon
+      value: 
+      objectReference: {fileID: 21300000, guid: 0cd24a8b2053cb04994e37ebdd095261, type: 3}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
+      propertyPath: runeIndex.Array.data[15].icon
+      value: 
+      objectReference: {fileID: 21300000, guid: 3ecf82fb1f58451408dec1f9f5448e1d, type: 3}
+    - target: {fileID: 6563147512824252108, guid: 8cc922492e524dd41a8700cefe2414a2, type: 3}
       propertyPath: runeIndex.Array.data[10].description
       value: Deal massive damage when close to death.
       objectReference: {fileID: 0}
@@ -40280,18 +40292,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8490ac7a562c41f7b7f7b90854720cdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seenEnemies: []
-  newEnemies:
-  - {fileID: 8706685121159334724, guid: 646afd47d2ea24a42816565c7140d65e, type: 3}
+  seenEnemies:
   - {fileID: 436286037931020361, guid: 9b409564e389f274b8df4701736abddf, type: 3}
-  - {fileID: 428212638778311382, guid: d79882ec50ec18d418e97e792cea9d43, type: 3}
+  newEnemies:
+  - {fileID: 428212638778311382, guid: b4c459d7870717748b5f2fb8c8b1d6dc, type: 3}
+  - {fileID: 8706685121159334724, guid: 646afd47d2ea24a42816565c7140d65e, type: 3}
   bossSpawner: {fileID: 2148079099040143359, guid: baba837708a42f444b25e81dc8620531, type: 3}
   enemyWaves:
   - {x: -0.03, y: 0}
   - {x: 0.06666667, y: 5}
   - {x: 0.13333334, y: 0}
   - {x: 0.26666668, y: 5}
-  - {x: 0.33333334, y: 0}
+  - {x: 0.33333334, y: 5}
   - {x: 0.45, y: 5}
   - {x: 0.56666666, y: 6}
   - {x: 0.6333333, y: 6}
@@ -43682,6 +43694,7 @@ MonoBehaviour:
   damageNumbersParent: {fileID: 428142856}
   damageNumberPrefab: {fileID: 5292145103668947739, guid: aa51d87e685f245d28d399fddba5fad8, type: 3}
   damageNumberPoolSize: 100
+  floatingIcon: {fileID: 5292145103668947739, guid: c1372e8f72d61cc4ba3c79f469ee037e, type: 3}
   fpsDisplay: {fileID: 1447379020}
   enemyLevelGraphic: {fileID: 1223026065}
   pauseScreen: {fileID: 395366603}

@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] Transform damageNumbersParent;
     [ SerializeField ] GameObject damageNumberPrefab;
     [ SerializeField ] int damageNumberPoolSize = 100;
+    [ SerializeField ] GameObject floatingIcon;
     DamageNumber[] _damageNumberPool;
 
     [ SerializeField ] TextMeshProUGUI fpsDisplay;
@@ -60,7 +61,7 @@ public class GameManager : MonoBehaviour
 
     // Lots of scaling in the game uses this 1 + 0.333x gain, provided 0-indexed and 1-indexed methods
     // How players health scales with stacks of vitality, e.g. 30 hp (0 stacks), 40 hp, 50 hp, etc.
-    public static float Scale0( int n, float gain = 1/3f ) => 1f + ( gain * n );
+    public static float Scale0( int n, float gain = 1/2f ) => 1f + ( gain * n );
     public static float Scale1( int n, float gain = 1/2f ) => 1f + ( gain * ( n - 1 ) );
 
     void Awake()
@@ -225,6 +226,13 @@ public class GameManager : MonoBehaviour
             if( p.gameObject.activeInHierarchy && !p.dead )
                 p.AwardCurrency( spawnCost );
     }
+    
+    public void AwardCrystal()
+    {
+        foreach( var p in playersArr )
+            if( p.gameObject.activeInHierarchy && !p.dead )
+                p.AwardCrystal();
+    }
 
     // This implementation is for testing purposes
     public GameObject SpawnPlayer( int playerId )
@@ -261,6 +269,12 @@ public class GameManager : MonoBehaviour
             dn.Play( pos, s, color, textSize );
             return;
         }
+    }
+
+    public void SpawnFloatingIcon( Vector3 pos, Sprite s, Color c, float size, float speed, float duration )
+    {
+        var o = Instantiate( floatingIcon, pos, Quaternion.identity );
+        o.GetComponent<FloatingIcon>().Init( pos, s, c, size, speed, duration );
     }
 
     IEnumerator LevelIncrementor()

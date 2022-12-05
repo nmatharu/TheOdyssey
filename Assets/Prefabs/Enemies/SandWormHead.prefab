@@ -51,8 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b0d29ef027971146902f8e3924521fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 100
-  spawnCost: 5
+  maxHp: 150
+  spawnCost: 3
   renderers:
   - {fileID: 3184005925111781423}
   hitFlashIntensity: 0.5

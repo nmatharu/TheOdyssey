@@ -190,8 +190,14 @@ public class Player : MonoBehaviour
         _statistics.TakeDamage( d );
 
         _hp -= d;
+
         if( _hp <= 0 )
+        {
+            if( _playerRunes.Guardian() )
+                return;
+            
             Die();
+        }
     }
 
     IEnumerator FlashMaterial()
@@ -273,6 +279,7 @@ public class Player : MonoBehaviour
         _statistics.Die();
         Hide();
         deathFx.Play();
+        _playerRunes.Die();
         GameManager.Instance.CheckIfGameOver();
 
         this.Invoke( () =>
@@ -302,12 +309,19 @@ public class Player : MonoBehaviour
             r.enabled = !hide;
     }
 
-    public void AwardCurrency( int spawnCost, bool showAnimation = true )
+    public void AwardCurrency( int spawnCost, bool showAnimation = true, float textSize = 8f )
     {
         _currency += spawnCost;
         _statusBar.UpdateBag( _currency, _crystals );
         if( showAnimation )
-            GameManager.Instance.SpawnGenericFloating( transform.position, $"+{spawnCost}", Color.yellow, 8f );
+            GameManager.Instance.SpawnGenericFloating( transform.position, $"+{spawnCost}", Color.yellow, textSize );
+    }
+
+    public void AwardCrystal()
+    {
+        _crystals++;
+        _statusBar.UpdateBag( _currency, _crystals );
+        GameManager.Instance.SpawnGenericFloating( transform.position, "+1", Color.cyan, 24f );
     }
 
     IEnumerator RegenerateHealth()
@@ -350,7 +364,8 @@ public class Player : MonoBehaviour
 
         _level += rune.LevelsToAdd();
         _statusBar.SetLevel( _level );
-        
+
+        _playerRunes.Cashback( cost );
         _playerRunes.AcquireRune( rune );
     }
 
@@ -413,7 +428,7 @@ public class Player : MonoBehaviour
 
     public void CampfireHeal() => Heal( 1, true, false, 16f );
 
-    void Heal( float amount, bool showText, bool showTextIfFull, float textSize )
+    public void Heal( float amount, bool showText, bool showTextIfFull, float textSize )
     {
         if( showText )
         {
@@ -512,6 +527,13 @@ public class Player : MonoBehaviour
             c.SetActive( false );
         if( costumeIndex >= 0 && costumeIndex < costumes.Length )
             costumes[ costumeIndex ].SetActive( true );
+
+        // Become Santa
+        this.Invoke( () =>
+        {
+            if( costumes[ costumeIndex ].name.Contains( "Santa" ) && _statusBar != null )
+                _statusBar.BecomeSanta();
+        }, 2f );
     }
 
     public MagicSpell MagicSpell() => _magic;

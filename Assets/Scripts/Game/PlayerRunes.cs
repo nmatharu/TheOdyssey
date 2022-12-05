@@ -6,12 +6,14 @@ using UnityEngine.UI;
 
 public class PlayerRunes : MonoBehaviour
 {
-    [ SerializeField ] MeshRenderer shieldMesh;
     [ SerializeField ] Image precisionRadial;
     [ SerializeField ] ParticleSystem precisionPfx;
     [ SerializeField ] Material precisionDimMat;
     [ SerializeField ] Material precisionGlowMat;
     [ SerializeField ] ParticleSystem berserkPfx;
+    [ SerializeField ] ParticleSystem shieldPfx;
+    [ SerializeField ] ParticleSystem guardianPfx;
+    [ SerializeField ] Sprite guardianIcon;
     
     [ SerializeField ] float meleePctIncrease = 0.50f;
     [ SerializeField ] float magicPctIncrease = 0.50f;
@@ -24,6 +26,11 @@ public class PlayerRunes : MonoBehaviour
     [ SerializeField ] int bleedDamage = 3;
     [ SerializeField ] float fourthHitDmgIncreasePct = 2f;
     [ SerializeField ] float berserkNoHpDmgIncreasePct = 3f;
+    [ SerializeField ] float cashbackDiscountPct = 0.2f;
+    [ SerializeField ] float shieldBaseCd = 15f;
+    [ SerializeField ] float shieldHasteAmount = 75f;
+    [ SerializeField ] float guardianBurstRadius = 3f;
+    [ SerializeField ] float guardianBurstDamage = 30f;
     
     Player _player;
     int[] _runes;
@@ -43,6 +50,9 @@ public class PlayerRunes : MonoBehaviour
         _hitGuids = new HashSet<Guid>();
         _fourthHitGuids = new HashSet<Guid>();
         _berserkPfxEmission = berserkPfx.emission.rateOverTime.constant;
+        
+        // TODO Remove
+        _runes[ (int) NewRune.Type.GoldGuardian ] = 100;
     }
 
     int Count( NewRune.Type type ) => _runes[ (int) type ];
@@ -79,6 +89,10 @@ public class PlayerRunes : MonoBehaviour
             case NewRune.Type.GoldLowHealthDmg:
                 _berserk = Count( NewRune.Type.GoldLowHealthDmg ) > 0;
                 berserkPfx.Play();
+                break;
+            case NewRune.Type.GoldShield:
+                if( Count( NewRune.Type.GoldShield ) == 1 )
+                    InitShield();
                 break;
         }
     }
@@ -147,12 +161,13 @@ public class PlayerRunes : MonoBehaviour
     void PutShieldOnCd()
     {
         _shieldUp = false;
-        shieldMesh.enabled = false;
+        shieldPfx.Stop();
+        Debug.Log( "Waiting for " + shieldBaseCd * ( 100f / ( 100f + shieldHasteAmount * ( Count( NewRune.Type.GoldShield ) - 1 ) ) ) );
         this.Invoke( () =>
         {
             _shieldUp = true;
-            shieldMesh.enabled = true;
-        }, 10f * Mathf.Pow( 0.8f, Count( NewRune.Type.GoldShield ) - 1 ) );
+            shieldPfx.Play();
+        }, shieldBaseCd * ( 100f / ( 100f + shieldHasteAmount * ( Count( NewRune.Type.GoldShield ) - 1 ) ) ) );
     }
 
     public void OnHit( int enemiesHit, bool melee, bool magic )
@@ -197,6 +212,31 @@ public class PlayerRunes : MonoBehaviour
         em.rateOverTime = new ParticleSystem.MinMaxCurve( 
             _berserkPfxEmission * Mathf.Pow( 1 - _player.HpPct(), 6f ) );
     }
+    
+    public bool Guardian()
+    {
+        if( Count( NewRune.Type.GoldGuardian ) < 1 )   return false;
+
+        var pos = transform.position;
+        
+        _runes[ (int) NewRune.Type.GoldGuardian ]--;
+        _player.Heal( _player.MaxHp(), true, true, 8f );
+        guardianPfx.Play();
+        GameManager.Instance.SpawnFloatingIcon( pos + 3 * Vector3.up, 
+            guardianIcon, Color.white, 40f, 1f, 3f );
+
+        var guid = Guid.NewGuid();
+        var dmg = guardianBurstDamage * Mathf.Sqrt( 0.5f + 0.5f * GameManager.Instance.EnemyLevel() );
+        var colliders = Physics.OverlapSphere( pos, guardianBurstRadius );
+        foreach( var c in colliders )
+        {
+            var e = c.GetComponent<Enemy>();
+            if( e != null )
+                e.TakeDamage( _player, dmg, guid );
+        }
+        
+        return true;
+    }
 
     public int MagicHealAmount() => magicHealAmount * Count( NewRune.Type.CommonMagicHeal );
 
@@ -204,5 +244,48 @@ public class PlayerRunes : MonoBehaviour
 
     public int BleedDamage() => bleedDamage;
 
-    public void NextLevel() => _hitGuids.Clear();
+    public void NextLevel()
+    {
+        _fourthHitGuids.Clear();
+        _hitGuids.Clear();
+        
+        if( _berserk )  
+            berserkPfx.Play();
+        
+        if( Count( NewRune.Type.GoldShield ) > 0 )
+        {
+            shieldPfx.Play();
+            _shieldUp = true;
+        }
+        
+        precisionRadial.enabled = _precision;
+    }
+
+    void InitShield()
+    {
+        shieldPfx.Play();
+        _shieldUp = true;
+    }
+
+    public void Cashback( int cost )
+    {
+        var cashbackStacks = Count( NewRune.Type.GoldCashbackCard );
+        if( cashbackStacks == 0 )   return;
+        this.Invoke( () =>
+        {
+            // Max discount of 90%
+            var discountedPrice = cost * JBB.ClampedMap( 
+                Mathf.Pow( 1 - cashbackDiscountPct, cashbackStacks ), 0, 1, 0.1f, 1f );
+            var rebate = Mathf.RoundToInt( cost - discountedPrice );
+            _player.AwardCurrency( rebate, true, 24f );
+            
+        }, 0.75f );
+    }
+
+    public void Die()
+    {
+        berserkPfx.Stop();
+        shieldPfx.Stop();
+        precisionRadial.enabled = false;
+    }
 }

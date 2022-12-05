@@ -71,6 +71,14 @@ PrefabInstance:
       propertyPath: InitialModule.startColor.maxGradient.m_NumColorKeys
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 428212638778311382, guid: 6e804079547d89b479e6ce60f1b56b83, type: 3}
+      propertyPath: maxHp
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 428212638778311382, guid: 6e804079547d89b479e6ce60f1b56b83, type: 3}
+      propertyPath: spawnCost
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2148079099040143359, guid: 6e804079547d89b479e6ce60f1b56b83, type: 3}
       propertyPath: m_Name
       value: Sand Golem

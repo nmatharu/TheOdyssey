@@ -18,7 +18,7 @@ public class PlayerStatusBar : MonoBehaviour
     [ SerializeField ] Transform notchesParent;
     [ SerializeField ] GameObject notch;
     [ SerializeField ] GameObject notchBig;
-    
+
     [ SerializeField ] int notchDivision = 10;
     [ SerializeField ] int bigNotchEverySmall = 10;
     [ SerializeField ] float maxNotchWidth = 0.08f;
@@ -35,6 +35,14 @@ public class PlayerStatusBar : MonoBehaviour
     [ SerializeField ] Image cooldownRadial;
     [ SerializeField ] Image cooldownFlashReady;
     [ SerializeField ] TextMeshProUGUI cooldownSeconds;
+
+    // To become Santa Claus-- courtesy of Fromage
+    [ Header( "Santa Claus" ) ]
+    [ SerializeField ] Image toBecomeCookies;
+
+    [ SerializeField ] Image toBecomeMilk;
+    [ SerializeField ] Sprite cookies;
+    [ SerializeField ] Sprite milk;
 
     const float HpFollowBarSpeed = 0.6f;
 
@@ -57,10 +65,10 @@ public class PlayerStatusBar : MonoBehaviour
         var sizeDelta = hpBar.rectTransform.sizeDelta;
         _maxHpBarWidth = sizeDelta.x;
         _hpBarHeight = sizeDelta.y;
-        
+
         magicCircleParent.SetActive( false );
         cooldownParent.SetActive( false );
-        
+
         _overlayUI = GetComponent<WorldSpaceOverlayUI>();
         SetHpBarNotches( _player.baseMaxHp );
     }
@@ -90,14 +98,15 @@ public class PlayerStatusBar : MonoBehaviour
         var i = 1;
         for( var hp = notchDivision; hp < maxHp; hp += notchDivision )
         {
-            var image = Instantiate( i % bigNotchEverySmall == 0 ? notchBig : notch, notchesParent ).GetComponent<Image>();
+            var image = Instantiate( i % bigNotchEverySmall == 0 ? notchBig : notch, notchesParent )
+                .GetComponent<Image>();
             image.rectTransform.sizeDelta = new Vector2( notchWidth, _hpBarHeight );
-            image.rectTransform.anchoredPosition = 
+            image.rectTransform.anchoredPosition =
                 new Vector3( hp / maxHp * _maxHpBarWidth, 0, 0 );
 
             i++;
         }
-        
+
         _overlayUI.ReRun();
     }
 
@@ -144,7 +153,7 @@ public class PlayerStatusBar : MonoBehaviour
         cooldownParent.SetActive( false );
         StartCoroutine( FlashCdReady() );
     }
-    
+
     IEnumerator FlashCdReady()
     {
         var wait = new WaitForFixedUpdate();
@@ -153,6 +162,7 @@ public class PlayerStatusBar : MonoBehaviour
             cooldownFlashReady.color = new Color( 1f, 1f, 1f, i * 0.05f );
             yield return wait;
         }
+
         cooldownFlashReady.color = Color.clear;
     }
 
@@ -171,7 +181,7 @@ public class PlayerStatusBar : MonoBehaviour
         StartCoroutine( RotXTransition( statusBarTransform, _statusBarState == 0 ) );
         StartCoroutine( RotXTransition( inventoryBarTransform, _statusBarState == 1 ) );
     }
-    
+
     IEnumerator RotXTransition( Transform t, bool rotateIn )
     {
         if( rotateIn ) t.gameObject.SetActive( true );
@@ -188,4 +198,14 @@ public class PlayerStatusBar : MonoBehaviour
     }
 
     public void SetPlayerName( string n ) => playerName.text = n;
+
+    public void BecomeSanta()
+    {
+        toBecomeCookies.color = Color.white;
+        currencyNumber.color = Color.white;
+        toBecomeMilk.color = Color.white;
+        crystalNumber.color = Color.white;
+        toBecomeCookies.sprite = cookies;
+        toBecomeMilk.sprite = milk;
+    }
 }
