@@ -5,7 +5,8 @@
         Empty,
         Grass,
         Log,
-        Sand
+        Sand,
+        LavaPit
     }
 
     public enum Objs
@@ -38,6 +39,8 @@
         Cliffs,
         Campfire,
         DebugOffLimits,
+        LavaFallTop,
+        LavaFallBot
     }
 
     public enum NPCs

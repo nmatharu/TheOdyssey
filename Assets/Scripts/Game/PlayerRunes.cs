@@ -15,6 +15,7 @@ public class PlayerRunes : MonoBehaviour
     [ SerializeField ] ParticleSystem guardianPfx;
     [ SerializeField ] Sprite guardianIcon;
     [ SerializeField ] GameObject splatterPfx;
+    [ SerializeField ] GameObject chronoBladePfx;
     
     [ SerializeField ] float meleePctIncrease = 0.50f;
     [ SerializeField ] float magicPctIncrease = 0.50f;
@@ -107,6 +108,9 @@ public class PlayerRunes : MonoBehaviour
                 break;
             case NewRune.Type.GoldEnemiesExplode:
                 _splatter = Count( NewRune.Type.GoldEnemiesExplode ) > 0;
+                break;
+            case NewRune.Type.GoldReduceCdOnHit:
+                chronoBladePfx.SetActive( Count( NewRune.Type.GoldReduceCdOnHit ) > 0 );
                 break;
         }
     }
