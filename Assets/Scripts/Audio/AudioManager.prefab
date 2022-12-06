@@ -53,3 +53,30 @@ MonoBehaviour:
   muteMusic: 0
   muteSfx: 0
   bulletSfx: {fileID: 8300000, guid: 87fa36a82a6015c48a164a2a7f3d36d3, type: 3}
+  swordSwings:
+  - {fileID: 8300000, guid: 06915b7babc724a4785234890f943bed, type: 3}
+  - {fileID: 8300000, guid: 046400c3e9477aa488d367c143a74c2b, type: 3}
+  - {fileID: 8300000, guid: 2c53c7bd0e1d27b46a0e57e9288e15a5, type: 3}
+  bigSwings:
+  - {fileID: 8300000, guid: 1909dfca812d1034698ba31518ae595d, type: 3}
+  enemyHit:
+  - {fileID: 8300000, guid: 74114c783169bce499e3723aee6c2c69, type: 3}
+  - {fileID: 8300000, guid: e91a8dc09c362d8438dc4a335be10c0a, type: 3}
+  grassFootsteps:
+  - {fileID: 8300000, guid: dc68cc7486cf4914c83ce63754e48150, type: 3}
+  - {fileID: 8300000, guid: 9f131ee1c00b19d4d95bd566e1e5e700, type: 3}
+  - {fileID: 8300000, guid: f06046ab7ecfa2b47b5191083035caef, type: 3}
+  - {fileID: 8300000, guid: 94a62d04754982643b90ae6df4220bf3, type: 3}
+  - {fileID: 8300000, guid: 7a9871ec856d35046ab0216b23fa26d6, type: 3}
+  logFootsteps:
+  - {fileID: 8300000, guid: da812c9f4a51ad145892d988de959448, type: 3}
+  - {fileID: 8300000, guid: f0c29e3df3c1e7648a4a3b376ad22f5c, type: 3}
+  - {fileID: 8300000, guid: 22b634c509ffa1347b27c57013386f3d, type: 3}
+  sandFootsteps:
+  - {fileID: 8300000, guid: 809897f4da2a8c7478701988bd6251c9, type: 3}
+  - {fileID: 8300000, guid: 7582e0c1b8e9a4546b18d86f8f3dcd92, type: 3}
+  - {fileID: 8300000, guid: 1160a938956f1844f8f880dd761ed300, type: 3}
+  stoneFootsteps:
+  - {fileID: 8300000, guid: f12209eb37fdf9f4f95f0a92046235c1, type: 3}
+  - {fileID: 8300000, guid: 7464b948203c93c498e1eba906633d82, type: 3}
+  - {fileID: 8300000, guid: 6427d83f79afe3b4dbb310c0c363f65e, type: 3}

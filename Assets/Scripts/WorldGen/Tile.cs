@@ -28,7 +28,10 @@ public class Tile
 
     // Used temporarily to find evenly spaced points between objects-- essentially a temp OffLimits field
     public bool Spacing = false;
-    
+
+    // Grass, Log, Sand, Stone
+    public int FootstepsIndex;
+
     public Tile()
     {
     }
@@ -41,6 +44,14 @@ public class Tile
         GenIndex = i;
         Position = pos;
         EmptyCollider = emptyCollider;
+    }
+
+    public void EvalFootsteps()
+    {
+        if( Ground.name.Contains( "Grass" ) ) FootstepsIndex = 0;
+        if( Ground.name.Contains( "Log" ) ) FootstepsIndex = 1;
+        if( Ground.name.Contains( "Sand" ) ) FootstepsIndex = 2;
+        if( Ground.name.Contains( "Rock" ) ) FootstepsIndex = 3;
     }
 
     public bool Is( WorldGenIndex.Blocks blockType ) => GenIndex == (int) blockType;

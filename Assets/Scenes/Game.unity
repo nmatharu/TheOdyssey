@@ -49202,7 +49202,7 @@ MonoBehaviour:
   - {fileID: 3153920260594947028, guid: 702457f91f25cad46b84a1a82b235923, type: 3}
   - {fileID: 3153920260594947028, guid: 1c112c09cf163ee43bca69905eb33352, type: 3}
   sandboxMode: 0
-  skipToBoss: 1
+  skipToBoss: 0
   levels:
   - {fileID: 1974198877}
   - {fileID: 317313853}

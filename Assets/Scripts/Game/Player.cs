@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public class Player : MonoBehaviour
 {
@@ -573,7 +572,14 @@ public class Player : MonoBehaviour
 
     public void EnemyKilled( Enemy enemy ) => _playerRunes.Splatter( enemy );
     
-    public void OnHit( int enemiesHit, bool melee, bool magic ) => _playerRunes.OnHit( enemiesHit, melee, magic );
+    public void OnHit( int enemiesHit, bool melee, bool magic )
+    {
+        if( melee )
+            AudioManager.Instance.enemyHit.RandomEntry().PlaySfx( 0.8f, 0.3f );
+
+        _playerRunes.OnHit( enemiesHit, melee, magic );
+    }
+
     public PlayerMagic Magic() => _playerMagic;
     
     // SANDBOX

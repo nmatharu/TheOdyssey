@@ -65,7 +65,7 @@ MonoBehaviour:
   spawnCost: 0
   renderers:
   - {fileID: 857210203549878583}
-  hitFlashIntensity: 0.5
+  hitFlashIntensity: 1
   deathPfx: {fileID: 7099122110959006634, guid: e4341c5574e1f496bbb960338cea2f9f, type: 3}
   deathPfxIdentityRot: 0
 --- !u!54 &419617741834929310

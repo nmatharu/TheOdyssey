@@ -25,6 +25,13 @@ public class AudioManager : MonoBehaviour
 
     [ Header( "SFX Clips" ) ]
     [ SerializeField ] public AudioClip bulletSfx;
+    [ SerializeField ] public AudioClip[] swordSwings;
+    [ SerializeField ] public AudioClip[] bigSwings;
+    [ SerializeField ] public AudioClip[] enemyHit;
+    [ SerializeField ] public AudioClip[] grassFootsteps;
+    [ SerializeField ] public AudioClip[] logFootsteps;
+    [ SerializeField ] public AudioClip[] sandFootsteps;
+    [ SerializeField ] public AudioClip[] stoneFootsteps;
 
     void Awake()
     {
@@ -54,7 +61,19 @@ public class AudioManager : MonoBehaviour
 
         // menuMusicLoop.loop = true;
     }
-    
+
+    public AudioClip[] FootstepsSfx( int index )
+    {
+        return index switch
+        {
+            0 => grassFootsteps,
+            1 => logFootsteps,
+            2 => sandFootsteps,
+            3 => stoneFootsteps,
+            _ => grassFootsteps
+        };
+    }
+
     AudioSource GetSfxSource()
     {
         foreach( var source in _sfxSources )
@@ -133,4 +152,7 @@ public static class AudioHelper
 
     public static void PlaySfx( this AudioClip clip, float minVol, float maxVol, float minPitch, float maxPitch ) =>
         AudioManager.Instance.PlaySfx( clip, minVol, maxVol, minPitch, maxPitch );
+
+    public static void PlaySfx( this AudioClip clip, float vol, float pitchVar ) =>
+        AudioManager.Instance.PlaySfx( clip, vol, vol, 1 - pitchVar, 1 + pitchVar );
 }

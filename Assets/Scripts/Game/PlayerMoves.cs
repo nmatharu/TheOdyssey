@@ -94,6 +94,7 @@ public class PlayerMoves : MonoBehaviour
         _player.Mator().Play( swing );
         _swordPfx.Light();
         LockFor( lightAttackFramesLock );
+        AudioManager.Instance.swordSwings.RandomEntry().PlaySfx( 1f, 1f, 0.95f, 1.05f );
 
         CancelInvoke( nameof( ResetLightAttackSequence ) );
         Invoke( nameof( ResetLightAttackSequence ), firstSwingDelay );
@@ -119,6 +120,8 @@ public class PlayerMoves : MonoBehaviour
     {
         if( _player.rolling || _player.locked ) return;
 
+        AudioManager.Instance.bigSwings.RandomEntry().PlaySfx( 1f, 0.1f );
+        
         _player.Mator().Play( ASlash );
         _swordPfx.Slash();
         LockFor( slashAttackFramesLock );
@@ -152,6 +155,12 @@ public class PlayerMoves : MonoBehaviour
     {
         _player.locked = true;
         this.Invoke( () => _player.locked = false, frames60 / 60f );
+    }
+
+    void PlayerFootstep()
+    {
+        var i = WorldGenerator.Instance.FootstepsIndex( transform.position );
+        AudioManager.Instance.FootstepsSfx( i ).RandomEntry().PlaySfx( 0.4f, 0.2f );
     }
 
     void DamageOnActiveFrame( IEnumerable<Collider> colliders, int damage, float frames60 )

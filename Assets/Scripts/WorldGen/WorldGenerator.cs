@@ -102,6 +102,9 @@ public class WorldGenerator : MonoBehaviour
         GameManager.Instance.SetCurrentLevel( _currentLevel );
         _currentLevel.ShowActTitle();
 
+        foreach( var t in _tileMap )
+            t.EvalFootsteps();
+
         // GenerateGrasslands();
         // GenerateGrasslands2();
         
@@ -658,6 +661,9 @@ public class WorldGenerator : MonoBehaviour
         }
     }
 
+    public int FootstepsIndex( Vector3 worldPos ) => 
+        _tileMap[ (int) ( worldPos.x + 1 ) / 2, (int) ( worldPos.z + 1 ) / 2 ].FootstepsIndex;
+    
     public bool SafeValidPoint( int x, int y ) => _tileMap.WithinArrayBounds( x, y ) && !_tileMap[ x, y ].OffLimits;
 
     void OnDrawGizmos()
