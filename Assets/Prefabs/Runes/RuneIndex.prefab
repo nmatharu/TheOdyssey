@@ -183,7 +183,7 @@ MonoBehaviour:
     disabled: 0
   - type: 15
     rarity: 1
-    runeName: CHRONOBLADE
+    runeName: CHRONOS
     gives0Levels: 0
     description: Melee attacks reduce magic cooldown.
     icon: {fileID: 21300000, guid: 58fc59143fd3af04f9894fef80ebabcc, type: 3}

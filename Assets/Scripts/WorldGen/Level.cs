@@ -37,6 +37,9 @@ public abstract class Level : MonoBehaviour
     protected const float BossZoneSize = 18f;
     protected const int EndLevelAfterBossZone = 20;
 
+    [ TextArea( 1, 4 ) ]
+    [ SerializeField ] public string postLevelText;
+    
     protected static readonly Vector3Int[] ChestDirs =
     {
         new( 0, 1, 0 ),
@@ -201,7 +204,7 @@ public abstract class Level : MonoBehaviour
 
     public GameObject BossSpawner() => bossSpawner;
 
-    public float EndLevelX() => DefaultWorldSizeX - BossZoneOffset + BossZoneSize + EndLevelAfterBossZone;
+    public virtual float EndLevelX() => DefaultWorldSizeX - BossZoneOffset + BossZoneSize + EndLevelAfterBossZone;
 
     public void HideLevelObjs() => environmentalParent.gameObject.SetActive( false );
     public void ShowActTitle() => actTitle.SetActive( true );

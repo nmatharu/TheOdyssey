@@ -172,10 +172,12 @@ public class SandWorm : MonoBehaviour
 
     void OnDestroy()
     {
-        _headIndicator.GetComponentInChildren<AutoImageFader>().FadeOut();
-        for( var i = 1; i < nodes.Count; i++ )
+        if( _headIndicator != null )
         {
-            Destroy( nodes[ i ].gameObject );
+            var aif = _headIndicator.GetComponentInChildren<AutoImageFader>();
+            if( aif != null )   aif.FadeOut();
         }
+        for( var i = 1; i < nodes.Count; i++ )
+            Destroy( nodes[ i ].gameObject );
     }
 }

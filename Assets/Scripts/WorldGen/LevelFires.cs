@@ -118,4 +118,6 @@ public class LevelFires : Level
 
         // w.GetComponent<WaterfallPfx>().SetWidth( width );
     }
+
+    public override float EndLevelX() => Mathf.Infinity;
 }

@@ -144,7 +144,14 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         if( dead ) return;
-        
+
+        if( inputDisabled )
+        {
+            _moveInput = Vector2.zero;
+            _moveDir = Vector3.zero;
+            _body.velocity = Vector3.zero;
+        }
+
         _playerRunes.UpdateBerserkPfx();
         
         if( rolling )
@@ -601,8 +608,6 @@ public class Player : MonoBehaviour
             case SandboxInteractable.SandboxControl.Die:
                 TakeDamage( _hp );
                 break;
-            default:
-                throw new ArgumentOutOfRangeException( nameof( control ), control, null );
         }
     }
 }

@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] EnemyLevelGraphic enemyLevelGraphic;
     [ SerializeField ] GameObject pauseScreen;
     [ SerializeField ] TextMeshProUGUI pauseScreenText;
-    [ SerializeField ] ImageFader fadeToWhite;
+    [ SerializeField ] IntermissionText intermissionText;
     [ SerializeField ] GameObject[] difficultyLabels;
     [ SerializeField ] PostGameScreen postGameCanvas;
     
@@ -166,20 +166,22 @@ public class GameManager : MonoBehaviour
 
         if( minX > WorldGenerator.Instance.EndLevelXTrigger() )
         {
-            StartNextLevel();
+            ToIntermission();
         }
     }
 
-    void StartNextLevel()
+    void ToIntermission()
     {
         if( _transitioningToNextStage ) return;
         _transitioningToNextStage = true;
 
-        fadeToWhite.gameObject.SetActive( true );
-        fadeToWhite.FadeIn();
+        intermissionText.StartText( _currentLevel.postLevelText );
         
         this.Invoke( () =>
         {
+            foreach( var p in playersArr )
+                p.inputDisabled = true;
+            
             KillAllEnemies();
             RespawnAll();
             foreach( var p in playersArr )
@@ -187,15 +189,14 @@ public class GameManager : MonoBehaviour
             cameras.ResetNewStage();
 
             WorldGenerator.Instance.ToNextStage();
-            
-            this.Invoke( () =>
-            {
-                fadeToWhite.FadeOut();
-                _transitioningToNextStage = false;
-            }, 0.25f );
-            
-        }, 1f );
-        
+        }, 2f );
+    }
+
+    public void BeginNextStage()
+    {
+        foreach( var p in playersArr )
+            p.inputDisabled = false;
+        this.Invoke( () => _transitioningToNextStage = false, 0.25f );
     }
 
     public bool PlayersInBossZone( float zoneXStart )

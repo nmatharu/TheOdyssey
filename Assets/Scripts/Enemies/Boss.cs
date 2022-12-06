@@ -36,6 +36,8 @@ public class Boss : MonoBehaviour
         
         var w = _waveQueue.Dequeue();
         var budget = w.SpawnBudget;
+        var multiplier = GameManager.Instance.EnemyWaveBudgetMultiplier();
+        budget = (int) ( budget * multiplier );
 
         var es = new List<Enemy>();
         for( var iters = 0; budget > 0 && iters < 100; iters++ )

@@ -193,12 +193,12 @@ MonoBehaviour:
     - {fileID: 428212638778311382, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
     - {fileID: 428212638778311382, guid: d79882ec50ec18d418e97e792cea9d43, type: 3}
   - HealthPct: 0.66
-    SpawnBudget: 5
+    SpawnBudget: 4
     EnemyBucket:
     - {fileID: 428212638778311382, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
     - {fileID: 428212638778311382, guid: d79882ec50ec18d418e97e792cea9d43, type: 3}
   - HealthPct: 0.33
-    SpawnBudget: 7
+    SpawnBudget: 5
     EnemyBucket:
     - {fileID: 428212638778311382, guid: 1860b2b94937ad94ab9244298ac87efa, type: 3}
     - {fileID: 428212638778311382, guid: d79882ec50ec18d418e97e792cea9d43, type: 3}
