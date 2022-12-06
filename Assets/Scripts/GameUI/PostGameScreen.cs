@@ -10,6 +10,7 @@ public class PostGameScreen : MonoBehaviour
     [ SerializeField ] CanvasGroup groupToHide;
     [ SerializeField ] GameObject[] difficultyLabels;
     [ SerializeField ] CanvasGroup returnToLobbyGroup;
+    [ SerializeField ] TextMeshProUGUI resultText;
     [ SerializeField ] TextMeshProUGUI clockText;
 
     void Start()
@@ -18,8 +19,9 @@ public class PostGameScreen : MonoBehaviour
         _canvas.alpha = 0;
     }
 
-    public void Init( int difficulty, string gameClock )
+    public void Init( bool defeat, int difficulty, string gameClock )
     {
+        resultText.text = defeat ? "DEFEAT" : "VICTORY!";
         difficultyLabels[ difficulty ].SetActive( true );
         clockText.text = gameClock;
         StartCoroutine( ShowPostGame() );
@@ -29,7 +31,7 @@ public class PostGameScreen : MonoBehaviour
     {
         const float fadeOutTime = 0.5f;
         const float waitTime = 1f;
-        const float fadeInTime = 0.25f;
+        const float fadeInTime = 0.1f;
 
         var elapsed = 0f;
         while( elapsed < fadeOutTime )

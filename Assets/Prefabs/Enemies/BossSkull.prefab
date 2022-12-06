@@ -98,17 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a38e0108faae8e48b8ade6ac5465528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bossWaves:
-  - HealthPct: 1
-    SpawnBudget: 4
-    EnemyBucket:
-    - {fileID: 8706685121159334724, guid: a6d7cb74107917c469a38d3e96de00c0, type: 3}
-  - HealthPct: 0.66
-    SpawnBudget: 4
-    EnemyBucket: []
-  - HealthPct: 0.33
-    SpawnBudget: 5
-    EnemyBucket: []
+  bossWaves: []
 --- !u!114 &3475473365649456303
 MonoBehaviour:
   m_ObjectHideFlags: 0

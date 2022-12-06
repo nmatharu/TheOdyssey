@@ -119,5 +119,6 @@ public class LevelFires : Level
         // w.GetComponent<WaterfallPfx>().SetWidth( width );
     }
 
-    public override float EndLevelX() => Mathf.Infinity;
+    // public override float EndLevelX() => Mathf.Infinity;
+    public override float EndLevelX() => DefaultWorldSizeX - BossZoneOffset + BossZoneSize + 3;
 }

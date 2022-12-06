@@ -170,6 +170,16 @@ public class GameManager : MonoBehaviour
 
         if( minX > WorldGenerator.Instance.EndLevelXTrigger() )
         {
+            // TODO To be continued...
+            if( _currentLevel.GetType() == typeof( LevelFires ) )
+            {
+                if( _gameOver ) return;
+                _gameOver = true;
+                Unpause();
+                postGameCanvas.Init( false, _difficulty, EnemyLevelGraphic.ToClockFormat( (int) _runTimeElapsed ) );
+                this.Invoke( () => _readyToExitGame = true, postGameCanvas.timeToEnableInput );
+                return;
+            }
             ToIntermission();
         }
     }
@@ -317,7 +327,7 @@ public class GameManager : MonoBehaviour
         {
             _gameOver = true;
             Unpause();
-            postGameCanvas.Init( _difficulty, EnemyLevelGraphic.ToClockFormat( (int) _runTimeElapsed ) );
+            postGameCanvas.Init( true, _difficulty, EnemyLevelGraphic.ToClockFormat( (int) _runTimeElapsed ) );
             this.Invoke( () => _readyToExitGame = true, postGameCanvas.timeToEnableInput );
         }
     }
