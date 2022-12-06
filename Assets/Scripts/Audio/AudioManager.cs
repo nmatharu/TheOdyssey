@@ -24,7 +24,9 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance { get; private set; }
 
     [ Header( "SFX Clips" ) ]
-    [ SerializeField ] public AudioClip bulletSfx;
+    [ SerializeField ] public AudioClip lobbyCountdown;
+    [ SerializeField ] public AudioClip[] lobbyFootsteps;
+    
     [ SerializeField ] public AudioClip[] swordSwings;
     [ SerializeField ] public AudioClip[] bigSwings;
     [ SerializeField ] public AudioClip[] enemyHit;
@@ -32,7 +34,17 @@ public class AudioManager : MonoBehaviour
     [ SerializeField ] public AudioClip[] logFootsteps;
     [ SerializeField ] public AudioClip[] sandFootsteps;
     [ SerializeField ] public AudioClip[] stoneFootsteps;
+    [ SerializeField ] public AudioClip rollSfx;
+    [ SerializeField ] public AudioClip[] enemyDeath;
+    [ SerializeField ] public AudioClip[] playerHit;
+    [ SerializeField ] public AudioClip playerDeath;
+    [ SerializeField ] public AudioClip shopPurchase;
+    [ SerializeField ] public AudioClip[] spawnPillars;
 
+    [ SerializeField ] public AudioClip[] splatterSfx;
+    [ SerializeField ] public AudioClip[] precision;
+    [ SerializeField ] public AudioClip precisionReady;
+    
     void Awake()
     {
         if( Instance != null && Instance != this )

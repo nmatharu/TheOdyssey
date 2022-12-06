@@ -94,6 +94,7 @@ public class Enemy : MonoBehaviour
         if( GetComponent<Boss>() != null )
             GameManager.Instance.AwardCrystal();
 
+        AudioManager.Instance.enemyDeath.RandomEntry().PlaySfx( 1.2f, 0.4f );
         Die();
     }
 

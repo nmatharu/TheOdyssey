@@ -75,6 +75,7 @@ public class LobbyManager : MonoBehaviour
 
         for( var i = 0; i < 3; i++ )
         {
+            AudioManager.Instance.lobbyCountdown.PlaySfx( 1f );
             gameStartingText.text = $"GAME STARTING IN { 3 - i }";
             if( i == 2 )
                 fadeToWhite.FadeIn();

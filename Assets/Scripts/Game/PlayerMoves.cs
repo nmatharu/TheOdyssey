@@ -133,6 +133,7 @@ public class PlayerMoves : MonoBehaviour
     {
         if( _player.dead || _player.rolling || _player.locked || _player.rollOnCd ) return;
 
+        AudioManager.Instance.rollSfx.PlaySfx( 1f, 0.15f );
         _player.Mator().Play( ARoll );
 
         _player.rolling = true;
@@ -159,8 +160,9 @@ public class PlayerMoves : MonoBehaviour
 
     void PlayerFootstep()
     {
+        if( _player.dead || _player.inputDisabled )  return;
         var i = WorldGenerator.Instance.FootstepsIndex( transform.position );
-        AudioManager.Instance.FootstepsSfx( i ).RandomEntry().PlaySfx( 0.4f, 0.2f );
+        AudioManager.Instance.FootstepsSfx( i ).RandomEntry().PlaySfx( 0.35f, 0.2f );
     }
 
     void DamageOnActiveFrame( IEnumerable<Collider> colliders, int damage, float frames60 )

@@ -44,7 +44,7 @@ public class GoldChest : Interactable
         GameManager.Instance.SpawnGenericFloating( player.transform.position, $"+{gold}", Color.yellow, 24f );
 
         var emissionPct = GameManager.Instance.PctOfExpectedChestGold( gold );
-        Debug.Log( emissionPct );
+        // Debug.Log( emissionPct );
 
         var particleCount = openPfx.emission.GetBurst( 0 ).count.constant;
         var main = openPfx.main;

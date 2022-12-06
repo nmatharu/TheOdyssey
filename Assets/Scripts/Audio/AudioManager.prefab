@@ -52,7 +52,11 @@ MonoBehaviour:
   maxSfxSources: 32
   muteMusic: 0
   muteSfx: 0
-  bulletSfx: {fileID: 8300000, guid: 87fa36a82a6015c48a164a2a7f3d36d3, type: 3}
+  lobbyCountdown: {fileID: 8300000, guid: 969d4b2f517b6914dadf0a3a78728f4d, type: 3}
+  lobbyFootsteps:
+  - {fileID: 8300000, guid: feb4691f1d4ee2b4e9d7ffb65c58fa74, type: 3}
+  - {fileID: 8300000, guid: 4bcb5955fbfcea74fa49b3bc27de631c, type: 3}
+  - {fileID: 8300000, guid: 7f23977d59b540c459113ca910c80e0a, type: 3}
   swordSwings:
   - {fileID: 8300000, guid: 06915b7babc724a4785234890f943bed, type: 3}
   - {fileID: 8300000, guid: 046400c3e9477aa488d367c143a74c2b, type: 3}
@@ -80,3 +84,21 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f12209eb37fdf9f4f95f0a92046235c1, type: 3}
   - {fileID: 8300000, guid: 7464b948203c93c498e1eba906633d82, type: 3}
   - {fileID: 8300000, guid: 6427d83f79afe3b4dbb310c0c363f65e, type: 3}
+  rollSfx: {fileID: 8300000, guid: 60a1662fccb7aa5488fec7bc7ea6d51c, type: 3}
+  enemyDeath:
+  - {fileID: 8300000, guid: d590a3266cb39484f97249f778577d78, type: 3}
+  - {fileID: 8300000, guid: 6cad330c2cd772f4eb2cabea42e18d63, type: 3}
+  - {fileID: 8300000, guid: fe8cef46a509dae49af91e398b7054bc, type: 3}
+  - {fileID: 8300000, guid: d9ba18e8b1875914e9b9a30e49a11919, type: 3}
+  - {fileID: 8300000, guid: 32a256e7cff5a1349b9207df1ad0b76d, type: 3}
+  playerHit: []
+  playerDeath: {fileID: 0}
+  shopPurchase: {fileID: 8300000, guid: 7cdfb4f597b049443bded4ba1678799e, type: 3}
+  spawnPillar: {fileID: 8300000, guid: 99a1ea3c92b026747ba26900b91286f4, type: 3}
+  splatterSfx:
+  - {fileID: 8300000, guid: ca73a93378354e440956987bb00672de, type: 3}
+  - {fileID: 8300000, guid: fb0676354d0e86c4c86abc044a342ba1, type: 3}
+  - {fileID: 8300000, guid: 650e746f38882b6439d3b286ad0159f6, type: 3}
+  precision:
+  - {fileID: 8300000, guid: 91b654199c496ad40b1a30ffdc36b8ec, type: 3}
+  precisionReady: {fileID: 8300000, guid: 3d9fe9a6fcf7d8c488fbe6c67db725be, type: 3}

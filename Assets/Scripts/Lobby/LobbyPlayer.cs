@@ -70,6 +70,8 @@ public class LobbyPlayer : MonoBehaviour
         EnableCostume( _costumeIndex );
     }
 
+    public void PlayerFootstep() => AudioManager.Instance.lobbyFootsteps.RandomEntry().PlaySfx( 0.4f, 0.1f );
+
     public void EditName() => _canvas.ToNameEntry();
 
     public bool FinishEditName() => _canvas.FinishEditName();

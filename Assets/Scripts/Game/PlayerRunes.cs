@@ -72,6 +72,8 @@ public class PlayerRunes : MonoBehaviour
     public void AcquireRune( NewRune rune )
     {
         _runes[ (int) rune.type ]++;
+        AudioManager.Instance.shopPurchase.PlaySfx( 1f );
+        
         UpdateStats( rune );
     }
 
@@ -157,10 +159,14 @@ public class PlayerRunes : MonoBehaviour
 
         if( _hitGuids.Contains( attackId ) )
             return mult;
+
+        if( _precisionIndex == 2 )
+            AudioManager.Instance.precisionReady.PlaySfx( 1f, 0.1f );
         
         if( _precisionIndex == 3 )
         {
             _fourthHitGuids.Add( attackId );
+            AudioManager.Instance.precision.RandomEntry().PlaySfx( 1f, 0.2f );
             precisionPfx.Play();
             mult = 1f + fourthHitDmgIncreasePct * Count( NewRune.Type.CommonBigHit );
         }
@@ -180,7 +186,6 @@ public class PlayerRunes : MonoBehaviour
     {
         _shieldUp = false;
         shieldPfx.Stop();
-        Debug.Log( "Waiting for " + shieldBaseCd * ( 100f / ( 100f + shieldHasteAmount * ( Count( NewRune.Type.GoldShield ) - 1 ) ) ) );
         this.Invoke( () =>
         {
             _shieldUp = true;
@@ -280,6 +285,8 @@ public class PlayerRunes : MonoBehaviour
                 if( e != null && e != enemy )
                     e.TakeDamage( _player, dmg, guid );
             }
+            
+            AudioManager.Instance.splatterSfx.RandomEntry().PlaySfx( 1f, 0.1f );
             
         }, splatterDmgDelayFrames / 50f );
     }

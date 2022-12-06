@@ -366,7 +366,7 @@ public class Player : MonoBehaviour
         _statusBar.UpdateBag( _currency, _crystals );
         GameManager.Instance.SpawnCostNumber( transform.position, cost );
         
-        Debug.Log( $"Bought the {rune.runeName} rune" );
+        // Debug.Log( $"Bought the {rune.runeName} rune" );
         
         itemBuyFx.Play();
 

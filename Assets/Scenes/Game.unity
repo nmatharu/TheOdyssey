@@ -35624,6 +35624,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6358081709373816201, guid: 8e4110318dd33744a8af3da2da1630d4, type: 3}
+      propertyPath: spawnPillars.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -6358081709373816201, guid: 8e4110318dd33744a8af3da2da1630d4, type: 3}
+      propertyPath: spawnPillars.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 99a1ea3c92b026747ba26900b91286f4, type: 3}
+    - target: {fileID: -6358081709373816201, guid: 8e4110318dd33744a8af3da2da1630d4, type: 3}
+      propertyPath: spawnPillars.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 5af9a32c15614d24399915442bcabc5c, type: 3}
+    - target: {fileID: -6358081709373816201, guid: 8e4110318dd33744a8af3da2da1630d4, type: 3}
+      propertyPath: spawnPillars.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 8f8202f426f91474bad7e120462fd310, type: 3}
     - target: {fileID: 26019714518888521, guid: 8e4110318dd33744a8af3da2da1630d4, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -49201,12 +49217,12 @@ MonoBehaviour:
   genNpcs:
   - {fileID: 3153920260594947028, guid: 702457f91f25cad46b84a1a82b235923, type: 3}
   - {fileID: 3153920260594947028, guid: 1c112c09cf163ee43bca69905eb33352, type: 3}
-  sandboxMode: 0
+  sandboxMode: 1
   skipToBoss: 0
   levels:
-  - {fileID: 1974198877}
   - {fileID: 317313853}
   - {fileID: 1764224119}
+  - {fileID: 1974198877}
   - {fileID: 1981998480}
   - {fileID: 590174255}
 --- !u!4 &2113210664
