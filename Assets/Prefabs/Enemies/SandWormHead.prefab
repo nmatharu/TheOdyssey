@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3767147891426925715}
   - component: {fileID: 4028950739988063614}
   - component: {fileID: -438476326483574852}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: SandWormHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}

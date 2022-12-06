@@ -43,8 +43,9 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage( Player p, float dmg, Guid guid )
     {
-        if( _hitGuids.Contains( guid ) )
+        if( _hitGuids == null || _hitGuids.Contains( guid ) )
             return;
+        
         _hitGuids.Add( guid );
         
         StartCoroutine( FlashMaterial() );

@@ -22,6 +22,9 @@ public class IntermissionText : MonoBehaviour
         yield return new WaitForSeconds( startDelaySeconds );
 
         var wait = new WaitForSeconds( delayBetweenCharacters );
+        
+        textDisplay.color = Color.black;
+        textDisplay.text = "";
         var color = textDisplay.color;
         foreach( var c in text )
         {

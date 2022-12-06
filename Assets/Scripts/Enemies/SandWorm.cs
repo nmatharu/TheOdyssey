@@ -19,6 +19,7 @@ public class SandWorm : MonoBehaviour
     [ SerializeField ] GameObject nodePrefab;
     [ SerializeField ] GameObject dangerIndicator;
     [ SerializeField ] GameObject burrowPfx;
+    [ SerializeField ] float burrowPfxDelay = 0.1f;
     
     public SandWormNode head;
     Enemy _enemy;
@@ -29,6 +30,8 @@ public class SandWorm : MonoBehaviour
     
     Transform _move;
     Transform _targetPlayer;
+
+    List<ParticleSystem> _pfxs = new();
     
     void Start()
     {
@@ -150,8 +153,13 @@ public class SandWorm : MonoBehaviour
 
     void DrawBurrowPfx()
     {
-        Instantiate( burrowPfx, new Vector3( transform.position.x, 0, 
-            transform.position.z ), Quaternion.identity );
+        var p = transform.position;
+        this.Invoke( () =>
+        {
+            var o = Instantiate( burrowPfx, new Vector3( p.x, 0, p.z ), Quaternion.identity );
+            _pfxs.Add( o.GetComponent<ParticleSystem>() );
+        }, 
+        burrowPfxDelay );
     }
 
     void FindNewTarget()
@@ -172,6 +180,11 @@ public class SandWorm : MonoBehaviour
 
     void OnDestroy()
     {
+        foreach( var pfx in _pfxs )
+        {
+            if( pfx != null )
+                pfx.Stop();
+        }
         if( _headIndicator != null )
         {
             var aif = _headIndicator.GetComponentInChildren<AutoImageFader>();

@@ -40,6 +40,12 @@ public class ImageFader : MonoBehaviour
 
     public void FadeOut() => StartCoroutine( FadeOutCoroutine() );
 
+    public void InstaHide()
+    {
+        StopAllCoroutines();
+        _image.color = Color.clear;
+    }
+
     IEnumerator FadeInCoroutine()
     {
         for( var opacity = 0f; opacity < _color.a; opacity += _color.a / fadeTimeFrames )

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4028950739988063614}
   - component: {fileID: -438476326483574852}
   - component: {fileID: -2689476330448075582}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: BossWormHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}

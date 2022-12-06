@@ -21,7 +21,7 @@ public class LobbyManager : MonoBehaviour
 
     [ SerializeField ] GameObject gameStartingBanner;
     [ SerializeField ] TextMeshProUGUI gameStartingText;
-    [ SerializeField ] Image fadeToBlack;
+    [ SerializeField ] ImageFader fadeToWhite;
 
     // 0: Casual, 1: Normal, 2: Brutal, 3: Unreal (locked by default)
     int _difficulty = 1;
@@ -58,7 +58,11 @@ public class LobbyManager : MonoBehaviour
         else
         {
             if( _gameStartCountdown != null )
+            {
                 StopCoroutine( _gameStartCountdown );
+                fadeToWhite.InstaHide();
+            }
+
             gameStartingBanner.SetActive( false );
             _gameStartCountdown = null;
         }
@@ -68,9 +72,13 @@ public class LobbyManager : MonoBehaviour
     {
         gameStartingBanner.SetActive( true );
         var wait = new WaitForSeconds( 1f );
+
         for( var i = 0; i < 3; i++ )
         {
             gameStartingText.text = $"GAME STARTING IN { 3 - i }";
+            if( i == 2 )
+                fadeToWhite.FadeIn();
+
             yield return wait;
         }
 

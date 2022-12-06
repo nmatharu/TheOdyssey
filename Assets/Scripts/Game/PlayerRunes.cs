@@ -62,9 +62,9 @@ public class PlayerRunes : MonoBehaviour
         _berserkPfxEmission = berserkPfx.emission.rateOverTime.constant;
         
         // TODO Remove
-        // _runes[ (int) NewRune.Type.GoldEnemiesExplode ] = 221;
-        // _splatter = true;
-        // _runes[ (int) NewRune.Type.CommonMeleeDmg ] = 10;
+        _runes[ (int) NewRune.Type.GoldEnemiesExplode ] = 221;
+        _splatter = true;
+        _runes[ (int) NewRune.Type.CommonMeleeDmg ] = 10;
     }
 
     int Count( NewRune.Type type ) => _runes[ (int) type ];

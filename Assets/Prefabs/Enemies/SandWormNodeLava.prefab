@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3519494275529907038}
   - component: {fileID: 7816879219741161913}
   - component: {fileID: -7241693213465625410}
-  m_Layer: 11
+  m_Layer: 14
   m_Name: SandWormNodeLava
   m_TagString: Untagged
   m_Icon: {fileID: 0}

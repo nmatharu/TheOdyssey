@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
     [ SerializeField ] GameObject pauseScreen;
     [ SerializeField ] TextMeshProUGUI pauseScreenText;
     [ SerializeField ] IntermissionText intermissionText;
+    [ SerializeField ] Image gameStartFade;
     [ SerializeField ] GameObject[] difficultyLabels;
     [ SerializeField ] PostGameScreen postGameCanvas;
     
@@ -108,6 +110,8 @@ public class GameManager : MonoBehaviour
             p.SetPlayerName( "PLAYER" );
             p.SetCostume( 0 );
         }
+
+        FadeOutWhiteScreen();
 
         foreach( var l in difficultyLabels )
             l.SetActive( false );
@@ -420,6 +424,21 @@ public class GameManager : MonoBehaviour
         var ps = FindObjectsOfType<SpawnPillar>();
         foreach( var p in ps )
             Destroy( p.gameObject );
+    }
+
+    public void FadeOutWhiteScreen()
+    {
+        gameStartFade.gameObject.SetActive( true );
+        StartCoroutine( FadeOut() );
+        IEnumerator FadeOut()
+        {
+            for( var a = 0.2f; a >= 0; a -= Time.deltaTime )
+            {
+                gameStartFade.color = new Color( 1f, 1f, 1f, 5 * a );
+                yield return null;
+            }
+            gameStartFade.color = Color.clear;
+        }
     }
 
     public void AttemptQuitToMenu( int playerId )
