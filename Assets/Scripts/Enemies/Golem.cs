@@ -44,6 +44,9 @@ public class Golem : MonoBehaviour
 
     [ SerializeField ] float initialSmashWait = 0f;
 
+    [ SerializeField ] bool circleSmash;
+    [ SerializeField ] float circleRadius;
+
     void Start()
     {
         _body = GetComponent<Rigidbody>();
@@ -104,6 +107,18 @@ public class Golem : MonoBehaviour
 
     void SmashCollision()
     {
+        if( circleSmash )
+        {
+            var cs = Physics.OverlapSphere( transform.position, circleRadius );
+            foreach( var c in cs )
+            {
+                var p = c.GetComponent<Player>();
+                if( p != null )
+                    p.IncomingDamage( damage, _enemy.Level() );
+            }
+            return;
+        }
+
         var colliders = Physics.OverlapBox( transform.position + transform.forward * smashBoxCenterDist, smashBoxBounds / 2, transform.rotation );
         foreach( var c in colliders )
         {
