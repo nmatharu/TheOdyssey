@@ -56,11 +56,11 @@ public class MenuManager : MonoBehaviour
                 settingsCanvas.SetActive( true );
                 _state = MenuState.Settings;
                 break;
+            // case 3:
+                // creditsCanvas.SetActive( true );
+                // _state = MenuState.Credits;
+                // break;
             case 3:
-                creditsCanvas.SetActive( true );
-                _state = MenuState.Credits;
-                break;
-            case 4:
                 Application.Quit();
                 break;
         }

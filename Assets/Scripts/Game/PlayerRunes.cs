@@ -70,9 +70,9 @@ public class PlayerRunes : MonoBehaviour
     public void OP()
     {
         // TODO Remove
-        _runes[ (int) NewRune.Type.GoldEnemiesExplode ] = 221;
+        // _runes[ (int) NewRune.Type.GoldEnemiesExplode ] = 221;
         _splatter = true;
-        _runes[ (int) NewRune.Type.CommonMeleeDmg ] = 200;
+        _runes[ (int) NewRune.Type.CommonMeleeDmg ] = 40;
     }
 
     int Count( NewRune.Type type ) => _runes[ (int) type ];

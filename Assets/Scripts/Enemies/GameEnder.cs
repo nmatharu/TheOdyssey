@@ -18,6 +18,7 @@ public class GameEnder : MonoBehaviour
         if( GameManager.Instance != null )
         {
             GameManager.Instance.Victory();
+            GameManager.Instance.KillAllEnemies();
         }
     }
 }

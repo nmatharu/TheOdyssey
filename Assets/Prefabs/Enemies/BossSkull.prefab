@@ -217,7 +217,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a38e0108faae8e48b8ade6ac5465528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bossWaves: []
+  bossWaves:
+  - HealthPct: 0.9
+    SpawnBudget: 3
+    EnemyBucket:
+    - {fileID: 428212638778311382, guid: 8b5137cb2041fa744b17fc92738c50a3, type: 3}
+  - HealthPct: 0.7
+    SpawnBudget: 5
+    EnemyBucket:
+    - {fileID: 428212638778311382, guid: 8b5137cb2041fa744b17fc92738c50a3, type: 3}
+    - {fileID: 428212638778311382, guid: b1dee05e95f283747a74ddb2e6dd9e27, type: 3}
+  - HealthPct: 0.5
+    SpawnBudget: 7
+    EnemyBucket:
+    - {fileID: 8706685121159334724, guid: a6d7cb74107917c469a38d3e96de00c0, type: 3}
+  - HealthPct: 0.3
+    SpawnBudget: 9
+    EnemyBucket:
+    - {fileID: 428212638778311382, guid: 8b5137cb2041fa744b17fc92738c50a3, type: 3}
+    - {fileID: 8706685121159334724, guid: a6d7cb74107917c469a38d3e96de00c0, type: 3}
+    - {fileID: 428212638778311382, guid: b1dee05e95f283747a74ddb2e6dd9e27, type: 3}
 --- !u!114 &5149615529722262921
 MonoBehaviour:
   m_ObjectHideFlags: 0

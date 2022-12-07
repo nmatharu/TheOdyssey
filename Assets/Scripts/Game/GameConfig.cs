@@ -6,6 +6,8 @@ public class GameConfig
     public int PlayerCount = 1;
     public bool Sandbox = false;
     public List<PlayerConfig> Players = new();
+    public bool SMAA = false;
+    public bool TrailerMode = false;
 
     public class PlayerConfig
     {

@@ -75,6 +75,15 @@ public class DynamicCameras : MonoBehaviour
         bossZoneCameraOffset *= aspectRatio / ( 16f / 9f );
         
         _splitScreenLineHeight = scaler.referenceResolution.y * ( 16f / 9f ) / aspectRatio;
+
+        if( GameManager.GameConfig.SMAA )
+        {
+            foreach( var c in cameras )
+            {
+                c.allowMSAA = true;
+                // TODO hmmmm
+            }
+        }
     }
 
     void Update() => CalculatePositions();
