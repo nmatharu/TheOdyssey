@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     [ SerializeField ] float hitFlashIntensity = 1f;
     [ SerializeField ] ParticleSystem deathPfx;
     [ SerializeField ] bool deathPfxIdentityRot;
-    
+
     List<Color> _originalMatColors = new();
     EnemyStatusBar _statusBar;
 
@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         _hp = Mathf.RoundToInt( maxHp );
-        
+
         foreach( var r in renderers )
             _originalMatColors.Add( r.material.color );
 
@@ -45,20 +45,20 @@ public class Enemy : MonoBehaviour
     {
         if( _hitGuids == null || _hitGuids.Contains( guid ) )
             return;
-        
+
         _hitGuids.Add( guid );
-        
+
         StartCoroutine( FlashMaterial() );
 
         var d = Mathf.RoundToInt( dmg );
         _hp -= d;
-        
+
         GameManager.Instance.SpawnDamageNumber( transform.position, d, true );
         p.Statistics().DealDamage( dmg );
         CheckForDeath( p );
     }
 
-    public void Bleed( Player p, int stacks, int bleedDamage ) => 
+    public void Bleed( Player p, int stacks, int bleedDamage ) =>
         StartCoroutine( BleedCoroutine( p, stacks, bleedDamage ) );
 
     IEnumerator BleedCoroutine( Player p, int stacks, int dmg )
@@ -68,20 +68,10 @@ public class Enemy : MonoBehaviour
         {
             yield return wait;
             _hp -= stacks;
-            GameManager.Instance.SpawnGenericFloating( transform.position, stacks.ToString(), new Color( 1, 0.3f, 0.3f ), 8f );
+            GameManager.Instance.SpawnGenericFloating( transform.position, stacks.ToString(),
+                new Color( 1, 0.3f, 0.3f ), 8f );
             CheckForDeath( p );
         }
-        
-        /*
-         *  var wait = new WaitForSeconds( 1f / stacks );
-            for( var i = 0; i < stacks * 3; i++ )
-            {
-                yield return wait;
-                _hp--;
-                GameManager.Instance.SpawnGenericFloating( transform.position, "1", new Color( 1, 0.3f, 0.3f ), 8f );
-                CheckForDeath( p );
-            }
-         */
     }
 
     void CheckForDeath( Player p )
@@ -89,7 +79,7 @@ public class Enemy : MonoBehaviour
         if( _hp > 0 ) return;
         p.Statistics().KillEnemy();
         p.EnemyKilled( this );
-        
+
         GameManager.Instance.AwardGold( spawnCost );
         if( GetComponent<Boss>() != null )
             GameManager.Instance.AwardCrystal();
@@ -115,8 +105,8 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        Instantiate( deathPfx, transform.position, 
-            deathPfxIdentityRot ? Quaternion.identity : transform.rotation, 
+        Instantiate( deathPfx, transform.position,
+            deathPfxIdentityRot ? Quaternion.identity : transform.rotation,
             GameManager.Instance.effectsParent ).Play();
         Destroy( gameObject );
     }
@@ -126,11 +116,11 @@ public class Enemy : MonoBehaviour
         var e = c.GetComponent<Enemy>();
         if( e != null )
             return e;
-        
+
         var sn = c.GetComponent<SandWormNode>();
         if( sn != null && sn.childNode )
             e = sn.Enemy();
-        
+
         return e;
     }
 

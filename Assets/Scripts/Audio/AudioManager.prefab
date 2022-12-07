@@ -94,7 +94,10 @@ MonoBehaviour:
   playerHit: []
   playerDeath: {fileID: 0}
   shopPurchase: {fileID: 8300000, guid: 7cdfb4f597b049443bded4ba1678799e, type: 3}
-  spawnPillar: {fileID: 8300000, guid: 99a1ea3c92b026747ba26900b91286f4, type: 3}
+  spawnPillars:
+  - {fileID: 8300000, guid: 99a1ea3c92b026747ba26900b91286f4, type: 3}
+  - {fileID: 8300000, guid: 5af9a32c15614d24399915442bcabc5c, type: 3}
+  - {fileID: 8300000, guid: 8f8202f426f91474bad7e120462fd310, type: 3}
   splatterSfx:
   - {fileID: 8300000, guid: ca73a93378354e440956987bb00672de, type: 3}
   - {fileID: 8300000, guid: fb0676354d0e86c4c86abc044a342ba1, type: 3}
@@ -102,3 +105,12 @@ MonoBehaviour:
   precision:
   - {fileID: 8300000, guid: 91b654199c496ad40b1a30ffdc36b8ec, type: 3}
   precisionReady: {fileID: 8300000, guid: 3d9fe9a6fcf7d8c488fbe6c67db725be, type: 3}
+  bleedTick: {fileID: 8300000, guid: 9759619a36b80744187836efa1a68abb, type: 3}
+  cashback: {fileID: 8300000, guid: dd8458f95a5678d4b964a1501360210d, type: 3}
+  guardian: {fileID: 8300000, guid: 1965c0cb3d6863d448b45b7b82fa93a9, type: 3}
+  safeguardDown: {fileID: 8300000, guid: a2e86ff42a296a14cbbdee20c1953c35, type: 3}
+  chronos:
+  - {fileID: 8300000, guid: 7a06f956fc9d9354cb0b38000f86ea9f, type: 3}
+  - {fileID: 8300000, guid: f7538174b9a874d488ab8415fd986aaa, type: 3}
+  - {fileID: 8300000, guid: 6f08e6c1c994ea24e9d0c0d34a898392, type: 3}
+  - {fileID: 8300000, guid: 85eae6ef62a38874dbf98b7a4da71bba, type: 3}

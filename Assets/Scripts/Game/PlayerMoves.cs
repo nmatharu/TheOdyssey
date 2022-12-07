@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class PlayerMoves : MonoBehaviour
 {
@@ -95,6 +94,8 @@ public class PlayerMoves : MonoBehaviour
         _swordPfx.Light();
         LockFor( lightAttackFramesLock );
         AudioManager.Instance.swordSwings.RandomEntry().PlaySfx( 1f, 1f, 0.95f, 1.05f );
+        if( _player.Runes().HasChronos() )
+            AudioManager.Instance.chronos.RandomEntry().PlaySfx( 0.1f );
 
         CancelInvoke( nameof( ResetLightAttackSequence ) );
         Invoke( nameof( ResetLightAttackSequence ), firstSwingDelay );
@@ -121,6 +122,8 @@ public class PlayerMoves : MonoBehaviour
         if( _player.rolling || _player.locked ) return;
 
         AudioManager.Instance.bigSwings.RandomEntry().PlaySfx( 1f, 0.1f );
+        if( _player.Runes().HasChronos() )
+            this.Invoke( () => AudioManager.Instance.chronos.RandomEntry().PlaySfx( 0.1f ), 0.3f );
         
         _player.Mator().Play( ASlash );
         _swordPfx.Slash();
@@ -162,7 +165,7 @@ public class PlayerMoves : MonoBehaviour
     {
         if( _player.dead || _player.inputDisabled )  return;
         var i = WorldGenerator.Instance.FootstepsIndex( transform.position );
-        AudioManager.Instance.FootstepsSfx( i ).RandomEntry().PlaySfx( 0.35f, 0.2f );
+        AudioManager.Instance.FootstepsSfx( i ).RandomEntry().PlaySfx( 0.3f, 0.2f );
     }
 
     void DamageOnActiveFrame( IEnumerable<Collider> colliders, int damage, float frames60 )

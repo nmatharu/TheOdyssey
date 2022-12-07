@@ -44,6 +44,11 @@ public class AudioManager : MonoBehaviour
     [ SerializeField ] public AudioClip[] splatterSfx;
     [ SerializeField ] public AudioClip[] precision;
     [ SerializeField ] public AudioClip precisionReady;
+    [ SerializeField ] public AudioClip bleedTick;
+    [ SerializeField ] public AudioClip cashback;
+    [ SerializeField ] public AudioClip guardian;
+    [ SerializeField ] public AudioClip safeguardDown;
+    [ SerializeField ] public AudioClip[] chronos;
     
     void Awake()
     {

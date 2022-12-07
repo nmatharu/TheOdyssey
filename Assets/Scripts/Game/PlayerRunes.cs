@@ -12,6 +12,7 @@ public class PlayerRunes : MonoBehaviour
     [ SerializeField ] Material precisionGlowMat;
     [ SerializeField ] ParticleSystem berserkPfx;
     [ SerializeField ] ParticleSystem shieldPfx;
+    [ SerializeField ] AudioSource shieldLoop;
     [ SerializeField ] ParticleSystem guardianPfx;
     [ SerializeField ] Sprite guardianIcon;
     [ SerializeField ] GameObject splatterPfx;
@@ -161,12 +162,12 @@ public class PlayerRunes : MonoBehaviour
             return mult;
 
         if( _precisionIndex == 2 )
-            AudioManager.Instance.precisionReady.PlaySfx( 1f, 0.1f );
+            AudioManager.Instance.precisionReady.PlaySfx( 0.7f, 0.1f );
         
         if( _precisionIndex == 3 )
         {
             _fourthHitGuids.Add( attackId );
-            AudioManager.Instance.precision.RandomEntry().PlaySfx( 1f, 0.2f );
+            AudioManager.Instance.precision.RandomEntry().PlaySfx( 0.7f, 0.2f );
             precisionPfx.Play();
             mult = 1f + fourthHitDmgIncreasePct * Count( NewRune.Type.CommonBigHit );
         }
@@ -186,10 +187,14 @@ public class PlayerRunes : MonoBehaviour
     {
         _shieldUp = false;
         shieldPfx.Stop();
+        shieldLoop.Stop();
+        AudioManager.Instance.safeguardDown.PlaySfx( 0.2f );
+        
         this.Invoke( () =>
         {
             _shieldUp = true;
             shieldPfx.Play();
+            shieldLoop.Play();
         }, shieldBaseCd * ( 100f / ( 100f + shieldHasteAmount * ( Count( NewRune.Type.GoldShield ) - 1 ) ) ) );
     }
 
@@ -205,6 +210,8 @@ public class PlayerRunes : MonoBehaviour
             _player.LifeSteal( enemiesHit * lifeStealOnHitPerStack * lifeStealStacks );
     }
 
+    public bool HasChronos() => Count( NewRune.Type.GoldReduceCdOnHit ) > 0;
+    
     public void SandboxReset()
     {
         foreach( var rune in RuneIndex.Instance.runeIndex )
@@ -250,6 +257,9 @@ public class PlayerRunes : MonoBehaviour
         var pos = transform.position;
         
         _runes[ (int) NewRune.Type.GoldGuardian ]--;
+        AudioManager.Instance.guardian.PlaySfx();
+        // AudioManager.Instance.guardian.PlaySfx( 0.8f );
+        
         _player.Heal( _player.MaxHp(), true, true, 8f );
         guardianPfx.Play();
         GameManager.Instance.SpawnFloatingIcon( pos + 3 * Vector3.up, 
@@ -308,6 +318,7 @@ public class PlayerRunes : MonoBehaviour
         if( Count( NewRune.Type.GoldShield ) > 0 )
         {
             shieldPfx.Play();
+            shieldLoop.Play();
             _shieldUp = true;
         }
         
@@ -317,6 +328,7 @@ public class PlayerRunes : MonoBehaviour
     void InitShield()
     {
         shieldPfx.Play();
+        shieldLoop.Play();
         _shieldUp = true;
     }
 
@@ -330,6 +342,8 @@ public class PlayerRunes : MonoBehaviour
             var discountedPrice = cost * JBB.ClampedMap( 
                 Mathf.Pow( 1 - cashbackDiscountPct, cashbackStacks ), 0, 1, 0.1f, 1f );
             var rebate = Mathf.RoundToInt( cost - discountedPrice );
+            
+            AudioManager.Instance.cashback.PlaySfx( 1f );
             _player.AwardCurrency( rebate, true, 24f );
             
         }, 0.75f );
@@ -339,6 +353,7 @@ public class PlayerRunes : MonoBehaviour
     {
         berserkPfx.Stop();
         shieldPfx.Stop();
+        shieldLoop.Stop();
         precisionRadial.enabled = false;
     }
 }

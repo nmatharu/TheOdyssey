@@ -580,6 +580,7 @@ public class Player : MonoBehaviour
         _playerRunes.OnHit( enemiesHit, melee, magic );
     }
 
+    public PlayerRunes Runes() => _playerRunes;
     public PlayerMagic Magic() => _playerMagic;
     
     // SANDBOX
