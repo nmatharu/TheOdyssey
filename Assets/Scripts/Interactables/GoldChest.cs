@@ -19,6 +19,8 @@ public class GoldChest : Interactable
         twinklePfx.Stop();
         interactPrompt = "";
         cannotInteractPrompt = "EMPTY";
+        
+        AudioManager.Instance.chestOpen.PlaySfx( 1f, 0.1f );
 
         StartCoroutine( SwingOpenHinge() );
         IEnumerator SwingOpenHinge()

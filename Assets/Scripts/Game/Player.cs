@@ -463,6 +463,8 @@ public class Player : MonoBehaviour
             _level++;
             _statusBar.SetLevel( _level );
         }
+        
+        AudioManager.Instance.magicLearn.RandomEntry().PlaySfx( 1f, 0.05f );
 
         _magic = magicSpell;
         _statusBar.UpdateMagicIcon( _magic );
@@ -521,6 +523,7 @@ public class Player : MonoBehaviour
             yield return null;
         }
 
+        AudioManager.Instance.magicReady.PlaySfx( 0.8f );
         _magicOnCooldown = false;
         _statusBar.EndMagicCd();
     }
@@ -567,7 +570,7 @@ public class Player : MonoBehaviour
     public void UpdateSpeed( float bonusSpeed )
     {
         speed = _baseSpeed + bonusSpeed;
-        _playerMoves.SetRunSpeed( Mathf.Sqrt( speed / 8f ) );
+        _playerMoves.SetRunSpeed( Mathf.Pow( speed / 8f, 2 / 3f ) );
     }
 
     public void EnemyKilled( Enemy enemy ) => _playerRunes.Splatter( enemy );

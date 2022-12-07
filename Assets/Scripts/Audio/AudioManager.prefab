@@ -52,6 +52,9 @@ MonoBehaviour:
   maxSfxSources: 32
   muteMusic: 0
   muteSfx: 0
+  uiClick: {fileID: 8300000, guid: 85bf55d259f64d949a5cdff78eb42d22, type: 3}
+  uiBig: {fileID: 8300000, guid: 7e871ee5117eaf7438cd45b508ca7935, type: 3}
+  lobbyReady: {fileID: 8300000, guid: 90b1375c433aa3b449854e9e3de0eb1b, type: 3}
   lobbyCountdown: {fileID: 8300000, guid: 969d4b2f517b6914dadf0a3a78728f4d, type: 3}
   lobbyFootsteps:
   - {fileID: 8300000, guid: feb4691f1d4ee2b4e9d7ffb65c58fa74, type: 3}
@@ -94,10 +97,17 @@ MonoBehaviour:
   playerHit: []
   playerDeath: {fileID: 0}
   shopPurchase: {fileID: 8300000, guid: 7cdfb4f597b049443bded4ba1678799e, type: 3}
+  magicReady: {fileID: 8300000, guid: 849d996abeff5df47b04cc07c74c4e4b, type: 3}
   spawnPillars:
   - {fileID: 8300000, guid: 99a1ea3c92b026747ba26900b91286f4, type: 3}
   - {fileID: 8300000, guid: 5af9a32c15614d24399915442bcabc5c, type: 3}
   - {fileID: 8300000, guid: 8f8202f426f91474bad7e120462fd310, type: 3}
+  chestOpen: {fileID: 8300000, guid: ad4801c44ed734a4183af3d138dc11fe, type: 3}
+  magicLearn:
+  - {fileID: 8300000, guid: 27483827ce2b9894180b24235fe1587e, type: 3}
+  - {fileID: 8300000, guid: 4621b42c76867b14b9340c6d17e7071d, type: 3}
+  - {fileID: 8300000, guid: 04392d307763a6747a230b513bd21b93, type: 3}
+  campfireIgnite: {fileID: 8300000, guid: d2f14a2a96f9e0243ab1f582df2df2dd, type: 3}
   splatterSfx:
   - {fileID: 8300000, guid: ca73a93378354e440956987bb00672de, type: 3}
   - {fileID: 8300000, guid: fb0676354d0e86c4c86abc044a342ba1, type: 3}

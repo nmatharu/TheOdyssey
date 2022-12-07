@@ -28,7 +28,7 @@ public class SpawnPillar : MonoBehaviour
     {
         pfx.Play();
         Invoke( nameof( Spawn ), spawnDelay );
-        AudioManager.Instance.spawnPillars.RandomEntry().PlaySfx( 0.8f );
+        AudioManager.Instance.spawnPillars.RandomEntry().PlaySfx( 0.6f );
     }
 
     void Spawn()

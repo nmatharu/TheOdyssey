@@ -23,6 +23,8 @@ public class MenuManager : MonoBehaviour
         Credits
     }
 
+    bool _loadingLobby;
+
     void Start()
     {
         if( Instance != null && Instance != this )
@@ -38,17 +40,17 @@ public class MenuManager : MonoBehaviour
 
     void ConfirmTopLevelSelection()
     {
+        if( _loadingLobby ) return;
+            
+        AudioManager.Instance.uiBig.PlaySfx();
+        
         switch( _topLevelMenuIndex )
         {
             case 0:
-                GameManager.GameConfig.Sandbox = false;
-                GlobalInputManager.Instance.ToLobby();
-                SceneManager.LoadScene( "Lobby" );
+                LoadLobby( false );
                 break;
             case 1:
-                GameManager.GameConfig.Sandbox = true;
-                GlobalInputManager.Instance.ToLobby();
-                SceneManager.LoadScene( "Lobby" );
+                LoadLobby( true );
                 break;
             case 2:
                 settingsCanvas.SetActive( true );
@@ -64,8 +66,17 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    void LoadLobby( bool sandbox )
+    {
+        _loadingLobby = true;
+        GameManager.GameConfig.Sandbox = sandbox;
+        GlobalInputManager.Instance.ToLobby();
+        SceneManager.LoadScene( "Lobby" );
+    }
+
     public void MenuNavLDUR( Vector2Int nav )
     {
+        AudioManager.Instance.uiClick.PlaySfx();
         switch( _state )
         {
             case MenuState.Top:
@@ -99,6 +110,7 @@ public class MenuManager : MonoBehaviour
 
     public void BackSelection()
     {
+        AudioManager.Instance.uiClick.PlaySfx();
         switch( _state )
         {
             case MenuState.Top:

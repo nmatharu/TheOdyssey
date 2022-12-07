@@ -14,6 +14,7 @@ public class Campfire : Interactable
         if( !_lit )
         {
             firePfx.Play();
+            AudioManager.Instance.campfireIgnite.PlaySfx( 0.4f );
             healingRing.SetActive( true );
             _lit = true;
             _disabled = true;

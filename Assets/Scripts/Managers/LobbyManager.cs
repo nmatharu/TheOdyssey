@@ -123,6 +123,7 @@ public class LobbyManager : MonoBehaviour
         _players[ id ] = o.GetComponent<LobbyPlayer>();
         _players[ id ].Init( GetUnusedName(), id, playerCanvases[ id ] );
         playerCanvases[ id ].Init( input, _players[ id ].PlayerName(), deviceName );
+        AudioManager.Instance.uiClick.PlaySfx();
         
         return id;
     }
@@ -166,12 +167,14 @@ public class LobbyManager : MonoBehaviour
 
     public void BackToMenu()
     {
+        AudioManager.Instance.uiBig.PlaySfx();
         GlobalInputManager.Instance.ToMenu();
         SceneManager.LoadScene( "Menu" );
     }
 
     public void RemovePlayer( GlobalPlayerInput input, int playerId )
     {
+        AudioManager.Instance.uiClick.PlaySfx();
         _inputs.Remove( input );
         Destroy( _players[ playerId ].gameObject );
         _players[ playerId ] = null;

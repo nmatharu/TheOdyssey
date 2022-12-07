@@ -24,6 +24,11 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance { get; private set; }
 
     [ Header( "SFX Clips" ) ]
+
+    [ Header( "Pre-Game" ) ]
+    [ SerializeField ] public AudioClip uiClick;
+    [ SerializeField ] public AudioClip uiBig;
+    [ SerializeField ] public AudioClip lobbyReady;
     [ SerializeField ] public AudioClip lobbyCountdown;
     [ SerializeField ] public AudioClip[] lobbyFootsteps;
     
@@ -39,8 +44,15 @@ public class AudioManager : MonoBehaviour
     [ SerializeField ] public AudioClip[] playerHit;
     [ SerializeField ] public AudioClip playerDeath;
     [ SerializeField ] public AudioClip shopPurchase;
+    [ SerializeField ] public AudioClip magicReady;
+    
+    [ Header( "Environment" ) ]
     [ SerializeField ] public AudioClip[] spawnPillars;
-
+    [ SerializeField ] public AudioClip chestOpen;
+    [ SerializeField ] public AudioClip[] magicLearn;
+    [ SerializeField ] public AudioClip campfireIgnite;
+    
+    [ Header( "Runes" ) ]
     [ SerializeField ] public AudioClip[] splatterSfx;
     [ SerializeField ] public AudioClip[] precision;
     [ SerializeField ] public AudioClip precisionReady;

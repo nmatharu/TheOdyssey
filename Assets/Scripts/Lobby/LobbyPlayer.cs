@@ -70,7 +70,7 @@ public class LobbyPlayer : MonoBehaviour
         EnableCostume( _costumeIndex );
     }
 
-    public void PlayerFootstep() => AudioManager.Instance.lobbyFootsteps.RandomEntry().PlaySfx( 0.4f, 0.1f );
+    public void PlayerFootstep() => AudioManager.Instance.lobbyFootsteps.RandomEntry().PlaySfx( 0.2f, 0.1f );
 
     public void EditName() => _canvas.ToNameEntry();
 
@@ -81,6 +81,8 @@ public class LobbyPlayer : MonoBehaviour
     public void ConfirmBtn()
     {
         ready = !ready;
+        ( ready ? AudioManager.Instance.lobbyReady : AudioManager.Instance.uiClick ).PlaySfx();
+        
         _canvas.SetReady( ready );
     }
 

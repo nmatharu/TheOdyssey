@@ -49204,9 +49204,9 @@ MonoBehaviour:
   sandboxMode: 1
   skipToBoss: 0
   levels:
+  - {fileID: 1974198877}
   - {fileID: 317313853}
   - {fileID: 1764224119}
-  - {fileID: 1974198877}
   - {fileID: 1981998480}
   - {fileID: 590174255}
 --- !u!4 &2113210664
