@@ -86,7 +86,8 @@ MonoBehaviour:
   numSegmentsAfterHead: 26
   nodePrefab: {fileID: 4988211461471579824, guid: 5fc3509bf822ab04d8c1b7b562fce5e5, type: 3}
   dangerIndicator: {fileID: 6084014041274973344, guid: ca051e5a1d7999b468e7c6b9e21db20b, type: 3}
-  burrowPfx: {fileID: 4384770824257133368, guid: 26b7b7bb367946e40aee7978addbd30c, type: 3}
+  burrowPfx: {fileID: 4384770824257133368, guid: 8547a1347c58a0a4abbe357e1281c28d, type: 3}
+  burrowPfxDelay: 0.1
   head: {fileID: 3767147891426925715}
 --- !u!114 &3767147891426925715
 MonoBehaviour:

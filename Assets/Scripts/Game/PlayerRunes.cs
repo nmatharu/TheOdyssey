@@ -65,7 +65,7 @@ public class PlayerRunes : MonoBehaviour
         // TODO Remove
         // _runes[ (int) NewRune.Type.GoldEnemiesExplode ] = 221;
         // _splatter = true;
-        // _runes[ (int) NewRune.Type.CommonMeleeDmg ] = 10;
+        _runes[ (int) NewRune.Type.CommonMeleeDmg ] = 200;
     }
 
     int Count( NewRune.Type type ) => _runes[ (int) type ];
@@ -192,6 +192,7 @@ public class PlayerRunes : MonoBehaviour
         
         this.Invoke( () =>
         {
+            if( _player.dead )  return;
             _shieldUp = true;
             shieldPfx.Play();
             shieldLoop.Play();

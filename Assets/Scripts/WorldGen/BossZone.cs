@@ -60,7 +60,7 @@ public class BossZone : MonoBehaviour
 
         GameManager.Instance.KillAllEnemies();
         WorldGenerator.Instance.BossStarted();
-        EnemySpawner.Instance.StartBoss();
+        this.Invoke( () => EnemySpawner.Instance.StartBoss(), 1.5f );
         this.Invoke( () => StartCoroutine( CheckEndBoss() ), 5f );
     }
 
@@ -81,6 +81,7 @@ public class BossZone : MonoBehaviour
 
     IEnumerator CloseLeftCoroutine()
     {
+        AudioManager.Instance.spikes.PlaySfx();
         var wait = new WaitForFixedUpdate();
         for( var frame = 0; frame < closeTransitionFrames; frame++ )
         {
@@ -95,6 +96,7 @@ public class BossZone : MonoBehaviour
     
     IEnumerator OpenRightCoroutine()
     {
+        AudioManager.Instance.spikes.PlaySfx();
         var wait = new WaitForFixedUpdate();
         for( var frame = 0; frame < closeTransitionFrames; frame++ )
         {

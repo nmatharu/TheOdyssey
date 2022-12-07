@@ -40998,8 +40998,8 @@ MonoBehaviour:
   seenEnemies:
   - {fileID: 436286037931020361, guid: 9b409564e389f274b8df4701736abddf, type: 3}
   newEnemies:
-  - {fileID: 428212638778311382, guid: b4c459d7870717748b5f2fb8c8b1d6dc, type: 3}
   - {fileID: 8706685121159334724, guid: 646afd47d2ea24a42816565c7140d65e, type: 3}
+  - {fileID: 428212638778311382, guid: b4c459d7870717748b5f2fb8c8b1d6dc, type: 3}
   bossSpawner: {fileID: 4106126115751608662, guid: b1ed421e19d79494287683bf58ca6d3c, type: 3}
   enemyWaves:
   - {x: -0.03, y: 0}
@@ -49201,12 +49201,12 @@ MonoBehaviour:
   genNpcs:
   - {fileID: 3153920260594947028, guid: 702457f91f25cad46b84a1a82b235923, type: 3}
   - {fileID: 3153920260594947028, guid: 1c112c09cf163ee43bca69905eb33352, type: 3}
-  sandboxMode: 1
+  sandboxMode: 0
   skipToBoss: 0
   levels:
-  - {fileID: 1974198877}
-  - {fileID: 317313853}
   - {fileID: 1764224119}
+  - {fileID: 317313853}
+  - {fileID: 1974198877}
   - {fileID: 1981998480}
   - {fileID: 590174255}
 --- !u!4 &2113210664

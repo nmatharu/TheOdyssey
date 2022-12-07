@@ -31,7 +31,7 @@ public class AudioManager : MonoBehaviour
     [ SerializeField ] public AudioClip lobbyReady;
     [ SerializeField ] public AudioClip lobbyCountdown;
     [ SerializeField ] public AudioClip[] lobbyFootsteps;
-    
+
     [ SerializeField ] public AudioClip[] swordSwings;
     [ SerializeField ] public AudioClip[] bigSwings;
     [ SerializeField ] public AudioClip[] enemyHit;
@@ -45,12 +45,16 @@ public class AudioManager : MonoBehaviour
     [ SerializeField ] public AudioClip playerDeath;
     [ SerializeField ] public AudioClip shopPurchase;
     [ SerializeField ] public AudioClip magicReady;
+
+    [ Header( "Enemy" ) ]
+    [ SerializeField ] public AudioClip wormAtk;
     
     [ Header( "Environment" ) ]
     [ SerializeField ] public AudioClip[] spawnPillars;
     [ SerializeField ] public AudioClip chestOpen;
     [ SerializeField ] public AudioClip[] magicLearn;
     [ SerializeField ] public AudioClip campfireIgnite;
+    [ SerializeField ] public AudioClip spikes;
     
     [ Header( "Runes" ) ]
     [ SerializeField ] public AudioClip[] splatterSfx;

@@ -360,6 +360,7 @@ public class GameManager : MonoBehaviour
     {
         if( _gameOver ) return;
         
+        AudioManager.Instance.uiBig.PlaySfx();
         switch( _paused )
         {
             case true when playerId == _pausedBy:
@@ -455,6 +456,7 @@ public class GameManager : MonoBehaviour
     {
         if( _paused && _pausedBy == playerId )
         {
+            AudioManager.Instance.uiBig.PlaySfx();
             Unpause();
             SceneManager.LoadScene( "Menu" );
             GlobalInputManager.Instance.ToMenu();
@@ -473,6 +475,7 @@ public class GameManager : MonoBehaviour
     public void QuitToLobby()
     {
         Unpause();
+        AudioManager.Instance.uiBig.PlaySfx();
         SceneManager.LoadScene( "Lobby" );
         GlobalInputManager.Instance.ToLobby();
     }

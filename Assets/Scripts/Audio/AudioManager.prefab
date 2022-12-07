@@ -98,6 +98,7 @@ MonoBehaviour:
   playerDeath: {fileID: 0}
   shopPurchase: {fileID: 8300000, guid: 7cdfb4f597b049443bded4ba1678799e, type: 3}
   magicReady: {fileID: 8300000, guid: 849d996abeff5df47b04cc07c74c4e4b, type: 3}
+  wormAtk: {fileID: 8300000, guid: 0c0e4fb85b73b0b41a0d39a6ad8d3458, type: 3}
   spawnPillars:
   - {fileID: 8300000, guid: 99a1ea3c92b026747ba26900b91286f4, type: 3}
   - {fileID: 8300000, guid: 5af9a32c15614d24399915442bcabc5c, type: 3}
@@ -108,6 +109,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4621b42c76867b14b9340c6d17e7071d, type: 3}
   - {fileID: 8300000, guid: 04392d307763a6747a230b513bd21b93, type: 3}
   campfireIgnite: {fileID: 8300000, guid: d2f14a2a96f9e0243ab1f582df2df2dd, type: 3}
+  spikes: {fileID: 8300000, guid: f3da26fc3bc6ccb40a045f0447b9d568, type: 3}
   splatterSfx:
   - {fileID: 8300000, guid: ca73a93378354e440956987bb00672de, type: 3}
   - {fileID: 8300000, guid: fb0676354d0e86c4c86abc044a342ba1, type: 3}

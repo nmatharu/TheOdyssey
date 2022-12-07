@@ -80,6 +80,8 @@ public class SandWorm : MonoBehaviour
         var p = c.collider.GetComponent<Player>();
 
         if( p == null ) return;
+        
+        AudioManager.Instance.wormAtk.PlaySfx( 0.7f, 0.1f );
         p.IncomingDamage( dmg, _enemy.Level() );
     }
 
