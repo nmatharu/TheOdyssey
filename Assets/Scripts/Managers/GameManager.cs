@@ -106,6 +106,7 @@ public class GameManager : MonoBehaviour
         else
         {
             var p = playersArr[ 0 ];
+            
             p.gameObject.SetActive( true );
             p.SetPlayerName( "PLAYER" );
             p.SetCostume( 0 );
@@ -478,5 +479,14 @@ public class GameManager : MonoBehaviour
         AudioManager.Instance.uiBig.PlaySfx();
         SceneManager.LoadScene( "Lobby" );
         GlobalInputManager.Instance.ToLobby();
+    }
+
+    public void Victory()
+    {
+        if( _gameOver ) return;
+        _gameOver = true;
+        Unpause();
+        postGameCanvas.Init( false, _difficulty, EnemyLevelGraphic.ToClockFormat( (int) _runTimeElapsed ) );
+        this.Invoke( () => _readyToExitGame = true, postGameCanvas.timeToEnableInput );
     }
 }

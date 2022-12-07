@@ -198,7 +198,7 @@ public abstract class Level : MonoBehaviour
     public Vector2Int WorldSize() => new( DefaultWorldSizeX, DefaultWorldSizeY );
 
     public Vector2Int BossZoneCenterCoords() =>
-        new( DefaultWorldSizeX - BossZoneOffset + ( int ) ( BossZoneSize / 2f ), DefaultWorldSizeY / 2 );
+        new( DefaultWorldSizeX - BossZoneOffset + ( int ) ( BossZoneSize / 2f ) + 1, DefaultWorldSizeY / 2 );
     public float BossZoneCenterX() =>
         WorldGenerator.CoordXToWorldX( DefaultWorldSizeX - BossZoneOffset + BossZoneSize / 2f );
 

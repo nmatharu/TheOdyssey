@@ -74,7 +74,7 @@ MonoBehaviour:
   nodes:
   - {fileID: 3767147891426925715}
   toFollow: {fileID: 0}
-  dmg: 8
+  dmg: 7
   speed: 16
   headLookSlerp: 4
   lookSlerp: 12

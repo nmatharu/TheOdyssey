@@ -40,27 +40,6 @@ public class EnemySpawner : MonoBehaviour
         _nextWaveBudget = wave.y;
     }
 
-    public void LetItRip( float maxPlayerX, Vector3[] spawnPoints )
-    {
-        var maxSpawnX = spawnPoints.Max( p => p.x );
-        maxSpawnX = Mathf.Max( maxPlayerX, maxSpawnX );
-        
-        var b = Instantiate( enemyBarrier, new Vector3( maxSpawnX + 8f, 0, 0 ), 
-            Quaternion.identity, spawnersParent );
-        var barrier = b.GetComponent<EnemyBarrier>();
-
-        var wave = _waveQueue.Dequeue().toSpawn;
-        for( var i = 0; i < wave.Count; i++ )
-        {
-            var i1 = i;
-            this.Invoke( () =>
-            {
-                var p = Instantiate( spawnPillar, spawnPoints[ i1 ], Quaternion.identity, spawnersParent ).GetComponent<SpawnPillar>();
-                p.Set( wave[ i1 ], 2f, barrier );
-            }, i * 0.25f );
-        }
-    }
-    
     public void LetItRip2( float maxPlayerX )
     {
         var enemies = GameManager.Instance.CurrentLevel().WaveEnemies( _nextWaveBudget );

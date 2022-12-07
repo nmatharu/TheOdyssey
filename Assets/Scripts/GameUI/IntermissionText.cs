@@ -7,6 +7,7 @@ public class IntermissionText : MonoBehaviour
 {
     [ SerializeField ] float startDelaySeconds = 1f;
     [ SerializeField ] float endDelaySeconds = 2f;
+    [ SerializeField ] float periodDelay = 0.5f;
     [ SerializeField ] float delayBetweenCharacters = 0.25f;
     [ SerializeField ] TextMeshProUGUI textDisplay;
     
@@ -17,11 +18,13 @@ public class IntermissionText : MonoBehaviour
 
     IEnumerator DisplayText( string text )
     {
+        AudioManager.Instance.transition.PlaySfx( 0.5f );
         _fader.FadeIn();
 
         yield return new WaitForSeconds( startDelaySeconds );
 
         var wait = new WaitForSeconds( delayBetweenCharacters );
+        var periodWait = new WaitForSeconds( periodDelay );
         
         textDisplay.color = Color.black;
         textDisplay.text = "";
@@ -29,11 +32,18 @@ public class IntermissionText : MonoBehaviour
         foreach( var c in text )
         {
             textDisplay.text += c;
+            
+            if( c is not (' ' or '\n') )
+                AudioManager.Instance.intermissionType.RandomEntry().PlaySfx( 1f, 0.1f );
+            
+            if( c == '.' )
+                yield return periodWait;
             yield return wait;
         }
 
         yield return new WaitForSeconds( endDelaySeconds );
-
+        AudioManager.Instance.transition.PlaySfx( 0.5f );
+        
         var elapsed = 0f;
         const float fadeOutTime = 0.5f;
         while( elapsed < fadeOutTime )

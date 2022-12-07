@@ -22,6 +22,7 @@ public class WorldGenerator : MonoBehaviour
 
     [ SerializeField ] bool sandboxMode;
     [ SerializeField ] public bool skipToBoss;
+    [ SerializeField ] public bool opMode;
     
     Tile[ , ] _tileMap;
     Node[ , ] _nodeMap;
@@ -607,7 +608,7 @@ public class WorldGenerator : MonoBehaviour
     {
         var coords = WorldPosToCoords( pos );
         var tile = _tileMap[ coords.x, coords.y ];
-        return tile.EmptyCollider || tile.Is( WorldGenIndex.Blocks.Log );
+        return tile.EmptyCollider || tile.OffLimits || tile.HasSurfaceObject || tile.Is( WorldGenIndex.Blocks.Log );
     }
 
     int GrasslandsNoiseMap( int x, int y )

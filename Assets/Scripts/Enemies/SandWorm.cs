@@ -96,7 +96,7 @@ public class SandWorm : MonoBehaviour
         var goingDown = false;
         for( ;; )
         {
-            if( _targetPlayer == null )
+            while( _targetPlayer == null )
                 yield return null;
 
             var y = sinStrength * Mathf.Sin( elapsed * sinSpeed );

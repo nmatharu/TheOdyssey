@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 150
-  spawnCost: 2
+  spawnCost: 3
   renderers:
   - {fileID: 815645592452846506}
   hitFlashIntensity: 6
@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1.4
-  damage: 16
+  damage: 12
   smashRange: 6
   smashingFrames: 110
   smashActiveFrame: 53

@@ -62,10 +62,17 @@ public class PlayerRunes : MonoBehaviour
         _fourthHitGuids = new HashSet<Guid>();
         _berserkPfxEmission = berserkPfx.emission.rateOverTime.constant;
         
+        if( WorldGenerator.Instance.opMode )
+            OP();
+    }
+
+    // For testing
+    public void OP()
+    {
         // TODO Remove
-        // _runes[ (int) NewRune.Type.GoldEnemiesExplode ] = 221;
-        // _splatter = true;
-        // _runes[ (int) NewRune.Type.CommonMeleeDmg ] = 200;
+        _runes[ (int) NewRune.Type.GoldEnemiesExplode ] = 221;
+        _splatter = true;
+        _runes[ (int) NewRune.Type.CommonMeleeDmg ] = 200;
     }
 
     int Count( NewRune.Type type ) => _runes[ (int) type ];
@@ -121,7 +128,8 @@ public class PlayerRunes : MonoBehaviour
     public float IncomingDamageCalc( float unscaledDmg, int enemyLevel )
     {
         var dmg = unscaledDmg * GameManager.Instance.EnemyDamageMultiplier( enemyLevel );
-
+        dmg = Mathf.Max( dmg, 1 );
+        
         // If shield is up, dmg -> 0 and break shield
         if( _shieldUp )
         {

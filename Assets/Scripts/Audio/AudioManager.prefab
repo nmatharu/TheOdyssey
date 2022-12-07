@@ -55,11 +55,15 @@ MonoBehaviour:
   uiClick: {fileID: 8300000, guid: 85bf55d259f64d949a5cdff78eb42d22, type: 3}
   uiBig: {fileID: 8300000, guid: 7e871ee5117eaf7438cd45b508ca7935, type: 3}
   lobbyReady: {fileID: 8300000, guid: 90b1375c433aa3b449854e9e3de0eb1b, type: 3}
-  lobbyCountdown: {fileID: 8300000, guid: 969d4b2f517b6914dadf0a3a78728f4d, type: 3}
+  lobbyCountdown: {fileID: 8300000, guid: c20076d674364734c8662c35d653703e, type: 3}
   lobbyFootsteps:
   - {fileID: 8300000, guid: feb4691f1d4ee2b4e9d7ffb65c58fa74, type: 3}
   - {fileID: 8300000, guid: 4bcb5955fbfcea74fa49b3bc27de631c, type: 3}
   - {fileID: 8300000, guid: 7f23977d59b540c459113ca910c80e0a, type: 3}
+  transition: {fileID: 8300000, guid: f44a3285ae266bf4ea277c215716bf84, type: 3}
+  intermissionType:
+  - {fileID: 8300000, guid: 9befb474892916a40953a7468206a2f1, type: 3}
+  - {fileID: 8300000, guid: d1107a6d0034b9e4ea6861c4742110ab, type: 3}
   swordSwings:
   - {fileID: 8300000, guid: 06915b7babc724a4785234890f943bed, type: 3}
   - {fileID: 8300000, guid: 046400c3e9477aa488d367c143a74c2b, type: 3}

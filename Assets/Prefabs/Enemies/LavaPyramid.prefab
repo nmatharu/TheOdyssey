@@ -193,7 +193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   raycastPoint: {fileID: 6310089763370973828}
   raycastDistance: 24
-  damage: 16
+  damage: 6
   raycastPfx: {fileID: 6176607202259580216}
   topTransform: {fileID: 8388693455947198332}
   recoilTransform: {fileID: 8002580640874974785}

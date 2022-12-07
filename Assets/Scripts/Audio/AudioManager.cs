@@ -31,6 +31,8 @@ public class AudioManager : MonoBehaviour
     [ SerializeField ] public AudioClip lobbyReady;
     [ SerializeField ] public AudioClip lobbyCountdown;
     [ SerializeField ] public AudioClip[] lobbyFootsteps;
+    [ SerializeField ] public AudioClip transition;
+    [ SerializeField ] public AudioClip[] intermissionType;
 
     [ SerializeField ] public AudioClip[] swordSwings;
     [ SerializeField ] public AudioClip[] bigSwings;
