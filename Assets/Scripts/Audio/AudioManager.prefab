@@ -131,6 +131,12 @@ MonoBehaviour:
   pyramidBlast:
   - {fileID: 8300000, guid: 1ba6bb3bf5ec33d4ebb8ce1dff83ea46, type: 3}
   - {fileID: 8300000, guid: 886c1d91fe2171f40bef076449da2721, type: 3}
+  hiveIntro: {fileID: 8300000, guid: 048982827a1923a4bbb5bda9e87ca357, type: 3}
+  hiveIntroBurst: {fileID: 8300000, guid: 8b8da1c49c1407149b1cc30e5313002b, type: 3}
+  hiveChargeUp: {fileID: 8300000, guid: a3eaba1249b7a5b48806ec384b8fbaf2, type: 3}
+  hiveExploderIndicator: {fileID: 8300000, guid: a82776aab5bab464fbace44e0cdc241e, type: 3}
+  hiveExploderBurst: {fileID: 8300000, guid: 483ef1451d68f7741a96ca19069f3c82, type: 3}
+  hiveGameWinExplosion: {fileID: 8300000, guid: 44aa64a8688c01a408ad6296ababa650, type: 3}
   spawnPillars:
   - {fileID: 8300000, guid: 99a1ea3c92b026747ba26900b91286f4, type: 3}
   - {fileID: 8300000, guid: 8f8202f426f91474bad7e120462fd310, type: 3}
@@ -171,12 +177,18 @@ MonoBehaviour:
   flurryBolt:
   - {fileID: 8300000, guid: d7b024ec1a3105546b72bc6abbaf6d7e, type: 3}
   menuTheme: {fileID: 8300000, guid: 388371f8f3c1c444b96c56dcaf559b4d, type: 3}
-  fallsLoop: {fileID: 8300000, guid: ea378b6730482a947905c91ea8cb5620, type: 3}
-  fallsBoss: {fileID: 8300000, guid: 2fcd66541838b3a41a1637de0225074d, type: 3}
-  sandsLoop: {fileID: 0}
-  sandsBoss: {fileID: 0}
-  firesLoop: {fileID: 0}
-  firesBoss: {fileID: 0}
+  levelMainLoops:
+  - {fileID: 8300000, guid: ea378b6730482a947905c91ea8cb5620, type: 3}
+  - {fileID: 8300000, guid: 89f5a34fba048d945a93c63fb1489e48, type: 3}
+  - {fileID: 8300000, guid: ea378b6730482a947905c91ea8cb5620, type: 3}
+  levelBossLoops:
+  - {fileID: 8300000, guid: 2fcd66541838b3a41a1637de0225074d, type: 3}
+  - {fileID: 8300000, guid: 2fcd66541838b3a41a1637de0225074d, type: 3}
+  - {fileID: 8300000, guid: 2fcd66541838b3a41a1637de0225074d, type: 3}
+  levelBossEndRiffs:
+  - {fileID: 8300000, guid: f11927ec6fa215e4eb2fcee43491e6df, type: 3}
+  - {fileID: 8300000, guid: f11927ec6fa215e4eb2fcee43491e6df, type: 3}
+  - {fileID: 8300000, guid: f11927ec6fa215e4eb2fcee43491e6df, type: 3}
 --- !u!82 &1333503344776729367
 AudioSource:
   m_ObjectHideFlags: 0

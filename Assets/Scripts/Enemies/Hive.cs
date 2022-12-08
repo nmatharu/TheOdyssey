@@ -39,11 +39,15 @@ public class Hive : MonoBehaviour
     Light _sceneLight;
     float _sceneLightIntensity;
     [ SerializeField ] float sceneLightDarkenIntensity = 1f;
+
+    AudioSource _chargeUpSfx;
     
     void Start()
     {
         _body = GetComponent<Rigidbody>();
         _enemy = GetComponent<Enemy>();
+        _chargeUpSfx = GetComponent<AudioSource>();
+        
         _budget = enemyBudgetPerPlayerCount[ GameManager.Instance.NumPlayersInParty() - 1 ];
 
         _sceneLight = FindObjectOfType<LevelFires>().gameObject.GetComponentInChildren<Light>();
@@ -68,6 +72,8 @@ public class Hive : MonoBehaviour
         foreach( var e in _exploders )
             e.gameObject.SetActive( false );
         
+        _chargeUpSfx.Play();
+        
         for( var elapsed = 0f; elapsed < fireChargeTime; elapsed += Time.deltaTime )
         {
             pointLight.intensity = Mathf.Lerp( 0, fireLightIntensity, elapsed / fireChargeTime );
@@ -82,6 +88,7 @@ public class Hive : MonoBehaviour
 
         for( var i = 0; i < numExploders; i++ )
         {
+            AudioManager.Instance.hiveExploderIndicator.PlaySfx( 0.8f, 0.2f );
             _exploders[ i ].gameObject.SetActive( true );
             _exploders[ i ].transform.position = spawnPoints[ i ];
             _exploders[ i ].ShowIndicator();
@@ -160,5 +167,15 @@ public class Hive : MonoBehaviour
                 closestPlayer = p.transform;
 
         _targetPlayer = closestPlayer;
+    }
+
+    void OnDestroy()
+    {
+        foreach( var e in _exploders )
+            if( e != null )
+                Destroy( e.gameObject );
+        
+        if( _sceneLight != null )
+            _sceneLight.intensity = _sceneLightIntensity;
     }
 }

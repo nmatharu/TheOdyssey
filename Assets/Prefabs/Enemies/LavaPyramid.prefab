@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b0d29ef027971146902f8e3924521fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 30
+  maxHp: 50
   spawnCost: 1
   renderers:
   - {fileID: 7909903664582788756}
@@ -180,6 +180,7 @@ MonoBehaviour:
   hitFlashIntensity: 3
   deathPfx: {fileID: 7099122110959006634, guid: 4047783b4f1194bc99e7ba89efbfda95, type: 3}
   deathPfxIdentityRot: 0
+  bossEnemy: 0
 --- !u!114 &697160941113349436
 MonoBehaviour:
   m_ObjectHideFlags: 0

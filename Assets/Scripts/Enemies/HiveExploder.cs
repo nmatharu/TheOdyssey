@@ -15,6 +15,7 @@ public class HiveExploder : MonoBehaviour
         pfx.Play();
         image.FadeOut();
         var colliders = Physics.OverlapSphere( transform.position, radius );
+        AudioManager.Instance.hiveExploderBurst.PlaySfx( 1f, 0.2f );
         foreach( var c in colliders )
         {
             var p = c.GetComponent<Player>();

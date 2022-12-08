@@ -78,6 +78,14 @@ public class BossZone : MonoBehaviour
             if( GameManager.Instance.AllEnemiesDead() )
             {
                 WorldGenerator.Instance.BossFinished();
+
+                var musicIndex = GameManager.Instance.CurrentLevel().musicIndex;
+                if( musicIndex != 2 )
+                {
+                    this.Invoke( () => AudioManager.Instance.PlayMusic( AudioManager.Instance.
+                            levelBossEndRiffs[ musicIndex ], false, true ), 0.1f );
+                }
+
                 OpenRight();
                 yield break;
             }
@@ -88,6 +96,7 @@ public class BossZone : MonoBehaviour
     IEnumerator CloseLeftCoroutine()
     {
         AudioManager.Instance.spikes.PlaySfx();
+        AudioManager.Instance.ToTargetMusicVolume( 0.25f, 0f );
         var wait = new WaitForFixedUpdate();
         for( var frame = 0; frame < closeTransitionFrames; frame++ )
         {

@@ -34,7 +34,8 @@ public class SandWorm : MonoBehaviour
 
     List<ParticleSystem> _pfxs = new();
 
-    
+    HashSet<int> _hitPlayers = new();
+
     void Start()
     {
         _enemy = GetComponentInParent<Enemy>();
@@ -85,10 +86,15 @@ public class SandWorm : MonoBehaviour
     void OnCollisionEnter( Collision c )
     {
         var p = c.collider.GetComponent<Player>();
+        var id = p.gameObject.GetInstanceID();
 
-        if( p == null ) return;
+        if( p == null || _hitPlayers.Contains( id ) ) return;
         
         AudioManager.Instance.wormAtk.PlaySfx( 0.9f, 0.1f );
+        
+        _hitPlayers.Add( id );
+        this.Invoke( () => _hitPlayers.Remove( id ), 0.4f );
+        
         p.IncomingDamage( dmg, _enemy.Level() );
     }
 

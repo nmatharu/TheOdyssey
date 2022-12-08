@@ -73,7 +73,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 428212638778311382, guid: 6e804079547d89b479e6ce60f1b56b83, type: 3}
       propertyPath: maxHp
-      value: 150
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 428212638778311382, guid: 6e804079547d89b479e6ce60f1b56b83, type: 3}
       propertyPath: spawnCost

@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pfx: {fileID: 7291802348151985035}
-  radius: 4
+  radius: 5
   image: {fileID: 2426794131288502307}
 --- !u!1 &4705748669706245371
 GameObject:
@@ -911,7 +911,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 4
+      value: 5
       mode: 0
       spread: 0
       speed:
@@ -5089,7 +5089,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 8, y: 8}
+  m_SizeDelta: {x: 10.25, y: 10.25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9053022853753240865
 CanvasRenderer:

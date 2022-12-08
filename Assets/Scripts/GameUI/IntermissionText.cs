@@ -59,6 +59,9 @@ public class IntermissionText : MonoBehaviour
         GameManager.Instance.BeginNextStage();
         yield return new WaitForSeconds( 0.25f );
         _fader.FadeOut();
+        
+        AudioManager.Instance.PlayMusic( AudioManager.Instance.levelMainLoops[ 
+            GameManager.Instance.CurrentLevel().musicIndex ], true, true );
 
     }
 }

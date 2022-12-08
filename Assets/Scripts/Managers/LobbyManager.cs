@@ -60,6 +60,7 @@ public class LobbyManager : MonoBehaviour
             if( _gameStartCountdown != null )
             {
                 StopCoroutine( _gameStartCountdown );
+                AudioManager.Instance.ToTargetMusicVolume( 1f, 1f );
                 fadeToWhite.InstaHide();
             }
 
@@ -78,7 +79,10 @@ public class LobbyManager : MonoBehaviour
             AudioManager.Instance.lobbyCountdown.PlaySfx( 1f );
             gameStartingText.text = $"GAME STARTING IN { 3 - i }";
             if( i == 2 )
+            {
                 fadeToWhite.FadeIn();
+                AudioManager.Instance.ToTargetMusicVolume( 1f, 0f );             
+            }
 
             yield return wait;
         }

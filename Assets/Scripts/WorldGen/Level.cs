@@ -25,6 +25,8 @@ public abstract class Level : MonoBehaviour
     [ SerializeField ] protected GameObject nextStageBaseBlock;
     [ SerializeField ] protected Transform environmentalParent;
 
+    [ SerializeField ] public int musicIndex = 0;
+
     [ SerializeField ] GameObject actTitle;
 
     protected const int DefaultWorldSizeX = 400;

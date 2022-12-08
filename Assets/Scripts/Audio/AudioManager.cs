@@ -66,6 +66,14 @@ public class AudioManager : MonoBehaviour
     [ SerializeField ] public AudioClip[] pyramidCharges;
     [ SerializeField ] public AudioClip[] pyramidBlast;
 
+    [ Header( "Hive" ) ]
+    [ SerializeField ] public AudioClip hiveIntro;
+    [ SerializeField ] public AudioClip hiveIntroBurst;
+    [ SerializeField ] public AudioClip hiveChargeUp;
+    [ SerializeField ] public AudioClip hiveExploderIndicator;
+    [ SerializeField ] public AudioClip hiveExploderBurst;
+    [ SerializeField ] public AudioClip hiveGameWinExplosion;
+
     [ Header( "Environment" ) ]
     [ SerializeField ] public AudioClip[] spawnPillars;
     [ SerializeField ] public AudioClip chestOpen;
@@ -93,12 +101,9 @@ public class AudioManager : MonoBehaviour
 
     [ Header( "Music" ) ]
     [ SerializeField ] public AudioClip menuTheme;
-    [ SerializeField ] public AudioClip fallsLoop;
-    [ SerializeField ] public AudioClip fallsBoss;
-    [ SerializeField ] public AudioClip sandsLoop;
-    [ SerializeField ] public AudioClip sandsBoss;
-    [ SerializeField ] public AudioClip firesLoop;
-    [ SerializeField ] public AudioClip firesBoss;
+    [ SerializeField ] public AudioClip[] levelMainLoops;
+    [ SerializeField ] public AudioClip[] levelBossLoops;
+    [ SerializeField ] public AudioClip[] levelBossEndRiffs;
 
     AudioSource _music;
 
@@ -136,7 +141,7 @@ public class AudioManager : MonoBehaviour
                 PlayMusic( menuTheme, true, true );
                 break;
             case "Game":
-                PlayMusic( fallsLoop, true, true );
+                PlayMusic( levelMainLoops[ 0 ], true, true );
                 break;
         }
         
@@ -145,16 +150,17 @@ public class AudioManager : MonoBehaviour
 
     public AudioSource Music() => _music;
     
-    public void PlayMusic( AudioClip clip, bool loop, bool interrupt )
+    public void PlayMusic( AudioClip clip, bool loop, bool interrupt, bool setToFullVolume = true )
     {
         if( !interrupt && _music.isPlaying ) return;
+        _music.volume = setToFullVolume ? 1f : _music.volume;
         _music.Stop();
         _music.clip = clip;
         _music.loop = loop;
         _music.Play();
     }
 
-    public void FadeOutMusic( float time )
+    public void FadeOutMusic( float time, bool stopMusic )
     {
         StartCoroutine( FadeOut() );
         IEnumerator FadeOut()
@@ -164,6 +170,28 @@ public class AudioManager : MonoBehaviour
                 _music.volume = Mathf.Lerp( 1f, 0f, elapsed / time );
                 yield return null;
             }
+            _music.Stop();
+        }
+    }
+
+    public void StopMusic() => _music.Stop();
+
+    Coroutine _toTargetMusicVolumeRoutine;
+    public void ToTargetMusicVolume( float time, float volume )
+    {
+        if( _toTargetMusicVolumeRoutine != null )
+            StopCoroutine( _toTargetMusicVolumeRoutine );
+        _toTargetMusicVolumeRoutine = StartCoroutine( TargetVolume() );
+        IEnumerator TargetVolume()
+        {
+            var currentVolume = _music.volume;
+            for( var elapsed = 0f; elapsed < time; elapsed += Time.deltaTime )
+            {
+                _music.volume = Mathf.Lerp( currentVolume, volume, elapsed / time );
+                yield return null;
+            }
+
+            _music.volume = volume;
         }
     }
 

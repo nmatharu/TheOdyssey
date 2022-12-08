@@ -101,6 +101,9 @@ public class EnemySpawner : MonoBehaviour
 
     public void StartBoss()
     {
+        AudioManager.Instance.PlayMusic( AudioManager.Instance.
+            levelBossLoops[ GameManager.Instance.CurrentLevel().musicIndex ], true, true );
+        
         var o = WorldGenerator.Instance.BossSpawner();
         var p = WorldGenerator.Instance.BossZoneCenter();
 

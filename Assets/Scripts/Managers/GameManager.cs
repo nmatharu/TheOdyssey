@@ -328,6 +328,7 @@ public class GameManager : MonoBehaviour
         {
             _gameOver = true;
             Unpause();
+            AudioManager.Instance.StopMusic();
             postGameCanvas.Init( true, _difficulty, EnemyLevelGraphic.ToClockFormat( (int) _runTimeElapsed ) );
             this.Invoke( () => _readyToExitGame = true, postGameCanvas.timeToEnableInput );
         }
@@ -462,6 +463,7 @@ public class GameManager : MonoBehaviour
         {
             AudioManager.Instance.uiBig.PlaySfx();
             Unpause();
+            AudioManager.Instance.PlayMusic( AudioManager.Instance.menuTheme, true, true );
             SceneManager.LoadScene( "Menu" );
             GlobalInputManager.Instance.ToMenu();
         }
@@ -479,6 +481,7 @@ public class GameManager : MonoBehaviour
     public void QuitToLobby()
     {
         Unpause();
+        AudioManager.Instance.PlayMusic( AudioManager.Instance.menuTheme, true, true );
         AudioManager.Instance.uiBig.PlaySfx();
         SceneManager.LoadScene( "Lobby" );
         GlobalInputManager.Instance.ToLobby();

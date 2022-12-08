@@ -102,6 +102,9 @@ public class WorldGenerator : MonoBehaviour
         
         GameManager.Instance.SetCurrentLevel( _currentLevel );
         _currentLevel.ShowActTitle();
+        
+        if( _currentLevel.musicIndex == 0 )
+            AudioManager.Instance.PlayMusic( AudioManager.Instance.levelMainLoops[ _currentLevel.musicIndex ], true, true );
 
         foreach( var t in _tileMap )
             t.EvalFootsteps();
