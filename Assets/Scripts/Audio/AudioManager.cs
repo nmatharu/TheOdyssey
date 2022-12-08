@@ -1,13 +1,15 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class AudioManager : MonoBehaviour
 {
-    const string PlayerPrefsMasterKey = "masterVol";
-    const string PlayerPrefsMusicKey = "musicVol";
-    const string PlayerPrefsSfxKey = "sfxVol";
+    public const string PlayerPrefsMasterKey = "masterVol";
+    public const string PlayerPrefsMusicKey = "musicVol";
+    public const string PlayerPrefsSfxKey = "sfxVol";
     [ SerializeField ] public float defaultMasterVol = 0.6f;
     [ SerializeField ] public float defaultMusicVol = 1.0f;
     [ SerializeField ] public float defaultSfxVol = 0.8f;
@@ -89,6 +91,17 @@ public class AudioManager : MonoBehaviour
     [ SerializeField ] public AudioClip[] flurryLaunch;
     [ SerializeField ] public AudioClip[] flurryBolt;
 
+    [ Header( "Music" ) ]
+    [ SerializeField ] public AudioClip menuTheme;
+    [ SerializeField ] public AudioClip fallsLoop;
+    [ SerializeField ] public AudioClip fallsBoss;
+    [ SerializeField ] public AudioClip sandsLoop;
+    [ SerializeField ] public AudioClip sandsBoss;
+    [ SerializeField ] public AudioClip firesLoop;
+    [ SerializeField ] public AudioClip firesBoss;
+
+    AudioSource _music;
+
     void Awake()
     {
         if( Instance != null && Instance != this )
@@ -115,7 +128,43 @@ public class AudioManager : MonoBehaviour
         SetMusicVolume( PlayerPrefs.GetFloat( PlayerPrefsMusicKey, defaultMusicVol ) );
         SetSfxVolume( PlayerPrefs.GetFloat( PlayerPrefsSfxKey, defaultSfxVol ) );
 
+        _music = GetComponent<AudioSource>();
+        switch( SceneManager.GetActiveScene().name )
+        {
+            case "Menu":
+            case "Lobby":
+                PlayMusic( menuTheme, true, true );
+                break;
+            case "Game":
+                PlayMusic( fallsLoop, true, true );
+                break;
+        }
+        
         // menuMusicLoop.loop = true;
+    }
+
+    public AudioSource Music() => _music;
+    
+    public void PlayMusic( AudioClip clip, bool loop, bool interrupt )
+    {
+        if( !interrupt && _music.isPlaying ) return;
+        _music.Stop();
+        _music.clip = clip;
+        _music.loop = loop;
+        _music.Play();
+    }
+
+    public void FadeOutMusic( float time )
+    {
+        StartCoroutine( FadeOut() );
+        IEnumerator FadeOut()
+        {
+            for( var elapsed = 0f; elapsed < time; elapsed += Time.deltaTime )
+            {
+                _music.volume = Mathf.Lerp( 1f, 0f, elapsed / time );
+                yield return null;
+            }
+        }
     }
 
     public AudioClip[] FootstepsSfx( int index )
