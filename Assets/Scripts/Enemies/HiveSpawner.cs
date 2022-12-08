@@ -14,6 +14,8 @@ public class HiveSpawner : MonoBehaviour
     [ SerializeField ] float spawnPfxStartRadius = 0.5f;
     [ SerializeField ] float spawnPfxEndRadius = 6f;
 
+    
+    
     void Start() => StartCoroutine( Spawn() );
     Enemy _hive;
 
@@ -36,6 +38,7 @@ public class HiveSpawner : MonoBehaviour
             {
                 deathExplosion.Play();
                 GameManager.Instance.KillAllEnemies();
+                this.Invoke( () => GameManager.Instance.Victory(), gameEndDelay - 1f );
                 Destroy( gameObject, gameEndDelay );
                 yield break;
             }

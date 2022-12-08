@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MagicShrine : Interactable
 {
     [ SerializeField ] TextMeshProUGUI magicTitle;
     [ SerializeField ] TextMeshProUGUI magicDescription;
+    [ SerializeField ] Image magicImage;
 
     MagicSpell _magic;
 
@@ -22,6 +24,7 @@ public class MagicShrine : Interactable
         _magic = magic;
         magicTitle.text = magic.magicName;
         magicDescription.text = magic.magicDescription;
+        magicImage.sprite = magic.magicIcon;
     }
 
     public void Init( int i )

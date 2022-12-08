@@ -68,12 +68,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactPrompt: LEARN
   cannotInteractPrompt: LEARNED
-  magicPool:
-  - {fileID: 11400000, guid: afa0221a00fef7e48b4b18cfaeda950c, type: 2}
-  - {fileID: 11400000, guid: f734acae52ca7d4449772cd807c577a9, type: 2}
-  - {fileID: 11400000, guid: 9e4e38b315d0c074194bd2bf90711e51, type: 2}
   magicTitle: {fileID: 9194811398381957585}
   magicDescription: {fileID: 900685618190947569}
+  magicImage: {fileID: 7152190410670155472}
 --- !u!114 &6741281584562122077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5652,7 +5649,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3633091296444773869
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5670,8 +5667,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.17, y: 1.09}
-  m_SizeDelta: {x: 0.6, y: 0.6}
+  m_AnchoredPosition: {x: 1.23, y: 1.65}
+  m_SizeDelta: {x: 0.4, y: 0.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5403325210133291617
 CanvasRenderer:
@@ -5701,7 +5698,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9f23925e952268e46834b3879870b56a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dfd93a7fa684f5241ab45b221980d86e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

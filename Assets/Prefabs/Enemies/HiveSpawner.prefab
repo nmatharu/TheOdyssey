@@ -9746,7 +9746,7 @@ MonoBehaviour:
   spawnExplosion: {fileID: 5469384594609754934}
   deathExplosion: {fileID: 4166648811617993970}
   spawnDelay: 3
-  gameEndDelay: 5
+  gameEndDelay: 4
   spawnPfxStartRadius: 0.5
   spawnPfxEndRadius: 8
 --- !u!114 &-3705091644875284045
