@@ -9,15 +9,15 @@ public class RToRestart : MonoBehaviour
         {
             if( Input.GetKey( KeyCode.LeftShift ) )
                 GameManager.Instance.RespawnAll();
-            else
-                SceneManager.LoadScene( SceneManager.GetActiveScene().name );
+            // else
+                // SceneManager.LoadScene( SceneManager.GetActiveScene().name );
         }
         
-        if( Input.GetKey( KeyCode.LeftShift ) && Input.GetKeyDown( KeyCode.L ))
-            WorldGenerator.Instance.BossStarted();
+        // if( Input.GetKey( KeyCode.LeftShift ) && Input.GetKeyDown( KeyCode.L ))
+            // WorldGenerator.Instance.BossStarted();
         
-        if( Input.GetKey( KeyCode.LeftAlt ) && Input.GetKeyDown( KeyCode.L ))
-            WorldGenerator.Instance.BossFinished();
+        // if( Input.GetKey( KeyCode.LeftAlt ) && Input.GetKeyDown( KeyCode.L ))
+            // WorldGenerator.Instance.BossFinished();
         
         if( Input.GetKey( KeyCode.LeftShift ) && Input.GetKeyDown( KeyCode.G ))
             foreach( var p in GameManager.Instance.Players() )

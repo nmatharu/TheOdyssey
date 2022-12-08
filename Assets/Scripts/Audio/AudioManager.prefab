@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultMasterVol: 0.8
-  defaultMusicVol: 0.7
+  defaultMusicVol: 0.6
   defaultSfxVol: 0.8
   mixer: {fileID: 24100000, guid: 5aec3f31fcaf45b43a30902bb5a99b4c, type: 2}
   sourcePrefab: {fileID: 2261888680757939991, guid: 3aac395c7e106b44a924e776a629af0f, type: 3}

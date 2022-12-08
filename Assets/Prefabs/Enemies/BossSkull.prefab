@@ -198,7 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b0d29ef027971146902f8e3924521fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 1500
+  maxHp: 2000
   spawnCost: 0
   renderers:
   - {fileID: 1976641649459690708}
@@ -233,7 +233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spoutPos: {fileID: 6112602908103798665}
   lockOnSpeed: 0.5
-  enemyBudgetPerPlayerCount: 050000000700000009000000
+  enemyBudgetPerPlayerCount: 06000000080000000a000000
   enemies:
   - {fileID: 428212638778311382, guid: b1dee05e95f283747a74ddb2e6dd9e27, type: 3}
   - {fileID: 428212638778311382, guid: 8b5137cb2041fa744b17fc92738c50a3, type: 3}
