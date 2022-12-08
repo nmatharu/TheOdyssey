@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultMasterVol: 0.8
-  defaultMusicVol: 0.8
+  defaultMusicVol: 0.7
   defaultSfxVol: 0.8
   mixer: {fileID: 24100000, guid: 5aec3f31fcaf45b43a30902bb5a99b4c, type: 2}
   sourcePrefab: {fileID: 2261888680757939991, guid: 3aac395c7e106b44a924e776a629af0f, type: 3}
@@ -178,17 +178,17 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d7b024ec1a3105546b72bc6abbaf6d7e, type: 3}
   menuTheme: {fileID: 8300000, guid: 388371f8f3c1c444b96c56dcaf559b4d, type: 3}
   levelMainLoops:
-  - {fileID: 8300000, guid: ea378b6730482a947905c91ea8cb5620, type: 3}
-  - {fileID: 8300000, guid: 89f5a34fba048d945a93c63fb1489e48, type: 3}
-  - {fileID: 8300000, guid: ea378b6730482a947905c91ea8cb5620, type: 3}
+  - {fileID: 8300000, guid: 0f2e8f25b2ac12f4b93b75e1e5e7dd57, type: 3}
+  - {fileID: 8300000, guid: 9b5a7a5e2c6487741acd499c15891fc4, type: 3}
+  - {fileID: 8300000, guid: 1874eefc3b547764ea63d85fd056c844, type: 3}
   levelBossLoops:
-  - {fileID: 8300000, guid: 2fcd66541838b3a41a1637de0225074d, type: 3}
-  - {fileID: 8300000, guid: 2fcd66541838b3a41a1637de0225074d, type: 3}
-  - {fileID: 8300000, guid: 2fcd66541838b3a41a1637de0225074d, type: 3}
+  - {fileID: 8300000, guid: d79c921800bb673429f85533b3777cce, type: 3}
+  - {fileID: 8300000, guid: 4872aca36efa5b440bc9c4ca1216c0f4, type: 3}
+  - {fileID: 8300000, guid: 2b76e65048da67047851369e6e0e57e1, type: 3}
   levelBossEndRiffs:
-  - {fileID: 8300000, guid: f11927ec6fa215e4eb2fcee43491e6df, type: 3}
-  - {fileID: 8300000, guid: f11927ec6fa215e4eb2fcee43491e6df, type: 3}
-  - {fileID: 8300000, guid: f11927ec6fa215e4eb2fcee43491e6df, type: 3}
+  - {fileID: 8300000, guid: 13c41f036ddd82149842d583efba2a6f, type: 3}
+  - {fileID: 8300000, guid: d881cb74d1f46424484ab93e90435f00, type: 3}
+  - {fileID: 8300000, guid: b1682fc13a57a0e40be87da1a447a113, type: 3}
 --- !u!82 &1333503344776729367
 AudioSource:
   m_ObjectHideFlags: 0
