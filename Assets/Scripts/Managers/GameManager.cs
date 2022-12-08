@@ -489,4 +489,20 @@ public class GameManager : MonoBehaviour
         postGameCanvas.Init( false, _difficulty, EnemyLevelGraphic.ToClockFormat( (int) _runTimeElapsed ) );
         this.Invoke( () => _readyToExitGame = true, postGameCanvas.timeToEnableInput );
     }
+
+    bool _hitStopWaiting;
+    public void HitStop()
+    {
+        if( _paused || _hitStopWaiting )   return;
+        Time.timeScale = 0.25f;
+        StartCoroutine( HitStopWait() );
+        IEnumerator HitStopWait()
+        {
+            _hitStopWaiting = true;
+            yield return new WaitForSecondsRealtime( 0.06f );
+            if( !_paused )
+                Time.timeScale = 1.0f;
+            _hitStopWaiting = false;
+        }
+    }
 }

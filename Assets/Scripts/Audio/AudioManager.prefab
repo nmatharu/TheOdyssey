@@ -102,10 +102,15 @@ MonoBehaviour:
   playerDeath: {fileID: 0}
   shopPurchase: {fileID: 8300000, guid: 7cdfb4f597b049443bded4ba1678799e, type: 3}
   magicReady: {fileID: 8300000, guid: 849d996abeff5df47b04cc07c74c4e4b, type: 3}
+  playerDamage: {fileID: 8300000, guid: c81c10a2cdb092547a99b89d30d1bdc1, type: 3}
   wormAtk: {fileID: 8300000, guid: 0c0e4fb85b73b0b41a0d39a6ad8d3458, type: 3}
+  nightmareDash:
+  - {fileID: 8300000, guid: c2a329c61726fc44ba4ce2e367f42145, type: 3}
+  nightmareSlash:
+  - {fileID: 8300000, guid: 04cbc387e35a5c64e9f11d407fe60980, type: 3}
+  - {fileID: 8300000, guid: 03912cea44ace5e41ae6dc77c2801b38, type: 3}
   spawnPillars:
   - {fileID: 8300000, guid: 99a1ea3c92b026747ba26900b91286f4, type: 3}
-  - {fileID: 8300000, guid: 5af9a32c15614d24399915442bcabc5c, type: 3}
   - {fileID: 8300000, guid: 8f8202f426f91474bad7e120462fd310, type: 3}
   chestOpen: {fileID: 8300000, guid: ad4801c44ed734a4183af3d138dc11fe, type: 3}
   magicLearn:

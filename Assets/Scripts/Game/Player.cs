@@ -26,6 +26,9 @@ public class Player : MonoBehaviour
     float _baseSpeed;
 
     Renderer[] _renderers;
+    [ SerializeField ] Renderer[] hitFlashRenderers;
+    Color[] _hitFlashOgColors;
+    
     InteractPrompt _interactPrompt;
     PlayerMoves _playerMoves;
     PlayerStatusBar _statusBar;
@@ -123,6 +126,10 @@ public class Player : MonoBehaviour
         _statusBar.SetPlayerName( _playerName );
         
         var x = GetComponentsInChildren<Renderer>();
+
+        _hitFlashOgColors = new Color[ hitFlashRenderers.Length ];
+        for( var i = 0; i < hitFlashRenderers.Length; i++ )
+            _hitFlashOgColors[ i ] = hitFlashRenderers[ i ].material.color;
     }
 
     public void Init( string playerName )
@@ -197,6 +204,9 @@ public class Player : MonoBehaviour
         GameManager.Instance.SpawnDamageNumber( transform.position, d, false );
         _statistics.TakeDamage( d );
 
+        AudioManager.Instance.playerDamage.PlaySfx( 0.8f );
+        GameManager.Instance.HitStop();
+        
         _hp -= d;
 
         if( _hp <= 0 )
@@ -211,13 +221,28 @@ public class Player : MonoBehaviour
     IEnumerator FlashMaterial()
     {
         var delay = new WaitForFixedUpdate();
-        for( var i = 0f; i < 1; i += 0.05f )
+        // for( var i = 0f; i < 1; i += 0.05f )
+        // {
+        //     _material.color = new Color( 1f, i, i );
+        //     yield return delay;
+        // }
+
+        for( var i = 0; i < hitFlashRenderers.Length; i++ )
+            hitFlashRenderers[ i ].material.color = _hitFlashOgColors[ i ];
+        
+        const float hitFlashIntensity = 30f;
+        for( var i = 1f + hitFlashIntensity; i >= 1; i -= hitFlashIntensity / 10f )
         {
-            _material.color = new Color( 1f, i, i );
+            for( var j = 0; j < hitFlashRenderers.Length; j++ )
+            {
+                var r = hitFlashRenderers[ j ];
+                r.material.color = _hitFlashOgColors[ j ] + Color.red * i;
+            }
             yield return delay;
         }
 
-        _material.color = Color.white;
+        for( var i = 0; i < hitFlashRenderers.Length; i++ )
+            hitFlashRenderers[ i ].material.color = _hitFlashOgColors[ i ];
     }
 
     static Vector3 CameraCompensation( Vector2 dir )

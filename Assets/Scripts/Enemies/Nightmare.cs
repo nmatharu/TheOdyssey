@@ -139,8 +139,10 @@ public class Nightmare : MonoBehaviour
     {
         foreach( var r in renderers )
             r.material = dashingMaterial;
+        
+        AudioManager.Instance.nightmareDash.RandomEntry().PlaySfx( 0.8f, 0.05f );
     }
-
+    
     void ToNormalMaterial()
     {
         foreach( var r in renderers )

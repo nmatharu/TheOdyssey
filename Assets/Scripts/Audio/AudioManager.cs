@@ -47,9 +47,12 @@ public class AudioManager : MonoBehaviour
     [ SerializeField ] public AudioClip playerDeath;
     [ SerializeField ] public AudioClip shopPurchase;
     [ SerializeField ] public AudioClip magicReady;
+    [ SerializeField ] public AudioClip playerDamage;
 
     [ Header( "Enemy" ) ]
     [ SerializeField ] public AudioClip wormAtk;
+    [ SerializeField ] public AudioClip[] nightmareDash;
+    [ SerializeField ] public AudioClip[] nightmareSlash;
     
     [ Header( "Environment" ) ]
     [ SerializeField ] public AudioClip[] spawnPillars;

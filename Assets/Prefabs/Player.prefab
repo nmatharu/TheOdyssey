@@ -14499,6 +14499,15 @@ MonoBehaviour:
   - {fileID: 8338058390577404355}
   rollDuration: 0.3
   rollCooldown: 1.3
+  hitFlashRenderers:
+  - {fileID: 6337335508494868325}
+  - {fileID: 110709217330154497}
+  - {fileID: 5182711853175903749}
+  - {fileID: 7046103383593866467}
+  - {fileID: 5237516851032308208}
+  - {fileID: 3501558252377260757}
+  - {fileID: 6125403095865339949}
+  - {fileID: 5393582425584678405}
   inputDisabled: 0
   showOnCamera: 1
   dead: 0
@@ -20509,6 +20518,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12c23071f3c8d1c43b3afe369dbce0d2, type: 3}
+--- !u!23 &5393582425584678405 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 12c23071f3c8d1c43b3afe369dbce0d2, type: 3}
+  m_PrefabInstance: {fileID: 6708198516811967105}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6526549835667754346 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 12c23071f3c8d1c43b3afe369dbce0d2, type: 3}

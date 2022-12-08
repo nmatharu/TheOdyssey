@@ -10,6 +10,7 @@ public class Skull : MonoBehaviour
     [ SerializeField ] Transform mouthPos;
     [ SerializeField ] ParticleSystem mouthFire;
     [ SerializeField ] float fireballFireRate = 2.5f;
+    AudioSource _chargeSfx;
 
     Quaternion _movementDirection;
     Queue<Vector2Int> _path;
@@ -25,10 +26,11 @@ public class Skull : MonoBehaviour
         _enemy = GetComponent<Enemy>();
         
         InvokeRepeating( nameof( RunPathfinding ), 0, 1f );
-        InvokeRepeating( nameof( FireFireball ), Random.Range( 1f, 2f ), fireballFireRate );
+        InvokeRepeating( nameof( FireFireball ), Random.Range( 0f, 1f ), fireballFireRate );
 
         _movementDirection = Quaternion.identity;
         _path = new Queue<Vector2Int>();
+        _chargeSfx = GetComponent<AudioSource>();
     }
 
     void FixedUpdate()
@@ -121,6 +123,7 @@ public class Skull : MonoBehaviour
     {
         if( _targetPlayer == null ) return;
 
+        _chargeSfx.Play();
         const float indicatorFrames = 75f;
         mouthFire.Play();
         this.Invoke( () =>
