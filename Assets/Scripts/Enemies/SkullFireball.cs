@@ -60,6 +60,9 @@ public class SkullFireball : MonoBehaviour
         var p = other.GetComponent<Player>();
 
         if( p == null || p.rolling ) return;
+        
+        ( sineMovement ? AudioManager.Instance.sandSkullFireballHit : AudioManager.Instance.skullFireballHit ).PlaySfx( 1f, 0.1f );
+        
         p.IncomingDamage( dmg, _level );
         Destroy( gameObject );
     }

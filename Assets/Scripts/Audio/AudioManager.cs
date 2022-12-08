@@ -53,6 +53,15 @@ public class AudioManager : MonoBehaviour
     [ SerializeField ] public AudioClip wormAtk;
     [ SerializeField ] public AudioClip[] nightmareDash;
     [ SerializeField ] public AudioClip[] nightmareSlash;
+    [ SerializeField ] public AudioClip skullFireballHit;
+    [ SerializeField ] public AudioClip sandSkullFireballHit;
+    [ SerializeField ] public AudioClip golemSmashFalls;
+    [ SerializeField ] public AudioClip golemSmashSands;
+    [ SerializeField ] public AudioClip golemSmashFires;
+    [ SerializeField ] public AudioClip golemSmashBoss;
+    [ SerializeField ] public AudioClip golemBossIntroSmash;
+    [ SerializeField ] public AudioClip golemBossIntroFade;
+    [ SerializeField ] public AudioClip[] golemFootsteps;
     
     [ Header( "Environment" ) ]
     [ SerializeField ] public AudioClip[] spawnPillars;

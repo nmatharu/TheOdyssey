@@ -60,6 +60,7 @@ public class BossGolemDropIn : MonoBehaviour
                 smashPfx.Play();
                 smashIndicator.FadeOut();
                 
+                AudioManager.Instance.golemBossIntroSmash.PlaySfx();
                 var colliders = Physics.OverlapSphere( transform.position, initSmashRadius );
                 foreach( var c in colliders )
                 {

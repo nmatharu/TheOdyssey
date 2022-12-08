@@ -109,6 +109,18 @@ MonoBehaviour:
   nightmareSlash:
   - {fileID: 8300000, guid: 04cbc387e35a5c64e9f11d407fe60980, type: 3}
   - {fileID: 8300000, guid: 03912cea44ace5e41ae6dc77c2801b38, type: 3}
+  skullFireballHit: {fileID: 8300000, guid: 20aa976568f091946b2580ec41ae34fc, type: 3}
+  sandSkullFireballHit: {fileID: 8300000, guid: e7d9bac35d41f194f92cf1c184a37b50, type: 3}
+  golemSmashFalls: {fileID: 8300000, guid: 92be0e03d0120cf4699b7b724d07eadd, type: 3}
+  golemSmashSands: {fileID: 8300000, guid: a9211017d0c838c4693c14c8704daee3, type: 3}
+  golemSmashFires: {fileID: 8300000, guid: 7955b13f721259b4aa0182922d3bb2f4, type: 3}
+  golemSmashBoss: {fileID: 8300000, guid: dbe314c107cd7d142bc52fbbde79c67a, type: 3}
+  golemBossIntroSmash: {fileID: 8300000, guid: 77457d2d124ba424c84f48873640be91, type: 3}
+  golemBossIntroFade: {fileID: 0}
+  golemFootsteps:
+  - {fileID: 8300000, guid: a82ee1a74bf5d3548b12b7cac8db7d9e, type: 3}
+  - {fileID: 8300000, guid: 7dd595dfee6767341a5c894a5640a8e1, type: 3}
+  - {fileID: 8300000, guid: e482c9946113e9f489f1ca07dd53d858, type: 3}
   spawnPillars:
   - {fileID: 8300000, guid: 99a1ea3c92b026747ba26900b91286f4, type: 3}
   - {fileID: 8300000, guid: 8f8202f426f91474bad7e120462fd310, type: 3}

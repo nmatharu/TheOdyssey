@@ -131,5 +131,27 @@ PrefabInstance:
       propertyPath: damage
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 6543949132276175684, guid: 6e804079547d89b479e6ce60f1b56b83, type: 3}
+      propertyPath: smashFxIndex
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 6e804079547d89b479e6ce60f1b56b83, type: 3}
+--- !u!1 &2176131940843455840 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2148079099040143359, guid: 6e804079547d89b479e6ce60f1b56b83, type: 3}
+  m_PrefabInstance: {fileID: 287296853364544159}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-4398422830331712563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2176131940843455840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 665d64d13b9e42cc8d58c6c4d3d11be8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

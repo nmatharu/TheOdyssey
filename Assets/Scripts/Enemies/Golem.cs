@@ -21,6 +21,8 @@ public class Golem : MonoBehaviour
     [ SerializeField ] ImageFader smashIndicator; 
     [ SerializeField ] ParticleSystem smashPfx;
 
+    [ SerializeField ] int smashFxIndex = 0;
+    
     Quaternion _movementDirection;
     Queue<Vector2Int> _path;
     Vector3 _currentTargetTile;
@@ -47,6 +49,8 @@ public class Golem : MonoBehaviour
     [ SerializeField ] bool circleSmash;
     [ SerializeField ] float circleRadius;
 
+    AudioSource _chargeUpSfx;
+
     void Start()
     {
         _body = GetComponent<Rigidbody>();
@@ -59,6 +63,8 @@ public class Golem : MonoBehaviour
         
         _movementDirection = Quaternion.identity;
         _path = new Queue<Vector2Int>();
+
+        _chargeUpSfx = GetComponent<AudioSource>();
     }
 
     void FixedUpdate()
@@ -67,6 +73,8 @@ public class Golem : MonoBehaviour
         if( _targetPlayer == null )  return;
         if( !_smashing && !_smashOnCooldown && JBB.DistXZSquared( pos, _targetPlayer.position ) < smashRange * smashRange )
         {
+            _chargeUpSfx.Play();
+            
             _smashing = true;
             _smashOnCooldown = true;
             _animator.CrossFade( ASmash, 0.2f );
@@ -107,6 +115,22 @@ public class Golem : MonoBehaviour
 
     void SmashCollision()
     {
+        switch( smashFxIndex )
+        {
+            case 0:
+                AudioManager.Instance.golemSmashFalls.PlaySfx( 1f, 0.2f );
+                break;
+            case 1:
+                AudioManager.Instance.golemSmashSands.PlaySfx( 1f, 0.2f );
+                break;
+            case 2:
+                AudioManager.Instance.golemSmashFires.PlaySfx( 1f, 0.2f );
+                break;
+            case 3:
+                AudioManager.Instance.golemSmashBoss.PlaySfx( 1f, 0.2f );
+                break;
+        }
+        
         if( circleSmash )
         {
             var cs = Physics.OverlapSphere( transform.position, circleRadius );
