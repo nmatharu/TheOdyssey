@@ -33,13 +33,17 @@ public class LavaPyramid : MonoBehaviour
     Color _emissiveColor;
     bool _recoiling;
 
+    AudioSource _chargeSfx;
+
     static readonly int EmissiveColor = Shader.PropertyToID( "_EmissionColor" );
 
     void Start()
     {
         _body = GetComponent<Rigidbody>();
         _enemy = GetComponent<Enemy>();
-
+        _chargeSfx = GetComponent<AudioSource>();
+        _chargeSfx.clip = AudioManager.Instance.pyramidCharges.RandomEntry();
+        
         _mat = topRenderer.material;
         _emissiveColor = _mat.GetColor( EmissiveColor );
 
@@ -78,6 +82,7 @@ public class LavaPyramid : MonoBehaviour
     {
         _mat.EnableKeyword( "_EMISSION" );
 
+        _chargeSfx.Play();
         chargeUpPfx.Play();
         indicator.FadeIn();
 
@@ -103,6 +108,7 @@ public class LavaPyramid : MonoBehaviour
                 p.IncomingDamage( damage, _enemy.Level() );
         }
 
+        AudioManager.Instance.pyramidBlast.RandomEntry().PlaySfx( 1f, 0.2f );
         indicator.FadeOut();
 
         for( var elapsed = 0f; elapsed < recoilLength; elapsed += Time.deltaTime )

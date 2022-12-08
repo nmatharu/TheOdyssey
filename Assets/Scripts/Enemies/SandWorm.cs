@@ -20,6 +20,7 @@ public class SandWorm : MonoBehaviour
     [ SerializeField ] GameObject dangerIndicator;
     [ SerializeField ] GameObject burrowPfx;
     [ SerializeField ] float burrowPfxDelay = 0.1f;
+    [ SerializeField ] bool bossWorm;
     
     public SandWormNode head;
     Enemy _enemy;
@@ -32,6 +33,7 @@ public class SandWorm : MonoBehaviour
     Transform _targetPlayer;
 
     List<ParticleSystem> _pfxs = new();
+
     
     void Start()
     {
@@ -66,6 +68,11 @@ public class SandWorm : MonoBehaviour
         InvokeRepeating( nameof( FindNewTarget ), 0, 1f );
         
         StartCoroutine( Movement() );
+
+        if( bossWorm )
+        {
+            AudioManager.Instance.bossWormIntro.PlaySfx();
+        }
     }
 
     void Update()

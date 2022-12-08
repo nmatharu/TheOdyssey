@@ -121,6 +121,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a82ee1a74bf5d3548b12b7cac8db7d9e, type: 3}
   - {fileID: 8300000, guid: 7dd595dfee6767341a5c894a5640a8e1, type: 3}
   - {fileID: 8300000, guid: e482c9946113e9f489f1ca07dd53d858, type: 3}
+  bossWormIntro: {fileID: 8300000, guid: 7d8aa48e7ac010545a6aa211625ac3d4, type: 3}
+  pyramidCharges:
+  - {fileID: 8300000, guid: 38eb99acd3d1fad41bb9859296534725, type: 3}
+  - {fileID: 8300000, guid: daec8e55944ba7648969a98480991927, type: 3}
+  - {fileID: 8300000, guid: 02a5d671e8c1bca4c8e367baa9de4988, type: 3}
+  - {fileID: 8300000, guid: b02d4462c919db849a674f9c6d8d3247, type: 3}
+  pyramidBlast:
+  - {fileID: 8300000, guid: 1ba6bb3bf5ec33d4ebb8ce1dff83ea46, type: 3}
+  - {fileID: 8300000, guid: 886c1d91fe2171f40bef076449da2721, type: 3}
   spawnPillars:
   - {fileID: 8300000, guid: 99a1ea3c92b026747ba26900b91286f4, type: 3}
   - {fileID: 8300000, guid: 8f8202f426f91474bad7e120462fd310, type: 3}

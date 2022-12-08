@@ -62,6 +62,9 @@ public class AudioManager : MonoBehaviour
     [ SerializeField ] public AudioClip golemBossIntroSmash;
     [ SerializeField ] public AudioClip golemBossIntroFade;
     [ SerializeField ] public AudioClip[] golemFootsteps;
+    [ SerializeField ] public AudioClip bossWormIntro;
+    [ SerializeField ] public AudioClip[] pyramidCharges;
+    [ SerializeField ] public AudioClip[] pyramidBlast;
     
     [ Header( "Environment" ) ]
     [ SerializeField ] public AudioClip[] spawnPillars;
