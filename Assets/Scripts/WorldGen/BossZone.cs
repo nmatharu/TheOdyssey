@@ -55,7 +55,7 @@ public class BossZone : MonoBehaviour
 
     void StartBoss()
     {
-        Debug.Log( "BOSS STARTED" );
+        // Debug.Log( "BOSS STARTED" );
         CloseLeft();
 
         GameManager.Instance.KillAllEnemies();
@@ -69,6 +69,12 @@ public class BossZone : MonoBehaviour
         var wait = new WaitForSeconds( 1f );
         for( ;; )
         {
+            if( FindObjectsOfType<HiveSpawner>().Length != 0 )
+            {
+                yield return wait;
+                continue;
+            }
+
             if( GameManager.Instance.AllEnemiesDead() )
             {
                 WorldGenerator.Instance.BossFinished();

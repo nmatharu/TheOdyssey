@@ -349,6 +349,9 @@ public class GameManager : MonoBehaviour
     public float EnemyHealthMultiplier( int enemyLevel ) =>
         enemyHealthPlayerCountScaling[ NumPlayersInParty() - 1 ] * Mathf.Sqrt( Scale1( enemyLevel ) );
 
+    public float EnemyBossHealthMultiplier( int enemyLevel ) =>
+        NumPlayersInParty() * Mathf.Sqrt( Scale1( enemyLevel ) );
+
     public float EnemyDamageMultiplier( int enemyLevel ) => 
         enemyDmgMultiplierPerDifficulty[ _difficulty ] * Mathf.Sqrt( Scale1( enemyLevel ) );
 

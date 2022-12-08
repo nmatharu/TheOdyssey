@@ -10,6 +10,7 @@ public class AOEHeal : MagicSpell
     {
         var t = player.transform;
 
+        AudioManager.Instance.healMagic.RandomEntry().PlaySfx( 1f, 0.1f );
         player.Magic().PlayAoeHealPfx();
         var healAmount = baseHealAmount * player.MagicEffectiveness();
         

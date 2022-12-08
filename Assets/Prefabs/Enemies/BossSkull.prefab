@@ -128,7 +128,6 @@ GameObject:
   - component: {fileID: 2509129439917440980}
   - component: {fileID: 428212638778311382}
   - component: {fileID: 8708039206132736075}
-  - component: {fileID: 5149615529722262921}
   - component: {fileID: 322549923234137112}
   m_Layer: 12
   m_Name: BossSkull
@@ -198,13 +197,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b0d29ef027971146902f8e3924521fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 2500
+  maxHp: 1500
   spawnCost: 0
   renderers:
   - {fileID: 1976641649459690708}
   hitFlashIntensity: 2
   deathPfx: {fileID: 1726190165080550174, guid: cd7cb90300c037c4e9b6caf4306454c9, type: 3}
   deathPfxIdentityRot: 0
+  bossEnemy: 1
 --- !u!114 &8708039206132736075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,36 +219,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossWaves:
   - HealthPct: 0.9
-    SpawnBudget: 3
+    SpawnBudget: 1
     EnemyBucket:
     - {fileID: 428212638778311382, guid: 8b5137cb2041fa744b17fc92738c50a3, type: 3}
   - HealthPct: 0.7
-    SpawnBudget: 5
+    SpawnBudget: 1
     EnemyBucket:
     - {fileID: 428212638778311382, guid: 8b5137cb2041fa744b17fc92738c50a3, type: 3}
     - {fileID: 428212638778311382, guid: b1dee05e95f283747a74ddb2e6dd9e27, type: 3}
   - HealthPct: 0.5
-    SpawnBudget: 7
+    SpawnBudget: 1
     EnemyBucket:
     - {fileID: 8706685121159334724, guid: a6d7cb74107917c469a38d3e96de00c0, type: 3}
   - HealthPct: 0.3
-    SpawnBudget: 9
+    SpawnBudget: 1
     EnemyBucket:
     - {fileID: 428212638778311382, guid: 8b5137cb2041fa744b17fc92738c50a3, type: 3}
     - {fileID: 8706685121159334724, guid: a6d7cb74107917c469a38d3e96de00c0, type: 3}
     - {fileID: 428212638778311382, guid: b1dee05e95f283747a74ddb2e6dd9e27, type: 3}
---- !u!114 &5149615529722262921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2148079099040143359}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6ffa9f5c6819784ba2fc75d58cad01a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &322549923234137112
 MonoBehaviour:
   m_ObjectHideFlags: 0

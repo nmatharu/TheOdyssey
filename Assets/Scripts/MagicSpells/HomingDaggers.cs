@@ -23,15 +23,21 @@ public class HomingDaggers : MagicSpell
         if( enemies.Empty() )
             return false;
         
-        var targets = new Enemy[ numDaggers ];
-        for( var i = 0; i < numDaggers; i++ )
+        var totalTime = numDaggers * delayBetweenDaggers;
+        var scaledNumDaggers = (int) ( numDaggers * 1f );
+        var scaledTime = totalTime / scaledNumDaggers;
+        
+        var targets = new Enemy[ scaledNumDaggers ];
+        for( var i = 0; i < scaledNumDaggers; i++ )
             targets[ i ] = enemies[ i % enemies.Length ];
 
         player.StartCoroutine( FireDaggers() );
         IEnumerator FireDaggers()
         {
-            var wait = new WaitForSeconds( delayBetweenDaggers );
-            for( var i = 0; i < numDaggers && !player.dead; i++ )
+            // var randPitch = Random.Range( 1.0f, 1.5f );
+            
+            var wait = new WaitForSeconds( scaledTime );
+            for( var i = 0; i < scaledNumDaggers && !player.dead; i++ )
             {
                 var o = Instantiate( homingDagger, player.transform.position, Quaternion.identity );
                 o.GetComponent<HomingDagger>().Init( player, targets[ i ], baseDamage, timeToTarget );

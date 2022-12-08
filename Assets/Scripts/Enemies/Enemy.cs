@@ -12,6 +12,8 @@ public class Enemy : MonoBehaviour
     [ SerializeField ] ParticleSystem deathPfx;
     [ SerializeField ] bool deathPfxIdentityRot;
 
+    [ SerializeField ] bool bossEnemy;
+    
     List<Color> _originalMatColors = new();
     EnemyStatusBar _statusBar;
 
@@ -36,7 +38,12 @@ public class Enemy : MonoBehaviour
     public void Init( int lvl )
     {
         _level = lvl;
-        maxHp *= GameManager.Instance.EnemyHealthMultiplier( _level );
+
+        if( bossEnemy )
+            maxHp *= GameManager.Instance.EnemyBossHealthMultiplier( _level );
+        else
+            maxHp *= GameManager.Instance.EnemyHealthMultiplier( _level );
+
         _statusBar = GetComponentInChildren<EnemyStatusBar>();
         _statusBar.SetLevel( lvl );
     }

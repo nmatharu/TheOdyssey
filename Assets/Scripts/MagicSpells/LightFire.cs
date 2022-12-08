@@ -7,6 +7,7 @@ public class LightFire : MagicSpell
     
     public override bool Cast( Player player )
     {
+        AudioManager.Instance.lightfireShoot.RandomEntry().PlaySfx( 1f, 0.1f );
         var t = player.transform;
         var o = Instantiate( lightBall, t.position, t.rotation );
         o.GetComponent<LightFireBall>().Init( player );

@@ -49,6 +49,7 @@ public class HomingDagger : MonoBehaviour
         _player.DamageEnemy( Guid.NewGuid(), _target, _damage, false, true );
         _player.OnHit( 1, false, true );
         
+        AudioManager.Instance.flurryBolt.RandomEntry().PlaySfx( 0.75f, 0.3f );
         Destroy( gameObject, 1f );
     }
     
@@ -56,6 +57,9 @@ public class HomingDagger : MonoBehaviour
     {
         _player = p;
         _target = t;
+        if( t != null )
+            AudioManager.Instance.flurryLaunch.RandomEntry().PlaySfx( 0.7f, 0.1f );
+        
         _damage = dmg;
         _timeToTarget = ttt;
     }

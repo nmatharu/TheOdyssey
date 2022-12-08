@@ -15,10 +15,10 @@ MonoBehaviour:
   magicName: FLURRY
   magicDescription: Fire a barrage of homing bolts at nearby enemies.
   magicIcon: {fileID: 21300000, guid: 3143409e3d12443459d82d9d9efa3ddb, type: 3}
-  cooldownSeconds: 10
+  cooldownSeconds: 30
   homingDagger: {fileID: 5370022414490394703, guid: 714e2592175b2a8408602011cba77a3b, type: 3}
-  numDaggers: 12
-  delayBetweenDaggers: 0.1
+  numDaggers: 18
+  delayBetweenDaggers: 0.075
   lockOnRange: 12
   baseDamage: 2
   timeToTarget: 0.25

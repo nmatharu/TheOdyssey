@@ -28,6 +28,7 @@ public class LightFireBall : MonoBehaviour
         var e = Enemy.FromCollider( c );
         if( e != null )
         {
+            AudioManager.Instance.lightfirePassthrough.PlaySfx( 1f, 0.2f );
             _player.DamageEnemy( _id, e, baseDamage, false, true );
             _player.OnHit( 1, false, true );
         }

@@ -5,14 +5,6 @@ using UnityEngine;
 
 public class GameEnder : MonoBehaviour
 {
-    Enemy _enemy;
-
-    void Start()
-    {
-        _enemy = GetComponent<Enemy>();
-        RenderSettings.ambientLight = Color.black;
-    }
-
     void OnDestroy()
     {
         if( GameManager.Instance != null )

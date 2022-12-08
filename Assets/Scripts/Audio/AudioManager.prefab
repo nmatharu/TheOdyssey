@@ -99,7 +99,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d9ba18e8b1875914e9b9a30e49a11919, type: 3}
   - {fileID: 8300000, guid: 32a256e7cff5a1349b9207df1ad0b76d, type: 3}
   playerHit: []
-  playerDeath: {fileID: 0}
+  playerDeath: {fileID: 8300000, guid: 7a0f27207c431de47ab492e614c4612a, type: 3}
   shopPurchase: {fileID: 8300000, guid: 7cdfb4f597b049443bded4ba1678799e, type: 3}
   magicReady: {fileID: 8300000, guid: 849d996abeff5df47b04cc07c74c4e4b, type: 3}
   playerDamage: {fileID: 8300000, guid: c81c10a2cdb092547a99b89d30d1bdc1, type: 3}
@@ -156,3 +156,16 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f7538174b9a874d488ab8415fd986aaa, type: 3}
   - {fileID: 8300000, guid: 6f08e6c1c994ea24e9d0c0d34a898392, type: 3}
   - {fileID: 8300000, guid: 85eae6ef62a38874dbf98b7a4da71bba, type: 3}
+  lightfireShoot:
+  - {fileID: 8300000, guid: a092e2c4f5111c94e8d55211f713f4f0, type: 3}
+  - {fileID: 8300000, guid: c93278ddf8f20414f80e9744b465f721, type: 3}
+  - {fileID: 8300000, guid: c47208ac2ae7a2042b22ad9f1fbdecf3, type: 3}
+  lightfirePassthrough: {fileID: 8300000, guid: 396b5c5c536333e478a990fc3bfbbf7c, type: 3}
+  healMagic:
+  - {fileID: 8300000, guid: cbe84ed24bbbba74b8e3c97941a56272, type: 3}
+  - {fileID: 8300000, guid: b09b419768700ff42a947df3ae488aa9, type: 3}
+  - {fileID: 8300000, guid: a0cb4021e20cd124da17189335481b9c, type: 3}
+  flurryLaunch:
+  - {fileID: 8300000, guid: 56a538ba4061a5e4c9d47a0b89fe7528, type: 3}
+  flurryBolt:
+  - {fileID: 8300000, guid: d7b024ec1a3105546b72bc6abbaf6d7e, type: 3}

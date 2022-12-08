@@ -311,6 +311,7 @@ public class Player : MonoBehaviour
 
         _statistics.Die();
         Hide();
+        AudioManager.Instance.playerDeath.PlaySfx( 0.8f );
         deathFx.Play();
         _playerRunes.Die();
         GameManager.Instance.CheckIfGameOver();

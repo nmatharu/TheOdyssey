@@ -24,7 +24,6 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance { get; private set; }
 
     [ Header( "SFX Clips" ) ]
-
     [ Header( "Pre-Game" ) ]
     [ SerializeField ] public AudioClip uiClick;
     [ SerializeField ] public AudioClip uiBig;
@@ -33,7 +32,6 @@ public class AudioManager : MonoBehaviour
     [ SerializeField ] public AudioClip[] lobbyFootsteps;
     [ SerializeField ] public AudioClip transition;
     [ SerializeField ] public AudioClip[] intermissionType;
-
     [ SerializeField ] public AudioClip[] swordSwings;
     [ SerializeField ] public AudioClip[] bigSwings;
     [ SerializeField ] public AudioClip[] enemyHit;
@@ -65,16 +63,17 @@ public class AudioManager : MonoBehaviour
     [ SerializeField ] public AudioClip bossWormIntro;
     [ SerializeField ] public AudioClip[] pyramidCharges;
     [ SerializeField ] public AudioClip[] pyramidBlast;
-    
+
     [ Header( "Environment" ) ]
     [ SerializeField ] public AudioClip[] spawnPillars;
     [ SerializeField ] public AudioClip chestOpen;
     [ SerializeField ] public AudioClip[] magicLearn;
     [ SerializeField ] public AudioClip campfireIgnite;
     [ SerializeField ] public AudioClip spikes;
-    
+
     [ Header( "Runes" ) ]
     [ SerializeField ] public AudioClip[] splatterSfx;
+
     [ SerializeField ] public AudioClip[] precision;
     [ SerializeField ] public AudioClip precisionReady;
     [ SerializeField ] public AudioClip bleedTick;
@@ -82,7 +81,14 @@ public class AudioManager : MonoBehaviour
     [ SerializeField ] public AudioClip guardian;
     [ SerializeField ] public AudioClip safeguardDown;
     [ SerializeField ] public AudioClip[] chronos;
-    
+
+    [ Header( "Magic" ) ]
+    [ SerializeField ] public AudioClip[] lightfireShoot;
+    [ SerializeField ] public AudioClip lightfirePassthrough;
+    [ SerializeField ] public AudioClip[] healMagic;
+    [ SerializeField ] public AudioClip[] flurryLaunch;
+    [ SerializeField ] public AudioClip[] flurryBolt;
+
     void Awake()
     {
         if( Instance != null && Instance != this )
@@ -93,7 +99,7 @@ public class AudioManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad( this );
-            
+
             _sfxSources = new AudioSource[ maxSfxSources ];
             for( var i = 0; i < maxSfxSources; i++ )
             {
@@ -130,6 +136,7 @@ public class AudioManager : MonoBehaviour
         {
             if( source != null && !source.isPlaying ) return source;
         }
+
         return null;
     }
 
@@ -178,7 +185,7 @@ public class AudioManager : MonoBehaviour
         musicVolSlider.value = AudioManager.DbToLinear( musicVol );
         sfxVolSlider.value = AudioManager.DbToLinear( sfxVol );
      */
-    
+
     public static float DbToLinear( float dB ) => Mathf.Pow( 10.0f, dB / 20.0f );
 
     public void PlaySfx( AudioClip clip ) => PlaySfx( clip, 1f, 1f, 1f, 1f );

@@ -15,5 +15,7 @@ public class TargetDummyShooter : MonoBehaviour
         var f = o.GetComponent<SkullFireball>();
         
         f.Init( 1, transform.position + -1 * transform.forward );
+        
+        AudioManager.Instance.skullFireballHit.PlaySfx( 0.6f, 0.1f );
     }
 }

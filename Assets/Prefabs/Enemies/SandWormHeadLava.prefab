@@ -61,6 +61,7 @@ MonoBehaviour:
   hitFlashIntensity: 8
   deathPfx: {fileID: 7099122110959006634, guid: 63f1169c08ca681478897371914b3f22, type: 3}
   deathPfxIdentityRot: 1
+  bossEnemy: 0
 --- !u!114 &3442236332254662764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,9 +87,10 @@ MonoBehaviour:
   distanceBetweenNodes: 1
   numSegmentsAfterHead: 20
   nodePrefab: {fileID: 4988211461471579824, guid: dc714178a931c7c44910d3480b705fca, type: 3}
-  dangerIndicator: {fileID: 6084014041274973344, guid: 4b8aae8c3b3969643aa5874e1097cc5c, type: 3}
+  dangerIndicator: {fileID: 6084014041274973344, guid: b01f7bce9e90c0a4e8ac75bc15271855, type: 3}
   burrowPfx: {fileID: 1878876282093333875, guid: e318e039d4f61d748973ccb1468c91fa, type: 3}
   burrowPfxDelay: 0.4
+  bossWorm: 0
   head: {fileID: 3767147891426925715}
 --- !u!114 &3767147891426925715
 MonoBehaviour:

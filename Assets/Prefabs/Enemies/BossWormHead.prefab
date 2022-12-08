@@ -61,6 +61,7 @@ MonoBehaviour:
   hitFlashIntensity: 2.5
   deathPfx: {fileID: 7099122110959006634, guid: f4132199f89d847448e41a34da15ecf7, type: 3}
   deathPfxIdentityRot: 1
+  bossEnemy: 1
 --- !u!114 &3442236332254662764
 MonoBehaviour:
   m_ObjectHideFlags: 0
