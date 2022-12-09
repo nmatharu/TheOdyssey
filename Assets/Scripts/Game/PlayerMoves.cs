@@ -93,7 +93,7 @@ public class PlayerMoves : MonoBehaviour
         _player.Mator().Play( swing );
         _swordPfx.Light();
         LockFor( lightAttackFramesLock );
-        AudioManager.Instance.swordSwings.RandomEntry().PlaySfx( 1f, 1f, 0.95f, 1.05f );
+        AudioManager.Instance.swordSwings.RandomEntry().PlaySfx( 0.75f, 0.75f, 0.95f, 1.05f );
         // if( _player.Runes().HasChronos() )
             // AudioManager.Instance.chronos.RandomEntry().PlaySfx( 0.1f );
 
@@ -121,7 +121,7 @@ public class PlayerMoves : MonoBehaviour
     {
         if( _player.rolling || _player.locked ) return;
 
-        AudioManager.Instance.bigSwings.RandomEntry().PlaySfx( 1f, 0.1f );
+        AudioManager.Instance.bigSwings.RandomEntry().PlaySfx( 0.85f, 0.1f );
         // if( _player.Runes().HasChronos() )
             // this.Invoke( () => AudioManager.Instance.chronos.RandomEntry().PlaySfx( 0.1f ), 0.3f );
         

@@ -48501,8 +48501,8 @@ MonoBehaviour:
   - 2
   enemyHealthPlayerCountScaling:
   - 1
-  - 1.3333334
-  - 1.5
+  - 1
+  - 1
   baseHpRegenPerMinPerDifficulty:
   - 30
   - 10
