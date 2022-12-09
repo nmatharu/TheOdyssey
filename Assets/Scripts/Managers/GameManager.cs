@@ -177,7 +177,8 @@ public class GameManager : MonoBehaviour
                 if( _gameOver ) return;
                 _gameOver = true;
                 Unpause();
-                postGameCanvas.Init( false, _difficulty, EnemyLevelGraphic.ToClockFormat( (int) _runTimeElapsed ) );
+                postGameCanvas.Init( false, _difficulty, EnemyLevelGraphic.ToClockFormat( (int) _runTimeElapsed ),
+                    playersArr.Where( p => p.gameObject.activeInHierarchy ).ToArray() );
                 this.Invoke( () => _readyToExitGame = true, postGameCanvas.timeToEnableInput );
                 return;
             }
@@ -329,7 +330,8 @@ public class GameManager : MonoBehaviour
             _gameOver = true;
             Unpause();
             AudioManager.Instance.StopMusic();
-            postGameCanvas.Init( true, _difficulty, EnemyLevelGraphic.ToClockFormat( (int) _runTimeElapsed ) );
+            postGameCanvas.Init( true, _difficulty, EnemyLevelGraphic.ToClockFormat( (int) _runTimeElapsed ),
+                playersArr.Where( p => p.gameObject.activeInHierarchy ).ToArray() );
             this.Invoke( () => _readyToExitGame = true, postGameCanvas.timeToEnableInput );
         }
     }
@@ -492,7 +494,8 @@ public class GameManager : MonoBehaviour
         if( _gameOver ) return;
         _gameOver = true;
         Unpause();
-        postGameCanvas.Init( false, _difficulty, EnemyLevelGraphic.ToClockFormat( (int) _runTimeElapsed ) );
+        postGameCanvas.Init( false, _difficulty, EnemyLevelGraphic.ToClockFormat( (int) _runTimeElapsed ),
+            playersArr.Where( p => p.gameObject.activeInHierarchy ).ToArray() );
         this.Invoke( () => _readyToExitGame = true, postGameCanvas.timeToEnableInput );
     }
 

@@ -346,6 +346,7 @@ public class Player : MonoBehaviour
     public void AwardCurrency( int spawnCost, bool showAnimation = true, float textSize = 8f )
     {
         _currency += spawnCost;
+        _statistics.CollectGold( spawnCost );
         _statusBar.UpdateBag( _currency, _crystals );
         if( showAnimation )
             GameManager.Instance.SpawnGenericFloating( transform.position, $"+{spawnCost}", Color.yellow, textSize );

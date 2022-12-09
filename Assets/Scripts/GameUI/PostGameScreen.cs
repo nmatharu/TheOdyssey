@@ -13,17 +13,23 @@ public class PostGameScreen : MonoBehaviour
     [ SerializeField ] TextMeshProUGUI resultText;
     [ SerializeField ] TextMeshProUGUI clockText;
 
+    [ SerializeField ] PostGameStatsGroup[] statsGroups;
+    
     void Start()
     {
         _canvas = GetComponent<CanvasGroup>();
         _canvas.alpha = 0;
     }
 
-    public void Init( bool defeat, int difficulty, string gameClock )
+    public void Init( bool defeat, int difficulty, string gameClock, Player[] players )
     {
         resultText.text = defeat ? "DEFEAT" : "VICTORY!";
         difficultyLabels[ difficulty ].SetActive( true );
         clockText.text = gameClock;
+
+        for( var i = 0; i < players.Length; i++ )
+            statsGroups[ i ].Init( players[ i ].PlayerName(), players[ i ].Statistics() );
+
         StartCoroutine( ShowPostGame() );
     }
 

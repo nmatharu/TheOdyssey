@@ -2,15 +2,15 @@
 
 public class InGameStatistics
 {
-    int _timeAliveTimeSteps;
-    int _kills;
-    int _deaths;
-    float _metresTravelled;
-    float _damageDealt;
-    float _mostDamageDealt;
-    float _damageTaken;
-    int _highestLevel;
-    float _goldCollected;
+    public int _timeAliveTimeSteps;
+    public int _kills;
+    public int _deaths;
+    public float _metresTravelled;
+    public float _damageDealt;
+    public float _mostDamageDealt;
+    public float _damageTaken;
+    public int _highestLevel;
+    public int _goldCollected;
 
     public void AliveForFixedTimeStep() => _timeAliveTimeSteps++;
 
@@ -29,5 +29,5 @@ public class InGameStatistics
         if( level > _highestLevel )
             _highestLevel = level;
     }
-    public void CollectGold( float gold ) => _goldCollected += gold;
+    public void CollectGold( int gold ) => _goldCollected += gold;
 }
