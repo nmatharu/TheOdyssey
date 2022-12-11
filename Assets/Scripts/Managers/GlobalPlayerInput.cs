@@ -14,14 +14,20 @@ public class GlobalPlayerInput : MonoBehaviour
     void Start()
     {
         _playerInput = GetComponent<PlayerInput>();
-        _deviceName = DeviceName();
+        _deviceName = DeviceName( _playerInput );
+
+        if( IsMouseKeyboardInput( _playerInput ) )
+        {
+            Destroy( gameObject );
+            return;
+        }
 
         var lobby = LobbyManager.Instance;
         
         if( lobby != null )
         {
             GlobalInputManager.Instance.ToLobby();
-            _playerId = lobby.RequestBinding( this, DeviceName() );
+            _playerId = lobby.RequestBinding( this, DeviceName( _playerInput ) );
             if( _playerId != -1 )
                 _lobbyPlayer = lobby.GetPlayer( _playerId );
         }
@@ -32,11 +38,13 @@ public class GlobalPlayerInput : MonoBehaviour
         }
     }
 
-    string DeviceName()
+    static string DeviceName( PlayerInput p )
     {
-        var deviceNames = ( from d in _playerInput.devices select d.displayName ).ToList();
+        var deviceNames = ( from d in p.devices select d.displayName ).ToList();
         return string.Join( " / ", deviceNames );
     }
+
+    public static bool IsMouseKeyboardInput( PlayerInput p ) => DeviceName( p ).ToLower().Contains( "mouse" );
 
     public void MenuLDUR( InputAction.CallbackContext context )
     {
@@ -120,7 +128,7 @@ public class GlobalPlayerInput : MonoBehaviour
         var lobby = LobbyManager.Instance;
         if( lobby == null ) return;
         
-        _playerId = lobby.RequestBinding( this, DeviceName() );
+        _playerId = lobby.RequestBinding( this, DeviceName( _playerInput ) );
         if( _playerId != -1 )
             _lobbyPlayer = lobby.GetPlayer( _playerId );
     }

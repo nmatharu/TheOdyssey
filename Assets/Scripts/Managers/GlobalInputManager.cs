@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,6 +28,9 @@ public class GlobalInputManager : MonoBehaviour
 
     public void PlayerJoined( PlayerInput playerInput )
     {
+        if( GlobalPlayerInput.IsMouseKeyboardInput( playerInput ))
+            return;
+        
         playerInput.gameObject.transform.parent = transform;
         _inputs.Add( playerInput );
     }
